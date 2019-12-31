@@ -1,0 +1,4 @@
+.idea
+_mac
+node_modules/*
+.DS_Store
