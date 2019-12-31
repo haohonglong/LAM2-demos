@@ -1,6 +1,6 @@
 # LAM2-demos
-these are usage case of LAM2
-##usage:
+####these are usage case of LAM2
+####usage:
      git clone https://github.com/haohonglong/LAM2-demos.git
      cd LAM2-demos
      git clone https://github.com/haohonglong/LAM2.git
