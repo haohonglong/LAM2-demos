@@ -7,30 +7,30 @@ these are usage case of LAM2
              git clone https://github.com/haohonglong/LAM2.git
 
 ### structure：
-		brandhall  #后台管理demo
-            |-commmon       项目公共文件目录
-                |-config       
-                    |-config.js       项目配置文件(2)
-            |-controllers   项目控制器文件存放位置(5)
-                |-RoomController.class.js  对应views文件夹下的room文件夹
-            |-public        项目资源文件存放位置(9)
-                |-css
-                |-images
-                |-js
-            |-views         项目视图文件存放位置
-                |—layouts   布局文件存放的位置
-                     |-main.html(8)
-                |-room
-                    |-list.html(7)
-            |-index.html    项目入口文件(1)
-        
-        LAM2
-            |-lamborghiniJS #类库核心文件存放位置
-                |-base
-                    |-System.js(3)
-                    |-View.class.js(6)
-                    |-Router.class.js(4)
-                    |-...
+                brandhall  #后台管理demo
+                    |-commmon       项目公共文件目录
+                        |-config       
+                            |-config.js       项目配置文件(2)
+                    |-controllers   项目控制器文件存放位置(5)
+                        |-RoomController.class.js  对应views文件夹下的room文件夹
+                    |-public        项目资源文件存放位置(9)
+                        |-css
+                        |-images
+                        |-js
+                    |-views         项目视图文件存放位置
+                        |—layouts   布局文件存放的位置
+                             |-main.html(8)
+                        |-room
+                            |-list.html(7)
+                    |-index.html    项目入口文件(1)
+                
+                LAM2
+                    |-lamborghiniJS #类库核心文件存放位置
+                        |-base
+                            |-System.js(3)
+                            |-View.class.js(6)
+                            |-Router.class.js(4)
+                            |-...
    ##### 上面数字代表的是执行的顺序
 	
 	
