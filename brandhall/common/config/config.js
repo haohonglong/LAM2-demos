@@ -47,7 +47,7 @@
     })(function(System){
         'use strict';
         System.Config = Config = {
-            'vendorPath':_ROOT_+'/lamborghiniJS',
+            'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
             'Public':(function(){

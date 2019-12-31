@@ -48,7 +48,7 @@
         'use strict';
         var ROOT = _ROOT_ +'/examples/weixin_common';
         System.Config = Config = {
-            'vendorPath':_ROOT_+'/lamborghiniJS',
+            'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
             'Public':{
