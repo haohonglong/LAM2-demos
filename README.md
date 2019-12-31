@@ -1,11 +1,12 @@
 # LAM2-demos
-####these are usage case of LAM2
-####usage:
-     git clone https://github.com/haohonglong/LAM2-demos.git
-     cd LAM2-demos
-     git clone https://github.com/haohonglong/LAM2.git
+these are usage case of LAM2
 
-#### 文件结构：
+### usage:
+             git clone https://github.com/haohonglong/LAM2-demos.git
+             cd LAM2-demos
+             git clone https://github.com/haohonglong/LAM2.git
+
+### structure：
 		brandhall  #后台管理demo
             |-commmon       项目公共文件目录
                 |-config       
