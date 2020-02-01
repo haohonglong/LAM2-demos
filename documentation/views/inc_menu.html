@@ -24,16 +24,17 @@
             new Vue({
                 el:'#menu',
                 data: {
-                    list: []
+                    list: __MENU__
                 },
                 created: function () {
-                    this.list = __MENU__.menu;
+                    /*
                     System.each(this.list,function(){
                         System.each(this.submenu,function(){
                             this.url = System.template(this.url,['{{','}}']);
 
                         });
                     });
+                    */
                 }
             });
 

@@ -1,4 +1,4 @@
-<div id="app" class="sectionCrumb-A1 mb20">
+<div id="crumb" class="sectionCrumb-A1 mb20">
     <ul class="clear">
         <li v-for="item in list" v-if="item.href"><a :title="item.title" :href="item.href" class="linkBlue">{#item.name#}</a>&nbsp;&gt;&nbsp;</li>
         <li v-else><strong>{#item.name#}</strong></li>
@@ -13,7 +13,7 @@
         $(function(){
             new Vue({
                 delimiters: ['{#', '#}'],
-                el: '#app',
+                el: '#crumb',
                 data: {
                     list: {{ list }}
                 }
