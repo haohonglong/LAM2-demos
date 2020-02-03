@@ -21,8 +21,7 @@
                     <li class="col-8">操作</li>
                 </ul>
             </div>
-            <#include repeat="0" tp-data="{}"  file="{{LAM.COMPONENTS}}/list.html" capture="function(s){return LAM.Template.jQCompile(s,
-            {'list':__DATA__})}" />
+            <#include repeat="0" tp-data="{}"  file="{{LAM.COMPONENTS}}/list.html" capture="function(s){return LAM.Template.jQCompile(s, {'list':__DATA__.room})}" />
 
 
 
