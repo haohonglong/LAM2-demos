@@ -1,45 +1,18 @@
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+<#define __COMMON__="{{LAM.COMMON}}" />
+<#define __CSS__="{{LAM.CSS}}" />
+<#import path="/PopupLayer.class,/Validation.class" root="__CLASSPATH__" write="1" befor="1" />
+<#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
+<#import type="css" path="/global,/lib,/login" root="__CSS__" befor="1" />
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>登录页</title>
-<meta name="keywords" content="" />
-<meta name="description" content="" />
-<script type="text/javascript">
-    LAM.run(function(){
-        'use strict';
-        var System = this;
-        System
-            .import(['/common'],System.MYCOMMON);
-        System.Loader
-            .load({
-                'baseUrl':System.CSS,
-                'suffix':'.css',
-                'rel':'stylesheet',
-                'css':[
-                    ,'/login'
-                ]
-            })
-            .print();
-
-        System
-            .import([
-             '/PopupLayer.class'
-            ,'/Validation.class'
-        ],System.classPath);
-    });
-</script>
-
-
-
-
-<style type="text/css">
-    
-</style>
-
-
+<title>{{title}}</title>
+<meta name="keywords" content="{{title}}" />
+<meta name="description" content="{{title}}" />
 </head>
 
 <body class="l-sectionContainer-A1" id="sectionWrap">

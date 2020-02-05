@@ -21,9 +21,11 @@
             __this__=this;
             this.viewpath = System.VIEWS+'/site';
 
+
         },
         '_className':'SiteController',
         'loginAction':function(){
+            this.title = "登录";
             return this.renderPartial('login',{
                 'COMMON':System.COMMON,
                 'ROOT':ROOT,
@@ -36,6 +38,7 @@
         },
 
         'regAction':function(){
+            this.title = "注册";
             return this.renderPartial('reg',{
                 'COMMON':System.COMMON,
                 'ROOT':ROOT,
