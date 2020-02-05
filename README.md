@@ -5,6 +5,7 @@ these are usage case of LAM2
              git clone https://github.com/haohonglong/LAM2-demos.git
              cd LAM2-demos
              git clone https://github.com/haohonglong/LAM2.git
+             git checkout -b develop origin/develop
 
 ### structure：
                 brandhall  #后台管理demo
