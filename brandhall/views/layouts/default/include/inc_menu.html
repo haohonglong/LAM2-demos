@@ -1,4 +1,5 @@
 #define# __MENU__ <#include repeat="0" tp-data=""  file="{{LAM.DATA}}/menu.json" /> #end#
+<#beginBlock id="menu">
 <div class="sectionBox sectionTitle-A2"><h2>喜鹊筑家旗舰店</h2></div>
 <div class="sectionScroll sectionList-A2 sectionIcon-B1 sectionFont-A1">
     <dl id="vue-menu">
@@ -15,8 +16,8 @@
         </dd>
     </dl>
 </div>
-
 <script type="text/javascript">
+    //menu
     LAM.run([LAM,jQuery],function(LAM,$) {
         'use strict';
         var System = this;
@@ -45,3 +46,5 @@
 
     });
 </script>
+<#endBlock>
+<#=blocks["menu"]>

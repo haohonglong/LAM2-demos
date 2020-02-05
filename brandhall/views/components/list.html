@@ -1,3 +1,4 @@
+<#beginBlock id="components:list">
 <script type="text/html" compiler="jQuery">
 <% for(var i=0,len=list.length;i < len;i++){%>
 <div class="sectionBox-A10 sectionBox-A10-2 sectionFloat-A1">
@@ -47,7 +48,7 @@
 </script>
 
 <script type="text/javascript">
-
+//components-list
     LAM.run(function() {
         'use strict';
         var System = this;
@@ -93,3 +94,5 @@
     });
 
 </script>
+<#endBlock>
+<#=blocks["components:list"]>

@@ -1,19 +1,25 @@
 <#define __IMAGE__="{{LAM.IMAGE}}" />
 <#define __MYCOMMON__="{{LAM.MYCOMMON}}" />
+<#define __PLUGINS__="{{LAM.PLUGINS}}" />
 <#define __CLASSPATH__="{{LAM.classPath}}" />
+<#define __COMMON__="{{LAM.COMMON}}" />
+<#define __CSS__="{{LAM.CSS}}" />
 <#define _LAYOUTS_="{{LAM.LAYOUTS}}/default/include" />
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
-<#import path="/common" root="__MYCOMMON__" write="1" befor="1" />
+<#import path="/vue/vue" root="__PLUGINS__" write="1" befor="1" />
+<#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
+<#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
 <!doctype html>
 <html lang="en">
 <head>
     <!#UTF8/>
-    <!#HEAD/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
+    <meta name="keywords" content="{{title}}" />
+    <meta name="description" content="{{title}}" />
+    <!#HEAD/>
     <!#CSS/>
+    <!#JS/>
     <title>{{title}}</title>
 
 </head>
@@ -47,8 +53,9 @@
         </div>
     </div>
 </div>
-<!#JS/>
+<#beginBlock id="main">
 <script type="text/javascript">
+    //main
     LAM.run([LAM,jQuery],function(LAM,$){
         'use strict';
         var System = this;
@@ -114,5 +121,7 @@
 
     });
 </script>
+<#endBlock>
+<#=blocks["main"]>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <#define __IMG__="{{LAM.IMAGE}}/imgs_LHH" />
 <#define __IMG_S_W="15" />
+<#beginBlock id="header">
 <div class="sectionTop-A2 clear mb10 p-rel">
     <div class="L">
         <div class="sectionNav-A1 sectionFloat-A1 top8 pl5 sectionFont-A2">
@@ -224,8 +225,8 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
+    //header
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
@@ -305,3 +306,5 @@
         });
     });
 </script>
+<#endBlock>
+<#=blocks["header"]>

@@ -1,3 +1,4 @@
+<#beginBlock id="crumb">
 <div id="crumb" class="sectionCrumb-A1 mb20">
     <ul class="clear">
         <li v-for="item in list" v-if="item.href"><a :title="item.title" :href="item.href" class="linkBlue">{#item.name#}</a>&nbsp;&gt;&nbsp;</li>
@@ -5,8 +6,8 @@
 
     </ul>
 </div>
-
 <script type="text/javascript">
+    //crumb
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
@@ -22,3 +23,5 @@
 
     });
 </script>
+<#endBlock>
+<#=blocks["crumb"]>
