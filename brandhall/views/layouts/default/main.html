@@ -5,10 +5,11 @@
 <#define __COMMON__="{{LAM.COMMON}}" />
 <#define __CSS__="{{LAM.CSS}}" />
 <#define _LAYOUTS_="{{LAM.LAYOUTS}}/default/include" />
-<#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import path="/vue/vue" root="__PLUGINS__" write="1" befor="1" />
+<#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
 <#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -46,6 +47,7 @@
                     </div>
                     <img class="R img" data-var="tpl" src="__IMAGE__/imgs_LHH/pics/img_01.gif" width="20" height="20" alt="">
                 </div>
+
                 <#include repeat="0" tp-data="{'name':'{{D.user.name}}','age':'{{D.user.age}}'}" delimiters="['{#','#}']"  file="_LAYOUTS_/inc_header.html" />
                 <#include repeat="0" tp-data="{'list':'{{D.list}}'}"  file="_LAYOUTS_/inc_crumb.vue.html" />
                 {{content}}
@@ -122,6 +124,6 @@
     });
 </script>
 <#endBlock>
-<#=blocks["main"]>
+<#=blocks id="main" />
 </body>
 </html>
