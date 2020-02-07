@@ -1,5 +1,4 @@
 <#beginBlock id="components:list">
-<script type="text/html" compiler="jQuery">
 <% for(var i=0,len=list.length;i < len;i++){%>
 <div class="sectionBox-A10 sectionBox-A10-2 sectionFloat-A1">
     <ul class="p10 clear">
@@ -44,9 +43,9 @@
         </li>
     </ul>
 </div>
-<% }%>
-</script>
 
+<% }%>
+<#endBlock>
 <script type="text/javascript">
 //components-list
     LAM.run(function() {
@@ -94,5 +93,3 @@
     });
 
 </script>
-<#endBlock>
-<#=blocks id="components:list" />
