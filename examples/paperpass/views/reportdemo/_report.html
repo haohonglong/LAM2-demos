@@ -1,14 +1,14 @@
 <#define __DIR__="http://www.paperpass.com/reportdemo/htmls" />
 <#define __CUR__="{{LAM.VIEWS}}/reportdemo" />
-#define# __DATA__  <#include repeat="0" tp-data="{}"   file="{{LAM.DATA}}/list.json" /> #end#
+#define# __DATA__  <#include repeat="0" tp-data="{}"  file="{{LAM.DATA}}/list.json" /> #end#
 
 
 <div>
 
     <#include repeat="0" tp-data="{'style':'PT30'}" delimiters="['{#','#}']"  file="__CUR__/_paging.html" />
     <div class="paper-txt P30 PB0">
-    <#include repeat="0" delimiters="['{#','#}']" tp-data="{}"  file="__CUR__/_list.html" capture="function(s){return LAM.Template.jQCompile(s,
-        {'list':__DATA__})}" />
+    <#include repeat="0" file="__CUR__/_list.html" />
+    <#=block id="list" data="{'list':__DATA__}" />
     </div>
 
     <#include repeat="0" tp-data="{'style':'PB30'}" delimiters="['{#','#}']"  file="__CUR__/_paging.html" />

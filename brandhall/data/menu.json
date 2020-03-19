@@ -15,6 +15,13 @@
     ]
   },
   {
+    "icon":"a-2",
+    "title":"视频",
+    "ul":[
+      {"title":"视频","href":"{{LAM.INDEX}}video/index"}
+    ]
+  },
+  {
     "icon":"a-3",
     "title":"宝贝管理",
     "ul":[

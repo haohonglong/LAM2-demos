@@ -1,6 +1,4 @@
-#define# __MENU__ <#include repeat="0" tp-data=""  file="{{LAM.DATA}}/menu.json" /> #end#
-<#beginBlock id="menu">
-<div class="sectionBox sectionTitle-A2"><h2>喜鹊筑家旗舰店</h2></div>
+<div class="sectionBox sectionTitle-A2"><h2>{{title}}</h2></div>
 <div class="sectionScroll sectionList-A2 sectionIcon-B1 sectionFont-A1">
     <dl id="vue-menu">
         <dd v-for="menu in list">
@@ -35,7 +33,7 @@
                 delimiters: ['{#', '#}'],
                 el: '#vue-menu',
                 data: {
-                    list: __MENU__
+                    list: {{menu}}
                 }
             });
             System.setMenuSelectedStatus(System.defaultRoute);
@@ -46,6 +44,3 @@
 
     });
 </script>
-<#endBlock>
-
-<#=block id="menu" />

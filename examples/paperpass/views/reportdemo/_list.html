@@ -1,7 +1,7 @@
 <#define __DIR__="http://www.paperpass.com/reportdemo/htmls" />
 <#define __CUR__="{{LAM.VIEWS}}/reportdemo" />
 
-<script type="text/html" compiler="jQuery">
+<#beginBlock id="list">
     <% for(var i=0,len_1=list.length;i < len_1;i++){%>
     <div class="paper-section"  tpl-section="warp">
         <span class="label-warning" tpl-section="badge" data-id="<%=i+1%>"><%=i+1%></span>
@@ -22,5 +22,5 @@
         <div tpl-section="box"></div>
     </div>
     <%}%>
-</script>
+<#endBlock>
 

@@ -47,11 +47,11 @@
     })(function(System){
         'use strict';
         System.Config = Config = {
-            'vendorPath':'http://127.0.0.1/lamborghiniJS/LAM2/lamborghiniJS',
+            'vendorPath':'http://lam2.core',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
             'Public':(function(){
-                var ROOT = _ROOT_+'/paperpass';
+                var ROOT = _ROOT_+'/examples/paperpass';
                 return {
                     'ROOT':_ROOT_
                     ,'BACKEND':ROOT
@@ -67,7 +67,8 @@
                     ,'ERROR_404':ROOT+'/views/_404.html'
                     ,'INDEX':'index.html?r='
                     ,'beta_2':'https://kjds.gezlife.com/beta_2'
-                    ,'PLUGINS':'http://127.0.0.1/lamborghiniJS/LAM2/common/plugins'
+                    ,'PLUGINS':_ROOT_+'/common/plugins'
+                    ,'PAPERPASSWWW':'http://www.paperpass.com'
                 };
             })(),
             'components':{
@@ -117,14 +118,14 @@
                 var classPath=this.getClassPath();
                 return {
                     "jquery":classPath+'/jQuery/jquery.js'
-                    // ,classPath+'/build/base.min.js'
-
+                    // ,"build":classPath+'/build/base.min.js'
                     ,"Base":classPath+'/base/Base.class.js'
                     ,"Object":classPath+'/base/Object.class.js'
                     ,"Component":classPath+'/base/Component.class.js'
                     ,"Compiler":classPath+'/base/Compiler.class.js'
                     ,"Base64":classPath+'/base/Base64.class.js'
                     ,"Cache":classPath+'/base/Cache.class.js'
+                    ,"Storage":classPath+'/base/Storage.class.js'
                     ,"HttpRequest":classPath+'/base/HttpRequest.class.js'
                     ,"Helper":classPath+'/base/Helper.class.js'
                     ,"Browser":classPath+'/base/Browser.class.js'
@@ -133,11 +134,10 @@
                     ,"View":classPath+'/base/View.class.js'
                     ,"Template":classPath+'/base/Template.class.js'
                     ,"Html":classPath+'/base/Html.class.js'
-
                     ,"Loader":classPath+'/base/Loader.class.js'
-                    ,"Storage":classPath+'/base/Storage.class.js'
                     ,"Controller":classPath+'/base/Controller.class.js'
                     ,"Router":classPath+'/base/Router.class.js'
+
                     // ,"layer":PLUGINS+'/layer-v3.1.1/layer/layer.js'
                     ,"vue":PLUGINS+'/vue/vue.js'
                 };

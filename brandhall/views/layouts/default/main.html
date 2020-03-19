@@ -5,7 +5,8 @@
 <#define __COMMON__="{{LAM.COMMON}}" />
 <#define __CSS__="{{LAM.CSS}}" />
 <#define _LAYOUTS_="{{LAM.LAYOUTS}}/default/include" />
-<#import path="/vue/vue" root="__PLUGINS__" write="1" befor="1" />
+#define# __MENU__ <#include repeat="0" tp-data=""  file="{{LAM.DATA}}/menu.json" /> #end#
+<#import path="https://unpkg.com/vue/dist/vue.js" write="1" befor="1" />
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
 <#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
@@ -13,7 +14,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <!#UTF8/>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="keywords" content="{{title}}" />
@@ -21,7 +22,11 @@
     <!#HEAD/>
     <!#CSS/>
     <!#JS/>
-    <title>{{title}}</title>
+    <#beginBlock type="override" id="title" data="{'title':'{{title}}'}">
+    <title><%=title%></title>
+    <#endBlock>
+    <#=block id="title" />
+
 
 </head>
 
@@ -34,34 +39,32 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 sectionSidebar-A1">
-            <#include tp-data="{}" file="_LAYOUTS_/inc_menu.html" />
+            <#include tp-data="{'menu':__MENU__,'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/inc_menu.html" />
         </div>
         <div class="col-md-10 sectionWrap-A4">
             <div class="p20">
-                <div class="sectionPhoneTop-A1 clear none mb20">
-                    <img class="L logo" src="__IMAGE__/imgs_LHH/logo.png" width="130" height="54" alt="">
-                    <div class="sectionBtn-A2 R mt20 mr15">
-                        <span class="mb3"></span>
-                        <span class="mb3"></span>
-                        <span></span>
-                    </div>
-                    <img class="R img" data-var="tpl" src="__IMAGE__/imgs_LHH/pics/img_01.gif" width="20" height="20" alt="">
-                </div>
+                <#include tp-data="{'menu':__MENU__,'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/inc_menu_mobile.html" />
+
 
                 <#include repeat="0" tp-data="{'name':'{{D.user.name}}','age':'{{D.user.age}}'}" delimiters="['{#','#}']"  file="_LAYOUTS_/inc_header.html" />
-                <#include repeat="0" tp-data="{'list':'{{D.list}}'}"  file="_LAYOUTS_/inc_crumb.vue.html" />
+                <#=block id="header" />
+
+                <#include repeat="0" tp-data="{'list':'{{D.list}}'}" file="_LAYOUTS_/inc_crumb.vue.html" />
+                <#=block id="crumb" />
+
                 {{content}}
+
             </div>
         </div>
     </div>
 </div>
-<#beginBlock id="main">
 <script type="text/javascript">
     //main
     LAM.run([LAM,jQuery],function(LAM,$){
         'use strict';
         var System = this;
         System.use();
+
 
         var DATE={
             'b_width':0,
@@ -84,6 +87,8 @@
 
 
         $(function(){
+
+
 
 
 
@@ -123,7 +128,5 @@
 
     });
 </script>
-<#endBlock>
-<#=block id="main" />
 </body>
 </html>

@@ -1,4 +1,8 @@
-<#beginBlock id="crumb">
+<#beginBlock id="crumb" data="{'list':[
+{'name':'喜鹊筑家旗舰店','href':'###','title':''},
+{'name':'商品管理','href':'###','title':''},
+{'name':'仓库中的商品'}
+]}">
 <div id="crumb" class="sectionCrumb-A1 mb20">
     <ul class="clear">
         <li v-for="item in list" v-if="item.href"><a :title="item.title" :href="item.href" class="linkBlue">{#item.name#}</a>&nbsp;&gt;&nbsp;</li>
@@ -24,4 +28,3 @@
     });
 </script>
 <#endBlock>
-<#=block id="crumb" />

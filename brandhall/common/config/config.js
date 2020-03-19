@@ -47,7 +47,7 @@
     })(function(System){
         'use strict';
         System.Config = Config = {
-            'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
+            'vendorPath':'http://lam2.core',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
             'Public':(function(){
@@ -79,6 +79,7 @@
                     'list':'room/list',
                     'detail':'room/detail'
                 },
+                'routeAutoRun':true,
                 't':function (System) {
                     var id =0;
                     System.Moudle = System.createDict();
@@ -87,12 +88,30 @@
                     };
                     System.listen(function(){
                         if(System.isFunction(System.import)){
-
                             return true;
                         }
                     },1);
                     return System.timestamp();
+                },
+                'runtime':function (System) {
+                    var temp = null;
+                    console.log('runtime')
+                    System.listen(function(){
+                        if(System.isFunction(System.Storage)){
+                            System.Template.getTemplate1 = function (cache,compiler) {
+                                if(!(temp instanceof System.Template)){
+                                    temp = new System.Template(new System.Storage('block',sessionStorage),compiler);
+                                }
+                                return temp;
+
+                            };
+                            return true;
+                        }
+                    },1);
+
+                    return function(){return temp;};
                 }
+
             },
             'configure_cache':{
                 'type':sessionStorage,
@@ -115,17 +134,19 @@
             'autoLoadFile':function(){
                 ROOT = this.Public.ROOT;
                 var PLUGINS = this.Public.PLUGINS;
+                var MYCOMMON = this.Public.MYCOMMON;
                 var CONTROLLERS = this.Public.CONTROLLERS;
                 var classPath=this.getClassPath();
                 return {
                     "jquery":classPath+'/jQuery/jquery.js'
-                    // ,classPath+'/build/base.min.js'
+                    // ,"build":classPath+'/build/base.min.js'
                     ,"Base":classPath+'/base/Base.class.js'
                     ,"Object":classPath+'/base/Object.class.js'
                     ,"Component":classPath+'/base/Component.class.js'
                     ,"Compiler":classPath+'/base/Compiler.class.js'
                     ,"Base64":classPath+'/base/Base64.class.js'
                     ,"Cache":classPath+'/base/Cache.class.js'
+                    ,"Storage":classPath+'/base/Storage.class.js'
                     ,"HttpRequest":classPath+'/base/HttpRequest.class.js'
                     ,"Helper":classPath+'/base/Helper.class.js'
                     ,"Browser":classPath+'/base/Browser.class.js'
@@ -135,11 +156,9 @@
                     ,"Template":classPath+'/base/Template.class.js'
                     ,"Html":classPath+'/base/Html.class.js'
                     ,"Loader":classPath+'/base/Loader.class.js'
-                    ,"Storage":classPath+'/base/Storage.class.js'
                     ,"Controller":classPath+'/base/Controller.class.js'
                     ,"Router":classPath+'/base/Router.class.js'
 
-                    // ,"layer":PLUGINS+'/layer-v3.1.1/layer/layer.js'
                     ,"vue":PLUGINS+'/vue/vue.js'
                 };
             },

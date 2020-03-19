@@ -1,0 +1,80 @@
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<div id="mobile" class="sectionPhoneTop-A1 clear none mb20">
+    <img class="L logo" src="__IMAGE__/imgs_LHH/logo.png" width="130" height="54" alt="">
+    <div id="mobile-button" class="sectionBtn-A2 R mt20 mr15">
+        <span class="mb3"></span>
+        <span class="mb3"></span>
+        <span></span>
+    </div>
+    <div id="mobile-content">
+        <dl id="vue-menu-mobile">
+            <dd v-for="menu in list">
+                <div class="title">
+                    <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{#menu.title#}</a>
+                </div>
+                <div v-if="menu.ul" class="none">
+                    <ul>
+                        <li v-for="v in menu.ul"><a :href="v.href">{#v.title#}</a></li>
+                    </ul>
+                </div>
+
+            </dd>
+        </dl>
+    </div>
+    <img class="R img" data-var="tpl" src="__IMAGE__/imgs_LHH/pics/img_01.gif" width="20" height="20" alt="">
+</div>
+
+<style type="text/css">
+    #mobile{position: relative;z-index: 99999;}
+    #mobile-content{position: absolute;width:100%;top:80px;left:0;background: #fff;}
+    #mobile-content dd{margin-bottom: 15px;}
+</style>
+<script type="text/javascript">
+    //menu
+    LAM.run([LAM,jQuery],function(LAM,$) {
+        'use strict';
+        var System = this;
+
+        System.setMenuSelectedStatus=function(href){
+            $('.sectionList-A1-3 li a[href*="'+href+'"]')
+                .closest('li').addClass('cur')
+                .closest('.sectionList-A1-3').show()
+                .closest('dd').addClass('hover');
+        };
+
+        $(function(){
+
+            System.run(function () {
+                'use strict';
+                var System = this;
+                var $mobile = $("#mobile-button");
+                var $content = $("#mobile-content");
+                var flag = true;
+                $content.hide();
+
+                $mobile.on("click",function () {
+                    if(flag){
+                        $content.show();
+                        flag = false;
+                    }else{
+                        $content.hide();
+                        flag = true;
+                    }
+                });
+            });
+
+            new Vue({
+                delimiters: ['{#', '#}'],
+                el: '#vue-menu-mobile',
+                data: {
+                    list: {{menu}}
+                }
+            });
+            System.setMenuSelectedStatus(System.defaultRoute);
+        });
+
+
+
+
+    });
+</script>

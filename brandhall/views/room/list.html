@@ -1,9 +1,30 @@
+<#define __IMAGE__="{{LAM.IMAGE}}" />
 #define# __DATA__ <#include repeat="0" tp-data=""  file="{{LAM.DATA}}/list.json" /> #end#
 <#extends title="商品列表" data="{'list':[
 {'name':'喜鹊筑家旗舰店','href':'###','title':''},
 {'name':'商品管理','href':'###','title':''},
 {'name':'仓库中的商品'}
 ]}" />
+<#import type="css" path="https://unpkg.com/element-ui/lib/theme-chalk/index.css" befor="1" />
+<#import path="https://unpkg.com/vue/dist/vue.js" write="1" befor="1" />
+<#import path="https://unpkg.com/element-ui/lib/index.js" write="1" />
+<#beginBlock id="title" data="{'title':'商品列表555'}"><#endBlock>
+<#beginBlock id="el">
+<div id="app">
+    <el-button @click="visible = true">Button</el-button>
+    <el-dialog :visible.sync="visible" title="Hello world">
+        <p>Try Element</p>
+    </el-dialog>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return { visible: false }
+        }
+    })
+</script>
+<#endBlock>
 
 <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-2 sectionForm-A2 mb15">
     <button type="submit" class="btn save L mr15">+&nbsp;&nbsp;添加新案例</button>
@@ -21,8 +42,10 @@
                     <li class="col-8">操作</li>
                 </ul>
             </div>
-            <#include repeat="0" tp-data="{}"  file="{{LAM.COMPONENTS}}/list.html" />
-            <#=block id="components:list" data="{'list':__DATA__.room}" />
+
+            <#include repeat="0" tp-data="{}" file="{{LAM.COMPONENTS}}/list.html" />
+            <#=block id="components:list" data="{'list':__DATA__.room,'image':'__IMAGE__'}" />
+            <#=block id="el" />
 
 
 
@@ -37,4 +60,6 @@
         </div>
     </div>
 </form>
+
+
 
