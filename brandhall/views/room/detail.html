@@ -1,5 +1,7 @@
 <#define __CUR__="{{LAM.VIEWS}}/room" />
 <#define __IMAGE__="{{LAM.IMAGE}}" />
+<#define __CSS__="{{LAM.CSS}}" />
+<#import type="css" path="/tree" root="__CSS__" befor="1" />
 <#layout title="楼盘详细" data="{'list':[
 {'name':'喜鹊筑家旗舰店','href':'###','title':''},
 {'name':'样板间管理','href':'###','title':''},
@@ -7,26 +9,7 @@
 {'name':'大华锦绣华城-香鸢美颂'}
 ]}" />
 
-<script type="text/javascript">
-    LAM.run([jQuery],function($){
-        'use strict';
-        var System = this;
-        LAM.use();
-        System.Loader
-            .load({
-                'baseUrl':System.CSS,
-                'suffix':'.css',
-                'rel':'stylesheet',
-                'css':[
-                    '/tree'
-                ]
-            })
-            .print();
 
-
-
-    });
-</script>
 
 
 <div class="row mb15">

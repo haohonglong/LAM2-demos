@@ -69,6 +69,7 @@
         const nickName = 'polyvtest555';
         const pic = 'http://livestatic.videocc.net/assets/wimages/missing_face.png';
         const userId = +new Date();
+        var socket = null;
 
         const getToken = params =>
         axios.post(
@@ -76,64 +77,73 @@
             params
         );
 
-        window.onload = function() {
-            getToken(Qs.stringify({ appId, timestamp, channelId, sign })).then(
-                res => {
-                const chatroom = new PolyvChatRoom({
-                    roomId: channelId,
-                    userId: userId,
-                    pic: pic,
-                    nick: nickName,
-                    container: "#chatroom",
-                    width: 340,
-                    height: 405,
-                    userType: "",
-                    token: res.data.data.token,
-                    roomMessage: function(data) {
-                        // TODO
-                        // data为聊天室socket消息，当有聊天室消息时会触发此方法
-                        console.log(data);
-                    }
-                });
-            //连麦
-            const rtc = new PolyvRTCWebSDK({
-                roomId: channelId,
-                socket: chatroom.chat.socket, // 传入socketio实例
-                userId: userId,
-                nick: nickName,
-                pic: 'http://livestatic.videocc.net/assets/wimages/missing_face.png'
-            });
-            const liveSdk = new PolyvLiveSdk({
-                channelId: channelId,
 
-                sign: sign, // 频道验证签名
-                timestamp: timestamp, // 毫秒级时间戳
-                appId: appId, // polyv 后台的appId
-                flashvars:{code: '11'},
-                socket: chatroom.chat.socket,
-                user: {
-                    userId: userId,
-                    userName: nickName,
-                    pic: pic
+        getToken(Qs.stringify({ appId, timestamp, channelId, sign })).then(
+            res => {
+            const chatroom = new PolyvChatRoom({
+                roomId: channelId,
+                userId: userId,
+                pic: pic,
+                nick: nickName,
+                container: "#chatroom",
+                mediaChannelKey:'1',
+                width: 340,
+                height: 405,
+                userType: "",
+                token: res.data.data.token,
+                roomMessage: function(data) {
+                    // TODO
+                    // data为聊天室socket消息，当有聊天室消息时会触发此方法
+                    console.log(data);
+
                 }
             });
-            liveSdk.on(PolyvLiveSdk.EVENTS.CHANNEL_DATA_INIT, (event, data) => {
-                liveSdk.setupPlayer({
-                pptEl: "#ppt",
-                el: "#player",
-                type: "auto",
-                autoplay: true,
-                controllerPosition: "ppt"
-            });
-
-            // 监听流状态变化刷新播放器
-            liveSdk.on(PolyvLiveSdk.EVENTS.STREAM_UPDATE, function() {
-                liveSdk.reloadPlayer();
-            });
+        //连麦
+        const rtc = new PolyvRTCWebSDK({
+            roomId: channelId,
+            socket: chatroom.chat.socket, // 传入socketio实例
+            userId: userId,
+            nick: nickName,
+            pic: 'http://livestatic.videocc.net/assets/wimages/missing_face.png'
         });
-        }
-        );
-        };
+        rtc.on('OPEN_MICROPHONE', (evt) => {
+            console.log(evt.type); // video/audio (视频/音频通话)
+    });
+        socket = chatroom.chat.socket;
+
+
+
+
+        const liveSdk = new PolyvLiveSdk({
+            channelId: channelId,
+
+            sign: sign, // 频道验证签名
+            timestamp: timestamp, // 毫秒级时间戳
+            appId: appId, // polyv 后台的appId
+            flashvars:{code: '11'},
+            socket: socket,
+            user: {
+                userId: userId,
+                userName: nickName,
+                pic: pic
+            }
+        });
+        liveSdk.on(PolyvLiveSdk.EVENTS.CHANNEL_DATA_INIT, (event, data) => {
+            liveSdk.setupPlayer({
+            pptEl: "#ppt",
+            el: "#player",
+            type: "auto",
+            autoplay: true,
+            controllerPosition: "ppt"
+        });
+
+        // 监听流状态变化刷新播放器
+        liveSdk.on(PolyvLiveSdk.EVENTS.STREAM_UPDATE, function() {
+            liveSdk.reloadPlayer();
+        });
+    });
+    }
+    );
     });
 
 </script>
