@@ -2,13 +2,15 @@
 <% if(list){%>
 <div id="crumb" class="sectionCrumb-A1 mb20">
     <ul class="clear">
-        <% LAM.each(list,function(){%>
+        <%LAM.each(list,function(){%>
+        <li>
         <% if(this.href){%>
-        <li ><a title="<%=this.title%>" href="<%=this.href%>" class="linkBlue"><%=this.name%></a>&nbsp;&gt;&nbsp;</li>
+        <a title="<%=this.title%>" href="<%=this.href%>" class="linkBlue"><%=this.name%></a>&nbsp;&gt;&nbsp;
         <%}else{%>
-        <li><strong><%=this.name%></strong></li>
+        <strong><%=this.name%></strong>
         <%}%>
-        <% });%>
+        </li>
+        <%});%>
     </ul>
 </div>
 <%}%>

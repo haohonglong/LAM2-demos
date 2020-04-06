@@ -49,7 +49,7 @@
                 <#include repeat="0" tp-data="{'name':'{{D.user.name}}','age':'{{D.user.age}}'}" delimiters="['{#','#}']"  file="_LAYOUTS_/inc_header.html" />
                 <#=block id="header" />
 
-                <#include repeat="0" tp-data="{'list':'{{D.list}}'}" file="_LAYOUTS_/inc_crumb.html" />
+                <#include repeat="0" tp-data="{'list':'{{D.list}}'}" file="_LAYOUTS_/inc_crumb.vue.html" />
                 <#=block id="crumb" />
 
                 {{content}}
