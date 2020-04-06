@@ -1,16 +1,15 @@
-<#beginBlock id="crumb">
-    <div class="sectionCrumb-A1 mb20">
-        <ul class="clear">
-            <% var len=list.length;%>
-            <%if(len){%>
-                <%LAM.each(list,function(i){%>
-                    <%if(this.href){%>
-                        <li><a title="<%=this.title%>" href="<%=this.href%>" class="linkBlue"><%=this.name%></a>&nbsp;&gt;&nbsp;</li>
-                    <%}else{%>
-                        <li><strong><%=this.name%></strong></li>
-                    <%}%>
-                <%});%>
-            <%}%>
-        </ul>
-    </div>
+<#beginBlock type="override" id="crumb" data="{'list':null}">
+<% if(list){%>
+<div id="crumb" class="sectionCrumb-A1 mb20">
+    <ul class="clear">
+        <% LAM.each(list,function(){%>
+        <% if(this.href){%>
+        <li ><a title="<%=this.title%>" href="<%=this.href%>" class="linkBlue"><%=this.name%></a>&nbsp;&gt;&nbsp;</li>
+        <%}else{%>
+        <li><strong><%=this.name%></strong></li>
+        <%}%>
+        <% });%>
+    </ul>
+</div>
+<%}%>
 <#endBlock>
