@@ -1,3 +1,4 @@
+<#define __INDEX__="{{LAM.INDEX}}" />
 [
   {
     "icon":"a-1",
@@ -18,7 +19,7 @@
     "icon":"a-2",
     "title":"视频",
     "ul":[
-      {"title":"视频","href":"{{LAM.INDEX}}video/index"}
+      {"title":"视频","href":"__INDEX__video/index"}
     ]
   },
   {
@@ -35,21 +36,21 @@
     "icon":"a-4",
     "title":"样板间管理",
     "ul":[
-      {"title":"案例列表","href":"{{LAM.INDEX}}room/list"},
-      {"title":"楼盘户型管理","href":"{{LAM.INDEX}}room/detail"},
-      {"title":"发布","href":"{{LAM.INDEX}}room/release"},
-      {"title":"aa","href":"{{LAM.INDEX}}room/aa"}
+      {"title":"案例列表","href":"__INDEX__room/list"},
+      {"title":"楼盘户型管理","href":"__INDEX__room/detail"},
+      {"title":"发布","href":"__INDEX__room/release"},
+      {"title":"aa","href":"__INDEX__room/aa"}
     ]
   },
   {
     "icon":"a-5",
     "title":"店铺管理",
     "ul":[
-      {"title":"选择模版","href":"{{LAM.INDEX}}shop/choiceTemplate"},
-      {"title":"商品授权","href":"{{LAM.INDEX}}shop/empower"},
-      {"title":"新建房间","href":"{{LAM.INDEX}}shop/newRoom"},
-      {"title":"商品列表","href":"{{LAM.INDEX}}shop/shopList"},
-      {"title":"楼盘","href":"{{LAM.INDEX}}shop/loft"}
+      {"title":"选择模版","href":"__INDEX__shop/choiceTemplate"},
+      {"title":"商品授权","href":"__INDEX__shop/empower"},
+      {"title":"新建房间","href":"__INDEX__shop/newRoom"},
+      {"title":"商品列表","href":"__INDEX__shop/shopList"},
+      {"title":"楼盘","href":"__INDEX__shop/loft"}
     ]
   },
   {
