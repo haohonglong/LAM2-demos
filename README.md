@@ -46,7 +46,7 @@ these are usage case of LAM2
             listen          8080;
             server_name     lam2;
             index           index.html;
-            root  /Users/long/sites/LamborghiniJS/LAM2;
+            root  /www/LamborghiniJS/LAM2-demos;
             #解决html 405 Not Allowed (nginx默认静态页面不允许POST方式访问，允许GET方式)
             error_page 405 =200 $request_uri;
         }
