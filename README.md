@@ -5,6 +5,7 @@ these are usage case of LAM2
              git clone https://github.com/haohonglong/LAM2-demos.git
              cd LAM2-demos
              git clone https://github.com/haohonglong/LAM2.git
+#####:以下命令不是必须的
              cd LAM2
              git checkout -b develop origin/develop
 
