@@ -52,7 +52,16 @@ these are usage case of LAM2
             #解决html 405 Not Allowed (nginx默认静态页面不允许POST方式访问，允许GET方式)
             error_page 405 =200 $request_uri;
         }
-
+#### 使用 node-http-server 作服务器
+        1.安装node-http-server
+        npm i -g node-http-server
+        2.在LAM2-demos目录里运行命令
+        node-http-server port=9527
+        3.在浏览器地址栏输入
+         http://localhost:9527/brandhall/ 
+        注意：后面的/ 不要丢掉！！！
+        
+        
 		
 #### common/config/config.js 里配置相关参数（参考 二十、Config.js 配置参数）		
 
