@@ -12,7 +12,7 @@
                 <div class="title">
                     <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{#menu.title#}</a>
                 </div>
-                <div v-if="menu.ul" class="none">
+                <div v-if="menu.ul" class="">
                     <ul>
                         <li v-for="v in menu.ul"><a :href="v.href">{#v.title#}</a></li>
                     </ul>
@@ -35,12 +35,7 @@
         'use strict';
         var System = this;
 
-        System.setMenuSelectedStatus=function(href){
-            $('.sectionList-A1-3 li a[href*="'+href+'"]')
-                .closest('li').addClass('cur')
-                .closest('.sectionList-A1-3').show()
-                .closest('dd').addClass('hover');
-        };
+
 
         $(function(){
 
@@ -70,7 +65,6 @@
                     list: {{menu}}
                 }
             });
-            System.setMenuSelectedStatus(System.defaultRoute);
         });
 
 

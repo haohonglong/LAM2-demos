@@ -82,10 +82,12 @@
             </div>
             <div class="sectionWrap-A6">
                 <#include repeat="" tp-data="{}"  file="__CUR__/_detail.html" />
-                <#include repeat="" tp-data="{}"  file="__CUR__/_detail.html" />
-                <#include repeat="" tp-data="{}"  file="__CUR__/_detail.html" />
-                <#include repeat="" tp-data="{}"  file="__CUR__/_detail.html" />
-                <#include repeat="" tp-data="{}"  file="__CUR__/_detail.html" />
+                <#beginBlock id="showDetail" data="{}">
+                <%for(var i=0; i < 6; i++){%>
+                <%=LAM.Template.getBlock("detail")%>
+                <%}%>
+                <#endBlock>
+                <#=block id="showDetail" />
             </div>
         </div>
     </div>

@@ -4,8 +4,9 @@
 <#define __CLASSPATH__="{{LAM.classPath}}" />
 <#define __COMMON__="{{LAM.COMMON}}" />
 <#define __CSS__="{{LAM.CSS}}" />
-<#define _LAYOUTS_="{{LAM.LAYOUTS}}/default/include" />
-#define# __MENU__ <#include repeat="0" tp-data=""  file="{{LAM.DATA}}/menu.json" /> #end#
+<#define _LAYOUTS_="{{LAM.LAYOUTS}}" />
+<#define __DATAS__="{{LAM.DATA}}" />
+#define# __MENU__ <#include repeat="0" tp-data=""  file="__DATAS__/menu.json" /> #end#
 <#import path="https://unpkg.com/vue/dist/vue.js" />
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
@@ -39,19 +40,19 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 sectionSidebar-A1">
-            <#include tp-data="{'menu':__MENU__,'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/inc_menu.html" />
+            <#include tp-data="{'menu':__MENU__,'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/default/include/inc_menu.html" />
         </div>
         <div class="col-md-10 sectionWrap-A4">
             <div class="p20">
-                <#include tp-data="{'menu':__MENU__,'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/inc_menu_mobile.html" />
+                <#include tp-data="{'menu':__MENU__,'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/default/include/inc_menu_mobile.html" />
 
 
-                <#include repeat="0" tp-data="{'name':'{{D.user.name}}','age':'{{D.user.age}}'}" delimiters="['{#','#}']"  file="_LAYOUTS_/inc_header.html" />
+                <#include repeat="0" tp-data="{'name':'{{D.user.name}}','age':'{{D.user.age}}'}" delimiters="['{#','#}']"  file="_LAYOUTS_/default/include/inc_header.html" />
                 <#=block id="header" />
 
-                <#include repeat="0" tp-data="{'list':'{{D.list}}'}" file="_LAYOUTS_/inc_crumb.vue.html" />
+                <#include repeat="0" tp-data="{'list':'{{D.list}}'}" file="_LAYOUTS_/default/include/inc_crumb.vue.html" />
                 <#=block id="crumb" />
-
+                <!#include repeat="0" tp-data="{}" file="_LAYOUTS_/default/test.html" />
                 {{content}}
 
             </div>

@@ -1,6 +1,7 @@
-<#beginBlock id="components:list" data="{'list':null}">
-<% if(list){%>
-    <% LAM.each(list,function(){%>
+<#define __INDEX__="{{LAM.INDEX}}" />
+<#Block:begin id="components:list" data="{'list':null}">
+<%if(list){%>
+    <%LAM.each(list,function(i){%>
     <div class="sectionBox-A10 sectionBox-A10-2 sectionFloat-A1">
         <ul class="p10 clear">
             <li class="col-1">
@@ -9,7 +10,7 @@
             <li class="col-2">
                 <div class="sectionBox-A30 sectionBox-A30-1 ml20">
                     <div class="sectionTitle-A6 mb10">
-                        <h2>拥有浓厚复古色彩的以色列家居</h2>
+                        <h2><a href="__INDEX__room/detail&id=<%=this.id%>">拥有浓厚复古色彩的以色列家居</a></h2>
                     </div>
                     <div class="sectionText-A3">
                         <p class="grey">类型： 家装设计</p>
@@ -95,4 +96,4 @@
 
 </script>
 <!--Escape:end-->
-<#endBlock>
+<#Block:end>
