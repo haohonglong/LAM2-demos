@@ -56,7 +56,7 @@ these are usage case of LAM2
         1.安装node-http-server
         npm i -g node-http-server
         2.在LAM2-demos目录里运行命令
-        node-http-server port=9527
+        node-http-server port=9527 verbose=true
         3.在浏览器地址栏输入
          http://localhost:9527/brandhall/ 
         注意：后面的/ 不要丢掉！！！
