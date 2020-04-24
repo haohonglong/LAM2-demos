@@ -276,18 +276,17 @@
          */
 
         $('.sectionSearch-A1 i').on('click',function(){
+            var $this = $(this);
             if(!this.flag){
-                $(this).parent().find('.bg').animate({"width":"200px"}).show();
-                $(this).addClass('B').animate({"right":"170px"});
+                $this.parent().find('.bg').animate({"width":"200px"}).show();
+                $this.addClass('B').animate({"right":"170px"});
                 this.flag = true;
             }else{
-                $(this).parent().find('.bg').css({"width":0}).hide();
-                $(this).removeClass('B').css({"right":"12px"});
+                $this.removeClass('B').animate({"right":"12px"});
+                $this.parent().find('.bg').animate({"width":0}).hide();
                 this.flag = false;
 
             }
-
-
         });
 
         /**
