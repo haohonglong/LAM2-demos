@@ -23,6 +23,13 @@
     ]
   },
   {
+    "icon":"a-2",
+    "title":"博客",
+    "ul":[
+      {"title":"网页地址","href":"__INDEX__blog/index"}
+    ]
+  },
+  {
     "icon":"a-3",
     "title":"宝贝管理",
     "ul":[
@@ -49,8 +56,15 @@
       {"title":"选择模版","href":"__INDEX__shop/choiceTemplate"},
       {"title":"商品授权","href":"__INDEX__shop/empower"},
       {"title":"新建房间","href":"__INDEX__shop/newRoom"},
-      {"title":"商品列表","href":"__INDEX__shop/shopList"},
+      {"title":"商品列表","href":"__INDEX__shop/list"},
       {"title":"楼盘","href":"__INDEX__shop/loft"}
+    ]
+  },
+  {
+    "icon":"a-5",
+    "title":"商品管理",
+    "ul":[
+      {"title":"商品列表","href":"__INDEX__goods/index"}
     ]
   },
   {

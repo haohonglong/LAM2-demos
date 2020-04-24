@@ -79,8 +79,8 @@
 
             });
         },
-        'shopListAction':function(){
-            return this.render('shopList',{
+        'listAction':function(){
+            return this.render('list',{
                 'VIEWS':System.VIEWS,
                 'IMAGE':System.IMAGE,
                 'ROOT':ROOT,
