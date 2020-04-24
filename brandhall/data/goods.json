@@ -1,0 +1,173 @@
+[
+  {
+    "bill_id": "5e8221fc7bb961",
+    "shop_name": "匠子烤鱼重庆龙湖店",
+    "total_price": "230.00",
+    "discount": "0.00",
+    "childs": [
+      {
+        "id": "1",
+        "name": "湄公鱼",
+        "final_price": "138.00"
+      },
+      {
+        "id": "2",
+        "name": "双拼口味",
+        "final_price": "10.00"
+      },
+      {
+        "id": "177",
+        "name": "魔芋",
+        "final_price": "6.00"
+      },
+      {
+        "id": "178",
+        "name": "海带结",
+        "final_price": "6.00"
+      },
+      {
+        "id": "179",
+        "name": "手指年糕",
+        "final_price": "6.00"
+      },
+      {
+        "id": "180",
+        "name": "千叶豆腐",
+        "final_price": "6.00"
+      },
+      {
+        "id": "181",
+        "name": "红薯宽粉",
+        "final_price": "6.00"
+      },
+      {
+        "id": "182",
+        "name": "奔跑吧！小皮蛋",
+        "final_price": "16.00"
+      },
+      {
+        "id": "183",
+        "name": "凉凉杂果冰粉",
+        "final_price": "9.00"
+      },
+      {
+        "id": "184",
+        "name": "茶位费",
+        "final_price": "15.00"
+      },
+      {
+        "id": "185",
+        "name": "撒油那拉水果沙拉",
+        "final_price": "12.00"
+      }
+    ]
+  },
+  {
+    "bill_id": "00001887",
+    "shop_name": "益家鲜生",
+    "total_price": "53.20",
+    "discount": "0.00",
+    "childs": [
+      {
+        "id": "275",
+        "name": "珍珠米",
+        "final_price": "17.00"
+      },
+      {
+        "id": "276",
+        "name": "珍珠米",
+        "final_price": "17.33"
+      },
+      {
+        "id": "277",
+        "name": "海天味极鲜酱油",
+        "final_price": "9.90"
+      },
+      {
+        "id": "278",
+        "name": "巨龙16度料酒",
+        "final_price": "8.90"
+      }
+    ]
+  },
+  {
+    "bill_id": "1586161794",
+    "shop_name": "益家鲜生",
+    "total_price": "30.00",
+    "discount": "0.00",
+    "childs": [
+      {
+        "id": "279",
+        "name": "保宁醋一级",
+        "final_price": "6.50"
+      },
+      {
+        "id": "280",
+        "name": "雨润切片年糕",
+        "final_price": "6.60"
+      },
+      {
+        "id": "281",
+        "name": "保宁9度白醋",
+        "final_price": "5.50"
+      },
+      {
+        "id": "282",
+        "name": "白壳蛋",
+        "final_price": "11.40"
+      }
+    ]
+  },
+  {
+    "bill_id": "00006139",
+    "shop_name": "益家鲜生",
+    "total_price": "16.90",
+    "discount": "0.00",
+    "childs": [
+      {
+        "id": "283",
+        "name": "白壳蛋",
+        "final_price": "16.90"
+      }
+    ]
+  },
+  {
+    "bill_id": "00012534",
+    "shop_name": "益家鲜生",
+    "total_price": "15.80",
+    "discount": "0.00",
+    "childs": [
+      {
+        "id": "284",
+        "name": "思念宁波黑芝麻汤圆",
+        "final_price": "15.80"
+      }
+    ]
+  },
+  {
+    "bill_id": "00289402",
+    "shop_name": "重庆富力春天里店",
+    "total_price": "1.59",
+    "discount": "0.00",
+    "childs": [
+      {
+        "id": "285",
+        "name": "大葱",
+        "final_price": "1.59"
+      }
+    ]
+  },
+  {
+    "bill_id": "950052960087501817",
+    "shop_name": "淘宝-志高志美专卖店",
+    "total_price": "84.00",
+    "discount": "0.00",
+    "childs": [
+      {
+        "id": "286",
+        "name": "志高落地电风扇(遥控)",
+        "final_price": "84.00"
+      }
+    ]
+  }
+]
