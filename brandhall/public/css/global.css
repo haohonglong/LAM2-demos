@@ -251,10 +251,10 @@ sub {bottom: -.25em;}
 
 /*color*/
 .color-grey{}
-.color-red{}
-.color-blue{}
-.color-green{}
-.color-yellow{}
+.color-red{color:#ff205c;}
+.color-blue{color:#1e2333;}
+.color-green{color: #397539;}
+.color-yellow{color: #a64e72;}
 .color-orange{}
 .color-black{}
 
