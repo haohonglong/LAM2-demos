@@ -1,5 +1,5 @@
 <#define __DATAPATH__="{{LAM.DATA}}" />
-#define# __DATA__ <#include repeat="0" tp-data="{}"  file="http://yaf.local/goods/index" /> #end#
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__DATAPATH__/goods.json" /> #end#
 <#extends title="商品列表" data="{'list':[
 {'name':'喜鹊筑家旗舰店','href':'###','title':''},
 {'name':'商品管理','href':'###','title':''},
@@ -42,12 +42,18 @@
 <#Block:end>
 
 
-<#Block:begin id="table_" data="{'list':[]">
-<div class="sectionBorder-A3 mb1">
+<#Block:begin id="table_" data="{
+    'lis':[],
+    'sectionBorder':{
+        'class':'mb1',
+        'style':''
+    }
+}">
+<div class="sectionBorder-A3 <%=sectionBorder.class%>" style="<%=sectionBorder.style%>">
     <div class="sectionTable-B1 sectionTable-B1-5">
         <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
             <ul class="clear">
-                <%LAM.each(function(i){%>
+                <%LAM.each(lis,function(i){%>
                 <li class="<%=this.class%>" style="<%=this.style%>"><%=this.name%></li>
                 <%});%>
             </ul>
@@ -57,7 +63,71 @@
 <#Block:end>
 
 <#Block:begin id="table" data="{'list':null}">
+
 <%LAM.each(list,function(i){%>
+
+<!--Escape:begin-->
+<!--
+<%
+    var list = [];
+    if(LAM.isset(this.bill_id)){
+        if(this.bill_id != 0){
+            var arr = [
+                [
+                    {"name":"订单号","class":"col-1","style":"font-weight: bold;"},
+                    {"name":this.bill_id,"class":"col-1 pl5","style":"width:75%;text-align:left;"}
+                ],
+                [
+                    {"name":"店名","class":"col-1","style":"font-weight: bold;"},
+                    {"name":this.shop_name,"class":"col-1 pl5","style":"width:75%;text-align:left;"}
+                ],
+                [
+                    {"name":"总价","class":"col-1","style":"font-weight: bold;"},
+                    {"name":this.total_price,"class":"col-1 pl5 color-red","style":"width:75%;text-align:left;"}
+                ],
+                [
+                    {"name":"折扣","class":"col-1","style":"font-weight: bold;"},
+                    {"name":this.discount,"class":"col-1 pl5 color-yellow","style":"width:75%;text-align:left;"}
+                ],
+                [
+                    {"name":"日期","class":"col-1","style":"font-weight: bold;"},
+                    {"name":this.create_at,"class":"col-1 pl5","style":"width:75%;text-align:left;"}
+                ]
+            ];
+            var lis = [];
+            LAM.each(arr,function(i){
+                lis.push(LAM.Template.getBlock("table_",{'lis':this}));
+            });
+            list.push({"class":"first col-7","style":"width:25%;","name":lis.join("")});
+        }else {
+            list.push({"class":"first col-7","style":"width:25%;font-weight: bold;","name":"这些商品没建立订单"});
+        }
+
+        var content = LAM.Template.getBlock("theader") + LAM.Template.getBlock("table",{"list":this.childs});
+
+        list.push({"class":"first col-1","style":"width:75%;","name":content});
+    }else {
+        list = [
+            {"name":this.id,"class":"col-8"},
+            {"name":this.shop_name,"class":"col-1"},
+            {"name":this.name,"class":"col-1"},
+            {"name":this.final_price,"class":"col-7 color-red"},
+            {"name":this.create_at,"class":"col-1"}
+        ];
+    }
+%>
+<%=LAM.Template.getBlock("table_",{
+    'lis':list,
+    'sectionBorder':{
+        'class':'mb1',
+        'style':LAM.isset(this.bill_id) ? 'padding:1px;' : ''
+    }
+})%>
+-->
+<!--Escape:end-->
+
+
+<!--!Escape:begin-->
 <div class="sectionBorder-A3 mt1" <%if(LAM.isset(this.bill_id)){%>style="padding:1px;"<%}%>>
     <div class="sectionTable-B1 sectionTable-B1-5">
         <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
@@ -98,6 +168,7 @@
         </div>
     </div>
 </div>
+<!--!Escape:end-->
 <%});%>
 <#Block:end>
 

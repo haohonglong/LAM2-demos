@@ -15,11 +15,13 @@
     var __this__=null;
     System.is(System,'Controller','SiteController',System.classPath+'/base');
     var ROOT  = System.BACKEND;
+    var E = {file_404:System.ERROR_404};
     var SiteController = System.Controller.extend({
         constructor: function (init){
             this.base(init || {});
             __this__=this;
             this.viewpath = System.VIEWS+'/site';
+            this.layoutPath = this.layoutPath+'/default';
 
 
         },
@@ -48,6 +50,20 @@
                 }
 
             });
+        },
+        'testAction':function(){
+            this.title = "test";
+            this.content = {
+                'user':{
+                    'name':'name',
+                    'age':28
+                }
+
+            };
+            return this.render('test',{
+                'COMMON':System.COMMON,
+                'ROOT':ROOT
+            },null,E);
         },
 
 
