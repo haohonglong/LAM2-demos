@@ -7,12 +7,9 @@
   },
   {
     "icon":"a-2",
-    "title":"交易管理",
+    "title":"网页地址",
     "ul":[
-      {"title":"卖家地图","href":"###"},
-      {"title":"我家要装修","href":"###"},
-      {"title":"格致商城","href":"###"},
-      {"title":"格致社区","href":"###"}
+      {"title":"网页地址","href":"__INDEX__url/index"}
     ]
   },
   {

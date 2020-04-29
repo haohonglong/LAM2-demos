@@ -68,6 +68,7 @@
                     ,'COMPONENTS':ROOT+'/views/components'
                     ,'ERROR_404':ROOT+'/views/_404.html'
                     ,'INDEX':'index.html?r='
+
                 };
             })(),
             'components':{
