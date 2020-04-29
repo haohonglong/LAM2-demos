@@ -42,6 +42,15 @@
 
             },E);
         },
+        'createAction':function(){
+            return this.render('create',{
+                'VIEWS':System.VIEWS,
+                'IMAGE':System.IMAGE,
+                'ROOT':ROOT
+
+            },E);
+        },
+
 
 
 

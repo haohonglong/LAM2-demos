@@ -1,6 +1,7 @@
 <#define __CLASSPATH__="{{LAM.classPath}}" />
 <#define __COMMON__="{{LAM.COMMON}}" />
 <#define __CSS__="{{LAM.CSS}}" />
+<#define __INDEX__="{{LAM.INDEX}}" />
 <#import path="/PopupLayer.class,/Validation.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
 <#import type="css" path="/global,/lib,/login" root="__CSS__" befor="1" />
@@ -18,7 +19,7 @@
 <body class="l-sectionContainer-A1" id="sectionWrap">
     <!--img src="images/imgs_LHH/login_bg.jpg" class="" width="100%" height="" alt="" id="js_secionImg"/-->
     <div class="" id="sectionLogin">
-        <form class="form-horizontal">
+        <form class="form-horizontal" method="get" action="__INDEX__site/login">
         <div class="l-sectionLogin">
             <div class="login-head auto"></div>
             <div class="l-sectionWrap-A1 mb15">
@@ -30,7 +31,7 @@
                     </div>
                     <div class="mb5 js_helpWrap">
                         <div class="clear">
-                        	<input type="password" name="e-password" id="e-password" class="form-control w-200 L mr10" placeholder="密码">
+                        	<input type="password" name="password" id="e-password" class="form-control w-200 L mr10" placeholder="密码">
                         	<button type="submit" class="sectionButton-LoginImg"></button>
                         </div>
                         <span class="help-block none">请输入密码</span>
@@ -107,9 +108,7 @@
                             show_error($e_password);
                             flag=false;
                         }
-
-
-
+                        // this.action = this.action+"&pwd"+$e_password.val();
 
                         return flag;
                     });

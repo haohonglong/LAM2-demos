@@ -68,7 +68,7 @@
                     ,'COMPONENTS':ROOT+'/views/components'
                     ,'ERROR_404':ROOT+'/views/_404.html'
                     ,'INDEX':'index.html?r='
-
+                    ,'SERVER':'http://yaf.local'
                 };
             })(),
             'components':{
@@ -95,22 +95,7 @@
                     return System.timestamp();
                 },
                 'runtime':function (System) {
-                    var temp = null;
-                    console.log('runtime')
-                    System.listen(function(){
-                        if(System.isFunction(System.Storage)){
-                            System.Template.getTemplate1 = function (cache,compiler) {
-                                if(!(temp instanceof System.Template)){
-                                    temp = new System.Template(new System.Storage('block',sessionStorage),compiler);
-                                }
-                                return temp;
-
-                            };
-                            return true;
-                        }
-                    },1);
-
-                    return function(){return temp;};
+                    System.COOKIE = new System.PowerCookie('guest');
                 }
 
             },
@@ -147,6 +132,7 @@
                     ,"Compiler":classPath+'/base/Compiler.class.js'
                     ,"Base64":classPath+'/base/Base64.class.js'
                     ,"Cache":classPath+'/base/Cache.class.js'
+                    ,"PowerCookie":classPath+'/base/PowerCookie.class.js'
                     ,"Storage":classPath+'/base/Storage.class.js'
                     ,"HttpRequest":classPath+'/base/HttpRequest.class.js'
                     ,"Helper":classPath+'/base/Helper.class.js'

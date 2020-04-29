@@ -5,7 +5,17 @@
     <script type="text/javascript">window._ROOT_ = "..";</script>
     <script type="text/javascript" src="../brandhall/common/config/config.js"></script>
     <script type="text/javascript" src="http://lam2.core/base/System.js"></script>
-    <script type="text/javascript">LAM.bootstrap();</script>
+    <script type="text/javascript">
+        LAM.main=function () {
+            var System = this;
+            System.COOKIE.find('id',"1",function (index,id) {
+                if(-1 === index && System.get('r') !== 'site/login'){
+                    System.redirect(System.INDEX+"site/login");
+                }
+            });
+        };
+        LAM.bootstrap();
+    </script>
 </head>
 </html>
 

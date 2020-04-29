@@ -28,6 +28,20 @@
         '_className':'SiteController',
         'loginAction':function(){
             this.title = "登录";
+            var pwd = System.get('pwd');
+            if("123456" === pwd) {
+                System.COOKIE.find('id',"1",function (index,id) {
+                    if(-1 === index){
+                        var data = {
+                            "userid":id,
+                            "name":"long"
+                        };
+                        this.add(data);
+                    }
+                    System.redirect(System.INDEX+"room/list");
+                });
+            }
+
             return this.renderPartial('login',{
                 'COMMON':System.COMMON,
                 'ROOT':ROOT,
@@ -38,6 +52,16 @@
 
             });
         },
+        'logoutAction':function(){
+            this.title = "";
+            System.COOKIE.find('id',"1",function (index,id) {
+                if(-1 !== index){
+                    this.remove(index);
+                }
+            });
+            System.redirect(System.INDEX+"site/login");
+        },
+
 
         'regAction':function(){
             this.title = "注册";

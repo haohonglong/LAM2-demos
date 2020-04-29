@@ -1,0 +1,42 @@
+<#define _TITLE_="添加地址" />
+
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#beginBlock id="crumb" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}">
+<#endBlock>
+
+<form class="form-horizontal">
+    <div class="sectionWrap-A5">
+        <div class="p15">
+
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+                <ul>
+                    <li class="clear mb5">
+                        <label class="L">展厅名称：<span class="warning">*</span></label>
+                        <input type="text" class="text name L" value="">
+                    </li>
+                    <li class="textarea clear">
+                        <label class="L">展厅简介：</label>
+                        <textarea class="L"></textarea>
+
+                    </li>
+                </ul>
+            </div>
+
+            <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
+                <button type="submit" class="btn save L mr15">新建房间</button>
+                <button type="submit" class="btn btn-cancel L">取消</button>
+            </div>
+        </div>
+    </div>
+</form>
+
