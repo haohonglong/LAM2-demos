@@ -50,7 +50,14 @@
 
             },E);
         },
+        'editAction':function(){
+            return this.render('edit',{
+                'VIEWS':System.VIEWS,
+                'IMAGE':System.IMAGE,
+                'ROOT':ROOT
 
+            },E);
+        },
 
 
 

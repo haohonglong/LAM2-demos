@@ -9,7 +9,8 @@
     "icon":"a-2",
     "title":"网页地址",
     "ul":[
-      {"title":"网页地址","href":"__INDEX__url/index"}
+      {"title":"列表","href":"__INDEX__url/index"},
+      {"title":"添加","href":"__INDEX__url/create"}
     ]
   },
   {

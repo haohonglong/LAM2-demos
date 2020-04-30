@@ -147,6 +147,7 @@
                     ,"Router":classPath+'/base/Router.class.js'
 
                     ,"vue":PLUGINS+'/vue/vue.js'
+                    ,"layer":PLUGINS+'/layer-v3.1.1/layer/layer.js'
                 };
             },
 

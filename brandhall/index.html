@@ -8,8 +8,9 @@
     <script type="text/javascript">
         LAM.main=function () {
             var System = this;
+            var r = System.get('r');
             System.COOKIE.find('id',"1",function (index,id) {
-                if(-1 === index && System.get('r') !== 'site/login'){
+                if(-1 === index && (r !== 'site/login' && r !== 'site/reg')){
                     System.redirect(System.INDEX+"site/login");
                 }
             });

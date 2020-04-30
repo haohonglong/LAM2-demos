@@ -2,7 +2,7 @@
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/url/index" /> #end#
 
 
-<#define _TITLE_="添加地址" />
+<#define _TITLE_="修改地址" />
 
 <#extends title="_TITLE_" data="{'list':[
 {'name':'网页地址','href':'###','title':''},
@@ -16,12 +16,14 @@
 {'name':'_TITLE_'}
 ]}">
 <#endBlock>
-<#Block:begin id="select" data="{'list':[]}">
+<#Block:begin id="select" data="{'list':[],'sid':'0'}">
 <%LAM.each(list,function(i){%>
-<option value="<%=this.id%>"><%=this.name%></option>
+<option <%if(this.id == sid){%>selected="selected"<%}%> value="<%=this.id%>"><%=this.name%></option>
 <%});%>
 <#Block:end>
-<form class="form-horizontal" action="__SERVER__/url/add" method="post">
+<#Block:begin id="url_form" data="{'id':'0','sid':'0','name':'','url':'','info':''}">
+<form class="form-horizontal" action="__SERVER__/url/edit" method="post">
+    <input type="hidden" name="id" value="<%=id%>">
     <div class="sectionWrap-A5">
         <div class="p15">
             <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
@@ -30,24 +32,24 @@
                         <label class="L">类别：<span class="warning">*</span></label>
                         <select class="L" name="sid">
                             <option value="0">请选择</option>
-                            <#=block id="select" data="{'list':__DATA__}" />
+                            <%=LAM.Template.getBlock("select",{'list':__DATA__,'sid':sid})%>
                         </select>
                         <span data-error="sid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
                         <label class="L">名称：<span class="warning">*</span></label>
-                        <input type="text" name="name" class="text name L" value="">
+                        <input type="text" name="name" class="text name L" value="<%=name%>">
                         <span data-error="name" class="help-block none"></span>
                     </li>
 
                     <li class="clear mb5">
                         <label class="L">url：<span class="warning">*</span></label>
-                        <input type="text" name="url" class="text name L" value="">
+                        <input type="text" name="url" class="text name L" value="<%=url%>">
                         <span data-error="url" class="help-block none"></span>
                     </li>
                     <li class="textarea clear">
                         <label class="L">简介：<span class="warning">*</span></label>
-                        <textarea class="L" name="info"></textarea>
+                        <textarea class="L" name="info" value="<%=info%>"><%=info%></textarea>
                         <span data-error="info" class="help-block none"></span>
                     </li>
                 </ul>
@@ -59,18 +61,32 @@
         </div>
     </div>
 </form>
-
+<#Block:end>
+<div id="url_form"></div>
 <script type="text/javascript">
 
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
+        var id = System.get('id');
 
         function getByName(name) {
             return document.getElementsByName(name)[0].value;
         }
 
         $(function(){
+            $.get("__SERVER__/url/show",{
+                'id':id
+            },function(data){
+                if(data.status){
+                    data.data.sid = data.data.sorts_id;
+                    $('#url_form').html(System.Template.getBlock("url_form",data.data));
+                }else{
+                    alert(data.message);
+
+                }
+            },'json');
+
             $('form').submit(function () {
                 $('[data-error]').hide();
                 var sid  = getByName("sid");

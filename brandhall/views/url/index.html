@@ -1,12 +1,10 @@
 <#define __LAMPATH__="{{LAM.classPath}}" />
 <#define __SERVER__="{{LAM.SERVER}}" />
 <#define __DATAPATH__="{{LAM.DATA}}" />
+<#define __INDEX__="{{LAM.INDEX}}" />
 <#define __CSS__="{{LAM.CSS}}" />
 <#define __PLUGINS__="{{LAM.PLUGINS}}" />
-<#define __JQUERY_CUSTOM_SCROLLBAR__="__PLUGINS__/jquery.mCustomScrollbar" />
-
 <#define __CLASSPATH__="{{LAM.classPath}}" />
-<#import path="/layer-v3.1.1/layer/layer" root="__PLUGINS__" write="1" befor="1" />
 
 
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/url/index" /> #end#
@@ -14,10 +12,6 @@
 
 <#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
-
-
-<#import type="css" path="/jquery.mCustomScrollbar.css" root="__JQUERY_CUSTOM_SCROLLBAR__" befor="1" />
-<#import path="/jquery.mCustomScrollbar.concat.min.js" root="__JQUERY_CUSTOM_SCROLLBAR__" write="1" befor="1" />
 
 
 
@@ -34,12 +28,7 @@
 ]}">
 <#endBlock>
 
-<style type="text/css">
-    .mCustomScrollbar{height: 500px;overflow: auto;}
-    .mCSB_inside > .mCSB_container{margin:0;}
-    .mCSB_scrollTools .mCSB_draggerContainer{left:17px;}
 
-</style>
 
 
 
@@ -55,8 +44,12 @@
 
 <#Block:begin id="empower_button" data="{'list':[{'name':'name','url':'###'}]}">
 <%LAM.each(list,function(i){%>
-<div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big">
-    <a href="<%=this.url%>" target="_blank" class="btn"><%=this.name%></a>
+<div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="<%=this.id%>">
+    <div class="btn">
+        <a href="<%=this.url%>" target="_blank"><%=this.name%></a>
+        <a href="__INDEX__url/edit&id=<%=this.id%>" target="_blank">修改</a>
+        <a data-type="delete" href="javascript:void(0);">删除</a>
+    </div>
 </div>
 <%});%>
 <#Block:end>
@@ -128,6 +121,7 @@
         var tools =new System.Tools();
 
 
+
         function getContent(id) {
             cache.find('id',id,function (index,id) {
                 var _this = this;
@@ -169,6 +163,25 @@
 
             });
 
+            $('[data-type="delete"]').on('click',function () {
+                var $btn = $(this).closest('[data-id]');
+                var id = $btn.data('id');
+                $.get('__SERVER__/url/delete',{
+                    'id':id
+                },function(data){
+                    if(data.status){
+                        alert(data.message);
+                        $btn.remove();
+                    }else{
+                        alert(data.message);
+                        System.each(data.errors,function (key,value) {
+                            alert(value)
+                        });
+                    }
+                },'json');
+
+            });
+
             new System.Tab({
                 'list':$('.j_sectionMenuA1 .dd-1'),
                 'event':'click',
@@ -176,10 +189,9 @@
                 'or':true,
                 'fn':function () {
                     var id = $(this).find('[data-id]').data().id;
+                    $("#mCSB_1_container").css("top", -this.offsetTop);
                     getContent(id);
                 }
-
-
             }).run();
             new System.Tab({
                 'list':$('.j_sectionMenuA2 .dd-2'),
@@ -197,7 +209,14 @@
 </script>
 <!--Escape:end-->
 <#Block:end>
+<style type="text/css">
+    .mCustomScrollbar{height: 500px;overflow: auto;}
+    .mCSB_inside > .mCSB_container{margin:0;}
+    .mCSB_scrollTools .mCSB_draggerContainer{left:17px;}
 
+    .sectionButton-B1 .btn a{color:#fff;}
+
+</style>
 <#=block id="empower" />
 
 

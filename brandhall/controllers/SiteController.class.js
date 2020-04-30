@@ -22,6 +22,7 @@
             __this__=this;
             this.viewpath = System.VIEWS+'/site';
             this.layoutPath = this.layoutPath+'/default';
+            this.defaultRoute = System.routeRules.list;
 
 
         },
@@ -29,18 +30,27 @@
         'loginAction':function(){
             this.title = "登录";
             var pwd = System.get('pwd');
-            if("123456" === pwd) {
-                System.COOKIE.find('id',"1",function (index,id) {
-                    if(-1 === index){
-                        var data = {
+
+            var _this = this;
+            var data = null;
+            System.COOKIE.find('id',"1",function (index,id) {
+                if(-1 === index){
+                    if(System.isset(pwd) && "123456" === pwd) {
+                        data = {
                             "userid":id,
-                            "name":"long"
+                            "name":"long",
+                            "pwd":"123456"
                         };
                         this.add(data);
+                        System.redirect(System.INDEX+_this.defaultRoute);
                     }
-                    System.redirect(System.INDEX+"room/list");
-                });
-            }
+                }else {
+                    data = this.get(index);
+                    if("123456" === data.pwd){
+                        System.redirect(System.INDEX+_this.defaultRoute);
+                    }
+                }
+            });
 
             return this.renderPartial('login',{
                 'COMMON':System.COMMON,
@@ -51,6 +61,8 @@
                 }
 
             });
+
+
         },
         'logoutAction':function(){
             this.title = "";
@@ -65,6 +77,16 @@
 
         'regAction':function(){
             this.title = "注册";
+            var _this = this;
+            System.COOKIE.find('id',"1",function (index,id) {
+                if(-1 !== index){
+                    var data = this.get(index);
+                    if("123456" === data.pwd){
+                        System.redirect(System.INDEX+_this.defaultRoute);
+                    }
+                }
+
+            });
             return this.renderPartial('reg',{
                 'COMMON':System.COMMON,
                 'ROOT':ROOT,
