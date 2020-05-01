@@ -22,11 +22,12 @@
 <%});%>
 <#Block:end>
 <#Block:begin id="url_form" data="{'id':'0','sid':'0','name':'','url':'','info':''}">
-<form class="form-horizontal" action="__SERVER__/url/edit" method="post">
+<form class="form-horizontal" action="__SERVER__/url/edit?id=<%=id%>" method="post">
     <input type="hidden" name="id" value="<%=id%>">
     <div class="sectionWrap-A5">
         <div class="p15">
             <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+                <span data-error="id" class="help-block none"></span>
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
@@ -55,7 +56,7 @@
                 </ul>
             </div>
             <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
-                <button type="submit" class="btn save L mr15">添加</button>
+                <button type="submit" class="btn save L mr15">提交</button>
                 <button type="reset" class="btn btn-cancel L">恢复</button>
             </div>
         </div>
@@ -63,6 +64,7 @@
 </form>
 <#Block:end>
 <div id="url_form"></div>
+
 <script type="text/javascript">
 
     LAM.run([jQuery],function($) {
@@ -74,19 +76,7 @@
             return document.getElementsByName(name)[0].value;
         }
 
-        $(function(){
-            $.get("__SERVER__/url/show",{
-                'id':id
-            },function(data){
-                if(data.status){
-                    data.data.sid = data.data.sorts_id;
-                    $('#url_form').html(System.Template.getBlock("url_form",data.data));
-                }else{
-                    alert(data.message);
-
-                }
-            },'json');
-
+        function init() {
             $('form').submit(function () {
                 $('[data-error]').hide();
                 var sid  = getByName("sid");
@@ -94,7 +84,7 @@
                 var url  = getByName("url");
                 var info = getByName("info");
 
-                $.post(this.action,{
+                $[this.method](this.action,{
                     'sid':sid,
                     'name':name,
                     'url':url,
@@ -104,7 +94,7 @@
                         alert(data.message);
                         System.redirect(System.INDEX+"url/index");
                     }else{
-                        // alert(data.message);
+                        alert(data.message);
                         System.each(data.errors,function (key,value) {
                             $('[data-error="'+key+'"]').text(value).show();
                         });
@@ -113,6 +103,21 @@
 
                 return false;
             });
+        }
+
+        $(function(){
+            $.get("__SERVER__/url/show",{
+                'id':id
+            },function(data){
+                if(data.status){
+                    data.data.sid = data.data.sorts_id;
+                    $('#url_form').html(System.Template.getBlock("url_form",data.data));
+                    init();
+                }else{
+                    alert(data.message);
+                }
+            },'json');
+
 
 
 
