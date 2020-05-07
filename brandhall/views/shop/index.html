@@ -1,0 +1,49 @@
+<#define __SERVER__="{{LAM.SERVER}}" />
+<#define __INDEX__="{{LAM.INDEX}}" />
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/shop/index" /> #end#
+
+
+<#define _TITLE_="店铺" />
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'店铺管理','href':'###','title':''},
+{'name':'店铺管理','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#beginBlock id="crumb" data="{'list':[
+{'name':'店铺管理','href':'###','title':''},
+{'name':'店铺管理','href':'###','title':''},
+{'name':'_TITLE_'}
+]}">
+<#endBlock>
+
+
+
+
+<#Block:begin id="shop_table" data="{'list':[]}">
+<div class="sectionBorder-A3">
+    <div class="sectionTable-B1 sectionTable-B1-5">
+        <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+            <ul class="clear">
+                <li style="width: 10%;">id</li>
+                <li class="col-1 pl10" style="width:90%;text-align: left;">店铺名称</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<%LAM.each(list,function(i){%>
+<div class="sectionBorder-A3">
+    <div class="sectionTable-B1 sectionTable-B1-5">
+        <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+            <ul class="clear">
+                <li style="width: 10%;"><%=this.id%></li>
+                <li class="col-1 pl10" style="width:90%;text-align: left;"><%=this.name%></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<%});%>
+<#Block:end>
+
+<#=block id="shop_table" data="{'list':__DATA__.data}" />

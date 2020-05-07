@@ -1,0 +1,46 @@
+<#define __LAMPATH__="{{LAM.classPath}}" />
+<#define __SERVER__="{{LAM.SERVER}}" />
+<#define __INDEX__="{{LAM.INDEX}}" />
+<#define __CSS__="{{LAM.CSS}}" />
+<#define __PLUGINS__="{{LAM.PLUGINS}}" />
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/all" /> #end#
+
+
+
+<#extends title="类别" data="{'list':[
+{'name':'类别','href':'###','title':''},
+{'name':'类别列表','href':'###','title':''},
+{'name':'类别列表'}
+]}" />
+
+<#beginBlock id="crumb" data="{'list':[
+{'name':'类别','href':'###','title':''},
+{'name':'类别列表','href':'###','title':''},
+{'name':'类别列表'}
+]}">
+<#endBlock>
+
+
+
+
+
+<#Block:begin id="sorts_list" data="{'list':[{'id':'0','name':'name'}]}">
+<%LAM.each(list,function(i){%>
+<div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="<%=this.id%>">
+    <div class="btn">
+        <span><%=this.name%></span>
+        <a href="__INDEX__sorts/edit&id=<%=this.id%>" target="_blank">修改</a>
+        <a data-type="delete" href="__INDEX__sorts/delete&id=<%=this.id%>">删除</a>
+    </div>
+</div>
+<%});%>
+<#Block:end>
+
+<#=block id="sorts_list" data="{'list':__DATA__}" />
+
+<style type="text/css">
+    .sectionButton-B1 .btn a{color:#fff;}
+
+</style>

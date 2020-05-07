@@ -1,5 +1,5 @@
 <#define __SERVER__="{{LAM.SERVER}}" />
-#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/all" /> #end#
 
 
 <#define _TITLE_="修改地址" />
@@ -16,13 +16,15 @@
 {'name':'_TITLE_'}
 ]}">
 <#endBlock>
-<#Block:begin id="select" data="{'list':[],'sid':'0'}">
+<#Block:begin id="select" data="{'list':[],'sid':'0','id':'0'}">
 <%LAM.each(list,function(i){%>
+<%if(this.id !== id){%>
 <option <%if(this.id == sid){%>selected="selected"<%}%> value="<%=this.id%>"><%=this.name%></option>
+<%}%>
 <%});%>
 <#Block:end>
-<#Block:begin id="url_form" data="{'id':'0','sid':'0','name':'','url':'','info':''}">
-<form class="form-horizontal" action="__SERVER__/url/edit?id=<%=id%>" method="post">
+<#Block:begin id="url_form" data="{'id':'0','pid':'0','name':''}">
+<form class="form-horizontal" action="__SERVER__/sorts/edit?id=<%=id%>" method="post">
     <input type="hidden" name="id" value="<%=id%>">
     <div class="sectionWrap-A5">
         <div class="p15">
@@ -31,11 +33,11 @@
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <select class="L" name="sid">
+                        <select class="L" name="pid">
                             <option value="0">请选择</option>
-                            <%=LAM.Template.getBlock("select",{'list':__DATA__,'sid':sid})%>
+                            <%=LAM.Template.getBlock("select",{'list':__DATA__,'sid':pid,'id':id})%>
                         </select>
-                        <span data-error="sid" class="help-block none"></span>
+                        <span data-error="pid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
                         <label class="L">名称：<span class="warning">*</span></label>
@@ -43,16 +45,7 @@
                         <span data-error="name" class="help-block none"></span>
                     </li>
 
-                    <li class="clear mb5">
-                        <label class="L">url：<span class="warning">*</span></label>
-                        <input type="text" name="url" class="text name L" value="<%=url%>">
-                        <span data-error="url" class="help-block none"></span>
-                    </li>
-                    <li class="textarea clear">
-                        <label class="L">简介：<span class="warning">*</span></label>
-                        <textarea class="L" name="info" value="<%=info%>"><%=info%></textarea>
-                        <span data-error="info" class="help-block none"></span>
-                    </li>
+
                 </ul>
             </div>
             <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
@@ -79,20 +72,16 @@
         function init() {
             $('form').submit(function () {
                 $('[data-error]').hide();
-                var sid  = getByName("sid");
+                var sid  = getByName("pid");
                 var name = getByName("name");
-                var url  = getByName("url");
-                var info = getByName("info");
 
                 $[this.method](this.action,{
-                    'sid':sid,
-                    'name':name,
-                    'url':url,
-                    'info':info
+                    'pid':sid,
+                    'name':name
                 },function(data){
                     if(data.status){
                         alert(data.message);
-                        System.redirect(System.INDEX+"url/index");
+                        System.redirect(System.INDEX+"sorts/index");
                     }else{
                         alert(data.message);
                         System.each(data.errors,function (key,value) {
@@ -106,7 +95,7 @@
         }
 
         $(function(){
-            $.get("__SERVER__/url/show",{
+            $.get("__SERVER__/sorts/show",{
                 'id':id
             },function(data){
                 if(data.status){

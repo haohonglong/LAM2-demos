@@ -1,5 +1,5 @@
-<#define __DATAPATH__="{{LAM.DATA}}" />
-#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__DATAPATH__/goods.json" /> #end#
+<#define __SERVER__="{{LAM.SERVER}}" />
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/goods/index" /> #end#
 <#extends title="商品列表" data="{'list':[
 {'name':'喜鹊筑家旗舰店','href':'###','title':''},
 {'name':'商品管理','href':'###','title':''},

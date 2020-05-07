@@ -7,8 +7,8 @@
 <#define __CLASSPATH__="{{LAM.classPath}}" />
 
 
-#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/url/index" /> #end#
-#define# __DATA_LIST__ <#include repeat="0" tp-data="{}"  file="__SERVER__/url/list" /> #end#
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+#define# __DATA_LIST__ <#include repeat="0" tp-data="{}"  file="__SERVER__/url/index" /> #end#
 
 <#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
@@ -48,7 +48,7 @@
     <div class="btn">
         <a href="<%=this.url%>" target="_blank"><%=this.name%></a>
         <a href="__INDEX__url/edit&id=<%=this.id%>" target="_blank">修改</a>
-        <a data-type="delete" href="javascript:void(0);">删除</a>
+        <a data-type="delete" href="__INDEX__url/delete&id=<%=this.id%>">删除</a>
     </div>
 </div>
 <%});%>
@@ -116,7 +116,6 @@
         'use strict';
         var System = this;
 
-        var temp = new System.Template();
         var cache = new System.Cache('url');
         var tools =new System.Tools();
 
@@ -128,7 +127,7 @@
                 var list=null;
                 if(-1 === index){
                     var wait = layer.load();
-                    $.get('__SERVER__/url/list',{
+                    $.get('__SERVER__/url/index',{
                         'sid':id
                     },function(D){
                         layer.close(wait);
@@ -168,6 +167,7 @@
 
 
             $('[data-type="delete"]').on('click',function () {
+                alert(222)
                 var $btn = $(this).closest('[data-id]');
                 var id = $btn.data('id');
                 $.get('__SERVER__/url/delete',{
@@ -193,6 +193,7 @@
                             $('#address_menu [data-id="'+sid+'"]').trigger('click');
                         },1);
 
+
                     }
 
                 }
@@ -203,7 +204,7 @@
                 'class':'cur',
                 'or':true,
                 'fn':function () {
-                    var id = $(this).find('[data-id]').data().id;
+                    var id = $(this).find('[data-id]').data('id');
                     $("#mCSB_1_container").css("top", -this.offsetTop);
                     getContent(id);
                     System.COOKIE.find('id',"1",function (index) {

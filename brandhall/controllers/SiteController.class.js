@@ -66,12 +66,13 @@
         },
         'logoutAction':function(){
             this.title = "";
-            System.COOKIE.find('id',"1",function (index,id) {
-                if(-1 !== index){
+            System.COOKIE.find('id',"1",function (index) {
+                if(index > -1){
                     this.remove(index);
+                    System.redirect(System.INDEX+"site/login");
                 }
             });
-            System.redirect(System.INDEX+"site/login");
+
         },
 
 

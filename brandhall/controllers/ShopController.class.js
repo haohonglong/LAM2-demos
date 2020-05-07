@@ -83,14 +83,27 @@
             return this.render('list',{
                 'VIEWS':System.VIEWS,
                 'IMAGE':System.IMAGE,
-                'ROOT':ROOT,
-                'D':{
-                    'title':'你好，世界！',
-                    'content':'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.'
-                }
+                'ROOT':ROOT
 
             });
         },
+        'createAction':function(){
+            return this.render('create',{
+                'VIEWS':System.VIEWS,
+                'IMAGE':System.IMAGE,
+                'ROOT':ROOT
+
+            });
+        },
+        'indexAction':function(){
+            return this.render('index',{
+                'VIEWS':System.VIEWS,
+                'IMAGE':System.IMAGE,
+                'ROOT':ROOT
+
+            });
+        },
+
 
 
         /**

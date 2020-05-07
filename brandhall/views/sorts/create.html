@@ -2,37 +2,38 @@
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
 
 
-<#define _TITLE_="添加地址" />
+<#define _TITLE_="添加类别" />
 
 <#extends title="_TITLE_" data="{'list':[
-{'name':'网页地址','href':'###','title':''},
-{'name':'网页地址','href':'###','title':''},
+{'name':'类别','href':'###','title':''},
+{'name':'类别','href':'###','title':''},
 {'name':'_TITLE_'}
 ]}" />
 
 <#beginBlock id="crumb" data="{'list':[
-{'name':'网页地址','href':'###','title':''},
-{'name':'网页地址','href':'###','title':''},
+{'name':'类别','href':'###','title':''},
+{'name':'类别','href':'###','title':''},
 {'name':'_TITLE_'}
 ]}">
 <#endBlock>
 <#Block:begin id="select" data="{'list':[]}">
+<option value="0">一级</option>
 <%LAM.each(list,function(i){%>
 <option value="<%=this.id%>"><%=this.name%></option>
 <%});%>
 <#Block:end>
-<form class="form-horizontal" action="__SERVER__/url/add" method="post">
+<form class="form-horizontal" action="__SERVER__/sorts/add" method="post">
     <div class="sectionWrap-A5">
         <div class="p15">
             <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <select class="L" name="sid">
+                        <select class="L" name="pid">
                             <option value="0">请选择</option>
                             <#=block id="select" data="{'list':__DATA__}" />
                         </select>
-                        <span data-error="sid" class="help-block none"></span>
+                        <span data-error="pid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
                         <label class="L">名称：<span class="warning">*</span></label>
@@ -40,16 +41,6 @@
                         <span data-error="name" class="help-block none"></span>
                     </li>
 
-                    <li class="clear mb5">
-                        <label class="L">url：<span class="warning">*</span></label>
-                        <input type="text" name="url" class="text name L" value="">
-                        <span data-error="url" class="help-block none"></span>
-                    </li>
-                    <li class="textarea clear">
-                        <label class="L">简介：<span class="warning">*</span></label>
-                        <textarea class="L" name="info"></textarea>
-                        <span data-error="info" class="help-block none"></span>
-                    </li>
                 </ul>
             </div>
             <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
@@ -73,20 +64,16 @@
         $(function(){
             $('form').submit(function () {
                 $('[data-error]').hide();
-                var sid  = getByName("sid");
+                var pid  = getByName("pid");
                 var name = getByName("name");
-                var url  = getByName("url");
-                var info = getByName("info");
 
                 $[this.method](this.action,{
-                    'sid':sid,
-                    'name':name,
-                    'url':url,
-                    'info':info
+                    'pid':pid,
+                    'name':name
                 },function(data){
                     if(data.status){
                         alert(data.message);
-                        System.redirect(System.INDEX+"url/index");
+                        System.redirect(System.INDEX+"sorts/index");
                     }else{
                         // alert(data.message);
                         System.each(data.errors,function (key,value) {

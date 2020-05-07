@@ -40,6 +40,10 @@
         'indexAction':function(){
             return this.render('index',null,E);
         },
+        'createAction':function(){
+            return this.render('create',null,E);
+        },
+
 
 
 

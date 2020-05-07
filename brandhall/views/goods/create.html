@@ -1,0 +1,170 @@
+<#define __SERVER__="{{LAM.SERVER}}" />
+<#define __INDEX__="{{LAM.INDEX}}" />
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/shop/index" /> #end#
+#define# __BILLID__ <#include repeat="0" tp-data="{}"  file="__SERVER__/goods/generateId" /> #end#
+
+<#define _TITLE_="添加商品" />
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'商品','href':'###','title':''},
+{'name':'店铺管理','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#beginBlock id="crumb" data="{'list':[
+{'name':'店铺管理','href':'###','title':''},
+{'name':'店铺管理','href':'###','title':''},
+{'name':'_TITLE_'}
+]}">
+<#endBlock>
+
+<#Block:begin id="select" data="{'list':[]}">
+<%LAM.each(list,function(i){%>
+<option value="<%=this.id%>"><%=this.name%></option>
+<%});%>
+<#Block:end>
+<#Block:begin id="input-text" data="{'name':'','label':'','warning':true,'value':'','input_style':'','input_class':''}">
+<li class="L ml5">
+    <label class="L"><%=label%>：<%if(warning){%><span class="warning">*</span><%}%></label>
+    <input type="text" name="<%=name%>" style="<%=input_style%>" class="text name L ml5 <%=input_class%>" value="<%=value%>">
+    <span data-error="<%=name%>" class="help-block none"></span>
+</li>
+<#Block:end>
+
+<#Block:begin id="goods" data="{'remove':true,'list':[]}">
+<div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+    <ul class="clear mb5">
+        <#=block id="input-text" data="{'name':'name[]','label':'商店名称','input_style':'width:120px;'}" />
+        <#=block id="input-text" data="{'name':'number[]','label':'数量','value':1,'input_style':'width:45px;'}" />
+        <#=block id="input-text" data="{'name':'weight[]','label':'重量','value':1}" />
+        <#=block id="input-text" data="{'name':'single_price[]','label':'单价','input_style':'width:45px;'}" />
+        <#=block id="input-text" data="{'name':'final_price[]','label':'结算价格','input_style':'width:45px;'}" />
+        <%if(remove){%>
+        <li class="R sectionButton-B1">
+            <button data-remove="goods" type="button" class="btn save L mr15">删除</button>
+        </li>
+        <%}%>
+    </ul>
+</div>
+<#Block:end>
+<#Block:begin id="form">
+<form class="form-horizontal" action="__SERVER__/goods/add" method="post">
+    <div class="sectionWrap-A5">
+        <div class="">
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1" style="margin-bottom: 100px;">
+                <ul class="clear">
+                    <li class="L ml5 sectionButton-B1">
+                        <label class="L">店铺：<span class="warning">*</span></label>
+                        <select class="L ml10" name="shop_id" style="width:115px;">
+                            <option value="0">请选择</option>
+                            <#=block id="select" data="{'list':__DATA__.data}" />
+                        </select>
+                        <span data-error="shop_id" class="help-block none"></span>
+                        <a href="__INDEX__shop/create" class="btn save L ml5">添加店铺</a>
+                    </li>
+                    <#=block id="input-text" data="{'name':'bill_id','label':'账单号','value':'__BILLID__','input_style':'width:120px;'}" />
+                    <#=block id="input-text" data="{'name':'discount','label':'折扣价','value':0,'input_style':'width:30px;'}" />
+                    <#=block id="input-text" data="{'name':'create_by','label':'创建日期'}" />
+                    <li class="R sectionButton-B1">
+                        <button type="button" id="add_goods_agin" class="btn save L mr15">添加一个商品</button>
+                    </li>
+                </ul>
+
+            </div>
+            <div id="goods">
+                <#=block id="goods" data="{'remove':false}" />
+            </div>
+
+
+            <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2">
+                <button type="submit" class="btn save L mr15">提交</button>
+                <button type="reset" class="btn btn-cancel L">恢复</button>
+            </div>
+        </div>
+    </div>
+</form>
+<#Block:end>
+<#=block id="form" />
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        function getElementByName(name) {
+            return document.getElementsByName(name)[0].value;
+        }
+        function getElementsByName(name) {
+            var arr = [];
+            System.each(document.getElementsByName(name),function () {
+                arr.push(this.value);
+            });
+            return arr;
+        }
+
+        $(function(){
+            var $goods = $('#goods');
+            $('#add_goods_agin').on('click',function () {
+                $goods.append(System.Template.getBlock('goods'))
+            });
+            $(document).on('click','[data-remove="goods"]',function () {
+                $(this).closest('.sectionForm-A1').remove();
+            });
+
+            
+            $('form').submit(function () {
+                $('[data-error]').hide();
+                var shop_id = getElementByName("shop_id");
+                var bill_id = getElementByName("bill_id");
+                var discount = getElementByName("discount");
+                var create_by = getElementByName("create_by");
+
+                var names = getElementsByName("name[]");
+                var numbers = getElementsByName("number[]");
+                var weights = getElementsByName("weight[]");
+                var single_prices = getElementsByName("single_price[]");
+                var final_prices = getElementsByName("final_price[]");
+
+                $[this.method](this.action,{
+                    'shop_id':shop_id,
+                    'bill_id':bill_id,
+                    'discount':discount,
+                    'create_by':create_by,
+                    'name':names,
+                    'number':numbers,
+                    'weight':weights,
+                    'single_price':single_prices,
+                    'final_price':final_prices
+                },function(data){
+                    if(data.status){
+                        alert(data.message);
+                        System.redirect(System.INDEX+"goods/index");
+                    }else{
+                        alert(data.message);
+                        System.each(data.errors,function (key,value) {
+                            if(System.isString(value)) {
+                                $('[data-error="'+key+'"]').text(value).show();
+                            }else {
+                                System.each(value,function (i) {
+                                    $('[data-error="'+key+'[]"]').eq(i).text(this).show();
+                                });
+                            }
+
+                        });
+                    }
+                },'json');
+
+                return false;
+            });
+
+
+
+        });
+    });
+</script>
+
+<style type="text/css">
+    .sectionWrap-A5{width:auto;margin:0 auto;}
+    .sectionForm-A1-1-1 label{width:66px;margin:0;}
+    .sectionForm-A1-1 .text.name{width: 66px;}
+</style>

@@ -95,7 +95,8 @@
                     return System.timestamp();
                 },
                 'runtime':function (System) {
-                    System.COOKIE = new System.PowerCookie('guest');
+                    System.COOKIE = new System.PowerCookie('guest',{"expires":System.timestamp()+10000000});
+
                 }
 
             },

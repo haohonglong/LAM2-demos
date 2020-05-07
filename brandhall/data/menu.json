@@ -15,6 +15,15 @@
   },
   {
     "icon":"a-2",
+    "title":"类别",
+    "ul":[
+      {"title":"列表","href":"__INDEX__sorts/index"},
+      {"title":"添加","href":"__INDEX__sorts/create"}
+    ]
+  },
+
+  {
+    "icon":"a-2",
     "title":"视频",
     "ul":[
       {"title":"视频","href":"__INDEX__video/index"}
@@ -51,6 +60,8 @@
     "icon":"a-5",
     "title":"店铺管理",
     "ul":[
+      {"title":"店铺","href":"__INDEX__shop/index"},
+      {"title":"添加店铺","href":"__INDEX__shop/create"},
       {"title":"选择模版","href":"__INDEX__shop/choiceTemplate"},
       {"title":"商品授权","href":"__INDEX__shop/empower"},
       {"title":"新建房间","href":"__INDEX__shop/newRoom"},
@@ -62,7 +73,8 @@
     "icon":"a-5",
     "title":"商品管理",
     "ul":[
-      {"title":"商品列表","href":"__INDEX__goods/index"}
+      {"title":"商品列表","href":"__INDEX__goods/index"},
+      {"title":"添加商品","href":"__INDEX__goods/create"}
     ]
   },
   {
