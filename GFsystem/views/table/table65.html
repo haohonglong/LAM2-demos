@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">逆变器直流电流统计</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-mod-12">
+        <div class="page-header">
+            <div class="ML10 MT10">
+                <label class="MR5">方阵</label>
+                <select type="select" class="form-control">
+                    <option>01#方阵</option>
+                    <option>02#方阵</option>
+                </select>
+                <label class="MR5 ML30">日期</label>
+                <input size="16" type="text" value="2012-06-15" readonly class="form_datetime form-control">
+                <button type="submit" class="btn page-header-btn ML30">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="overflow: auto;">
+    <h1 class="font-16 font-blue text-center FW">2015年09月 逆变器组串电流离散率统计</h1>
+    <table class="_zh_table font-12 font-blue">
+        <tr class="_zh_table-tr bg-blue">
+            <td rowspan="2" width="50">序号</td>
+            <td rowspan="2" width="84">方阵描述</td>
+            <td rowspan="2" width="120">逆变器描述</td>
+            <td colspan="4">9点</td>
+            <td colspan="4">10点</td>
+            <td colspan="4">11点</td>
+        </tr>
+        <tr class="_zh_table-tr bg-blue">
+            <td width="84">直流电流<p class="M0">（A）</p></td>
+            <td width="84">直流功率<p class="M0">（kW）</p></td>
+            <td width="84">交流功率<p class="M0">（kW）</p></td>
+            <td width="84">累计电量<p class="M0">（kWh）</p></td>
+            <td width="84">直流电流<p class="M0">（A）</p></td>
+            <td width="84">直流功率<p class="M0">（kW）</p></td>
+            <td width="84">交流功率<p class="M0">（kW）</p></td>
+            <td width="84">累计电量<p class="M0">（kWh）</p></td>
+            <td width="84">直流电流<p class="M0">（A）</p></td>
+            <td width="84">直流功率<p class="M0">（kW）</p></td>
+            <td width="84">交流功率<p class="M0">（kW）</p></td>
+            <td width="84">累计电量<p class="M0">（kWh）</p></td>
+        </tr>
+        <tr class="_zh_table-tr bg-grey text-right">
+            <td class="text-center">1</td>
+            <td rowspan="3" class="text-center">统计值</td>
+            <td class="text-center">最大值</td>
+            <td>123</td>
+            <td>235</td>
+            <td>454</td>
+            <td>422</td>
+            <td>333</td>
+            <td>220.0</td>
+            <td>454</td>
+            <td>220</td>
+            <td>113.0</td>
+            <td>449</td>
+            <td>333</td>
+            <td>999</td>
+        </tr>
+        <tr class="_zh_table-tr bg-grey text-right">
+            <td class="text-center">2</td>
+            <td class="text-center">平均值</td>
+            <td>123</td>
+            <td>235</td>
+            <td>454</td>
+            <td>422</td>
+            <td>333</td>
+            <td>220.0</td>
+            <td>454</td>
+            <td>220</td>
+            <td>113.0</td>
+            <td>449</td>
+            <td>333</td>
+            <td>999</td>
+        </tr>
+        <tr class="_zh_table-tr bg-grey text-right">
+            <td class="text-center">3</td>
+            <td class="text-center">最小值</td>
+            <td>123</td>
+            <td>235</td>
+            <td>454</td>
+            <td>422</td>
+            <td>333</td>
+            <td>220.0</td>
+            <td>454</td>
+            <td>220</td>
+            <td>113.0</td>
+            <td>449</td>
+            <td>333</td>
+            <td>999</td>
+        </tr>
+        <tr class="_zh_table-tr text-right">
+            <td class="text-center">4</td>
+            <td rowspan="2" class="text-center">#01方阵</td>
+            <td class="text-center font-blue2">无锡上能逆变器01</td>
+            <td class="bg-blue2">123</td>
+            <td class="bg-blue2">235</td>
+            <td class="bg-blue2">454</td>
+            <td class="bg-blue2">422</td>
+            <td class="bg-blue2">333</td>
+            <td class="bg-blue2">220.0</td>
+            <td class="bg-blue2">454</td>
+            <td>220</td>
+            <td>113.0</td>
+            <td>449</td>
+            <td>333</td>
+            <td class="bg-blue2">999</td>
+        </tr>
+        <tr class="_zh_table-tr text-right">
+            <td class="text-center">5</td>
+            <td class="text-center font-blue2">无锡上能逆变器02</td>
+            <td class="bg-red">123</td>
+            <td class="bg-red">235</td>
+            <td class="bg-red">454</td>
+            <td class="bg-red">422</td>
+            <td class="bg-red">333</td>
+            <td class="bg-red">220.0</td>
+            <td>454</td>
+            <td>220</td>
+            <td>113.0</td>
+            <td>449</td>
+            <td>333</td>
+            <td>999</td>
+        </tr>
+        <tr class="_zh_table-tr text-right">
+            <td class="text-center">6</td>
+            <td rowspan="2" class="text-center">#02方阵</td>
+            <td class="text-center font-blue2">无锡上能逆变器01</td>
+            <td>123</td>
+            <td>235</td>
+            <td>454</td>
+            <td>422</td>
+            <td>333</td>
+            <td>220.0</td>
+            <td>454</td>
+            <td>220</td>
+            <td>113.0</td>
+            <td>449</td>
+            <td>333</td>
+            <td>999</td>
+        </tr>
+        <tr class="_zh_table-tr text-right">
+            <td class="text-center">7</td>
+            <td class="text-center font-blue2">无锡上能逆变器02</td>
+            <td>123</td>
+            <td>235</td>
+            <td>454</td>
+            <td>422</td>
+            <td>333</td>
+            <td>220.0</td>
+            <td>454</td>
+            <td>220</td>
+            <td>113.0</td>
+            <td>449</td>
+            <td>333</td>
+            <td>999</td>
+        </tr>
+        <tr class="_zh_table-tr text-right">
+            <td class="text-center">8</td>
+            <td rowspan="2" class="text-center">#03方阵</td>
+            <td class="text-center font-blue2">无锡上能逆变器01</td>
+            <td>123</td>
+            <td>235</td>
+            <td>454</td>
+            <td>422</td>
+            <td>333</td>
+            <td>220.0</td>
+            <td>454</td>
+            <td>220</td>
+            <td>113.0</td>
+            <td>449</td>
+            <td>333</td>
+            <td>999</td>
+        </tr>
+        <tr class="_zh_table-tr text-right">
+            <td class="text-center">9</td>
+            <td class="text-center font-blue2">无锡上能逆变器02</td>
+            <td>123</td>
+            <td>235</td>
+            <td>454</td>
+            <td>422</td>
+            <td>333</td>
+            <td>220.0</td>
+            <td>454</td>
+            <td class="bg-red">220</td>
+            <td class="bg-red">113.0</td>
+            <td class="bg-red">449</td>
+            <td>333</td>
+            <td>999</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/datetimepicker-custom.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function initDate(){
+        $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd',minView:2});
+    }
+
+    $(function(){
+        initDate();
+    });
+</script>
+

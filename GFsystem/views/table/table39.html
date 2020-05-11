@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">2015年09月 电能计量统计</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-mod-12">
+        <div class="page-header">
+            <div class="ML10 MT10">
+                <label class="MR5">年月</label>
+                <input size="16" type="text" value="2012-06-15" readonly class="form_datetime form-control">
+                <label class="MR5 ML30">类型</label>
+                <select type="select"  class="form-control">
+                    <option>正向有功电度</option>
+                </select>
+                <button type="submit" class="btn page-header-btn ML30">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="overflow: auto;">
+    <h1 class="font-16 font-blue text-center FW">2015年09月 电能计量统计</h1>
+    <table class="_zh_table font-12 font-blue">
+
+        <tr class="_zh_table-tr bg-blue FW">
+            <td rowspan="3" class="PLR10" width="100">日期</td>
+            <td colspan="2" width="124">固石光电线电表</td>
+            <td colspan="2" width="124">电度关口表</td>
+        </tr>
+        <tr class="_zh_table-tr bg-blue FW">
+            <td class="PLR124" colspan="2">正向有功电度</td>
+            <td class="PLR124" colspan="2">正向有功电度</td>
+        </tr>
+        <tr class="_zh_table-tr bg-blue FW height40">
+            <td>表码值</td>
+            <td>电量<p class="M0">(万kW*h)</p></td>
+            <td>表码值</td>
+            <td>电量<p class="M0">(万kW*h)</p></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>年初</td>
+            <td class="text-right">131313</td>
+            <td class="text-right">7868</td>
+            <td class="text-right">686969</td>
+            <td class="text-right">523523</td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>月初</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-01</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-02</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-03</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-04</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-05</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-06</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-07</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-08</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="_zh_table-tr">
+            <td>2015-09-09</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/datetimepicker-custom.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function initDate(){
+        $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd',minView:2});
+    }
+
+    $(function(){
+        initDate();
+    });
+</script>
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+<div class="clock _lhh_clock clearfix">
+    <div class="_lhh_clock-date pull-left lh-35" id="Date"></div>
+    <ul class="_lhh_clock-ul pull-left lh-35">
+        <li id="hours"></li>
+        <li class="_lhh_clock-ul-point">:</li>
+        <li id="min"></li>
+        <li class="_lhh_clock-ul-point">:</li>
+        <li id="sec"></li>
+    </ul>
+
+</div>
+
+
+<script type="text/javascript">
+    LAMJS.run(function(){
+        'use strict';
+        var System=this;
+
+        var I=System.modules.exports.I;
+
+
+        $(function(){
+            I.home.dateTime();
+
+        });
+    });
+
+
+
+</script>

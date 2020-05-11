@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>光伏运维生成管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/lhh_lib.css">
+    <link rel="stylesheet" type="text/css" href="css/zh_style_2.css">
+    <script type="text/javascript" src="js/config.js"></script>
+    <style type="text/css">
+        body.content{padding: 0;}
+        .container-fluid{padding-right: 0;}
+    </style>
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg PL15">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">当日电量</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="./include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="w-page">
+    <div class="_zh_stationWrap PT20">
+        <div class="p-rel">
+            <i class="_zh_smallarrow leftarrow leftarrow-abl pre"></i>
+            <i class="_zh_smallarrow rightarrow rightarrow-abl next"></i>
+            <div class="slider p-rel" style="width: 98%;overflow: hidden;margin:auto;">
+
+
+                <ul class="ul p-rel" id="sliderUI">
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+
+                </ul>
+
+
+
+
+            </div>
+        </div>
+        <div class="container-fluid">
+            <ul class="row" id="electricalBox">
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon greenarrow"></div>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+</body>
+<script type="text/javascript">
+    LAMJS.main(function() {
+        'use strict';
+        var System = this;
+        System.import([
+            '/use',
+            '/use-inverter'
+        ],'./js');
+    });
+</script>
+<script type="text/javascript">
+    LAMJS.run(function() {
+        'use strict';
+        var System = this;
+        System.Html.include($('include'));
+
+        var I=System.modules.exports.I;
+
+        I.ElectricalBox.init_tpl(true);
+        function initInverterData(){
+            $('#electricalBox').html('');
+            $('#sliderUI').delegate('li','click',function(){
+                I.ElectricalBox.init_tpl(false);
+                var _this_=this;
+                I.ElectricalBox.getInverterData({
+                    '$view':$('#electricalBox'),
+                    'type': 'post',
+                    'url':  $(_this_).attr('url') || 'js/dataJson-data.json',
+                    'init_fun':function(v){
+                        var tpl=[];
+
+                        tpl.push('<li class="_zh_station col-sm-6 col-md-3" id="s_'+ v._id+'">');
+                        tpl.push('<div class="_zh_station-top">');
+                        tpl.push('<i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>');
+                        tpl.push('<div class="_zh_station-title font-grey ML0">');
+                        tpl.push('<p class="MB0">01#方阵</p>');
+                        tpl.push('<p class="MB0">汇流箱01</p>');
+                        tpl.push('</div>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="_zh_station-c bold">');
+                        tpl.push('<div class="text2">');
+                        tpl.push('<i class="_zh_sign U"></i>');
+                        tpl.push('<i class="_zh_sign I"></i>');
+                        tpl.push('<i class="_zh_sign C"></i>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="data-font">');
+                        tpl.push('<p>总电压</p>');
+                        tpl.push('<p>总电流</p>');
+                        tpl.push('<p>温度</p>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="data-value">');
+                        tpl.push('<p class="MB5">32V</p>');
+                        tpl.push('<p class="MB5">10A</p>');
+                        tpl.push('<p class="MB5 font-red">38℃</p>');
+                        tpl.push('</div>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="_zh_station-arrowicon greenarrow"></div>');
+                        tpl.push('</li>');
+
+                        return tpl.join('');
+                    }
+                });
+
+            });
+
+
+            window.setInterval(function(){
+                I.ElectricalBox.getInverterData({
+                    'type': 'post',
+                    'url':  'js/dataJson-data.json',
+                    'data': {},
+                    'getCurTpl':function(D){
+                        var tpl, i,len= D.data.length, v;
+
+                        for(i=0;i<len;i++){
+                            tpl=[];
+                            v= D.data[i];
+                            if(!System.empty( v['_id'])){
+                                tpl.push('<p class="MB5">32V</p>');
+                                tpl.push('<p class="MB5">10A</p>');
+                                tpl.push('<p class="MB5 font-red">38℃</p>');
+                            }
+
+                            $('#s_'+v['_id']+' .data-value').html(tpl.join(''));
+
+                        }
+
+                    }
+                });
+            },5000);
+        }
+
+
+
+
+
+
+
+        $(function(){
+            initInverterData();
+        });
+
+    });
+</script>
+</html>
+

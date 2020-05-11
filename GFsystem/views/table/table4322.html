@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body class="content">
+       <div class="row _lhh_breadcrumb MB10 visible-lg">
+           <ul class="breadcrumb pull-left">
+               <li><a href="index.html">首页</a></li>
+               <li class="active">2015年09月01日 22时 电能计量表码查询</li>
+           </ul>
+           <div class="p-rel">
+               <div class="_lhh_breadcrumb-more MR15">
+                   <!--电子时钟 begin-->
+                   <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+                   <!--电子时钟 end-->
+               </div>
+           </div>
+       </div>
+       <div class="row">
+           <div class="col-mod-12">
+               <div class="page-header">
+                   <div class="ML10 MT10">
+                       <label class="MR5">统计方式</label>
+                       <select type="select" id="dateSelect" class="form-control">
+                           <option dateType="2">按月统计</option>
+                           <option dateType="3">按日统计</option>
+                       </select>
+                       <label class="MR5 ML30">时间</label>
+                       <input size="16" type="text" value="2012-06-15 14:45" readonly class="form_datetime form-control">
+                       <select type="select" class="form-control ML30">
+                           <option>22时</option>
+                           <option>23时</option>
+                       </select>
+                       <button type="submit" class="btn page-header-btn ML30">查询</button>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <div style="overflow: auto;">
+        <h1 class="font-16 font-blue text-center FW">2015年09月01日 22时 电能计量表码查询</h1>
+        <table class="_zh_table font-12 font-blue">
+            <tr class="_zh_table-tr bg-blue">
+                <td rowspan="2" class="PLR10">电表</td>
+                <td colspan="3">正向有功电度</td>
+                <td colspan="3">反向有功电度</td>
+                <td colspan="3">正向无功电度</td>
+                <td colspan="3">正向有功电度</td>
+            </tr>
+            <tr class="_zh_table-tr bg-blue">
+                <td class="PLR30">表码值</td>
+                <td class="PLR10">电量（万kWh）</td>
+                <td class="PLR10">31日电量（万kWh）</td>
+                <td class="PLR30">表码值</td>
+                <td class="PLR10">电量（万kWh）</td>
+                <td class="PLR10">31日电量（万kWh）</td>
+                <td class="PLR30">表码值</td>
+                <td class="PLR10">电量（万kWh）</td>
+                <td class="PLR10">31日电量（万kWh）</td>
+                <td class="PLR30">表码值</td>
+                <td class="PLR10">电量（万kWh）</td>
+                <td class="PLR10">31日电量（万kWh）</td>
+            </tr>
+            <tr class="_zh_table-tr text-right">
+                <td class="PLR10">固石光电线电表</td>
+                <td>354.000</td>
+                <td>610.02</td>
+                <td>4.0500</td>
+                <td>354.000</td>
+                <td>610.02</td>
+                <td>4.0500</td>
+                <td>354.000</td>
+                <td>610.02</td>
+                <td>4.0500</td>
+                <td>354.000</td>
+                <td>610.02</td>
+                <td>4.0500</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PLR10">电度关口表</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    </body>
+</html>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/datetimepicker-custom.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function initDate(){
+        $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    }
+
+    $(function(){
+        initDate();
+    });
+</script>

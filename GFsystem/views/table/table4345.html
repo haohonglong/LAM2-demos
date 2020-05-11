@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">逆变器发电量月报</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-mod-12">
+        <div class="page-header">
+            <div class="ML10 MT10">
+                <label class="MR5">日期</label>
+                <input size="16" type="text" value="2015-09" readonly class="form_datetime form-control">
+                <label class="MR5 ML30">逆变器型号</label>
+                <select type="select" class="form-control">
+                    <option>[01#方阵]无锡上能逆变器01</option>
+                    <option>[01#方阵]无锡上能逆变器02</option>
+                </select>
+                <label class="MR5 ML30">标识发电量</label>
+                <select type="select" class="form-control">
+                    <option>小于等于1500kWh</option>
+                    <option>等于0kWh</option>
+                </select>
+                <button type="submit" class="btn page-header-btn ML30">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="overflow: auto;">
+        <h1 class="font-16 font-blue text-center FW">逆变器发电量月报</h1>
+        <table class="_zh_table font-12 font-blue">
+            <caption class="font-12 font-blue text-right">2015年08月 单位：kWh</caption>
+            <tr class="_zh_table-tr bg-blue">
+                <td class="PLR10">逆变器名称</td>
+                <td class="PLR10">1日</td>
+                <td class="PLR10">2日</td>
+                <td class="PLR10">3日</td>
+                <td class="PLR10">4日</td>
+                <td class="PLR10">5日</td>
+                <td class="PLR10">6日</td>
+                <td class="PLR10">7日</td>
+                <td class="PLR10">8日</td>
+                <td class="PLR10">9日</td>
+                <td class="PLR10">10日</td>
+                <td class="PLR10">11日</td>
+                <td class="PLR10">12日</td>
+                <td class="PLR10">13日</td>
+                <td class="PLR10">14日</td>
+                <td class="PLR10">15日</td>
+                <td class="PLR10">16日</td>
+                <td class="PLR10">17日</td>
+                <td class="PLR10">18日</td>
+                <td class="PLR10">19日</td>
+                <td class="PLR10">20日</td>
+                <td class="PLR10">21日</td>
+                <td class="PLR10">22日</td>
+                <td class="PLR10">23日</td>
+                <td class="PLR10">24日</td>
+                <td class="PLR10">25日</td>
+                <td class="PLR10">26日</td>
+                <td class="PLR10">27日</td>
+                <td class="PLR10">28日</td>
+                <td class="PLR10">29日</td>
+                <td class="PLR10">30日</td>
+                <td class="PLR10">31日</td>
+
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器01</td>
+                <td class="text-right PL10 bg-yellow">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器02</td>
+                <td class="text-right PL10 bg-yellow">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器01</td>
+                <td class="text-right PL10 bg-yellow">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器02</td>
+                <td class="text-right PL10 bg-yellow">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器01</td>
+                <td class="text-right PL10 bg-yellow">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器02</td>
+                <td class="text-right PL10 bg-yellow">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器01</td>
+                <td class="text-right PL10 bg-yellow">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器02</td>
+                <td class="text-right PL10 bg-yellow">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器01</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器02</td>
+                <td class="text-right PL10 bg-red">2365.000</td>
+                <td class="text-right PL10 bg-red">65.02</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">2365.000</td>
+                <td class="text-right PL10 bg-red">65.02</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器01</td>
+                <td class="text-right PL10 bg-red">2365.000</td>
+                <td class="text-right PL10 bg-red">65.02</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">2365.000</td>
+                <td class="text-right PL10 bg-red">65.02</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">4520</td>
+                <td class="text-right PL10 bg-red">2.35</td>
+                <td class="text-right PL10 bg-red">222.0</td>
+                <td class="text-right PL10 bg-red">456.0</td>
+                <td class="text-right PL10 bg-red">123.2</td>
+                <td class="text-right PL10 bg-red">4520</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PR40 text-left">[01#方阵]无锡上能逆变器02</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">2365.000</td>
+                <td class="text-right PL10">65.02</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">4520</td>
+                <td class="text-right PL10">2.35</td>
+                <td class="text-right PL10">222.0</td>
+                <td class="text-right PL10">456.0</td>
+                <td class="text-right PL10">123.2</td>
+                <td class="text-right PL10">4520</td>
+            </tr>
+        </table>
+    </div>
+    </body>
+</html>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/datetimepicker-custom.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function initDate(){
+        $(".form_datetime").datetimepicker({format: 'yyyy-mm',minView:2});
+    }
+
+    $(function(){
+        initDate();
+    });
+</script>

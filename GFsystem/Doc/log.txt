@@ -1,0 +1,27 @@
+2015-11月 光伏运维项目
+
+pugins:
+    1.boostrap
+    2.jquery
+    5.日历	   : fullcalendar			url:http://www.helloweba.com/demo/fullcalendar/cal_opt.html
+                                            http://justcoding.iteye.com/blog/2028259
+
+
+二、项目文件夹结构说明：
+		|-css
+			|-img #样式文件里关联的背景图
+		|-doc #项目资料及说明文件存放位置
+		|-images
+		|-include #
+		|-js
+		|-plugins #项目中用到的插件
+
+三、文件说明
+     html:
+         index.html             ＃非iframe 框架页首页
+         iframe.html            ＃iframe 框架
+         i_content_1.html       ＃
+
+     css:
+         global.css           ＃全局样式
+         lhh_lib.css          ＃整站公用库类

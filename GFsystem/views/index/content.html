@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/minoral.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/plugins/weather/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+</head>
+<body class="content">
+    <div class="row _lhh_breadcrumb MB10 visible-lg">
+        <ul class="breadcrumb pull-left">
+            <li><a href="index.html">首页</a></li>
+            <li class="active">当日电量</li>
+        </ul>
+        <div class="p-rel">
+            <div class="_lhh_breadcrumb-more MR15">
+                <!--电子时钟 begin-->
+                <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+                <!--电子时钟 end-->
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-mod-12">
+            <h3 class="page-header"><i class="fa fa fa-dashboard"></i> Dashboard <i class="fa fa-info-circle animated bounceInDown show-info"></i> </h3>
+        </div>
+    </div>
+    <div class="row cards">
+
+        <div class="card-container col-lg-3 col-md-3 col-sm-12">
+            <div class="card card-red hover">
+                <div class="front">
+                    <h1>当前/今日理论发电量（万kWh）</h1>
+
+                    <p id="users-count">0</p>
+                            <span class="fa-stack fa-2x pull-right">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-user fa-stack-1x"></i>
+                            <span class="easypiechart" data-percent="100" data-line-width="4" data-size="80"
+                                  data-line-cap="butt" data-animate="2000" data-target="#users-count" data-update="3000"
+                                  data-bar-color="white" data-scale-color="false"
+                                  data-track-color="rgba(0, 0, 0, 0.15)"></span>
+                            </span>
+                </div>
+                <div class="back">
+                    <ul class="inline divided">
+                        <li>
+                            <h1>Total Users</h1>
+
+                            <p>3541</p>
+                        </li>
+                        <li>
+                            <h1>Last Month</h1>
+
+                            <p>698</p>
+                        </li>
+                    </ul>
+                    <div class="summary negative">13% <i class="fa fa-arrow-down"></i> this month</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-container col-lg-3 col-md-3 col-sm-12">
+            <div class="card card-cyan hover">
+                <div class="front">
+                    <h1>当前/今日上网电量（万kWh）</h1>
+                    <p id="orders-count">0</p>
+                                <span class="fa-stack fa-2x pull-right">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-shopping-cart fa-stack-1x"></i>
+                                  <span class="easypiechart" data-percent="55" data-line-width="4" data-size="80" data-line-cap="butt" data-animate="2000" data-target="#orders-count" data-update="3000" data-bar-color="white" data-scale-color="false" data-track-color="rgba(0, 0, 0, 0.15)"></span>
+                                </span>
+                </div>
+                <div class="back">
+                    <ul class="inline divided">
+                        <li>
+                            <h1>Total Orders</h1>
+                            <p>842</p>
+                        </li>
+                        <li>
+                            <h1>Last Month</h1>
+                            <p>151</p>
+                        </li>
+                    </ul>
+                    <div class="summary positive">6% <i class="fa fa-arrow-up"></i> this month</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-container col-lg-3 col-md-3 col-sm-12">
+            <div class="card card-green hover">
+                <div class="front">
+                    <h1>当前/今日限电电量（万kWh）</h1>
+                    <p id="sales-count">0</p>
+                                <span class="fa-stack fa-2x pull-right">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-usd fa-stack-1x"></i>
+                                  <span class="easypiechart" data-percent="30" data-line-width="4" data-size="80" data-line-cap="butt" data-animate="2000" data-target="#sales-count" data-update="3000" data-bar-color="white" data-scale-color="false" data-track-color="rgba(0, 0, 0, 0.15)"></span>
+                                </span>
+                </div>
+                <div class="back">
+                    <ul class="inline divided">
+                        <li>
+                            <h1>Total Sales</h1>
+                            <p>25,165</p>
+                        </li>
+                        <li>
+                            <h1>Last Month</h1>
+                            <p>3,154</p>
+                        </li>
+                    </ul>
+                    <div class="summary positive">18% <i class="fa fa-arrow-up"></i> this month</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-container col-lg-3 col-md-3 col-sm-12">
+            <div class="card card-orange hover">
+                <div class="front">
+                    <h1>当前并网/解列功率（万kW）</h1>
+                    <p id="visits-count">0</p>
+                                <span class="fa-stack fa-2x pull-right">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-eye fa-stack-1x"></i>
+                                  <span class="easypiechart" data-percent="90" data-line-width="4" data-size="80" data-line-cap="butt" data-animate="2000" data-target="#visits-count" data-update="3000" data-bar-color="white" data-scale-color="false" data-track-color="rgba(0, 0, 0, 0.15)"></span>
+                                </span>
+                </div>
+                <div class="back">
+                    <ul class="inline divided">
+                        <li>
+                            <h1>Total Visits</h1>
+                            <p>48,694</p>
+                        </li>
+                        <li>
+                            <h1>Last Month</h1>
+                            <p>9,514</p>
+                        </li>
+                    </ul>
+                    <div class="summary negative">2% <i class="fa fa-arrow-down"></i> this month</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row MB30">
+        <!-- Discrete Bar Chart -->
+        <div class="col-md-12">
+            <div class="echarts border over-h P15" style="height: 400px;width:100%;" id="echarts-column-chart"></div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 50px;">
+
+        <div class="col-md-6 MB10">
+            <div class="P20 PR0">
+                <div class="P10 MR10 _lhh_bg-grey border">
+                    <div id="calendar"></div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- Pie chart -->
+        <div class="col-md-6">
+            <div class="P20 PL0">
+                <!--天气-->
+                <div class="row MB10">
+                    <div class="col-md-12">
+                        <div class="weather-box widget-body  yellow">
+                            <div class="weather-day">
+                                <span>21</span>
+                                <p>星期四</p>
+                            </div>
+
+                            <div class="weather-icon">
+                                <canvas id="rain" width="64" height="64"></canvas>
+                                <p>ABU DHABI</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row holder" id="donuts-holder">
+                    <div class="col-md-6">
+                        <h4 class="_lhh_title MB10">今日综合效率</h4>
+                        <div id="donut"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="_lhh_title MB10">年计划完成率</h4>
+                        <div id="coloredDonut"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script type="text/javascript" src="{{ROOT}}/js/init.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/raphael-min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/morris-0.4.3.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/morris-custom.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/fullcalendar.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/fullcalendar-custom.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/highstock.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/jsonp.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/jquery.easypiechart.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/jquery.animateNumbers.js"></script>
+<script type="text/javascript" src="{{ROOT}}/plugins/weather/js/skycons.js"></script>
+
+
+<script type="text/javascript">
+    LAMJS.main(function(){
+        'use strict';
+        var System=this;
+        var I=System.modules.exports.I;
+
+        function highcharts(){
+            $('#echarts-column-chart').highcharts({
+                chart: {
+                    type: 'spline'
+                },
+                title: {
+                    text: 'Monthly Average Temperature'
+                },
+                subtitle: {
+                    text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Temperature'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value + '°';
+                        }
+                    }
+                },
+                tooltip: {
+                    crosshairs: true,
+                    shared: true
+                },
+                plotOptions: {
+                    spline: {
+                        marker: {
+                            radius: 4,
+                            lineColor: '#666666',
+                            lineWidth: 1
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Tokyo',
+                    marker: {
+                        symbol: 'square'
+                    },
+                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
+                        y: 26.5,
+                        marker: {
+                            symbol: 'url(http://www.highcharts.com/demo/gfx/sun.png)'
+                        }
+                    }, 23.3, 18.3, 13.9, 9.6]
+
+                }, {
+                    name: 'London',
+                    marker: {
+                        symbol: 'diamond'
+                    },
+                    data: [{
+                        y: 3.9,
+                        marker: {
+                            symbol: 'url(http://www.highcharts.com/demo/gfx/snow.png)'
+                        }
+                    }, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                }]
+            });
+
+
+        }
+
+
+
+
+        $(function(){
+            I.home.odometer(445514);
+            I.home.flip();
+            I.home.rain("rain");
+
+            $(window).resize(function() {
+                highcharts();
+                initDonut();
+            }).trigger('resize');
+
+
+        });
+
+
+
+
+
+    });
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+

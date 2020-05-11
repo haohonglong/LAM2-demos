@@ -1,0 +1,36 @@
+<div class="none"><div class="odometer"></div></div>
+
+<script type="text/javascript">
+    window[LHH_NAMESPACE_20150715_].main(function(){
+        'use strict';
+        var System=this;
+        System.import(["/odometer"],'./js');
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    window[LHH_NAMESPACE_20150715_].run(function(){
+        'use strict';
+        var System=this;
+        function odometer(n){
+            var odometer=$('.odometer');
+            System.wait(function(){
+                odometer.parent().hide();
+                odometer.html(n);
+                odometer.parent().show();
+
+            }, 1000);
+        }
+
+
+    });
+
+
+</script>
+
+
+
+
+

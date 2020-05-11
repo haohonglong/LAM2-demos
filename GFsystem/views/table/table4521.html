@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        ._zh_table{border:1px solid #e3e3e3;}
+        ._zh_table-tr{border-top:1px solid #e3e3e3;}
+        ._zh_table-tr td{border-right:1px solid #f1f1f1;}
+    </style>
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">设备信息</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-mod-12">
+        <div class="page-header">
+            <div class="ML10 MT10">
+                <label class="MR5">产品名称</label>
+                <input type="text" class="page-header-input form-control">
+                <label class="MR5 ML30">产品类型</label>
+                <select type="select" class="form-control">
+                    <option>电池组串</option>
+                    <option>汇流箱</option>
+                    <option>逆变器</option>
+                </select>
+                <button type="submit" class="btn page-header-btn ML30">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="overflow: auto;">
+        <h1 class="font-16 font-blue text-center FW">设备信息</h1>
+        <table class="_zh_table font-12">
+            <tr class="_zh_table-tr bg-blue2 FW">
+                <td class="noborder PLR10"><input type="checkbox"></td>
+                <td class="noborder PLR80">产品名称</td>
+                <td class="noborder PLR80">产品别名</td>
+                <td class="noborder PLR50">型号</td>
+                <td class="noborder PLR50">产品类型</td>
+                <td class="noborder PLR50">所属公司</td>
+                <td class="noborder PLR50">所属信息</td>
+            </tr>
+            <tr class="_zh_table-tr text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td class="PR40">韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2 text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2 text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2 text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2 text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2 text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2 text-left">
+                <td class="text-center"><input type="checkbox"></td>
+                <td class="font-blue2">韩华250 多品硅</td>
+                <td>韩华250Wp 多品硅</td>
+                <td>HSL90P6-PB-1-250</td>
+                <td>电池组串</td>
+                <td>韩华新能源（启东）有限公司</td>
+                <td class="text-center font-blue2">技术参数 设备管理</td>
+        </table>
+    </div>
+    </body>
+</html>
+

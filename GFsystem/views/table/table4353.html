@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">月指标计算</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-mod-12">
+        <div class="page-header">
+            <div class="ML10 MT10">
+                <label class="MR5">年月</label>
+                <input size="16" type="text" value="2012-06-01 10:00" readonly class="form_datetime form-control">
+                <button type="submit" class="btn page-header-btn ML30">查询</button>
+                <button type="submit" class="btn page-header-btn ML30">重新计算</button>
+                <label class="MR5 ML30">开始日期</label>
+                <input size="16" type="text" value="2012-06-15 10:00" readonly class="form_datetime form-control" data-date-format="yyyy-mm-dd hh:ii">
+                <label class="MR5 ML30">结束日期</label>
+                <input size="16" type="text" value="2012-06-15 10:00" readonly class="form_datetime form-control" data-date-format="yyyy-mm-dd hh:ii">
+                <button type="submit" class="btn page-header-btn ML30">重新计算</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="overflow: auto;">
+        <h1 class="font-16 font-blue text-center FW">2015年08月31日 生产运行统计指标日报</h1>
+        <table class="_zh_table font-12 font-blue">
+            <tr class="_zh_table-tr FW bg-blue">
+                <td class="PLR124" colspan="2">统计指标名称</td>
+                <td class="PLR124">统计值</td>
+                <td class="PLR124">统计日期</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td rowspan="6" class="PLR50 text-center">太阳能资源指标</td>
+                <td class="text-left">平均气温（℃）</td>
+                <td class="text-center">25.11℃</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">平均温度（%RH）</td>
+                <td class="text-center">86.52%RH</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">平均风速（m/s）</td>
+                <td class="text-center">1.42m²/s</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">倾斜面总辐射量（MJ/m²）</td>
+                <td class="text-center PLR124">14.25MJ/m²（5.01kWh/m²）</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">峰值日照时数（h）</td>
+                <td class="text-center">5.01h</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">日照时数（h）</td>
+                <td class="text-center">6.00h</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td rowspan="6" class="PLR50 text-center">电量指标</td>
+                <td class="text-left">理论发电量（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">逆变器输出电量（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">发电量（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">上网电量（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">购网电量（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">等效利用小时数（h）</td>
+                <td class="text-center">4.21h</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td rowspan="9" class="PLR50 text-center">能耗指标</td>
+                <td class="text-left">综合厂用电量（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">综合厂用电率（%）</td>
+                <td class="text-center">1.24%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">厂用电量（万kWh）</td>
+                <td class="text-center">0.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">厂用电率（%）</td>
+                <td class="text-center">0.00%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">厂损率（%）</td>
+                <td class="text-center">4.04%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">光伏方阵吸收损耗（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">逆变器损耗（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left PR200">集电线路及箱变损耗（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">升压站损耗（万kWh）</td>
+                <td class="text-center">5.0458万kWh</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td rowspan="7" class="PLR50 text-center">设备运行水平指标</td>
+                <td class="text-left">最大出力（MW）</td>
+                <td class="text-center">7.44MW</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">综合效率（%）</td>
+                <td class="text-center">84.21%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">逆变器转换效率（%）</td>
+                <td class="text-center">78.56%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">光伏方阵效率（%）</td>
+                <td class="text-center">12.45%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">性能比（%）</td>
+                <td class="text-center">24.39%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">离散率（交流功率）（%）</td>
+                <td class="text-center">0.00%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">故障处理率（%）</td>
+                <td class="text-center">65.43%</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td rowspan="3" class="PLR50 text-center">逆变器运行时长（共20台）</td>
+                <td class="text-left">发电时长（h）</td>
+                <td class="text-center">205.00h</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">停机时长（h）</td>
+                <td class="text-center">0.00h</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-left">中断时长（h）</td>
+                <td class="text-center">0.00h</td>
+                <td class="text-center">2015-9-1</td>
+            </tr>
+        </table>
+    </div>
+    </body>
+</html>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/datetimepicker-custom.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function initDate(){
+        $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    }
+
+    $(function(){
+        initDate();
+    });
+</script>

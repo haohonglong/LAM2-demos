@@ -1,0 +1,177 @@
+<#define __ROOT__="{{LAM.ROOT}}" />
+<#define __INCLUDE__="{{LAM.VIEWS}}/include" />
+<#define __PLUGINS__="{{LAM.PLUGINS}}" />
+<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
+<#define __JS__="{{LAM.JS}}" />
+<#define __CSS__="{{LAM.CSS}}" />
+<#define __LESS__="{{LAM.LESS}}" />
+<#import type="css" path="
+/bootstrap,
+/font-awesome,
+/style,
+
+/custom,
+/odometer-theme-car,
+/font-awesome,
+/minoral,
+/lhh_lib
+" root="__CSS__" befor="1" />
+
+<#import type="css" path="/style" attr="{
+'id':'lessCss',
+'title':'lessCss'
+}" suffix=".less" rel="stylesheet/less" root="__LESS__" befor="1" />
+
+
+
+<#import path="
+/use,
+/bootstrap.min,
+/jquery.accordion,
+/skylo,
+
+
+
+
+/dashboard-custom,
+
+
+
+/jquery.sparkline/jquery.sparkline.min,
+/jquery.sparkline/sparkline-script,
+
+/jquery.easypiechart.min,
+/jquery.animateNumbers,
+/bootstrapSwitch
+" root="__JS__" write="1" befor="1" />
+
+
+<#Block:begin type="override" id="breadcrumb-li" data="{'show':true,'list':[{'name':'首页'}]}">
+<%if(show){%>
+<ul class="breadcrumb pull-left">
+<%LAM.each(list,function(){%>
+<%if(this.href){%>
+<li><a href="<%=this.href%>"><%=this.name%></a></li>
+<%}else {%>
+<li class="active"><%=this.name%></li>
+<%}%>
+<%});%>
+</ul>
+<%}%>
+<#Block:end>
+
+<#Block:begin id="breadcrumb">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <#=block id="breadcrumb-li" />
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15"><#=block id="clock" /></div>
+    </div>
+</div>
+<#Block:end>
+<#Block:begin type="override" id="head" data="{'title':'光伏运维生成管理系统'}">
+    <meta charset="utf-8">
+    <title><%=title%></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+<#Block:end>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<#=block id="head" />
+
+</head>
+<body class="M0">
+<div class="site-holder">
+
+
+    <!-- this is a dummy text -->
+    <!-- .navbar -->
+    <#include file="__INCLUDE__/header.html" />
+
+
+    <!-- .box-holder -->
+    <div class="box-holder">
+
+        <!-- .left-sidebar -->
+        <#include file="__INCLUDE__/side.html" /> <!-- /.left-sidebar -->
+
+        <!-- .content -->
+        <div class="content">
+            <div class="row MB10 hidden-lg">
+                <div class="col-md-12">
+                    <div class="_lhh_header xs">
+                        <div class="_lhh_header-middle center-block">
+                            <div class="_lhh_powerPanel">
+                                <div class="powerCounts">
+                                    <div class="none">
+                                        <div class="odometer pull-left"></div>
+                                        <div class="text height pull-left p-rel">
+                                            <div class="_lhh_powerPanel-switch">
+                                                <div class="switch switch-mini"  data-on="info" data-off="success" data-on-label="今年" data-off-label="累计">
+                                                    <input type="checkbox" checked />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <#=block id="breadcrumb" />
+
+
+
+            <div class="row">
+                <div class="col-mod-12">
+                    <h3 class="page-header"><i class="fa fa fa-dashboard"></i> Dashboard <i class="fa fa-info-circle animated bounceInDown show-info"></i> </h3>
+                </div>
+            </div>
+            {{content}}
+
+            <#include file="__INCLUDE__/footer.html" />
+
+        </div> <!-- /.content -->
+
+    </div>  <!-- /.right-sidebar -->
+
+
+</div> <!-- /.box-holder -->
+</div><!-- /.site-holder -->
+
+</body>
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System=this;
+        System.use();
+
+        
+
+    var skylo=function(){
+        $(document).skylo('start');
+        $(document).skylo('end');
+    };
+
+        $(function(){
+            skylo();
+            
+        });
+
+        
+
+
+
+    });
+
+
+
+
+</script>
+<#include file="__COMPONENTS__/clock.html" />
+</html>

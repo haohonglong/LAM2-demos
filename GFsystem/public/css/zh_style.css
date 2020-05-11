@@ -1,0 +1,273 @@
+*{
+    margin:0;
+    padding:0;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+ul,ol,li{
+    list-style-type:none;
+}
+a{
+    text-decoration: none;
+}
+
+.MB5{margin-bottom: 5px;}
+.H40{height:40px;}
+.font-14{font-size:14px;}
+.font-12{font-size:12px;}
+.bold{font-weight: bold;}
+.P0{padding:0px;}
+.PL20{padding-left: 20px;}
+.PL10{padding-left:10px;}
+.border-right{border-right:1px solid #dcdcdc;}
+.border-bottom{border-bottom: 1px solid #dcdcdc;}
+.line-height40{line-height: 40px;}
+.font-grey{color:#727272;}
+
+
+
+
+/*******预算结果区域*********/
+._zh_budget{
+    /*width:900px;*/
+    height:80px;
+    clear: both;
+    border:1px solid #dcdcdc;
+
+}
+._zh_budget>li{
+    height:80px;
+}
+._zh_select{
+    /*width:125px;*/
+    height:26px;
+    line-height:26px;
+    text-align: center;
+    border-radius: 0px;
+    border: 1px solid #dcdcdc; margin-right: 5px;
+}
+._zh_budget-btn{
+    width:120px;
+    height:28px;
+    line-height: 28px;
+    border:1px solid #dcdcdc;
+    color: #fff;
+    font-size: 12px;
+    background:url("img/btnicon.png") no-repeat 12px 6px;
+}
+._zh_budget-btn.green{
+    background-color:#11cd0d;
+}
+._zh_budget-btn.red{
+    background-color:#e30b0b;
+}
+
+
+
+
+
+
+
+/*******电站汇流箱区域*********/
+._zh_stationWrap{
+    text-align: justify;
+    border:1px solid #dcdcdc;
+}
+._zh_stationWrap>ul:after{
+    display: block;
+    width: 0;
+    height: 0;
+    content: "";
+    clear: both;
+    visibility: hidden;
+}
+._zh_station{
+
+    min-width: 130px;
+    height:160px;
+    font-size:12px;
+    color: #000000;
+    border: 1px solid #dcdcdc;
+    margin: 0.5% 0 0.5% 0.9%;
+    padding: 0.19390625%;
+}
+@media (min-width: 768px) {
+    ._zh_station{
+        width:23.899312%;
+    }
+}
+@media (min-width: 992px ) {
+    ._zh_station{
+        width:18.899312%;
+    }
+}
+
+._zh_station-stationicon{
+    width:33px;
+    height:41px;
+    display: block;
+    background:url("img/station.png") no-repeat;
+    float: left;
+}
+._zh_station-lineicon{
+    width: 90px;
+    height: 20px;
+    background: url("img/greenline.png") repeat-x 0 0;
+}
+._zh_station-title{
+    float: left;
+    font-weight: bold;
+    margin: 2px 0px 0px 15px;
+}
+._zh_station-c{
+    width:100%;
+    height:70px;
+    margin: 8px 0px;
+    font-size: 12px;
+    color: #000000;
+    text-align: left;
+}
+._zh_station .text1{
+    width:65px;
+    overflow: hidden;
+    float: left;
+    margin-right: 10px;
+}
+._zh_station .data-value{
+    overflow: hidden;
+    width:55px;
+    float:right;
+}
+._zh_station .text1>p,._zh_station .data-value>p{
+    margin:0px;
+}
+._zh_circleImg{
+    width:10px;
+    height:10px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 2px;
+}
+._zh_squareImg{
+    width:10px;
+    height:10px;
+    display: inline-block;
+    margin-right: 2px;
+}
+._zh_circleImg-green{
+    background-color: #00ff48;
+}
+._zh_circleImg-yellow{
+    background-color: #fff000;
+}
+._zh_circleImg-purple{
+    background-color: #fc00ff;
+}
+._zh_circleImg-red{
+    background-color: #ff0000;
+}
+._zh_squareImg-green{
+    background-color: #00ff48;
+}
+._zh_squareImg-purple{
+    background-color: #fc00ff;
+}
+._zh_icon{position: relative;}
+._zh_icon-i{position: absolute;width:10px;height:10px;background:url("img/icons.png") no-repeat;}
+._zh_icon-i.plus{background-position: 0 0;}
+._zh_icon-i.edit{background-position: 0 0;width: 18px;height: 18px;margin-top: 12px;}
+._zh_icon-i.del{background-position: 0 0;}
+
+
+
+
+
+
+
+
+
+
+/************汇总区域******************/
+._zh_summary{
+    height:40px;
+    border:1px solid #dcdcdc;
+    padding: 0px 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+._zh_summary p{
+    line-height: 40px;
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 25px;
+}
+.font-red{
+    color:#ff0000;
+}
+.font-grey{
+    color:#495b79;
+}
+
+
+
+
+
+/***********电站发电量区域******************/
+._zh_power{
+   /*height:80px;*/
+   clear: both;
+   margin-bottom: 20px;
+
+}
+._zh_power>li{
+    height:80px;
+    border:1px solid #dcdcdc;
+    background: #fff;
+
+}
+@media (min-width: 992px) {
+    ._zh_power>li{
+        width:24.2399999999999999%;
+        margin-right: 1%;
+    }
+}
+._zh_power>li:last-child{
+    margin-right:0px;
+}
+._zh_power-powerFont,._zh_power-powerImg{
+    display: inline-block;
+    vertical-align: middle;
+    width:45.9999999%;
+}
+._zh_power-powerImg{
+
+    height:100%;
+    border-right: 1px solid #dcdcdc;
+    padding:25px 12px;
+    text-align: center;
+
+}
+._zh_power-icon{width:114px;height:62px;background:url("img/power.png") no-repeat;display: inline-block;}
+._zh_power-icon-a{background-position:0px -30px;width:56px;height:30px;}
+._zh_power-icon-b{background-position:0px -30px;width:56px;height:30px;}
+._zh_power-icon-a.blue{background-position:0 0px;}
+._zh_power-icon-a.red{background-position:-58px 0px;}
+._zh_power-icon-b.green{background-position: 0 -30px;}
+._zh_power-icon-b.yellow{background-position: -57px -30px;}
+._zh_power-powerFont{
+    color:#000;
+    font-size:12px;
+    font-weight: normal;
+
+    padding:8px 0px 0px 8px;
+}
+._zh_power-powerFont>p{
+    margin-bottom: 5px;
+}
+
+
+
+
+
+
+

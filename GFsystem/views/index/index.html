@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/plugins/flipclock/flipclock.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/font-awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrapSwitch.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/custom.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/odometer-theme-car.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/font-awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css"/>
+    <link rel="shortcut icon" href="{{ROOT}}/images/favicon.ico">
+
+    <style type="text/css">
+        /*
+            仅iframe 下样式
+        */
+        body {
+            overflow: auto;
+        }
+
+        .content {
+            margin-left: 220px;
+        }
+
+        .site-holder.mini-sidebar .content {
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body class="M0">
+<div class="site-holder">
+    <!-- this is a dummy text -->
+    <!-- .navbar -->
+    <include file="{{ROOT}}/controllers/include/header.html" dataType="html"></include>
+
+
+    <!-- .box-holder -->
+    <div class="box-holder">
+
+        <!-- .left-sidebar -->
+        <include file="{{ROOT}}/controllers/include/sideMenu.html" dataType="html"></include>
+        <!-- /.left-sidebar -->
+
+        <!-- .content -->
+        <div class="content">
+            <div class="row MB10 hidden-lg">
+                <div class="col-md-12">
+                    <div class="_lhh_header xs">
+                        <div class="_lhh_header-middle center-block">
+                            <div class="_lhh_powerPanel">
+                                <div class="powerCounts">
+                                    <div class="none">
+                                        <div class="odometer odometer-small pull-left MR10"></div>
+                                        <div class="text height pull-left p-rel">
+                                            <div class="_lhh_powerPanel-switch">
+                                                <div class="switch switch-mini" data-on="info" data-off="success"
+                                                     data-on-label="今年" data-off-label="累计">
+                                                    <input type="checkbox" checked/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="iframe" style="min-height: 1200px" class="content_size none">
+                <iframe name="iframe" class="H100 W100" src="{{ROOT}}/controllers/index.html?file=content"
+                        frameborder="0"></iframe>
+            </div>
+            <div class="footer" id="footer">
+                © 2013 <a href="http://bootstrapguru.com">Bootstrap Guru</a>
+            </div>
+
+        </div>
+        <!-- /.content -->
+
+    </div>
+    <!-- /.right-sidebar -->
+
+
+</div>
+<!-- /.box-holder -->
+</div><!-- /.site-holder -->
+</body>
+
+</html>
+<script type="text/javascript" src="{{ROOT}}/js/use.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/skylo.js"></script>
+<script type="text/javascript" src="{{ROOT}}/plugins/flipclock/flipclock.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrapSwitch.js"></script>
+
+<script type="text/javascript">
+    LAMJS.main(function () {
+        'use strict';
+        var System = this;
+        var $iframe;
+        var I = System.modules.exports.I;
+        $(function () {
+
+
+            $iframe = $('#iframe');
+            I.skylo();
+            I.home.odometer('12345');
+            I.powerPanel_switch('1234', '123456');
+            I.header();
+        });
+
+
+        $(window).resize(function () {
+//            $iframe.hide();
+            System.wait(function () {
+                $iframe.show();
+                I.content();
+
+            }, 500);
+
+        }).trigger('resize');
+
+
+    });
+
+
+</script>
+
+
+
+
+
+
+
+
+

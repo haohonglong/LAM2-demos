@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>{{title}}</title>
+    <meta name="description" content="overview & stats"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/admin/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/admin/static/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/admin/static/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/admin/static/css/ace.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/admin/static/css/ace-responsive.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/admin/static/css/ace-skins.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_style.css" />
+
+    <style type="text/css">
+        body.content {
+            padding: 0;
+        }
+    </style>
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg PL15">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">当日电量</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid" id="main-container">
+
+
+    <div id="page-content" class="clearfix">
+
+        <div class="row-fluid">
+
+
+            <div class="row-fluid">
+
+                <!-- 检索  -->
+                <form action="user/listUsers.do" method="post" name="userForm" id="userForm">
+                    <table>
+                        <tr>
+                            <td>
+						<span class="input-icon">
+							<input autocomplete="off" id="nav-search-input" type="text" name="USERNAME" value=""
+                                   placeholder="这里输入关键词"/>
+							<i id="nav-search-icon" class="icon-search"></i>
+						</span>
+                            </td>
+                            <td style="vertical-align:top;">
+                                <button class="btn btn-mini btn-light" title="检索"><i
+                                        id="nav-search-icon" class="icon-search"></i></button>
+                            </td>
+
+
+                        </tr>
+                    </table>
+                    <!-- 检索  -->
+
+
+                    <table id="table_report" class="table table-striped table-bordered table-hover">
+
+                        <thead>
+                        <tr>
+                            <th class="center">
+                                <label><input type="checkbox" id="zcheckbox"/><span class="lbl"></span></label>
+                            </th>
+                            <th>序号</th>
+                            <th>编号</th>
+                            <th>用户名</th>
+                            <th>姓名</th>
+                            <th>职位</th>
+                            <th><i class="icon-envelope"></i>邮箱</th>
+                            <th><i class="icon-time hidden-phone"></i>最近登录</th>
+                            <th>上次登录IP</th>
+                            <th class="center">操作</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <!-- 开始循环 -->
+
+
+                        <tr>
+                            <td class='center' style="width: 30px;">
+                                <label><input type='checkbox' name='ids' value="b825f152368549069be79e1d34184afa"
+                                              id="sdfsdf@qq.com" alt="18765656565"/><span class="lbl"></span></label>
+
+                            </td>
+                            <td class='center' style="width: 30px;">1</td>
+                            <td>sdsaw22</td>
+                            <td><a>san</a></td>
+                            <td>三</td>
+                            <td>超级管理员</td>
+
+                            <td><a title="发送电子邮件" style="text-decoration:none;cursor:pointer;"
+                                   onclick="sendEmail('sdfsdf@qq.com');">sdfsdf@qq.com&nbsp;<i
+                                    class="icon-envelope"></i></a></td>
+
+
+                            <td>2015-08-03 14:18:14</td>
+                            <td>127.0.0.1</td>
+                            <td style="width: 60px;">
+                                <div class='hidden-phone visible-desktop btn-group'>
+                                    <a class='btn btn-mini btn-warning' title="发送短信" data-toggle="modal" data-target="#user_resetPass"
+                                       onclick="resetPass();"><i class='icon-lock'></i></a>
+
+                                    <a class='btn btn-mini btn-info' title="编辑"  data-toggle="modal" data-target="#user_edit"
+                                       onclick="editUser('b825f152368549069be79e1d34184afa');"><i class='icon-edit'></i></a>
+
+
+                                    <a class='btn btn-mini btn-danger' title="删除"
+                                       onclick="delUser(this,'b825f152368549069be79e1d34184afa','san');"><i
+                                            class='icon-trash'></i></a>
+
+
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+                        </tbody>
+                    </table>
+
+                    <div class="page-header position-relative">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="vertical-align:top;">
+
+                                    <a class="btn btn-small btn-success" data-toggle="modal" data-target="#user_add" onclick="add();">新增</a>
+                                    <a title="批量删除" class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');"><i
+                                            class='icon-trash'></i></a>
+
+                                </td>
+                                <td style="vertical-align:top;">
+                                    <div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">
+                                        <ul>
+                                            <li><a>共<font color=red>8</font>条</a></li>
+                                            <li><input type="number" value="" id="toGoPage"
+                                                       style="width:50px;text-align:center;float:left"
+                                                       placeholder="页码"/></li>
+                                            <li style="cursor:pointer;"><a href="###"
+                                                                           class="btn btn-mini btn-success">跳转</a></li>
+                                            <li><a>首页</a></li>
+                                            <li><a>上页</a></li>
+                                            <li><a><font color='#808080'>1</font></a></li>
+                                            <li><a>下页</a></li>
+                                            <li><a>尾页</a></li>
+                                            <li><a>第1页</a></li>
+                                            <li><a>共1页</a></li>
+                                            <li><select title='显示条数' style="width:55px;float:left;"
+                                                        onchange="changeCount(this.value)">
+                                                <option value='10'>10</option>
+                                                <option value='10'>10</option>
+                                                <option value='20'>20</option>
+                                                <option value='30'>30</option>
+                                                <option value='40'>40</option>
+                                                <option value='50'>50</option>
+                                                <option value='60'>60</option>
+                                                <option value='70'>70</option>
+                                                <option value='80'>80</option>
+                                                <option value='90'>90</option>
+                                                <option value='99'>99</option>
+                                            </select>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+
+            <!-- PAGE CONTENT ENDS HERE -->
+        </div>
+        <!--/row-->
+
+    </div>
+    <!--/#page-content-->
+</div>
+<!--/.fluid-container#main-container-->
+<!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<弹出层start>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+<!--添加用户-->
+<div class="_zh_addUser modal hide fade in" id="user_add">
+    <form>
+        <div class="model-header"><button class="close" data-dismiss="modal" type="button">×</button>添加用户</div>
+        <div class="model-body">
+            <div class="form-group"><label>编&nbsp;&nbsp;&nbsp;号</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>用户名</label><input name="username" type="text" class="form-control" required></div>
+            <div class="form-group"><label>职&nbsp;&nbsp;&nbsp;位</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>邮&nbsp;&nbsp;&nbsp;箱</label><input type="text" class="form-control" name="email" required></div>
+            <div class="form-group"><label>电&nbsp;&nbsp;&nbsp;话</label><input type="text" class="form-control"><p class="help-block">电话号码已存在</p></div>
+            <div class="form-group"><label>传&nbsp;&nbsp;&nbsp;真</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>上次登录时间</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>上次登录IP</label><input type="text" class="form-control"></div>
+            <div class="model-footer">
+                <button type="submit" class="_zh_btn-save MT40">新增</button>
+                <button type="submit" class="_zh_btn-cancel ML30 MT40" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!--修改用户-->
+<div class="_zh_addUser modal hide fade in"  id="user_edit">
+    <form>
+        <div class="model-header"><button class="close" data-dismiss="modal" type="button">×</button>修改用户</div>
+        <div class="model-body">
+            <div class="form-group"><label>编&nbsp;&nbsp;&nbsp;号</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>用户名</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>姓&nbsp;&nbsp;&nbsp;名</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>职&nbsp;&nbsp;&nbsp;位</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>邮&nbsp;&nbsp;&nbsp;箱</label><input type="text" class="form-control"><p class="help-block">邮箱已存在</p></div>
+            <div class="form-group"><label>电&nbsp;&nbsp;&nbsp;话</label><input type="text" class="form-control"><p class="help-block">电话号码已存在</p></div>
+            <div class="form-group"><label>传&nbsp;&nbsp;&nbsp;真</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>上次登录时间</label><input type="text" class="form-control"></div>
+            <div class="form-group"><label>上次登录IP</label><input type="text" class="form-control"></div>
+            <div class="model-footer">
+                <button type="submit" class="_zh_btn-save MT40">新增</button>
+                <button type="submit" class="_zh_btn-cancel ML30 MT40" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--修改密码-->
+<div class="_zh_addUser modal hide fade in"  id="user_resetPass">
+    <form>
+        <div class="model-header"><button class="close" data-dismiss="modal" type="button">×</button>修改密码</div>
+        <div class="model-body">
+            <div class="form-group"><label>旧密码</label><input type="password" class="form-control" id="password" name="password" ></div>
+            <div class="form-group"><label>新密码</label><input type="password" class="form-control" name="confirm_password" ></div>
+            <div class="model-footer">
+                <button type="submit" class="_zh_btn-save MT40">提交</button>
+                <button type="submit" class="_zh_btn-cancel ML30 MT40" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<弹出层end>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+
+</body>
+</html>
+
+<script type="text/javascript" src="{{ROOT}}/js/use.js"></script>
+<script type="text/javascript" src="{{ROOT}}/admin/static/js/jquery.tips.js"></script>
+<script type="text/javascript" src="{{ROOT}}/admin/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/admin/static/js/ace.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/admin/static/js/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/admin/static/js/bootbox.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/admin/static/js/jquery.tips.js"></script>
+<script type="text/javascript" src="{{ROOT}}/plugins/jquery-validation/jquery.validate.js"></script>
+<script type="text/javascript" src="{{ROOT}}/plugins/jquery-validation/messages_zh.js"></script>
+
+<script type="text/javascript">
+//    function set_pop(D){
+//        $('#_zh_Modal').html('');
+//        var arr=[];
+//        arr.push('<form>');
+//        arr.push('  <div class="model-header"><button class="close" data-dismiss="modal" type="button">×</button>', D.title,'</div>');
+//        arr.push('  <div class="model-body">');
+//        arr.push('      <div class="form-group"><label>编&nbsp;&nbsp;&nbsp;号</label><input type="text" class="form-control"></div>');
+//        arr.push('      <div class="form-group"><label>用户名</label><input type="text" class="form-control"><p class="help-block">','用户名已存在','</p></div>');
+//        arr.push('      <div class="form-group"><label>姓&nbsp;&nbsp;&nbsp;名</label><input type="text" class="form-control"></div>');
+//        arr.push('      <div class="form-group"><label>职&nbsp;&nbsp;&nbsp;位</label><input type="text" class="form-control"></div>');
+//        arr.push('      <div class="form-group"><label>邮&nbsp;&nbsp;&nbsp;箱</label><input type="text" class="form-control"><p class="help-block">','邮箱已存在','</p></div>');
+//        arr.push('      <div class="form-group"><label>电&nbsp;&nbsp;&nbsp;话</label><input type="text" class="form-control"><p class="help-block">','电话号码已存在','</p></div>');
+//        arr.push('      <div class="form-group"><label>传&nbsp;&nbsp;&nbsp;真</label><input type="text" class="form-control"></div>');
+//        arr.push('      <div class="form-group"><label>上次登录时间</label><input type="text" class="form-control"></div>');
+//        arr.push('      <div class="form-group"><label>上次登录IP</label><input type="text" class="form-control"></div>');
+//        arr.push('      <div class="model-footer">');
+//        arr.push('          <button type="submit" class="_zh_btn-save MT40">', D.submit,'</button>');
+//        arr.push('          <button type="submit" class="_zh_btn-cancel ML30 MT40" data-dismiss="modal">取消</button>');
+//        arr.push('      </div>');
+//        arr.push('  </div>');
+//        arr.push('</form>');
+//
+//        $('#_zh_Modal').html(arr.join(''));
+//
+//    }
+
+
+
+    function set_pop($dom){
+//        var $dom=$dom.clone();
+//        $('#_zh_Modal').html($dom.show());
+//        $dom.show();
+        return $dom;
+    }
+
+
+    //新增
+    function add() {
+        $('#user_add form').validate({
+            errorClass:"help-block",
+            errorElement:"p",
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 2
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                confirm_password: {
+                    required: true,
+                    minlength: 5,
+                    equalTo: "#password"
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                topic: {
+                    required: "#newsletter:checked",
+                    minlength: 2
+                },
+                agree: "required"
+            },
+            messages: {
+                firstname: "请输入您的名字",
+                lastname: "请输入您的姓氏",
+                username: {
+                    required: "请输入用户名",
+                    minlength: "用户名必需由两个字母组成"
+                },
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于 5 个字母"
+                },
+                confirm_password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于 5 个字母",
+                    equalTo: "两次密码输入不一致"
+                },
+                email: "请输入一个正确的邮箱",
+                agree: "请接受我们的声明",
+                topic: "请选择两个主题"
+            }
+        });
+
+    }
+
+    //修改
+    function editUser(user_id) {
+        $('#user_edit form').validate({
+            errorClass:"help-block",
+            errorElement:"p",
+            rules: {
+                firstname: "required",
+                lastname: "required",
+                username: {
+                    required: true,
+                    minlength: 2
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                confirm_password: {
+                    required: true,
+                    minlength: 5,
+                    equalTo: "#password"
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                topic: {
+                    required: "#newsletter:checked",
+                    minlength: 2
+                },
+                agree: "required"
+            },
+            messages: {
+                firstname: "请输入您的名字",
+                lastname: "请输入您的姓氏",
+                username: {
+                    required: "请输入用户名",
+                    minlength: "用户名必需由两个字母组成"
+                },
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于 5 个字母"
+                },
+                confirm_password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于 5 个字母",
+                    equalTo: "两次密码输入不一致"
+                },
+                email: "请输入一个正确的邮箱",
+                agree: "请接受我们的声明",
+                topic: "请选择两个主题"
+            }
+        });
+
+    }
+
+    //修改密码
+    function resetPass() {
+        $('#user_resetPass form').validate({
+            errorClass:"help-block",
+            errorElement:"p",
+            rules: {
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                confirm_password: {
+                    required: true,
+                    minlength: 5,
+                    equalTo: "#password"
+                },
+                topic: {
+                    required: "#newsletter:checked",
+                    minlength: 2
+                },
+                agree: "required"
+            },
+            messages: {
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于 5 个字母"
+                },
+                confirm_password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于 5 个字母",
+                    equalTo: "两次密码输入不一致"
+                }
+
+            }
+        });
+
+    }
+
+
+
+    //删除
+    function delUser(_this, userId, msg) {
+        bootbox.confirm("确定要删除[" + msg + "]吗?", function (result) {
+            if (result) {
+                $(_this).parents('tr').remove();
+//                var url = "http://192.168.66.118:80/FHMYSQL/user/deleteU.do?USER_ID=" + userId + "&tm=" + new Date().getTime();
+
+//                $.get(url, function (data) {
+//                    nextPage(1);
+//                });
+            }
+        });
+    }
+
+    /**
+     *勾选多个多选框 删除多条数据
+     */
+    function makeDelAll() {
+        $("#table_report tbody input[type='checkbox']").each(function () {
+            if ($(this).is(":checked")) {
+                $(this).parents('tr').remove();
+            }
+        });
+    }
+
+    //批量操作
+    function makeAll(msg) {
+        bootbox.confirm(msg, function (result) {
+            if (result) {
+
+                        if (emstr == '') emstr += document.getElementsByName('ids')[i].id;
+                        else emstr += ';' + document.getElementsByName('ids')[i].id;
+
+            }
+        });
+    }
+
+
+
+    LAMJS.run(function () {
+        'use strict';
+        var System = this;
+        System.Html.include($('include'));
+        var I = System.modules.exports.I;
+
+        $(function () {
+            //复选框
+            $('table th input:checkbox').on('click', function () {
+                var that = this;
+                $(this).closest('table').find('tr > td:first-child input:checkbox')
+                        .each(function () {
+                            this.checked = that.checked;
+                            $(this).closest('tr').toggleClass('selected');
+                        });
+
+            });
+
+        });
+
+    });
+</script>
+
+
+
+
+

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        ._zh_table{border:1px solid #e3e3e3;}
+        ._zh_table-tr{border-top:1px solid #e3e3e3;}
+        ._zh_table-tr td{border-right:1px solid #f1f1f1;}
+    </style>
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">综合数据报表</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div style="overflow: auto;">
+        <h1 class="font-12 text-center MB20">光伏电站生成运行日报表</h1>
+        <table class="_zh_table font-12">
+            <tr class="_zh_table-tr">
+                <td colspan="9" class="text-left">发出部门：**</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="text-center" colspan="9" rowspan="3">安全生产**天</td>
+            </tr>
+            <tr class="_zh_table-tr">
+            </tr>
+            <tr class="_zh_table-tr">
+            </tr>
+            <tr class="_zh_table-tr">
+                <td class="PLR25">名称</td>
+                <td class="PLR50">总容量</td>
+                <td class="PLR50">上网容量</td>
+                <td class="PLR25">解列容量</td>
+                <td class="PLR25">当日发电量（万kWh）</td>
+                <td class="PLR25">最高/平均/最低（MW）</td>
+                <td class="PLR25">月累计电量（万kWh）</td>
+                <td class="PLR25">月度计划电量（万kWh）</td>
+                <td class="PLR25">实际完成</td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>发电量</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td rowspan="2">发电时间</td>
+                <td>上网时间</td>
+                <td>解列时间（时：分）</td>
+                <td>日照小时数（h）</td>
+                <td>天气状况</td>
+                <td colspan="2">最低/最高气温</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td rowspan="2">调度限电</td>
+                <td colspan="2">限电开始时间</td>
+                <td colspan="2">限电结束时间</td>
+                <td colspan="2">限电容量（MW）</td>
+                <td colspan="2">当日限发电量（万kWh）</td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td rowspan="2">运行方式</td>
+                <td colspan="2">汇集线</td>
+                <td colspan="2">站用变</td>
+                <td colspan="2">SVG</td>
+                <td colspan="2">备用变</td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td colspan="2">264条</td>
+                <td>1台</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td rowspan="2">两票记录</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td rowspan="2">值班记录</td>
+                <td>开始时间</td>
+                <td>结束时间</td>
+                <td colspan="6">值班工作内容</td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td rowspan="2">调度指令</td>
+                <td>开始时间</td>
+                <td>结束时间</td>
+                <td colspan="2">指令内容及操作内容</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td rowspan="6">设备巡检</td>
+                <td>组件</td>
+                <td colspan="7">组件运行正常，组件还缺62块，合计解列组件数量80块（容量0.02MW）</td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>逆变器</td>
+                <td colspan="7"></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>汇流箱</td>
+                <td colspan="7"></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>箱变</td>
+                <td colspan="7"></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>备用变</td>
+                <td colspan="7"></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>站用变</td>
+                <td colspan="7"></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td rowspan="2">维修保养</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>检修试验</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>现场安全</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td>采取措施</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="_zh_table-tr text-center">
+                <td colspan="2">站长审核</td>
+                <td>**</td>
+                <td colspan="2">值班长填报</td>
+                <td></td>
+                <td colspan="2">值班员签字</td>
+                <td></td>
+            </tr>
+            <!-- <tr class="_zh_table-tr bg-grey2">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器02</td>
+                <td>2015-09-01 22:50:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器01</td>
+                <td>2015-09-01 22:45:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器02</td>
+                <td>2015-09-01 22:40:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器01</td>
+                <td>2015-09-01 22:35:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器02</td>
+                <td>2015-09-01 22:30:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器01</td>
+                <td>2015-09-01 22:25:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">1.00</td>
+                <td class="text-right">25640.00</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器02</td>
+                <td>2015-09-01 22:20:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器01</td>
+                <td>2015-09-01 22:15:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器02</td>
+                <td>2015-09-01 22:10:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器01</td>
+                <td>2015-09-01 22:05:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td>
+            </tr>
+            <tr class="_zh_table-tr bg-grey2">
+                <td>01#方阵</td>
+                <td class="text-left">无锡上能逆变器02</td>
+                <td>2015-09-01 22:00:00</td>
+                <td class="text-right">123.20</td>
+                <td class="text-right">0.65</td>
+                <td class="text-right">1.12</td>
+                <td class="text-right">0.08</td>
+                <td class="text-right">0.16</td>
+                <td class="text-right">0.15</td>
+                <td class="text-right">2.80</td>
+                <td class="text-right">25640.00</td>
+                <td class="text-right">1.00</td> -->
+        </table>
+    </div>
+    </body>
+</html>

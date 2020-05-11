@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>光伏运维生成管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript">
+
+        LAMJS.main(function() {
+            'use strict';
+            var System = this;
+            System.Loadcommon
+                    .load({
+                        'baseUrl':'',
+                        'suffix':'.css',
+                        'rel':'stylesheet',
+                        'css':[
+                            'css/bootstrap',//Loading Bootstrap
+                            'css/font-awesome',//Loading Stylesheets
+                            'css/style',
+                            'css/bootstrapSwitch',
+                            'css/custom',//Loading Custom Stylesheets
+                            'css/odometer-theme-car',//里程表
+                            'css/font-awesome',
+
+                            'css/lhh_lib'
+                        ]
+                    }).print();
+
+
+        });
+    </script>
+
+
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <style type="text/css">
+        /*
+            仅iframe 下样式
+        */
+        .content {
+            margin-left: 240px;
+        }
+        .site-holder.mini-sidebar .content {
+            margin-left: 50px;
+        }
+    </style>
+
+
+</head>
+<body class="M0">
+<div class="site-holder">
+
+
+    <!-- this is a dummy text -->
+    <!-- .navbar -->
+    <div class="_lhh_header">
+        <div class="M20">
+            <div class="_lhh_header-left">
+                <div class="navbar pull-left none">
+                    <a href="###" class="navbar-brand">
+                        <i class="fa fa-list btn-nav-toggle-responsive text-white"></i>
+                    </a>
+                </div>
+
+                <div class="_lhh_logo pull-left">
+                    <!--<span src="" alt="" class="_lhh_logo-img"></span>-->
+                    <h1>光伏运维生成管理系统</h1>
+                </div>
+            </div>
+
+            <div class="_lhh_header-middle center-block visible-lg">
+                <div class="_lhh_powerPanel">
+                    <h4 class="text line-height pull-left">累计上网电量</h4>
+                    <div class="powerCounts pull-left ML10 MR5 MT15">
+                        <div class="none">
+                            <div class="odometer"></div>
+                        </div>
+                    </div>
+                    <div class="text line-height pull-left p-rel">
+                        <p>万 kWh</p>
+                        <div class="_lhh_powerPanel-switch">
+                            <div class="switch switch-small"  data-on="info" data-off="success" data-on-label="今年" data-off-label="累计">
+                                <input type="checkbox" checked />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="_lhh_header-right">
+                <div id="topWidget" class="navbar">
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav user-menu navbar-right ">
+
+                            <li><a href="#" class="settings dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge bg-pink">4</span></a>
+                                <ul class="dropdown-menu inbox">
+                                    <li>
+                                        <a href="inbox.php">
+                                            <img src="images/profiles/three.png" alt="" class="avatar">
+                                            <div class="message">
+                                                <span class="username">John Deo</span>
+                                                <span class="mini-details">(6) <i class="fa fa-paper-clip"></i></span>
+                                                <span class="time pull-right"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inbox.php">
+                                            <img src="images/profiles/four.png" alt="" class="avatar">
+                                            <div class="message">
+                                                <span class="username">Jane Deo</span>
+                                                <span class="mini-details">(6) <i class="fa fa-paper-clip"></i></span>
+                                                <span class="time pull-right"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inbox.php">
+                                            <img src="images/profiles/five.png" alt="" class="avatar">
+                                            <div class="message">
+                                                <span class="username">Mr Deo</span>
+                                                <span class="mini-details">(6) <i class="fa fa-paper-clip"></i></span>
+                                                <span class="time pull-right"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inbox.php">
+                                            <img src="images/profiles/six.png" alt="" class="avatar">
+                                            <div class="message">
+                                                <span class="username">Miss Deo</span>
+                                                <span class="mini-details">(6) <i class="fa fa-paper-clip"></i></span>
+                                                <span class="time pull-right"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li><a href="inbox.php" class="btn bg-primary">View All</a></li>
+                                </ul>
+                            <li><a href="#" class="settings dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell animated shake"></i><span class="badge bg-success">10</span></a>
+                                <ul class="dropdown-menu notifications">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-user noty-icon bg-primary"></i>
+                                            <span class="description">10 Users are registered</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-danger">
+                                            <i class="fa fa-inbox noty-icon bg-pink"></i>
+                                            <span class="description">Your disk space has been exceeeded</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-info">
+                                            <i class="fa fa-comment noty-icon bg-purple"></i>
+                                            <span class="description">58 new comments</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-warning">
+                                            <i class="fa fa-user noty-icon bg-warning"></i>
+                                            <span class="description">User deleted</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-success">
+                                            <i class="fa fa-bookmark-o noty-icon bg-seagreen"></i>
+                                            <span class="description">You have a new badge</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-info">
+                                            <i class="fa fa-envelope noty-icon bg-info"></i>
+                                            <span class="description">24 Unread mails</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-success">
+                                            <i class="fa fa-link noty-icon bg-purple"></i>
+                                            <span class="description">Urls forwarding activated</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-warning">
+                                            <i class="fa fa-clock-o noty-icon bg-yellow"></i>
+                                            <span class="description">Action</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-danger">
+                                            <i class="fa fa-exclamation noty-icon bg-danger"></i>
+                                            <span class="description">3 domains expired</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-success">
+                                            <i class="fa fa-clock-o noty-icon bg-success"></i>
+                                            <span class="description">Your have $950 as outstanding amount</span>
+                                            <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                        </a>
+                                    </li>
+
+                                    <li><a href="#" class="btn bg-primary">View All</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- .box-holder -->
+    <div class="box-holder">
+
+        <!-- .left-sidebar -->
+        <div class="left-sidebar Z1">
+            <div class="sidebar-holder">
+                <ul class="nav  nav-list">
+
+                    <!-- sidebar to mini Sidebar toggle -->
+                    <li class="nav-toggle">
+                        <button class="btn  btn-nav-toggle text-primary"><i class="fa fa-angle-double-left toggle-left"></i> </button>
+                    </li>
+
+
+                    <li class="active"><a href="i_content_1.html" target="iframe" data-original-title="Dashboard"><i class="fa fa-home"></i><span class="hidden-minibar"> 首页 </span></a></li>
+
+                    <li class="submenu"> <!-- Example for second level menu -->
+                        <a class="dropdown" href="#" data-original-title="Tables"><i class="fa fa-table"></i><span class="hidden-minibar">  实时监测 </span></a>
+                        <ul>
+                            <li><a href="ElectricalBox.html" target="iframe" data-original-title="Basic"><i class="fa fa-table"></i><span>  逆变器监测</span></a></li>
+                            <li><a href="JunctionBox.html" target="iframe" data-original-title="Basic"><i class="fa fa-table"></i><span>
+                            汇流箱监测</span></a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="submenu">
+                        <a class="dropdown" href="#" data-original-title="Pages"><i class="fa fa-desktop"></i><span class="hidden-minibar">  统计分析</span>
+                        </a>
+                        <ul>
+                            <li><a href="../calendar.html" data-original-title="Calendar"><i class="fa fa-calendar"></i><span> Calendar</span></a></li>
+                            <li><a href="chat.html" data-original-title="Chat"><i class="fa fa-comment"></i><span> Chat</span></a></li>
+                            <li><a href="profile.html" data-original-title="Profile Activity"><i class="fa fa-th"></i><span> Profile Activity</span></a></li>
+
+                            <li><a href="gallery.html" data-original-title="Gallery"><i class="fa fa-th"></i><span> Gallery</span></a></li>
+                            <li><a href="grids.html" data-original-title="Grids"><i class="fa fa-th-large"></i><span> Grids</span></a></li>
+
+                            <li><a href="images.html" data-original-title="Images"><i class="fa fa-picture-o"></i><span> Images</span></a></li>
+                            <li><a href="inbox.html" data-original-title="Inbox"><i class="fa fa-envelope"></i><span> Inbox</span></a></li>
+                            <li><a href="invoice.html" data-original-title="Invoice"><i class="fa fa-credit-card"></i><span> Invoice</span></a></li>
+                            <li><a href="pricing-table.html" data-original-title="Pricing Table"><i class="fa fa-money"></i><span> Pricing Table</span></a></li>
+                            <li><a href="support.html" data-original-title="Support"><i class="fa fa-gears"></i><span> Support</span></a></li>
+
+                            <li><a href="typography.html" data-original-title="Typography"><i class="fa fa-text-width"></i><span> Typography</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu">
+                        <a class="dropdown" href="#" data-original-title="Utility"><i class="fa fa-tint"></i><span class="hidden-minibar">  事件告警 </span></a>
+                        <ul>
+                            <li><a href="404.html" data-original-title="404"><i class="fa fa-exclamation-circle"></i><span> 404 Error Page</span></a></li>
+                            <li><a href="505.html" data-original-title="505"><i class="fa fa-exclamation-circle"></i><span> 505 Error Page</span></a></li>
+                            <li><a href="faq.html" data-original-title="FAQ"><i class="fa fa-question"></i><span> FAQ</span></a></li>
+                            <li><a href="screens.html" data-original-title="Lock Screen"><i class="fa fa-lock"></i><span> Lock Screen</span></a></li>
+                            <li><a href="screens.html" data-original-title="LogIn"><i class="fa fa-sign-in"></i><span> Log In</span></a></li>
+                            <li><a href="screens.html" data-original-title="SignUp"><i class="fa fa-smile-o"></i><span> Sign Up</span></a></li>
+                            <li><a href="template.html" data-original-title="Template"><i class="fa fa-pagelines"></i><span> Template Page</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu"> <!-- Example for second level menu -->
+                        <a class="dropdown" href="#" data-original-title="UI Elements"><i class="fa fa-user"></i><span class="hidden-minibar">  运维管理 </span></a>
+                        <ul>
+                            <li><a href="alerts.html" data-original-title="Alerts"><i class="fa fa-exclamation-triangle"></i><span> Alerts</span></a></li>
+                            <li><a href="animations.html" data-original-title="Animations"><i class="fa fa-font"></i><span> Animations</span></a></li>
+                            <li><a href="breadcrumbs-jumbotron.html" data-original-title="Breadcrumbs"><i class="fa fa-chain"></i><span> Breadcrumbs &amp; Jumbo</span></a></li>
+                            <li><a href="buttons.html" data-original-title="Buttons"><i class="fa fa-sort"></i><span> Buttons </span></a></li>
+                            <li><a href="carousel.html" data-original-title="carousel"><i class="fa fa-coffee"></i><span> Carousel</span></a></li>
+                            <li><a href="notifications.html" data-original-title="Notifications"><i class="fa fa-bell-o"></i><span> Notifications</span></a></li>
+                            <li><a href="knobs.html" data-original-title="Knobs"><i class="fa fa-dot-circle-o"></i><span> Knobs</span></a></li>
+                            <li><a href="labels-badges.html" data-original-title="Labels"><i class="fa fa-phone-square"></i><span> Labels &amp; badges</span></a></li>
+                            <li><a href="list-groups.html" data-original-title="List Groups"><i class="fa fa-list"></i><span> List Groups</span></a></li>
+                            <li><a href="pagination.html" data-original-title="Pagination"><i class="fa fa-sort-numeric-asc"></i><span> Pagination</span></a></li>
+                            <li><a href="panels.html" data-original-title="Panels"><i class="fa fa-windows"></i><span> Panels</span></a></li>
+                            <li><a href="progress-bars.html" data-original-title="Progress"><i class="fa fa-ruble"></i><span> Progress Bars</span></a></li>
+                            <li><a href="sliders.html" data-original-title="Sliders"><i class="fa fa-exchange"></i><span> Sliders</span></a></li>
+                            <li><a href="tabs-accordians.html" data-original-title="Tabs"><i class="fa fa-check"></i><span> Tabs &amp; Accordians</span></a></li>
+                            <li><a href="info-boxes.html" data-original-title="Info Boxes"><i class="fa fa-bullseye"></i><span> Info Boxes</span></a></li>
+                            <li><a href="tooltips-popovers.html" data-original-title="Tooltips"><i class="fa fa-asterisk"></i><span> Tooltips &amp; popovers</span></a></li>
+                            <li><a href="wells.html" data-original-title="Wells"><i class="fa fa-beer"></i><span> Wells</span></a></li>
+                            <li><a href="draggable-portlets.html" data-original-title="draggable-portlets"><i class="fa fa-windows"></i><span> Draggable Portlets</span></a></li>
+                            <li><a href="bootbox-modals.html" data-original-title="bootbox-modals"><i class="fa fa-windows"></i><span> bootbox-modals</span></a></li>
+                            <li><a href="extended-modals.html" data-original-title="extended-modals"><i class="fa fa-windows"></i><span> extended-modals</span></a></li>
+                            <li><a href="date-paginator.html" data-original-title="date-paginator"><i class="fa fa-windows"></i><span> date-paginator</span></a></li>
+                            <li><a href="file-manager.html" data-original-title="file-manager"><i class="fa fa-windows"></i><span> file-manager</span></a></li>
+                            <li><a href="nestable.html" data-original-title="nestable"><i class="fa fa-windows"></i><span> nestable</span></a></li>
+                            <li><a href="image-crop.html" data-original-title="image-crop"><i class="fa fa-windows"></i><span> image-crop</span></a></li>
+                            <li><a href="rtl.html" data-original-title="RTL"><i class="fa fa-windows"></i><span> RTL</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu"> <!-- Example for second level menu -->
+                        <a class="dropdown" href="#" data-original-title="Tables"><i class="fa fa-table"></i><span class="hidden-minibar">  系统设置 </span></a>
+                        <ul>
+                            <li><a href="i_admin-manage.html" target="iframe" data-original-title="Basic"><i class="fa fa-table"></i><span>  用户管理</span></a></li>
+                            <li><a href="editable-tables.html" data-original-title="Editable"><i class="fa fa-table"></i><span>  Editable Tables</span></a></li>
+                            <li><a href="dynamic-tables.html" data-original-title="Dynamic"><i class="fa fa-table"></i><span>  Dynamic Tables</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li class=""><a href="logout.html" data-original-title="Dashboard"><i class="fa fa-dashboard"></i><span class="hidden-minibar"> 退出 </span></a></li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.left-sidebar -->
+
+        <!-- .content -->
+        <div class="content">
+            <div class="row MB10 hidden-lg">
+                <div class="col-md-12">
+                    <div class="_lhh_header xs">
+                        <div class="_lhh_header-middle center-block">
+                            <div class="_lhh_powerPanel">
+                                <div class="powerCounts">
+                                    <div class="none">
+                                        <div class="odometer pull-left"></div>
+                                        <div class="text height pull-left p-rel">
+                                            <div class="_lhh_powerPanel-switch">
+                                                <div class="switch switch-mini"  data-on="info" data-off="success" data-on-label="今年" data-off-label="累计">
+                                                    <input type="checkbox" checked />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="iframe" style="min-height: 1200px" class="content_size">
+                <iframe name="iframe"  class="H100 W100" src="i_content_1.html" frameborder="0"></iframe>
+            </div>
+            <div class="footer" id="footer">
+                © 2013 <a href="http://bootstrapguru.com">Bootstrap Guru</a>
+            </div>
+
+        </div> <!-- /.content -->
+
+    </div>  <!-- /.right-sidebar -->
+
+
+</div> <!-- /.box-holder -->
+</div><!-- /.site-holder -->
+
+</body>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    LAMJS.main(function() {
+        'use strict';
+        var System = this;
+        System.import([
+            "/init",
+            "/bootstrapSwitch"],'./js');
+    });
+</script>
+
+<script type="text/javascript">
+    LAMJS.run(function(){
+        'use strict';
+        var System=this;
+        System.use();
+        var I=System.modules.exports.I;
+        $(function(){
+            I.skylo();
+            I.home.odometer(445514);
+            I.powerPanel_switch(111111,2222222);
+            I.header();
+            I.side();
+        });
+        $(window).resize(function() {
+            I.content();
+        }).trigger('resize');
+
+
+
+    });
+
+
+
+
+</script>
+
+
+
+</html>

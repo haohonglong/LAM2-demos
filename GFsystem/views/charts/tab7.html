@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ROOT}}/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">辐射强度分布统计</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-mod-12">
+        <div class="page-header">
+            <div class="ML10 MT10">
+                <label class="MR5">统计方式</label>
+                <select type="select" class="form-control">
+                    <option>按年月统计</option>
+                    <option>年份选择</option>
+                    <option>月份选择</option>
+                </select>
+                <label class="MR5 ML30">年份</label>
+                <input type="text" class="form-control page-header-input">
+                <label class="MR5 ML30">月份</label>
+                <select type="select" class="form-control">
+                    <option>所有月</option>
+                    <option>1月</option>
+                    <option>2月</option>
+                    <option>3月</option>
+                    <option>4月</option>
+                    <option>5月</option>
+                    <option>6月</option>
+                    <option>7月</option>
+                    <option>8月</option>
+                    <option>9月</option>
+                    <option>10月</option>
+                    <option>11月</option>
+                    <option>12月</option>
+                </select>
+                <label class="MR5 ML30">图形</label>
+                <select type="select" class="form-control">
+                    <option>折线图</option>
+                    <option>曲线图</option>
+                </select>
+                <button type="submit" class="btn page-header-btn ML30">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row MB30">
+    <div class="col-md-12 MT20">
+        <div class="echarts" style="height: 400px;width:100%;" id="echarts-column-chart"></div>
+    </div>
+</div>
+</body>
+</html>
+
+
+<script type="text/javascript" src="{{ROOT}}/js/highstock.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/datetimepicker-custom.js"></script>
+
+
+<script type="text/javascript">
+    LAMJS.main(function(){
+        'use strict';
+        var System=this;
+
+        function highstock(){
+            var seriesOptions = [],
+                    seriesCounter = 0,
+                    names = ['MSFT', 'AAPL'];
+            $.each(names, function (i, name) {
+                $('#echarts-column-chart').highcharts({
+                    chart: {
+                        height: 620,
+                        zoomType: 'xy',
+                        plotBackgroundColor:'#eef4ff'    //绘图区背景色
+                    },
+                    title: {
+                        text: '辐射强度分布统计',
+                        x: -10, //center
+                        style:{
+                            fontFamily:'SimHei'
+                        }
+                    },
+                    xAxis: {
+                        categories: ['0-100','100-200','200-300','300-400','400-500','500-600','600-700','700-800','800-900','900-1000','1000以上'],
+                        title:{
+                            text:'辐射强度分布区间(w/㎡)',
+                            // y : -20,
+                            x : -10,
+                        },
+                        gridLineWidth:1
+                    },
+                    yAxis: [{
+                        title: {
+                            text: '比例(%)'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    }],
+                    credits: {
+                        enabled:false    //不显示版权标签
+                    },
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        borderWidth: 2
+                    },
+                    series: [{
+                        name: '7月',
+                        data: [15.00, 13.50, 12.50, 11.00, 10.05, 9.05,8.00,7.50, 5.00, 2.50, 0.00]
+                    },{
+                        name: '8月',
+                        data: [26.00, 14.00, 12.00, 8.00, 10.00, 9.00,7.00,6.00,6.25,5.00, 4.50]
+                    },{
+                        name: '9月',
+                        data: [34.00, 17.50, 15.00, 13.00, 12.00, 11.00,10.00,9.00,6.00,4.10, 3.00]
+                    }]
+                });
+
+            });
+
+        }
+
+
+
+        $(window).resize(function() {
+            highstock();
+        }).trigger('resize');
+
+
+
+    });
+</script>
+
+
+
+
+

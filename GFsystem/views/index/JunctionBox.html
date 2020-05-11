@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_style_2.css" />
+    <style type="text/css">
+        body.content{padding: 0;}
+        .container-fluid{padding-right: 0;}
+    </style>
+</head>
+<body class="content">
+
+    <div class="row _lhh_breadcrumb MB10 visible-lg PL15">
+        <ul class="breadcrumb pull-left">
+            <li><a href="">实时监测</a></li>
+            <li class="active">汇流箱监测</li>
+        </ul>
+        <div class="p-rel">
+            <div class="_lhh_breadcrumb-more MR15">
+                <!--电子时钟 begin-->
+                <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+                <!--电子时钟 end-->
+            </div>
+        </div>
+    </div>
+    <div class="w-page">
+        <div class="_zh_summary container-fluid">
+            <i class="_zh_icon-i edit"></i>
+            <ul class="row">
+                <li class="col-md-9">
+                    <p>
+                        <span class="font-grey">汇流箱总数：</span>10<span class="font-grey ML35">汇流箱异常</span>（通讯中断<span class="font-red">2</span>个，电流异常<span class="font-red">2</span>个）
+                    </p>
+                </li>
+
+                <li class="col-md-3">
+                    <p>
+                        <span class="pull-right ML10"><i class="_zh_waring _zh_waring-yellow"></i>电流异常</span>
+                        <span class="pull-right"><i class="_zh_waring _zh_waring-red"></i>通讯中断</span>
+                    </p>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="w-page">
+        <div class="_zh_stationWrap PT20">
+            <div class="p-rel">
+                <i class="_zh_smallarrow leftarrow leftarrow-abl pre"></i>
+                <i class="_zh_smallarrow rightarrow rightarrow-abl next"></i>
+                <div class="slider p-rel" style="width: 98%;overflow: hidden;margin:auto;">
+
+
+                    <ul class="ul p-rel" id="sliderUI">
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+                        <li class="_zh_rectangle">
+                            <p class="font-grey font-12">01#方阵</p>
+                            <i class="_zh_rectangleImg"></i>
+                        </li>
+
+
+                    </ul>
+
+
+
+
+                </div>
+            </div>
+            <div class="container-fluid">
+                <ul class="row" id="electricalBox">
+                    <li class="_zh_station col-sm-6 col-md-3">
+                        <div class="_zh_station-top">
+                            <i class="_zh_waring _zh_waring-red _zh_waring-red-abl"></i>
+                            <i class="_zh_station-stationicon"></i>
+                            <div class="_zh_station-title font-grey ML0">
+                                <p class="MB0">01#方阵</p>
+                                <p class="MB0">汇流箱01</p>
+                            </div>
+                        </div>
+                        <div class="_zh_station-c bold">
+                            <div class="text2">
+                                <i class="_zh_sign U"></i>
+                                <i class="_zh_sign I"></i>
+                                <i class="_zh_sign C"></i>
+                            </div>
+                            <div class="data-font">
+                                <p>总电压</p>
+                                <p>总电流</p>
+                                <p>温度</p>
+                            </div>
+                            <div class="data-value">
+                                <p class="MB5">32V</p>
+                                <p class="MB5">10A</p>
+                                <p class="MB5 font-red">38℃</p>
+                            </div>
+                        </div>
+                        <div class="_zh_station-arrowicon">
+                            <img src="{{ROOT}}/css/img/arrow_success.png" alt=""/>
+                            <img src="{{ROOT}}/css/img/arrow_success.png" alt=""/>
+                            <img src="{{ROOT}}/css/img/arrow_success.png" alt=""/>
+                            <img src="{{ROOT}}/css/img/arrow_success.png" alt=""/>
+                        </div>
+                    </li>
+
+
+
+                </ul>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+</body>
+</html>
+
+
+<script type="text/javascript" src="{{LAMJS}}/Sport.class.js"></script>
+<script type="text/javascript" src="{{LAMJS}}/Layout.class.js"></script>
+<script type="text/javascript" src="{{LAMJS}}/Slider.class.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/use.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/use-inverter.js"></script>
+
+
+
+<script type="text/javascript">
+    LAMJS.main(function() {
+        'use strict';
+        var System = this;
+        var I=System.modules.exports.I;
+        var slider;
+        I.ElectricalBox.init_tpl(true);
+        function initInverterData(){
+            $('#electricalBox').html('');
+            $('#sliderUI').delegate('li','click',function(){
+                I.ElectricalBox.init_tpl(false);
+                var _this_=this;
+                I.ElectricalBox.getInverterData({
+                    '$view':$('#electricalBox'),
+                    'type': 'post',
+                    'data': $(_this_).attr('id'),
+                    'url':  $(_this_).attr('url') || System.Config.Public.ROOT+'/js/dataJson-data.json',
+                    'init_fun':function(v){
+                        var tpl=[];
+
+                        tpl.push('<li class="_zh_station col-sm-6 col-md-3" id="s_'+ v._id+'">');
+                        tpl.push('<div class="_zh_station-top">');
+                        tpl.push('<i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>');
+                        tpl.push('<i class="_zh_station-stationicon"></i>');
+                        tpl.push('<div class="_zh_station-title font-grey ML0">');
+                        tpl.push('<p class="MB0">01#方阵</p>');
+                        tpl.push('<p class="MB0">汇流箱01</p>');
+                        tpl.push('</div>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="_zh_station-c bold">');
+                        tpl.push('<div class="text2">');
+                        tpl.push('<i class="_zh_sign U"></i>');
+                        tpl.push('<i class="_zh_sign I"></i>');
+                        tpl.push('<i class="_zh_sign C"></i>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="data-font">');
+                        tpl.push('<p>总电压</p>');
+                        tpl.push('<p>总电流</p>');
+                        tpl.push('<p>温度</p>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="data-value">');
+                        tpl.push('<p class="MB5">32V</p>');
+                        tpl.push('<p class="MB5">10A</p>');
+                        tpl.push('<p class="MB5 font-red">38℃</p>');
+                        tpl.push('</div>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="_zh_station-arrowicon">');
+                        for(var i=0;i<Math.round(Math.random()*20);i++){
+                            tpl.push(['<img src="',System.Config.Public.ROOT,'/css/img/arrow_success.png" alt=""/>'].join(''));
+                        }
+
+
+                        tpl.push('</div>');
+                        tpl.push('</li>');
+
+                        return tpl.join('');
+                    }
+                });
+
+            });
+
+            $('#sliderUI li:first').trigger('click');
+
+
+            window.setInterval(function(){
+                I.ElectricalBox.getInverterData({
+                    'type': 'post',
+                    'url':  System.Config.Public.ROOT+'/js/dataJson-data.json',
+                    'data': {},
+                    'getCurTpl':function(D){
+                        var tpl, i,len= D.data.length, v;
+
+                        for(i=0;i<len;i++){
+                            tpl=[];
+                            v= D.data[i];
+                            if(!System.empty( v['_id'])){
+                                tpl.push('<p class="MB5">32V</p>');
+                                tpl.push('<p class="MB5">10A</p>');
+                                tpl.push('<p class="MB5 font-red">38℃</p>');
+                            }
+
+                            $('#s_'+v['_id']+' .data-value').html(tpl.join(''));
+
+                        }
+
+                    }
+                });
+            },5000);
+
+            //每个图片点击后
+            $('#electricalBox').delegate('li ._zh_station-arrowicon','click',function(e){
+
+                var $layer =  $('#pop_boxOut');
+                if($layer){
+                    $layer.remove();
+                }
+//                I.ElectricalBox.pop.setPop($(this).parents('li')[0],e,'#pop_boxOut',I.ElectricalBox.pop.get_pop_boxOut());
+                I.ElectricalBox.pop.setPop('body',e,'#pop_boxOut',I.ElectricalBox.pop.get_pop_boxOut());
+
+
+                $('#pop_boxOut').delegate('._zh_powerOut-close','click',function(e){
+                    $('#pop_boxOut').remove();
+                });
+
+            });
+
+        }
+
+
+
+
+
+        function slider_f(){
+            slider=new System.Slider({
+                '$view':$('.slider'),
+                '$pre':$('._zh_smallarrow.pre'),
+                '$next':$('._zh_smallarrow.next'),
+                '$autoHandler':$('.slider'),
+                '$ul':$('.slider ul'),
+                '$li':$('.slider li'),
+                'count':$('.slider li').length,
+                'unit':'px',
+                'margin':1.7,
+                'moveNumber':1,
+                'vcount':8,
+                'position':'left',
+                'autoMove':null,
+                'sport':true
+            }).run();
+        }
+
+
+
+
+
+
+        $(function(){
+            slider_f();
+            initInverterData();
+
+        });
+
+
+
+    });
+</script>
+
+

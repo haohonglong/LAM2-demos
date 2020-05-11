@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">损失电量评估分析</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-mod-12">
+        <div class="page-header">
+            <div class="ML10 MT10">
+                <label class="MR5">年月</label>
+                <input size="16" type="text" value="2012-06-15" readonly class="form_datetime form-control">
+                <button type="submit" class="btn page-header-btn ML30">查询</button>
+                <label class="MR5 ML30">开始日期</label>
+                <input size="16" type="text" value="2012-06-15" readonly class="form_datetime form-control" data-date-format="yyyy-mm-dd hh:ii">
+                <label class="MR5 ML30">结束日期</label>
+                <input size="16" type="text" value="2012-06-15" readonly class="form_datetime form-control" data-date-format="yyyy-mm-dd hh:ii">
+                <button type="submit" class="btn page-header-btn ML30" data-toggle="modal" data-target="#adm_Modal">重新计算</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div style="overflow: auto;">
+    <h1 class="font-16 font-blue text-center FW">损失电量评估分析</h1>
+    <table class="_zh_table font-12 font-blue">
+        <tr class="_zh_table-tr bg-blue">
+            <td class="PLR80">日期</td>
+            <td class="PLR50">汇流箱个数</td>
+            <td class="PLR50">损失电量（kWh）</td>
+            <td class="PLR124">说明</td>
+        </tr>
+        <tr class="_zh_table-tr bg-grey">
+            <td class="PLR15">合计</td>
+            <td class="PR40 text-left"></td>
+            <td class="text-right"></td>
+            <td class="text-right"></td>
+        </tr>
+    </table>
+
+
+    <div class="modal fade" id="adm_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    来自网页的消息
+                </div>
+                <div class="modal-body text-center">
+                    <p class="M0 font-12">您确定要重新计算2015-08-30到2015-09-01的值吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-cancel pull-right" data-dismiss="modal">取消</button>
+                    <button class="btn btn-sure pull-right">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/datetimepicker-custom.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function initDate(){
+    $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd',minView:2});
+}
+
+$(function(){
+    initDate();
+});
+</script>

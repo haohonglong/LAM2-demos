@@ -1,0 +1,396 @@
+<#define __ROOT__="{{LAM.ROOT}}" />
+<#define __JS__="{{LAM.JS}}" />
+<#define __CSS__="{{LAM.JS}}" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#define __PLUGINS__="{{LAM.PLUGINS}}" />
+<#import type="css" path="
+/weather/css/style
+" root="__PLUGINS__" befor="1" />
+
+<#import path="
+
+/odometer,
+/raphael-min,
+
+/charts/jquery.sparkline.min,
+/morris-0.4.3.min,
+/morris-custom,
+/highcharts.src,
+/highstock,
+/fullcalendar.min,
+/fullcalendar-custom
+" root="__JS__" write="1" befor="1" />
+
+<#import path="/weather/js/skycons,/flipclock/flipclock" root="__PLUGINS__" write="1" befor="1" />
+
+<#define __TITLE__="光伏运维生成管理系统-当日电量" />
+<#Block:begin id="head" data="{'title':'__TITLE__'}"><#Block:end>
+<#extends title="__TITLE__" />
+<#Block:begin id="breadcrumb-li" data="{'list':[
+{'href':'index.html','name':'首页'},
+{'name':'当日电量'}
+]}">
+<#Block:end>
+
+<#Block:begin id="cards" data="{'list':[
+{
+    'card-color':'red',
+    'front':{
+        'title':'New Users',
+        'count-id':{'users-count':0}
+    },
+    'back':{
+        'title':'Total Users',
+    }
+}
+]}">
+
+<#Block:end>
+<div class="row cards">
+    <div class="card-container col-lg-3 col-md-6 col-sm-12">
+        <div class="card card-red hover">
+            <div class="front">
+                <h1>New Users</h1>
+
+                <p id="users-count">0</p>
+                <span class="fa-stack fa-2x pull-right">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-user fa-stack-1x"></i>
+                            <span class="easypiechart" data-percent="100" data-line-width="4" data-size="80"
+                                  data-line-cap="butt" data-animate="2000" data-target="#users-count" data-update="3000"
+                                  data-bar-color="white" data-scale-color="false"
+                                  data-track-color="rgba(0, 0, 0, 0.15)"></span>
+                            </span>
+            </div>
+            <div class="back">
+                <ul class="inline divided">
+                    <li>
+                        <h1>Total Users</h1>
+
+                        <p>3541</p>
+                    </li>
+                    <li>
+                        <h1>Last Month</h1>
+
+                        <p>698</p>
+                    </li>
+                </ul>
+                <div class="summary negative">13% <i class="fa fa-arrow-down"></i> this month</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="card-container col-lg-3 col-md-6 col-sm-12">
+        <div class="card card-cyan hover">
+            <div class="front">
+                <h1>New Orders</h1>
+                <p id="orders-count">0</p>
+                <span class="fa-stack fa-2x pull-right">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-shopping-cart fa-stack-1x"></i>
+                                  <span class="easypiechart" data-percent="55" data-line-width="4" data-size="80" data-line-cap="butt" data-animate="2000" data-target="#orders-count" data-update="3000" data-bar-color="white" data-scale-color="false" data-track-color="rgba(0, 0, 0, 0.15)"></span>
+                                </span>
+            </div>
+            <div class="back">
+                <ul class="inline divided">
+                    <li>
+                        <h1>Total Orders</h1>
+                        <p>842</p>
+                    </li>
+                    <li>
+                        <h1>Last Month</h1>
+                        <p>151</p>
+                    </li>
+                </ul>
+                <div class="summary positive">6% <i class="fa fa-arrow-up"></i> this month</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="card-container col-lg-3 col-md-6 col-sm-12">
+        <div class="card card-green hover">
+            <div class="front">
+                <h1>Sales</h1>
+                <p id="sales-count">0</p>
+                <span class="fa-stack fa-2x pull-right">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-usd fa-stack-1x"></i>
+                                  <span class="easypiechart" data-percent="30" data-line-width="4" data-size="80" data-line-cap="butt" data-animate="2000" data-target="#sales-count" data-update="3000" data-bar-color="white" data-scale-color="false" data-track-color="rgba(0, 0, 0, 0.15)"></span>
+                                </span>
+            </div>
+            <div class="back">
+                <ul class="inline divided">
+                    <li>
+                        <h1>Total Sales</h1>
+                        <p>25,165</p>
+                    </li>
+                    <li>
+                        <h1>Last Month</h1>
+                        <p>3,154</p>
+                    </li>
+                </ul>
+                <div class="summary positive">18% <i class="fa fa-arrow-up"></i> this month</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="card-container col-lg-3 col-md-6 col-sm-12">
+        <div class="card card-orange hover">
+            <div class="front">
+                <h1>Visits</h1>
+                <p id="visits-count">0</p>
+                <span class="fa-stack fa-2x pull-right">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-eye fa-stack-1x"></i>
+                                  <span class="easypiechart" data-percent="90" data-line-width="4" data-size="80" data-line-cap="butt" data-animate="2000" data-target="#visits-count" data-update="3000" data-bar-color="white" data-scale-color="false" data-track-color="rgba(0, 0, 0, 0.15)"></span>
+                                </span>
+            </div>
+            <div class="back">
+                <ul class="inline divided">
+                    <li>
+                        <h1>Total Visits</h1>
+                        <p>48,694</p>
+                    </li>
+                    <li>
+                        <h1>Last Month</h1>
+                        <p>9,514</p>
+                    </li>
+                </ul>
+                <div class="summary negative">2% <i class="fa fa-arrow-down"></i> this month</div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+<div class="row MB30">
+    <!-- Discrete Bar Chart -->
+    <div class="col-md-12">
+        <div class="echarts" style="height: 400px;width:100%;" id="echarts-column-chart"></div>
+    </div>
+</div>
+<!-- calendar Charts  -->
+<div class="row" style="margin-bottom: 50px;">
+
+    <div class="col-md-6 MB10">
+        <div class="P20 PR0">
+            <div class="P10 MR10 _lhh_bg-grey">
+                <div id="calendar"></div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Pie chart -->
+    <div class="col-md-6">
+        <div class="P20 PL0">
+            <!--天气-->
+            <div class="row MB10">
+                <div class="col-md-12">
+                    <div class="weather-box widget-body  yellow">
+                        <div class="weather-day">
+                            <span>21</span>
+                            <p>星期四</p>
+                        </div>
+
+                        <div class="weather-icon">
+                            <canvas id="rain" width="64" height="64"></canvas>
+                            <p>ABU DHABI</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row holder" id="donuts-holder">
+                <div class="col-md-6">
+                    <h4 class="_lhh_title MB10">今日综合效率</h4>
+                    <div id="donut"></div>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="_lhh_title MB10">年计划完成率</h4>
+                    <div id="coloredDonut"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    LAM.run([jQuery],function($){
+        'use strict';
+        var System=this;
+        /**
+         * 翻转效果
+         */
+        function flip(){
+            // Initialize card flip
+            $('.card.hover').hover(function(){
+                $(this).addClass('flip');
+            },function(){
+                $(this).removeClass('flip');
+            });
+
+            // Make card front & back side same
+
+            $('.card').each(function() {
+                var front = $('.card .front');
+                var back = $('.card .back');
+                var frontH = front.height();
+                var backH = back.height();
+
+
+
+                if (backH > frontH) {
+                    front.height(backH - 8);
+                }
+            });
+
+            //generate pie charts
+            $('.easypiechart').easyPieChart();
+
+            //animate numbers on cards
+            $("#users-count").animateNumbers(Math.round( Math.random() * 1000 ));
+
+            //update instance every 5 sec
+            window.setInterval(function() {
+
+                //animate numbers on cards
+                $( '#users-count' ).animateNumbers( Math.round( Math.random() * 1000 ) );
+                $( '#orders-count' ).animateNumbers( Math.round( Math.random() * 100 ) );
+                $( '#sales-count' ).animateNumbers( Math.round( Math.random() * 10000 ) );
+                $( '#visits-count' ).animateNumbers( Math.round( Math.random() * 10000 ) );
+
+                //refresh every pie chart
+                $('.easypiechart').each(function() {
+                    $(this).data('easyPieChart').update(Math.floor(100*Math.random()));
+                });
+
+            }, 5000);
+        }
+
+        function highstock_($dom,D){
+            $dom.highcharts('StockChart', {
+                credits: {
+                    enabled: false
+                },
+
+                title: {
+                    text: '今日上网电量实时曲线',
+                    verticalAlign: 'top',
+                    floating:true,
+                    y:20,
+                    style:{
+                        fontSize: 18,
+                        fontWeight: 'bolder',
+                        color: '#495b79'
+                    }
+                },
+                rangeSelector: {
+                    selected: 4
+                },
+
+                yAxis: {
+                    labels: {
+                        formatter: function () {
+                            return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 2,
+                        color: 'silver'
+                    }]
+                },
+
+                plotOptions: {
+                    series: {
+                        compare: 'percent'
+                    }
+                },
+
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                    valueDecimals: 2
+                },
+
+                series: D.series
+            });
+        }
+
+        function highstock(){
+            var seriesOptions = [],
+                    seriesCounter = 0,
+                    names = ['MSFT', 'AAPL'];
+            $.each(names, function (i, name) {
+
+                $.getJSON('http://www.hcharts.cn/datas/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?',    function (data) {
+
+                    seriesOptions[i] = {
+                        name: name,
+                        data: data
+                    };
+
+                    switch(i)
+                    {
+                        case 0:
+                            seriesOptions[i].color='blue';
+                            break;
+                        case 1:
+                            seriesOptions[i].color='red';
+                            break;
+                        default:
+
+                    }
+
+                    // As we're loading the data asynchronously, we don't know what order it will arrive. So
+                    // we keep a counter and create the chart when all the data is loaded.
+                    seriesCounter += 1;
+
+                    if (seriesCounter === names.length) {
+                        highstock_($('#echarts-column-chart'),{'series':seriesOptions});
+                    }
+                });
+            });
+
+        }
+
+        /**
+         * @author: lhh
+         * 产品介绍：
+         * 创建日期：2015-8-26
+         * 修改日期：2015-8-26
+         * 名称： rain
+         * 功能：天气控件
+         * 说明：
+         * 注意：下面俩个参数是必须的标
+         * @param   (String)dom             NO NULL : 元素ID
+         * @return (void)
+         * Example：
+         *
+         */
+        function rain(dom){
+            var icons = new Skycons();
+            icons.set(dom, Skycons.RAIN);
+            icons.play();
+        }
+
+        $(function(){
+            flip();
+            rain("rain");
+        });
+        $(window).resize(function() {
+            highstock();
+            initDonut();
+        }).trigger('resize');
+
+    });
+</script>

@@ -1,0 +1,122 @@
+@charset "utf-8";
+
+/* YELLOW COLOR */
+.yellow{
+  background-image: url("../images/yellow.jpg");
+  background-size: 100% 100%;
+  border: 1px solid #e8c65c;
+
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;
+  -ms-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;
+  -o-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;
+}
+
+/* Weather Widget */
+.weather-box {
+  float: left;
+  width: 100%;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+.weather-day {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  float: left;
+  width: 50%;
+  position: relative;
+}
+.weather-day > span {
+  color: #FFFFFF;
+  float: left;
+  font-family: roboto;
+  font-size: 60px;
+  line-height: 47px;
+  margin-bottom: 18px;
+  margin-top: 30px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.weather-day > span:before {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+  border: 3px solid #FFFFFF;
+  content: "";
+  height: 18px;
+  position: absolute;
+  left: 62%;
+  top: -8px;
+  width: 18px;
+
+
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+.weather-day > p {
+  color: #FFFFFF;
+  float: left;
+  font-family: pt sans;
+  font-size: 13px;
+  letter-spacing: 0.35px;
+  line-height: 10px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.weather-day:before {
+  background: none repeat scroll 0 0 #FFFFFF;
+  color: #F3D447;
+  content: "25";
+  font-family: pontano sans;
+  font-size: 23px;
+  height: 50px;
+  line-height: 50px;
+  margin-right: -27px;
+  margin-top: -22px;
+  padding-left: 1px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  width: 50px;
+  z-index: 2;
+
+
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+.weather-icon {
+  float: left;
+  width: 50%;
+}
+.weather-icon > canvas {
+  display: table;
+  float: none;
+  margin: 30px auto 0;
+}
+.weather-icon > p{
+  color: #FFFFFF;
+  float: left;
+  font-family: pt sans;
+  font-size: 13px;
+  letter-spacing: 0.35px;
+  line-height: 10px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
+}
+

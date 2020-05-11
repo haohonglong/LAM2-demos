@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>光伏运维生成管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+     <link rel="stylesheet" type="text/css" href="css/lhh_lib.css">
+    <link rel="stylesheet" type="text/css" href="css/zh_style.css">
+    <link rel="stylesheet" type="text/css" href="css/zh_style_2.css">
+    <script type="text/javascript" src="js/config.js"></script>
+    <style type="text/css">
+        body.content{padding: 0;}
+        .container-fluid{padding-right: 0;}
+    </style>
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg PL15">
+    <ul class="breadcrumb pull-left">
+        <li><a href="">实时监测</a></li>
+        <li class="active">汇流箱监测</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="./include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="w-page">
+    <div class="_zh_summary container-fluid">
+        <i class="_zh_icon-i edit"></i>
+        <ul class="row">
+            <li class="col-md-9">
+                <p>
+                    <span class="font-grey">汇流箱总数：</span>10<span class="font-grey ML35">汇流箱异常</span>（通讯中断<span class="font-red">2</span>个，电流异常<span class="font-red">2</span>个）
+                </p>
+            </li>
+
+            <li class="col-md-3">
+                <p>
+                    <span class="pull-right ML10"><i class="_zh_waring _zh_waring-yellow"></i>电流异常</span>
+                    <span class="pull-right"><i class="_zh_waring _zh_waring-red"></i>通讯中断</span>
+                </p>
+            </li>
+
+        </ul>
+
+    </div>
+</div>
+
+<div class="w-page">
+    <div class="_zh_stationWrap PT20">
+        <div class="p-rel">
+            <i class="_zh_smallarrow leftarrow leftarrow-abl pre"></i>
+            <i class="_zh_smallarrow rightarrow rightarrow-abl next"></i>
+            <div class="slider p-rel" style="width: 98%;overflow: hidden;margin:auto;">
+
+
+                <ul class="ul p-rel" id="sliderUI">
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+                    <li class="_zh_rectangle">
+                        <p class="font-grey font-12">01#方阵</p>
+                        <i class="_zh_rectangleImg"></i>
+                    </li>
+
+                </ul>
+
+
+
+
+            </div>
+        </div>
+        <div class="container-fluid">
+            <ul class="row" id="electricalBox">
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon greenarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-red _zh_waring-red-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon redarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon greenarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-red _zh_waring-red-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon redarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon greenarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-red _zh_waring-red-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon redarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon greenarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-red _zh_waring-red-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon redarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon greenarrow"></div>
+                </li>
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div class="_zh_station-top">
+                        <i class="_zh_waring _zh_waring-red _zh_waring-red-abl"></i>
+                        <div class="_zh_station-title font-grey ML0">
+                            <p class="MB0">01#方阵</p>
+                            <p class="MB0">汇流箱01</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-c bold">
+                        <div class="text2">
+                            <i class="_zh_sign U"></i>
+                            <i class="_zh_sign I"></i>
+                            <i class="_zh_sign C"></i>
+                        </div>
+                        <div class="data-font">
+                            <p>总电压</p>
+                            <p>总电流</p>
+                            <p>温度</p>
+                        </div>
+                        <div class="data-value">
+                            <p class="MB5">32V</p>
+                            <p class="MB5">10A</p>
+                            <p class="MB5 font-red">38℃</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-arrowicon redarrow"></div>
+                </li>
+
+
+            </ul>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+</body>
+<script type="text/javascript">
+    LAMJS.main(function() {
+        'use strict';
+        var System = this;
+        System.import([
+                    '/use',
+                    '/use-inverter'
+                ],'./js')
+                .import([
+                    '/Sport.class',
+                    '/Layout.class',
+                    '/Slider.class'
+                ],System.classPath);
+    });
+</script>
+<script type="text/javascript">
+    LAMJS.run(function() {
+        'use strict';
+        var System = this;
+        var I=System.modules.exports.I;
+        System.Html.include($('include'));
+
+
+        var slider;
+
+
+        I.ElectricalBox.init_tpl(true);
+        function initInverterData(){
+            $('#electricalBox').html('');
+            $('#sliderUI').delegate('li','click',function(){
+                I.ElectricalBox.init_tpl(false);
+                var _this_=this;
+                I.ElectricalBox.getInverterData({
+                    '$view':$('#electricalBox'),
+                    'type': 'post',
+                    'data': $(_this_).attr('id'),
+                    'url':  $(_this_).attr('url') || 'js/dataJson-data.json',
+                    'init_fun':function(v){
+                        var tpl=[];
+
+                        tpl.push('<li class="_zh_station col-sm-6 col-md-3" id="s_'+ v._id+'">');
+                        tpl.push('<div class="_zh_station-top">');
+                        tpl.push('<i class="_zh_waring _zh_waring-yellow _zh_waring-yellow-abl"></i>');
+                        tpl.push('<div class="_zh_station-title font-grey ML0">');
+                        tpl.push('<p class="MB0">01#方阵</p>');
+                        tpl.push('<p class="MB0">汇流箱01</p>');
+                        tpl.push('</div>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="_zh_station-c bold">');
+                        tpl.push('<div class="text2">');
+                        tpl.push('<i class="_zh_sign U"></i>');
+                        tpl.push('<i class="_zh_sign I"></i>');
+                        tpl.push('<i class="_zh_sign C"></i>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="data-font">');
+                        tpl.push('<p>总电压</p>');
+                        tpl.push('<p>总电流</p>');
+                        tpl.push('<p>温度</p>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="data-value">');
+                        tpl.push('<p class="MB5">32V</p>');
+                        tpl.push('<p class="MB5">10A</p>');
+                        tpl.push('<p class="MB5 font-red">38℃</p>');
+                        tpl.push('</div>');
+                        tpl.push('</div>');
+                        tpl.push('<div class="_zh_station-arrowicon greenarrow"></div>');
+                        tpl.push('</li>');
+
+                        return tpl.join('');
+                    }
+                });
+
+            });
+
+            $('#sliderUI li:first').trigger('click');
+
+
+            window.setInterval(function(){
+                I.ElectricalBox.getInverterData({
+                    'type': 'post',
+                    'url':  'js/dataJson-data.json',
+                    'data': {},
+                    'getCurTpl':function(D){
+                        var tpl, i,len= D.data.length, v;
+
+                        for(i=0;i<len;i++){
+                            tpl=[];
+                            v= D.data[i];
+                            if(!System.empty( v['_id'])){
+                                tpl.push('<p class="MB5">32V</p>');
+                                tpl.push('<p class="MB5">10A</p>');
+                                tpl.push('<p class="MB5 font-red">38℃</p>');
+                            }
+
+                            $('#s_'+v['_id']+' .data-value').html(tpl.join(''));
+
+                        }
+
+                    }
+                });
+            },5000);
+        }
+
+
+
+
+
+        function slider_f(){
+            slider=new System.Slider({
+                '$view':$('.slider'),
+                '$pre':$('._zh_smallarrow.pre'),
+                '$next':$('._zh_smallarrow.next'),
+                '$autoHandler':$('.slider'),
+                '$ul':$('.slider ul'),
+                '$li':$('.slider li'),
+                'count':$('.slider li').length,
+                'unit':'px',
+                'margin':2.2,
+                'moveNumber':1,
+                'vcount':6,
+                'position':'left',
+                'autoMove':null,
+                'sport':true
+            }).run();
+        }
+
+
+
+
+
+
+        $(function(){
+            slider_f();
+            initInverterData();
+
+        });
+
+
+        $(window).resize(function(){
+            slider.resize();
+
+        });
+    });
+</script>
+</html>
+

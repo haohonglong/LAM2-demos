@@ -1,0 +1,258 @@
+@charset "utf-8";
+@import url("global.css");
+/* CSS Document */
+body{font-family:"Microsoft Yahei";margin:15px;}
+
+.sidebar-holder .nav li a {
+    font-weight: bold;
+}
+
+body.content {
+    margin:0;
+    padding-left: 20px;
+}
+.content .row{margin-right:0;}
+.w-page{width:98%;margin-right: auto;margin-left: auto; position:relative;}
+
+
+/*override Bootstrap begin*/
+
+
+
+/*override Bootstrap end*/
+
+/*override style begin*/
+
+#chart1,
+#donuts-holder {
+    height: auto;
+
+}
+
+/*override style end*/
+
+
+
+/*link*/
+.linkBlue,.linkBlue a:link,.linkBlue a:visited,.linkBlue:link,.linkBlue a:visited,.linkBlue:visited{color:#54b5df!important;}
+.linkBlue a:hover,.linkBlue:hover{color:#54b5df!important;}
+
+/*文字样式*/
+.font,.font a{color: #666;font-size: 12px;}
+.font-warning,.font-warning a{color: #ff0101;}
+.font-grey,.font-grey a{color: #ccc;}
+.font-lightgrey,.font-lightgrey a{color: #999;}
+.font-red,.font-red a{color: #cc0000;}
+.font-white,.font-white a{color: #fff;}
+.font-green,.font-green a{color: #41bd39;}
+.font-blue,.font-blue a{color: #33a5f7;}
+.font-12,.font-12 a{font-size: 12px;}
+.font-14,.font-14 a{font-size: 14px;}
+.font-16,.font-16 a{font-size: 16px;}
+
+._lhh_bg{background: #4a5b79;}
+._lhh_bg-grey{background: #f9f9f9;}
+
+.min-width{min-width:1600px;}
+
+
+/*单独图标*/
+/*icon begin*/
+._lhh_icon{position: relative;}
+._lhh_icon-i{position: absolute;top:0;left:0;width:10px;height:10px;background:url(img/icons.png) no-repeat;}
+._lhh_icon-i.plus{background-position: 0 0;}
+._lhh_icon-i.edit{background-position: 0 0;}
+._lhh_icon-i.del{background-position: 0 0;}
+
+
+/*通用标题 begin*/
+    ._lhh_title{margin:0;margin-top: 10px;}
+    ._lhh_title.MB10{margin-bottom: 10px;}
+/*通用标题 end*/
+
+/*header begin*/
+    ._lhh_header{ height: 90px;line-height: 90px;background: #3d5479;position: relative;}
+    ._lhh_header-left{width:500px; height: 90px;line-height: 90px; position: absolute;left:0;top:0;}
+    ._lhh_header-middle{width: 600px;height: 90px;position: relative;left: 275px;}
+    ._lhh_header-right{width:auto;height:90px; position: absolute;right:0;top:0;}
+    ._lhh_header .M20{margin:0 20px;position: relative;height:100%;}
+/*header end*/
+
+/*手机屏*/
+@media (max-width: 1200px) {
+    ._lhh_header.xs{top:-20px;margin:0 -25px;margin-left: -20px; padding-left: 40px;}
+}
+
+@media (max-width: 1199px) {
+    ._lhh_header-middle{left:0;}
+}
+
+@media (max-width: 768px) {
+
+}
+
+
+/*logo begin*/
+    ._lhh_logo{position: relative; height: 100%;}
+    ._lhh_logo-img{width:84px;height: 100%;position: absolute;top:0;left:0;margin-top: 13px; background: url(img/logo.png) no-repeat 0 0;}
+    ._lhh_logo h1{font-size: 26px;height: 100%;line-height: inherit; font-weight: bold;color:#fff;margin:0;padding:0;
+        /*margin-left: 100px;*/
+    }
+/*logo end*/
+
+@media (max-width: 768px) {
+    .navbar.none{display: block;}
+}
+
+/*累计上网电量 begin*/
+    ._lhh_powerPanel{width: 100%;height: 100%; position: relative;}
+    ._lhh_powerPanel .text{width:auto;height:100%;font-size: 16px;font-weight: normal;margin:0;padding:0;color:#fff;top:-11px;}
+    ._lhh_powerPanel .line-height{line-height: 90px;}
+    ._lhh_powerPanel .height{height:65px;}
+    ._lhh_powerPanel .powerCounts{width:auto;line-height: normal; overflow: hidden;}
+    ._lhh_powerPanel-switch{width: 80px; height: 25px;line-height: 25px; position: absolute;left: 0;margin-left: -2px; bottom:0; margin-bottom:5px;font-size: 12px;cursor: pointer;}
+/*累计上网电量 end*/
+
+/*手机屏*/
+@media (max-width: 1200px) {
+    .xs ._lhh_powerPanel{width:65%;margin:auto;top: 15px;}
+}
+@media (max-width: 522px) {
+    .xs ._lhh_powerPanel{width:100%;margin:auto;top: 15px;}
+}
+
+
+
+
+/*头部小部件 begin*/
+    #topWidget{height: auto;}
+    #topWidget .nav{margin-right: 0!important;}
+/*头部小部件 end*/
+
+/*头部滚动文字卡片 begin test*/
+    ._lhh_brandCard{position: relative; width:auto; height: auto;line-height: normal; background: #ccc;text-align: center;}
+    ._lhh_brandCard-mask{position: absolute;top:1px;left:1px;background: #000;opacity: 0.2;}
+    ._lhh_brandCard-border{width:auto; height: auto;border:1px solid #eee;border-radius: 3px;}
+
+/*头部滚动文字卡片 end*/
+
+
+
+
+
+/*当前位置 begin*/
+    ._lhh_breadcrumb {background-color: #f5f5f5;height: 35px;line-height: 35px;padding:0;}
+    ._lhh_breadcrumb.PL15 {padding-left: 15px;}
+    .mini-sidebar ._lhh_breadcrumb{margin-left: -10px;}
+    ._lhh_breadcrumb .breadcrumb{height: 100%; list-style:none;padding: 0; padding-left: 15px;line-height: 35px;}
+    ._lhh_breadcrumb .breadcrumb > li {height: 100%;line-height: inherit; display: inline-block;}
+    ._lhh_breadcrumb .breadcrumb > li a {color:#54b5df;}
+    ._lhh_breadcrumb .breadcrumb > li + li:before {padding:0 5px;content: "\00BB";color: #495b79;}
+    ._lhh_breadcrumb .breadcrumb > .active {color: #999;}
+    ._lhh_breadcrumb .MR10 {margin-right: 15px;}
+    ._lhh_breadcrumb-more{width:auto;height: 100%; position: absolute;right: 0;top:0;}
+    ._lhh_breadcrumb-more.MR15{margin-right: 15px;}
+    ._lhh_breadcrumb-more .lh-35{}
+/*当前位置 end*/
+
+/*电子时间 begin*/
+    ._lhh_clock{width:100%;height: 100%;font:bold 18px Arial, Helvetica, sans-serif;color:#495a78;text-align:center;}
+    ._lhh_clock-date{font-family:'BebasNeueRegular', Arial, Helvetica, sans-serif;}
+    ._lhh_clock-ul{margin:0;padding:0px; list-style:none; text-align:left;}
+    ._lhh_clock-ul li{display:inline; text-align:left; font-family:'BebasNeueRegular', Arial, Helvetica, sans-serif;}
+    ._lhh_clock-ul-point { position:relative; -moz-animation:mymove 1s ease infinite; -webkit-animation:mymove 1s ease infinite; padding:0; }
+    @font-face {
+        font-family: 'BebasNeueRegular';
+        src: url('BebasNeue-webfont.eot');
+        src: url('BebasNeue-webfont.eot?#iefix') format('embedded-opentype'),
+        url('BebasNeue-webfont.woff') format('woff'),
+        url('BebasNeue-webfont.ttf') format('truetype'),
+        url('BebasNeue-webfont.svg#BebasNeueRegular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+
+    }
+    @-webkit-keyframes mymove
+    {
+        0% {opacity:1.0; }
+        50% {opacity:0; text-shadow:none; }
+        100% {opacity:1.0;  }
+    }
+
+    @-moz-keyframes mymove
+    {
+        0% {opacity:1.0;}
+        50% {opacity:0; text-shadow:none; }
+        100% {opacity:1.0;}
+    }
+/*电子时间 end*/
+
+
+/*天气控件 begin*/
+    ._lhh_weather{width:330px;height: 122px;background:url(img/weather.png) no-repeat 0 0;}
+/*天气控件 end*/
+
+
+/*统计卡 begin*/
+    ._lhh_card-t,
+    ._lhh_card-b{padding:15px;}
+    ._lhh_card{
+        position: relative;
+        color: #fff;
+        width: 100%;
+        overflow: hidden;
+        margin:0.5rem 0 1rem 0;
+        -webkit-transition: all 1s ease-in-out;
+        transition: all 1s ease-in-out;
+        -webkit-perspective: 600px;
+        -moz-perspective: 600px;
+        -ms-perspective: 600px;
+        -o-perspective: 600px;
+        perspective: 600px;
+        -webkit-transform-style: preserve-3d;
+        -moz-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        backface-visibility: hidden;
+
+    }
+    ._lhh_card:hover{
+        -webkit-transform: rotateY(360deg);
+        -moz-transform: rotateY(360deg);
+        transform: rotateY(360deg);
+    }
+    ._lhh_card-t.blue{background: #54b5df;}
+    ._lhh_card-t.yellow{background: #f8a849;}
+    ._lhh_card-t.red{background: #f06293;}
+    ._lhh_card-t.green{background: #90c657;}
+    ._lhh_card-t{text-align: center;}
+    ._lhh_card-t-p{font-size: 20px;}
+    ._lhh_card-t-h4{font-size: 46px;margin: 0;}
+    ._lhh_card-b{padding: 10px 15px;}
+    ._lhh_card-b.blue{background: #29a2d7;}
+    ._lhh_card-b.yellow{background: #f79219;}
+    ._lhh_card-b.red{background: #c3175b;}
+    ._lhh_card-b.green{background: #78b03b;}
+
+
+/*统计卡 end*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.lh-35{line-height: 35px;}
+.M0{margin:0px;}

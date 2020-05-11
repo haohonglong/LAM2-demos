@@ -1,0 +1,278 @@
+*{
+    margin:0;
+    padding:0;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+ul,ol,li{
+    list-style-type:none;
+}
+a{
+    text-decoration: none;
+}
+
+/*******电站汇流箱区域*********/
+._zh_stationWrap{
+    /*width:770px;*/
+    border:1px solid #dcdcdc;
+}
+._zh_stationWrap>ul:after{
+    display: block;
+    width: 0;
+    height: 0;
+    content: "";
+    clear: both;
+    visibility: hidden;
+}
+._zh_station{
+
+    min-width: 130px;
+    height:160px;
+    font-size:12px;
+    color: #000000;
+    border: 1px solid #dcdcdc;
+    margin: 1% 0 0 0.9%;
+    padding: 0.350006%;
+}
+._zh_station-top{height: 35px;}
+@media (min-width: 768px) {
+    ._zh_station{
+        width:23.899312%;
+    }
+}
+@media (min-width: 992px ) {
+    ._zh_station{
+        width:18.899312%;
+    }
+}
+
+@media (min-width: 1200px ) {
+    ._zh_station{
+        width:10.1099999%;
+        padding: 0.100006%
+    }
+}
+
+@media (min-width:1200px)and (max-width:1300px){
+    ._zh_station{
+        width:11.4599999%;
+    }
+}
+
+
+._zh_station-stationicon{
+    width:33px;
+    height:41px;
+    display: block;
+    background:url("img/station.png") no-repeat;
+    float: left;
+}
+._zh_station-lineicon{
+    width: 90px;
+    height: 20px;
+    background: url("img/greenline.png") repeat-x 0 0;
+}
+._zh_station-title{
+    float: left;
+    font-weight: bold;
+    margin: 2px 0px 0px 15px;
+}
+._zh_station-c{
+    width:100%;
+    height:70px;
+    margin: 8px 0px;
+    font-size: 12px;
+    color: #000000;
+    text-align: left;
+}
+._zh_station .text1{
+    width:65px;
+    float: left;
+}
+._zh_station .data-value{
+    overflow: hidden;
+    width:55px;
+    float:right;
+}
+._zh_station .text1>p,._zh_station .data-value>p{
+    margin:0px;
+}
+._zh_circleImg{
+    width:10px;
+    height:10px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 2px;
+}
+._zh_circleImg-green{
+    background-color: #00ff48;
+}
+._zh_circleImg-yellow{
+    background-color: #fff000;
+}
+._zh_circleImg-purple{
+    background-color: #fc00ff
+}
+._zh_icon{position: relative;}
+._zh_icon-i{position: absolute;width:10px;height:10px;background:url("img/icons.png") no-repeat;display: block;}
+._zh_icon-i.plus{background-position: 0 0;}
+._zh_icon-i.edit{background-position: 0 0;width: 18px;height: 18px;margin-top: 12px;float: left;}
+._zh_icon-i.del{background-position: 0 0;}
+
+/************汇总区域******************/
+._zh_summary{
+    /*width:770px;*/
+    height:40px;
+    border:1px solid #dcdcdc;
+    padding: 0px 8px;
+    margin-bottom: 20px;
+}
+._zh_summary p{
+    line-height: 40px;
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 25px;
+}
+
+/***********电站发电量区域******************/
+._zh_power{
+   /*height:80px;*/
+   clear: both;
+   margin-bottom: 20px;
+}
+._zh_power>li{
+    height:80px;
+    border:1px solid #dcdcdc;
+}
+._zh_power>li:last-child{
+    margin-right:0px;
+}
+._zh_power-powerImg{
+
+    height:100%;
+    border-right: 1px solid #dcdcdc;
+    padding:25px 12px;
+
+}
+._zh_power-icon{width:114px;height:62px;background:url("img/power.png") no-repeat;display: block;}
+._zh_power-icon-a{background-position:0px -30px;width:56px;height:30px;}
+._zh_power-icon-b{background-position:0px -30px;width:56px;height:30px;}
+._zh_power-icon-a.blue{background-position:0 0px;}
+._zh_power-icon-a.red{background-position:-58px 0px;}
+._zh_power-icon-b.green{background-position: 0 -30px;}
+._zh_power-icon-b.yellow{background-position: -57px -30px;}
+._zh_power-powerFont{
+    color:#000;
+    font-size:12px;
+    font-weight: normal;
+
+    padding:8px 0px 0px 8px;
+}
+._zh_power-powerFont>p{
+    margin-bottom: 5px;
+}
+
+
+
+
+
+
+._zh_rectangle{
+    width:114px;
+    height:80px;
+    border:1px solid #dcdcdc;
+    float:left;
+    margin-right:10px;
+    cursor: pointer;
+}
+._zh_rectangle:last-child{
+    margin-right: 0px;
+}
+._zh_rectangle:hover{
+    background-color:#ebeff2;
+}
+._zh_rectangleImg{
+    width:60px;
+    height:49px;
+    background:url("img/rectangle.png") no-repeat;
+    display: block;
+    margin-left: 12px;
+}
+._zh_rectangle>p{
+    margin:3px 0;
+}
+
+
+
+
+
+._zh_smallarrow{width: 12px;height: 20px;background:url("img/smallarrow.png") no-repeat;position: absolute; top:30px;}
+._zh_smallarrow.rightarrow{background-position:0 0;}
+._zh_smallarrow.leftarrow-abl{left:0px;}
+._zh_smallarrow.rightarrow-abl{right:0px;background-position:-12px 0;}
+
+._zh_waring{width:14px;height:14px;background:url("img/waring.png") no-repeat;display: block;float: left;margin-top:12px;margin-right: 4px;}
+._zh_waring-red{background-position:0 0;}
+._zh_waring-yellow{background-position: -14px 0px;}
+._zh_waring-yellow-abl,._zh_waring-red-abl{position: absolute;top:-6px;right:4px;}
+
+._zh_sign{width:16px;height:16px;background:url("img/sign.png") no-repeat;display: block;margin-bottom: 8px;}
+._zh_sign.U{background-position:0 0;}
+._zh_sign.I{background-position:0 -16px;}
+._zh_sign.C{background-position:0 -32px;}
+
+._zh_station-c .text2{
+    width:22px;
+    float: left;
+}
+._zh_station-c .data-font{
+    width:45px;
+    float: left;
+}
+._zh_station-c .data-value{
+    width:40px;
+    float: left;
+}
+._zh_station-c .data-font>p,._zh_station-c .data-value>p{
+    margin-bottom:7px;
+}
+
+._zh_station-arrowicon{background: url("img/arrow.png") repeat-x 0 0;width: 112px;height: 27px;}
+._zh_station-arrowicon.greenarrow{background-position: 0 0;}
+._zh_station-arrowicon.redarrow{background-position: 0 -27px;}
+
+
+
+
+
+
+
+
+.row{padding-bottom: 10px!important;}
+.MB5{margin-bottom: 5px;}
+.MB0{margin-bottom: 0px;}
+.ML0{margin-left: 0px;}
+.ML35{margin-left: 35px;}
+.ML10{margin-left: 10px;}
+.P10{padding:10px;}
+.PL10{padding-left: 10px;}
+.PT20{padding-top: 20px;}
+.font-14{font-size:14px;}
+.font-12{font-size:12px;}
+.bold{font-weight: bold;}
+.clear{clear: both;}
+.L{float: left;}
+.R{float: right;}
+.font-red{color:#ff0000;}
+.font-grey{color:#495b79;}
+.W-140{width: 140px;}
+.p-rel{position: relative;}
+
+
+
+
+
+
+
+
+

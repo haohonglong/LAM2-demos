@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <meta http-equiv="content-Type" content="text/html" charset="utf-8" />
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/login.css" />
+</head>
+<body>
+<img class="zh_homeImg" src="{{ROOT}}/images/loginBg.jpg" style="min-width:1200px;height:900px;">
+<div class="zh_loginWrap text-center">
+    <h1 >光伏运维管理系统</h1>
+    <div class="zh_login text-center">
+        <form id="loginbox">
+            <section>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Username" id="loginname">
+                    <div class="input-group-addon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="password" class="form-control" placeholder="Password" id="password" tabindex="2">
+                    <div class="input-group-addon">
+                        <i class="glyphicon glyphicon-off"></i>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="form-group">
+                    <input type="checkbox">
+                    <label class="forgetpwd">记住密码</label>
+                </div>
+            </section>
+            <section>
+                <a class="btn btn-green" target="_blank" onclick="check();">登录</a>
+            </section>
+        </form>
+    </div>
+</div>
+<!-- <div class="zh_footer" style="bottom:95%;left:55%">
+   <ul>
+     <li>
+       <a href="">Github</a><span class="dot divider"> ·</span>
+     </li>
+     <li>
+       <a href="">Credits</a>
+       <span class="dot divider"> ·</span>
+     </li>
+     <li><span class="copyright">© 2013 Forever Console</span>
+     </li>
+   </ul>
+</div> -->
+</body>
+
+</html>
+<!--[if lte IE 9]>
+<script type="text/javascript" src="{{ROOT}}/js/placeholder.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        // Invoke the plugin
+        $('input, textarea').placeholder();
+
+    });
+</script>
+<![endif]-->
+
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/html5-label.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/jquery.tips.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/jquery.cookie.js"></script>
+
+
+
+<script type="text/javascript">
+
+    //服务器校验
+    function severCheck(){
+
+        if(check()){
+            var loginname = $("#loginname").val();
+            var password = $("#password").val();
+            var code = "QQ125378707yj"+loginname+",yj,"+password+"QQ125378707yj"+",yj,"+$("#code").val();
+            $.ajax({
+                type: "POST",
+                url: 'islogin',
+                data: {KEYDATA:code,tm:new Date().getTime()},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" == data.result){
+                        //saveCookie();
+                        window.location.href="station/index";
+                    }else if("usererror" == data.result){
+                        $("#loginname").tips({
+                            side : 1,
+                            msg : "用户名或密码有误",
+                            bg : '#FF5080',
+                            time : 15
+                        });
+                        $("#loginname").focus();
+                    }else if("codeerror" == data.result){
+                        $("#code").tips({
+                            side : 1,
+                            msg : "验证码输入有误",
+                            bg : '#FF5080',
+                            time : 15
+                        });
+                        $("#code").focus();
+                    }else{
+                        $("#loginname").tips({
+                            side : 1,
+                            msg : "缺少参数",
+                            bg : '#FF5080',
+                            time : 15
+                        });
+                        $("#loginname").focus();
+                    }
+                }
+            });
+        }
+
+
+    }
+
+
+
+    //客户端校验
+    function check() {
+
+        if ($("#loginname").val() == "") {
+
+            $("#loginname").tips({
+                side : 2,
+                msg : '用户名不得为空',
+                bg : '#AE81FF',
+                time : 3
+            });
+
+            $("#loginname").focus();
+            return false;
+        } else {
+            $("#loginname").val(jQuery.trim($('#loginname').val()));
+        }
+
+        if ($("#password").val() == "") {
+
+            $("#password").tips({
+                side : 2,
+                msg : '密码不得为空',
+                bg : '#AE81FF',
+                time : 3
+            });
+
+            $("#password").focus();
+            return false;
+        }
+        if ($("#code").val() == "") {
+
+            $("#code").tips({
+                side : 1,
+                msg : '验证码不得为空',
+                bg : '#AE81FF',
+                time : 3
+            });
+
+            $("#code").focus();
+            return false;
+        }
+
+        $("#loginbox").tips({
+            side : 1,
+            msg : '正在登录 , 请稍后 ...',
+            bg : '#68B500',
+            time : 10
+        });
+
+        return true;
+    }
+
+    function genTimestamp() {
+        var time = new Date();
+        return time.getTime();
+    }
+
+    function changeCode() {
+        $("#zh_codeImg").attr("src", "code.do?t=" + genTimestamp());
+    }
+
+    $(document).ready(function() {
+        changeCode();
+        $("#zh_codeImg").bind("click", changeCode);
+    });
+    $(function(){
+
+    });
+</script>
+
+
+
+
+
+

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_style_2.css" />
+    <style type="text/css">
+        body.content{padding: 0;}
+        .container-fluid{padding-right: 0;}
+        ._zh_powerOut{margin:-565px 0 0 -252px;}
+        ._zh_boxOut{margin:-345px 0 0 -385px;}
+    </style>
+</head>
+<body class="content">
+
+    <div class="row _lhh_breadcrumb MB10 visible-lg PL15">
+        <ul class="breadcrumb pull-left">
+            <li><a href="index.html">首页</a></li>
+            <li class="active">当日电量</li>
+        </ul>
+        <div class="p-rel">
+            <div class="_lhh_breadcrumb-more MR15">
+                <!--电子时钟 begin-->
+                <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+                <!--电子时钟 end-->
+            </div>
+        </div>
+    </div>
+    <div class="w-page">
+        <div class="container-fluid">
+
+
+            <ul class="row _zh_budget">
+                <li class="col-md-3 border-right P0 line-height40 font-12">
+                    <ul class="border-bottom H40 text-center">
+                        <li class="col-md-6 border-right H40">
+                            <select type="select" class="_zh_select">
+                                <option>部分分区</option>
+                            </select>
+                        </li>
+                        <li class="col-md-6 H40">
+                            <select type="select" class="_zh_select font-grey">
+                                <option>全部分区</option>
+                            </select>
+                        </li>
+                    </ul>
+                    <div class="text-left PL20">
+                        责任人：王小王
+                    </div>
+                </li>
+                <li class="col-md-5 border-right P0 line-height40 font-12">
+                    <ul class="border-bottom H40 PL10">
+                        <li class="L">逆变器状态</li>
+                        <li class="L PL10"><span class="_zh_circleImg _zh_circleImg-green"></span>正常</li>
+                        <li class="L PL10"><span class="_zh_circleImg _zh_circleImg-red"></span>输出功率异常</li>
+                        <li class="L PL10"><span class="_zh_circleImg _zh_circleImg-yellow"></span>温度过高</li>
+                        <li class="L PL10"><span class="_zh_circleImg _zh_circleImg-purple"></span>通讯故障</li>
+                    </ul>
+                    <ul class="H40 PL10">
+                        <li class="L">汇流箱状态</li>
+                        <li class="L PL10"><span class="_zh_squareImg _zh_squareImg-green"></span>正常</li>
+                        <li class="L PL10"><span class="_zh_squareImg _zh_squareImg-purple"></span>通讯故障</li>
+                    </ul>
+                </li>
+                <li class="col-md-4 P0 line-height40 font-12">
+                    <div class="border-bottom H40 PL10">
+                        <select type="select" class="_zh_select">
+                            <option>功率偏差25%以上</option>
+                        </select>
+                        <select type="select" class="_zh_select">
+                            <option>功率偏差25%以上</option>
+                        </select>
+                    </div>
+                    <div class="H40 PL10">
+                        <button class="_zh_budget-btn green">预算结果</button>
+                        <button class="_zh_budget-btn red">预算结果</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+
+
+
+        <div class="container-fluid">
+            <ul class="row _zh_power">
+                <li class="col-md-3">
+                    <div class="_zh_power-powerImg">
+                        <i class="_zh_power-icon _zh_power-icon-a blue"></i>
+                    </div>
+                    <div class="_zh_power-powerFont">
+                        <p>电站1</p>
+                        <p class="font-14 bold">8888.88kWh</p>
+                        <p>最大发电量</p>
+                    </div>
+                </li>
+                <li class="col-md-3">
+                    <div class="_zh_power-powerImg">
+                        <i class="_zh_power-icon _zh_power-icon-b green"></i>
+                    </div>
+                    <div class="_zh_power-powerFont">
+                        <p>电站1</p>
+                        <p class="font-14 bold">0.0kWh</p>
+                        <p>最小发电量</p>
+                    </div>
+                </li>
+                <li class="col-md-3">
+                    <div class="_zh_power-powerImg">
+                        <i class="_zh_power-icon _zh_power-icon-a red"></i>
+                    </div>
+                    <div class="_zh_power-powerFont">
+                        <p>电站1</p>
+                        <p class="font-14 bold">0.0%</p>
+                        <p>最低发电效率</p>
+                    </div>
+                </li>
+                <li class="col-md-3">
+                    <div class="_zh_power-powerImg">
+                        <i class="_zh_power-icon _zh_power-icon-b yellow"></i>
+                    </div>
+                    <div class="_zh_power-powerFont">
+                        <p>电站1</p>
+                        <p class="font-14 bold">36.1℃</p>
+                        <p>最高温度</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="_zh_summary">
+            <i class="_zh_icon-i edit"></i>
+            <p><span class="font-grey">汇总 ：</span>异常设备<span>2</span>个（输出功率异常<span class="font-red">0</span>个，温度过高<span class="font-red">1</span>个，通讯故障<span class="font-red">1</span>个）</p>
+        </div>
+        <div class="container-fluid">
+            <ul class="row _zh_stationWrap" id="electricalBox">
+                <li class="_zh_station col-sm-6 col-md-3">
+                    <div style="height:41px;">
+                        <i class="_zh_station-stationicon"></i>
+                        <div class="_zh_station-title">
+                            <p class="MB5">电站1</p>
+                            <span class="_zh_circleImg _zh_circleImg-green"></span>正常
+                        </div>
+                    </div>
+                    <div class="_zh_station-c">
+                        <div class="text1">
+                            <p>输出功率</p>
+                            <p>输入功率</p>
+                            <p>单瓦发电量</p>
+                            <p>日发电量</p>
+                        </div>
+                        <div class="data-value">
+                            <p>88.8kW</p>
+                            <p>88.88kW</p>
+                            <p>42Wh</p>
+                            <p>88.88kWh</p>
+                        </div>
+                    </div>
+                    <div class="_zh_station-lineicon">
+                        <img src="{{ROOT}}/css/img/greenline.png" alt=""/>
+                        <img src="{{ROOT}}/css/img/greenline.png" alt=""/>
+                        <img src="{{ROOT}}/css/img/greenline.png" alt=""/>
+                        <img src="{{ROOT}}/css/img/greenline.png" alt=""/>
+                        <img src="{{ROOT}}/css/img/greenline.png" alt=""/>
+                        <img src="{{ROOT}}/css/img/greenline.png" alt=""/>
+                        <img src="{{ROOT}}/css/img/greenline.png" alt=""/>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <!--汇流箱chart弹出层-->
+    <div class="_zh_powerOut none" id="pop_powerOut">
+        <span class="_zh_powerOut-close"></span>
+        <div id="echarts-column-chart"></div>
+    </div>
+    <!--汇流箱表弹出层-->
+    <table class="_zh_boxOut none" id="pop_boxOut">
+        <tr class="height36 tr-grey text-center">
+            <td rowspan="2" class="W90">汇流箱</td>
+            <td rowspan="2" class="W50">离散率(%)</td>
+            <td rowspan="2" class="W50">总电流(A)</td>
+            <td colspan="16">电流(A)
+                <span class="_zh_powerOut-close _zh_boxOut-close"></span>
+            </td>
+        </tr>
+        <tr class="tr-grey text-center">
+            <td>电流1</td>
+            <td>电流2</td>
+            <td>电流3</td>
+            <td>电流4</td>
+            <td>电流5</td>
+            <td>电流6</td>
+            <td>电流7</td>
+            <td>电流8</td>
+            <td>电流9</td>
+            <td>电流10</td>
+            <td>电流11</td>
+            <td>电流12</td>
+            <td>电流13</td>
+            <td>电流14</td>
+            <td>电流15</td>
+            <td>电流16</td>
+        </tr>
+        <tr class="text-center">
+            <td>汇流箱01</td>
+            <td>88.0%</td>
+            <td>88.0</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+            <td>4.08</td>
+        </tr>
+    </table>
+
+
+</body>
+</html>
+
+
+<script type="text/javascript" src="{{ROOT}}/js/use.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/use-inverter.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/highcharts.src.js"></script>
+
+
+<script type="text/javascript">
+    LAMJS.main([LAMJS.Config.Public.ROOT],function(ROOT) {
+        'use strict';
+        var System = this;
+
+
+        var I=System.modules.exports.I;
+
+        function setChart(D){
+            $('#echarts-column-chart').highcharts({
+                chart: {
+                    type: 'spline',
+                    animation: Highcharts.svg, // don't animate in old IE
+                    marginRight: 10,
+                    events: {
+                        load: function () {
+
+                            // set up the updating of the chart each second
+                            var series = this.series[0];
+                            setInterval(function () {
+                                var x = (new Date()).getTime(), // current time
+                                        y = Math.random();
+                                series.addPoint([x, y], true, true);
+                            }, 1000);
+                        }
+                    }
+                },
+                title: {
+                    text: '电站1',
+                    x: -20, //center
+                    style: {
+                        color: '#000',
+                        fontWeight: 'bold',
+                        fontSize:'12px'
+                    }
+                },
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval: 150
+                },
+                yAxis: {
+                    title: {
+                        text: '交流功率(kW)',
+                        align: 'high',
+                        offset: 0,
+                        rotation: 0,
+                        y:-10,
+                        x:25,
+                        style: {
+                            color: '#000',
+                            fontSize:'12px'
+                        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                Highcharts.numberFormat(this.y, 2);
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                series:
+                        [{
+                            name: '交流功率',
+                            data: (function () {
+                                // generate an array of random data
+                                var data = [],
+                                        time = (new Date()).getTime(),
+                                        i;
+
+                                for (i = -19; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: Math.random()
+                                    });
+                                }
+                                return data;
+                            }())
+                        }]
+//                    (function(){
+//                        var series = [];
+//                        for(var i=1;i<=3;i++){
+//                            var data={
+//                                name: 'Random data',
+//                                data: (function () {
+//                                    // generate an array of random data
+//                                    var data = [],
+//                                            time = (new Date()).getTime(),
+//                                            i;
+//
+//                                    for (i = -19; i <= 0; i += 1) {
+//                                        data.push({
+//                                            x: time + i * 1000,
+//                                            y: Math.random()
+//                                        });
+//                                    }
+//                                    return data;
+//                                }())
+//                            };
+//
+//
+//                            series.push(data);
+//                        }
+//                        return series;
+//                    })()
+            });
+
+        }
+
+        function initInverterData(){
+            I.ElectricalBox.getInverterData({
+                '$view':$('#electricalBox'),
+                'type': 'post',
+                'url':  ROOT+'/js/dataJson-data.json',
+                'init_fun':function(v){
+                    var tpl=[];
+
+                    tpl.push('<li class="_zh_station col-sm-6 col-md-3" id="s_'+ v._id +'">');
+                    tpl.push('<div style="height:41px;">');
+                    tpl.push('<i class="_zh_station-stationicon"></i>');
+                    tpl.push('<div class="_zh_station-title">');
+                    tpl.push('<p class="MB5">'+ v.url+'</p>');
+                    tpl.push('<span class="_zh_circleImg _zh_circleImg-green"></span>正常');
+                    tpl.push('</div>');
+                    tpl.push('</div>');
+                    tpl.push('<div class="_zh_station-c">');
+                    tpl.push('<div class="text1">');
+                    tpl.push('<p>输出功率</p>');
+                    tpl.push('<p>输入功率</p>');
+                    tpl.push('<p>单瓦发电量</p>');
+                    tpl.push('<p>日发电量</p>');
+                    tpl.push('</div>');
+                    tpl.push('<div class="data-value">');
+                    tpl.push('<p>'+ v.DCP +'kW</p>');
+                    tpl.push('<p>88.88kW</p>');
+                    tpl.push('<p>42Wh</p>');
+                    tpl.push('<p>'+ v.daytotal +'kWh</p>');
+                    tpl.push('</div>');
+                    tpl.push('</div>');
+                    tpl.push('<div class="_zh_station-lineicon">');
+                    for(var i=0;i<Math.round(Math.random()*30);i++){
+                        tpl.push(['<img src="',ROOT,'/css/img/greenline.png" alt=""/>'].join(''));
+                    }
+
+                    tpl.push('</div>');
+                    tpl.push('</li>');
+
+                    return tpl.join('');
+                }
+            });
+
+            window.setInterval(function(){
+//                I.loading_start();
+                I.ElectricalBox.getInverterData({
+                    'type': 'post',
+                    'url':  ROOT+'/js/dataJson-data.json',
+                    'data': {},
+                    'getCurTpl':function(D){
+                        var tpl, i,len= D.data.length, v;
+
+                        for(i=0;i<len;i++){
+                            tpl=[];
+                            v= D.data[i];
+                            if(!System.empty( v['_id'])){
+                                tpl.push('<p>222</p>');
+                                tpl.push('<p>88.88kW</p>');
+                                tpl.push('<p>42Wh</p>');
+                                tpl.push('<p>42WhkWh</p>');
+
+                            }
+
+                            $('#s_'+v['_id']+' .data-value').html(tpl.join(''));
+
+                        }
+//                        I.loading_end(1000);
+
+                    }
+                });
+            },5000);
+        }
+
+
+
+
+
+
+        function getInverterData(){
+            $('#electricalBox').delegate('li','click',function(e){
+                var _this_=this;
+                $.ajax({
+                    type: 'post',
+                    url:  $(_this_).attr('url') || ROOT+'/js/dataJson-data.json',
+                    data: {},
+                    dataType: 'json',
+                    error:function(){
+                        throw new Error("Warning :没有取到数据！！！");
+                    },
+                    success: function(D){
+                        var tpl=[];
+                        var v=[
+                            {'title':'s1','kwh':'111.222','b':'s1最大发电量'},
+                            {'title':'s2','kwh':'22.222','b':'s2最大发电量'},
+                            {'title':'s3','kwh':'33.222','b':'s3最大发电量'},
+                            {'title':'s4','kwh':'444.222','b':'s4最大发电量'}
+                        ];
+                        $('#topInfo ._zh_power-powerFont').each(function(i){
+                            tpl=[];
+                            tpl.push('<p>'+v[i].title+'</p>');
+                            tpl.push('<p class="font-14 bold">'+v[i].kwh+'kWh</p>');
+                            tpl.push('<p>'+v[i].b+'</p>');
+
+                            $(this).html(tpl.join(''));
+
+                        });
+
+                    }
+                });
+            });
+
+//            $('#electricalBox li ._zh_station-stationicon').undelegate('click');
+            $('#electricalBox').delegate('li ._zh_station-stationicon','click',function(e){
+
+                var $layer =  $('#pop_powerOut');
+                if($layer){
+                    $layer.remove();
+                }
+//                I.ElectricalBox.pop.setPop($(this).parents('li')[0],e,'#pop_powerOut',I.ElectricalBox.pop.get_pop_powerOut());
+                I.ElectricalBox.pop.setPop('body',e,'#pop_powerOut',I.ElectricalBox.pop.get_pop_powerOut());
+                setChart();
+
+                $('#pop_powerOut').delegate('._zh_powerOut-close','click',function(e){
+                    $('#pop_powerOut').remove();
+                });
+
+            });
+            //每个图片点击后
+            $('#electricalBox').delegate('li ._zh_station-lineicon img','click',function(e){
+
+                var $layer =  $('#pop_boxOut');
+                if($layer){
+                    $layer.remove();
+                }
+//                I.ElectricalBox.pop.setPop($(this).parents('li')[0],e,'#pop_boxOut',I.ElectricalBox.pop.get_pop_boxOut());
+                I.ElectricalBox.pop.setPop('body',e,'#pop_boxOut',I.ElectricalBox.pop.get_pop_boxOut());
+
+
+                $('#pop_boxOut').delegate('._zh_powerOut-close','click',function(e){
+                    $('#pop_boxOut').remove();
+                });
+
+            });
+
+
+        }
+
+
+        $(function(){
+            initInverterData();
+            getInverterData();
+            setChart();
+        });
+
+    });
+</script>
+
+
+

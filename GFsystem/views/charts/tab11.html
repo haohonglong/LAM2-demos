@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ROOT}}/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/lhh_lib.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/zh_tab.css" />
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/css/bootstrap-datetimepicker.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ROOT}}/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body class="content">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+    <ul class="breadcrumb pull-left">
+        <li><a href="index.html">首页</a></li>
+        <li class="active">逆变器转换效率对比</li>
+    </ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+            <!--电子时钟 begin-->
+            <include file="{{ROOT}}/controllers/include/clock.html" dataType="html"></include>
+            <!--电子时钟 end-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-mod-12">
+        <div class="page-header">
+            <div class="ML10 MT10">
+                <label class="MR5">逆变器</label>
+                <select type="select" class="form-control">
+                    <option>［01＃方阵］无锡上能逆变器01</option>
+                </select>
+                <label class="MR5 ML30">统计方式</label>
+                <select type="select" id="dateSelect" class="form-control">
+                    <option dateType="2">按月统计</option>
+                    <option dateType="3">按日统计</option>
+                </select>
+                <label class="MR5 ML30">日期</label>
+                <input size="16" type="text" value="2012-06-15 14:45" readonly class="form_datetime form-control">
+                <button type="submit" class="btn page-header-btn ML30">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row MB30">
+    <div class="col-md-12 MT20">
+        <div class="echarts" style="height: 400px;width:100%;" id="echarts-column-chart"></div>
+    </div>
+</div>
+</body>
+</html>
+
+
+<script type="text/javascript" src="{{ROOT}}/js/highstock.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="{{ROOT}}/js/datetimepicker-custom.js"></script>
+
+
+
+
+<script type="text/javascript">
+    LAMJS.main(function(){
+        'use strict';
+        var System=this;
+
+        function highstock(){
+            var seriesOptions = [],
+                    seriesCounter = 0,
+                    names = ['MSFT', 'AAPL'];
+            $.each(names, function (i, name) {
+                $('#echarts-column-chart').highcharts({
+                    chart: {
+                        height: 620,
+                        zoomType: 'xy',
+                        plotBackgroundColor:'#eef4ff'     //绘图区背景色
+                    },
+                    title: {
+                        text: '2015年09月01日 逆变器转换效率',
+                        x: -20, //center
+                        style:{
+                            fontFamily:'SimHei'
+                        }
+                    },
+                    xAxis: {
+                        categories: ['06:45', '07:00', '07:15', '07:30', '07:45','08:00', '08:15', '08:30', '08:45', '09:00','09:15', '09:30', '09:45', '10:00','10:15', '10:30', '10:45', '11:00','11:15', '11:30', '11:45', '12:00','12:15', '12:30', '12:45', '13:00','13:15', '13:30', '13:45', '14:00','14:15', '14:30', '14:45', '15:00','15:15', '15:30', '15:45', '16:00','16:15', '16:30', '16:45', '17:00','17:15', '17:30', '17:45', '18:00','18:15', '18:30', '18:45', '19:00','19:15', '19:30', '19:45', '20:00','20:15', '20:30', '20:45', '21:00','21:15'],
+                        title:{
+                            text:'时间',
+                            y : -20,
+                            x : -10,
+                        },
+                        labels: {
+                            rotation : -90,//旋转-90度
+                            y : 50,
+                            x:-10,
+                            align: 'left'
+                        },
+                        gridLineWidth:1
+                    },
+                    yAxis: [{
+                        title: {
+                            text: '转换效率 (%)'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    }],
+                    credits: {
+                        enabled:false    //不显示版权标签
+                    },
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        borderWidth: 2
+                    },
+                    series: [{
+                        name: '［01＃方阵］无锡上能逆变器01',
+                        data: [0, 0, 0, 1, 1.5,0.4,0.5, 0.8, 1.0, 1.5, 1.8, 2.0,2.3,2.5,2.8,2.9,3.0,3.5,3.6,3.9,4.0,4.4,4.5,4.8,5.0,5,5,3.0,5.0,1.0,9.0,5.9,6.5,6,8,7.0,7.5,7.8,8.0,5.5,9.0,10.0,10.2,10.3,9.0,8.0,7.5,7.2,7.0,6.5,6.2,6.0,5.8,5.5,5.3,5.0,3.0,2.5,2.0]
+                    }, {
+                        name: '［02＃方阵］无锡上能逆变器02',
+                        data: [0.8, 1.7, 2.3, 3.0, 4.0, 4.8, 5.1, 5.5, 6.1, 8.6, 2.5,3.6,3.9,4.0,4.4,4.8,5.0,9.0,5.9,9,6.5,6,8,7.0,7.5,7.8,8.0,5.5,9.0,10.0,10.2,10.3,9.0,8.0,7.5,7.2,7.0,6.5,6.2,6.0,5.8,5.5,5.3,5.0,3.0,2.5,1.5,1.0,0,0,0,0,9,6.5,6,8,7.0,7.5,7.8]
+                    }]
+
+
+                });
+
+            });
+
+        }
+
+
+
+        $(window).resize(function() {
+            highstock();
+        }).trigger('resize');
+
+        /**
+         *
+         * @param (String)date  NOT NULL
+         * @param (Object)D     NOT NULL
+         * example:
+         *          dateChange("2012-06",{format: type,minView:2})
+         */
+        function dateChange(date,D){
+            $('.form_datetime').val(date)
+                    .datetimepicker(D);
+
+        }
+
+        function initDate(){
+            $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+
+            var $dateInput = $('.form_datetime');
+            var date,type;
+            $('#dateSelect').change(function(){
+                var type=$(this).children('option:selected').attr('dateType');
+                //type :1 年 ，2 月，3 日
+                switch(type){
+                    case '1':
+                        break;
+                    case '2':
+                        date="2012-06";
+                        type="yyyy-mm";
+                        dateChange(date,{format: type,minView:2});
+                        $dateInput.val(date);
+                        break;
+                    case '3':
+                        date="2012-06-01";
+                        type="yyyy-mm-dd";
+                        dateChange(date,{format: type,minView:2});
+                        $dateInput.val(date);
+                        break;
+
+                    default :
+                }
+            });
+        }
+        $(function(){
+
+            initDate();
+        });
+
+
+
+    });
+</script>
+
+
+
