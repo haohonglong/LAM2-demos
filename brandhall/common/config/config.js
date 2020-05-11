@@ -58,6 +58,7 @@
                     ,'COMMON':_ROOT_+'/common'
                     ,'PLUGINS':_ROOT_+'/common/plugins'
                     ,'MYCOMMON':ROOT+'/common'
+                    ,'CONF':ROOT+'/common/config'
                     ,'CSS':ROOT+'/public/css'
                     ,'SCRIPT':ROOT+'/public/js'
                     ,'DATA':ROOT+'/data'
@@ -82,17 +83,17 @@
                 },
                 'routeAutoRun':true,
                 't':function (System) {
-                    var id =0;
-                    System.Moudle = System.createDict();
-                    System.Object.g_key_id=function(){
-                        return System.timestamp()+Math.round(Math.random()*System.random)+'_'+id++;
-                    };
-                    System.listen(function(){
-                        if(System.isFunction(System.import)){
-                            return true;
-                        }
-                    },1);
-                    return System.timestamp();
+                    // var id =0;
+                    // System.Moudle = System.createDict();
+                    // System.Object.g_key_id=function(){
+                    //     return System.timestamp()+Math.round(Math.random()*System.random)+'_'+id++;
+                    // };
+                    // System.listen(function(){
+                    //     if(System.isFunction(System.import)){
+                    //         return true;
+                    //     }
+                    // },1);
+                    // return System.timestamp();
                 },
                 'runtime':function (System) {
                     System.COOKIE = new System.PowerCookie('guest',{"expires":System.timestamp()+10000000});

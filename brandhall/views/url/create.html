@@ -72,6 +72,7 @@
 
         $(function(){
             $('form').submit(function () {
+                var wait = layer.load();
                 $('[data-error]').hide();
                 var sid  = getByName("sid");
                 var name = getByName("name");
@@ -84,6 +85,7 @@
                     'url':url,
                     'info':info
                 },function(data){
+                    layer.close(wait);
                     if(data.status){
                         alert(data.message);
                         System.redirect(System.INDEX+"url/index");
