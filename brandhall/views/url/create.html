@@ -17,8 +17,18 @@
 ]}">
 <#endBlock>
 <#Block:begin id="select" data="{'list':[]}">
+<%
+var cookie = null;
+LAM.COOKIE.find('id',"1",function (index) {
+if(-1 !== index){
+cookie = this.get(index);
+}
+});
+
+var sid = cookie && cookie.sid > 0 ? cookie.sid : 0;
+%>
 <%LAM.each(list,function(i){%>
-<option value="<%=this.id%>"><%=this.name%></option>
+<option value="<%=this.id%>" <%if(sid == this.id){%>selected="selected"<%}%> ><%=this.name%></option>
 <%});%>
 <#Block:end>
 <form class="form-horizontal" action="__SERVER__/url/add" method="post">
@@ -65,10 +75,13 @@
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
-
         function getByName(name) {
             return document.getElementsByName(name)[0].value;
         }
+
+
+
+
 
         $(function(){
             $('form').submit(function () {
