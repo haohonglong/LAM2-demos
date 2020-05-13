@@ -14,6 +14,7 @@
     'use strict';
     var __this__=null;
     System.is(System,'Controller','UrlController',System.classPath+'/base');
+    System.import(['/CookieModel.class'],System.MODELS);
     var ROOT  = System.BACKEND;
     var views = System.VIEWS+'/room';
     var E = {file_404:System.ERROR_404};
@@ -32,6 +33,8 @@
             };
 
 
+
+
         },
         '_className':'UrlController',
         'indexAction':function(){
@@ -43,10 +46,14 @@
             },E);
         },
         'createAction':function(){
+            var cookie = System.CookieModel.get();
+
+
             return this.render('create',{
                 'VIEWS':System.VIEWS,
                 'IMAGE':System.IMAGE,
-                'ROOT':ROOT
+                'ROOT':ROOT,
+                'cookie':cookie,
 
             },E);
         },

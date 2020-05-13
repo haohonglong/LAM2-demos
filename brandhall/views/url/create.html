@@ -1,6 +1,7 @@
 <#define __SERVER__="{{LAM.SERVER}}" />
+<#define __MODELS__="{{LAM.MODELS}}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
-
+<#import path="/models/CookieModel.class" root="__MODELS__" />
 
 <#define _TITLE_="添加地址" />
 
@@ -18,14 +19,8 @@
 <#endBlock>
 <#Block:begin id="select" data="{'list':[]}">
 <%
-var cookie = null;
-LAM.COOKIE.find('id',"1",function (index) {
-if(-1 !== index){
-cookie = this.get(index);
-}
-});
-
-var sid = cookie && cookie.sid > 0 ? cookie.sid : 0;
+var sid = LAM.CookieModel.get().sid;
+sid = sid > 0 ? sid : 0;
 %>
 <%LAM.each(list,function(i){%>
 <option value="<%=this.id%>" <%if(sid == this.id){%>selected="selected"<%}%> ><%=this.name%></option>

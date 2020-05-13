@@ -64,6 +64,7 @@
                     ,'DATA':ROOT+'/data'
                     ,'IMAGE':ROOT+'/public/images'
                     ,'CONTROLLERS':ROOT+'/controllers'
+                    ,'MODELS':ROOT+'/models'
                     ,'VIEWS':ROOT+'/views'
                     ,'LAYOUTS':ROOT+'/views/layouts'
                     ,'COMPONENTS':ROOT+'/views/components'
@@ -146,6 +147,7 @@
                     ,"Html":classPath+'/base/Html.class.js'
                     ,"Loader":classPath+'/base/Loader.class.js'
                     ,"Controller":classPath+'/base/Controller.class.js'
+                    ,"Model":classPath+'/base/Model.class.js'
                     ,"Router":classPath+'/base/Router.class.js'
 
                     ,"vue":PLUGINS+'/vue/vue.js'
