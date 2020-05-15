@@ -73,7 +73,12 @@ these are usage case of LAM2
             <script type="text/javascript">window._ROOT_ = "..";</script>
             <script type="text/javascript" src="../brandhall/common/config/config.js"></script>
             <script type="text/javascript" src="../lamborghiniJS/base/System.js"></script>
-            <script type="text/javascript">LAM.bootstrap();</script>
+            <script type="text/javascript">
+                LAM.main=function (view) {
+                    return view;
+                };
+                LAM.bootstrap();
+            </script>
         </head>
         </html>
 

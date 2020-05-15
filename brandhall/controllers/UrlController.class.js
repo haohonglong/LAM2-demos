@@ -24,6 +24,7 @@
             __this__=this;
             this.viewpath = System.VIEWS+'/url';
             this.layoutPath = this.layoutPath+'/default';
+            this.cookie =System.CookieModel.get();
             this.content = {
                 'user':{
                     'name':'name',
@@ -46,14 +47,11 @@
             },E);
         },
         'createAction':function(){
-            var cookie = System.CookieModel.get();
-
-
             return this.render('create',{
                 'VIEWS':System.VIEWS,
                 'IMAGE':System.IMAGE,
                 'ROOT':ROOT,
-                'cookie':cookie,
+                'cookie':this.cookie
 
             },E);
         },
