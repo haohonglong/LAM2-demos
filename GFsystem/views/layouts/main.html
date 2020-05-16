@@ -5,41 +5,29 @@
 <#define __JS__="{{LAM.JS}}" />
 <#define __CSS__="{{LAM.CSS}}" />
 <#define __LESS__="{{LAM.LESS}}" />
+
+
+
 <#import type="css" path="
 /bootstrap,
 /font-awesome,
 /style,
-
 /custom,
 /odometer-theme-car,
-/font-awesome,
 /minoral,
 /lhh_lib
 " root="__CSS__" befor="1" />
 
-<#import type="css" path="/style" attr="{
-'id':'lessCss',
-'title':'lessCss'
-}" suffix=".less" rel="stylesheet/less" root="__LESS__" befor="1" />
-
-
+<#import type="css" path="/style" attr="{'id':'lessCss','title':'lessCss'}" suffix=".less" rel="stylesheet/less" root="__LESS__" befor="1" />
 
 <#import path="
 /use,
 /bootstrap.min,
 /jquery.accordion,
 /skylo,
-
-
-
-
 /dashboard-custom,
-
-
-
 /jquery.sparkline/jquery.sparkline.min,
 /jquery.sparkline/sparkline-script,
-
 /jquery.easypiechart.min,
 /jquery.animateNumbers
 
