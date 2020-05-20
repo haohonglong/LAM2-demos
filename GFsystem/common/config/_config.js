@@ -47,7 +47,7 @@
     })(function(System){
         'use strict';
         System.Config = Config = {
-            'vendorPath':'http://lam2.core',
+            'vendorPath':_ROOT_+'./LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
             'Public':(function(){
