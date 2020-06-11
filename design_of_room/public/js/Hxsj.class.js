@@ -41,11 +41,11 @@ LAM.Hxsj = LAM.run([LAM],function(LAM){
                 this.mask=null;
                 if(P){
                     this.D     = P.D     || null;
-                    this.tab   = P.tab   || new window.System.Tab()   || null;
-                    this.tools = P.tools || new window.System.Tools() || null;
-                    this.pop   = P.pop   || window.System.PopupLayer  || null;
-                    this.Drag  = P.Drag  || window.System.Drag        || null;
-                    this.B  = new window.System.Browser() || null;
+                    this.tab   = P.tab   || new System.Tab()   || null;
+                    this.tools = P.tools || new System.Tools() || null;
+                    this.pop   = P.pop   || System.PopupLayer  || null;
+                    this.Drag  = P.Drag  || System.Drag        || null;
+                    this.B  = new System.Browser() || null;
                 }
             },
             '_className':'Hxsj',
@@ -1462,58 +1462,4 @@ LAM.Hxsj = LAM.run([LAM],function(LAM){
 });
 
 
-
- var Hxsj=new LAM.Hxsj({
-    'D'    : DATA || {},
-    'tab'  : new LAM.Tab(),
-    'tools': new LAM.Tools(),
-    'pop'  : LAM.PopupLayer
- });
-
-
-/**
- *----------------------------------
- * @author lhh
- * 产品介绍：
- * 创建日期：2014-2-2
- * 修改日期：2014-2-6
- * 名称：setCenter
- * 功能：复写弹出层的居中方法，能适应现在的flash 区域垂直居中，不是以屏幕为居中
- * 说明：仅适用在这个项目中
- * 注意：
- * @param   (Object)  init           NO NULL :
- * Example：
- *----------------------------------*/
-Hxsj.pop.prototype.setCenter=function(fn){//fn 传回调方法 可自定义居中方式
-    fn = fn || Hxsj.setCenter_flash(this.padding);
-    this.autoScreenCenter($(this.popLayout),this.padding,fn);
-    return this;
-};
-
- $(function(){
-    Hxsj.run();
-    $(window).resize(function() {
-         Hxsj.autoScreen();
-         Hxsj.autoHeight();
-         Hxsj.setToolContent();
-         Hxsj.createArear();
-         Hxsj.detailedList();
-         Hxsj.similarGoods();
-         Hxsj.see();
-          var ind=0;
-         $('.lhh-HXSJ-Menu-A').each(function(i){
-           if($(this).find(".title").hasClass("cur")){
-                ind=i;
-            }
-         });
-        $('.lhh-HXSJ-Menu-A').eq(ind).trigger("click");
-         
-         
-    });
-
-    
- });
-
- $(window).load(function(){
-    Hxsj.autoCenterLoading();
- });
+ 
