@@ -1,0 +1,827 @@
+<#define __CSS_IMG__="{{LAM.CSS}}/images" />
+<#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#Block:begin id="header" data="{}">
+    <!-- header -->
+    <div id="HXSJ-Header" class="lhh-HXSJ-Header">
+        <div class="clearfix">
+            <div class="lhh-HXSJ-Header-logo L mr30">
+                <div class="logoImg L mr10"></div>
+                <p class="lhh-HXSJ-Font lhh-HXSJ-Font-lightgrey L"><!-- © 2013-2016 GezLife 格致生活 , All rights reserved --></p>
+            </div>
+            <div class="L">
+                <div class="line lhh-HXSJ-Line-col L"></div>
+                <div class="lhh-HXSJ-Header-title L">
+                    <div class="js_name_wrap js_focus_input">
+                        <h4>设计名称</h4>
+                        <input type="text" tabindex="1" name="designname" id="textfield" class="none js_text" placeholder="设计名称"/>
+                    </div>
+                    <p>3室 2厅 2卫 1厨 2阳 3未知房间 （124㎡）</p>
+                </div>
+            </div>
+            <div class="lhh-HXSJ-Header-user R">
+                <div class="line lhh-HXSJ-Line-col L"></div>
+                <div class="lhh-HXSJ-Header-admin none"> <!-- 登陆后显示这块内容 -->
+                    <div class="lhh-HXSJ-Header-img L">
+                        <img src="__CSS_IMG__/avatar.png" alt="">
+                    </div>
+                    <div class="lhh-HXSJ-Header-name L">
+                        <p><b>富邦美品</b></p>
+                        <input type="hidden" value="23">
+                        <input type="hidden" value="富邦美品">
+                        <div class="lhh-HXSJ-Header-icons">
+                            <ul class="sectionFloat clearfix">
+                                <li class="a mr10"><a href="javascript::void(0);"><i></i>0</a></li>
+                                <li class="b"><a href="javascript::void(0);"><i></i>0</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a class="lhh-HXSJ-Header-arrow down" href="javascript::void(0);"></a>
+                    <div class="lhh-HXSJ-Header-menu lhh-HXSJ-Shadow-menu">
+                        <ul>
+                            <li><a href="javascript::void(0);">我的创意笔记本（<b>6</b>）</a></li>
+                            <li><a href="###">账户设置</a></li>
+                            <li><a href="###">退出</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-Header-enter "> <!-- 登陆前显示这块内容 -->
+                    <a href="javascript:void(0)" class="mr25 login js_showLogin">登录</a>
+                    <a href="javascript:void(0)" class="register js_showReg">免费注册</a>
+                </div>
+            </div>
+        </div>
+        <div class="lhh-HXSJ-Header-shadow"></div>
+    </div>
+<#Block:end>
+
+<#Block:begin id="footer">
+    <div id="HXSJ-Footer" class="lhh-HXSJ-Font">
+        <i class="f-icon L"></i>
+        <p>©2013-2016 GezLife格致生活，All rights reserved</p>
+    </div>
+<#Block:end>
+
+<#Block:begin id="putSee" data="{}">
+        <!-- 摆放看看 -->
+        <div id="putSee" class="lhh-HXSJ-Wrapper clearfix">
+            <div class="secondary L">
+                <div class="p10">
+                    <div class="lhh-HXSJ-Search lhh-HXSJ-Form mb10">
+                        <input type="text" class="border" placeholder="搜索">
+                        <i></i>
+                    </div>
+                    <div class="lhh-HXSJ-Menu">
+                        <div class="lhh-HXSJ-Menu-A mb1">
+                            <div class="title"><i class="Arrow"></i>最近使用的1</div>
+                            <div class="sectionScroll none">
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发1</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发2</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发3</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发4</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+
+
+
+                                
+
+                            </div>
+                        </div>
+                        <div class="lhh-HXSJ-Menu-A mb1">
+                            <div class="title"><i class="Arrow"></i>最近使用的1</div>
+                            <div class="sectionScroll none">
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发1</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发2</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发3</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发4</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+
+
+
+                                
+
+                            </div>
+                        </div>
+                        <div class="lhh-HXSJ-Menu-A mb1">
+                            <div class="title"><i class="Arrow"></i>最近使用的1</div>
+                            <div class="sectionScroll none">
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发1</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发2</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发3</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+                                    <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###">沙发4</a></div>
+                                    <div class="sectionList-A1 none">
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        <a href="###">全部</a>
+                                        <a href="###">鞋柜</a>
+                                        <a href="###">酒柜</a>
+                                        <a href="###">玄关柜</a>
+                                        <a class="cur" href="###">衣柜</a>
+                                        <a href="###">角柜</a>
+                                        
+                                    </div>
+                                </div>
+
+
+
+                                
+
+                            </div>
+                        </div>
+                        
+                        
+                    
+                        
+                    
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="primary">
+                <div class="">
+                    <!--同类商品列表页-->
+                    <div class="lhh-HXSJ-SimilarGoods lhh-HXSJ-Font">
+                        <!-- 下拉列表框 -->
+                        <div class="lhh-HXSJ-SelectTab lhh-HXSJ-Font mt10">
+                            <div class="lhh-HXSJ-SelectTab-title">
+                                <label class="label">筛选:</label>
+                                <ul class="sectionFloat clearfix">
+                                    <li class="li-1 cur">全部风格<i class="icon"></i></li>
+                                    <li class="li-1 price">全部价格<i class="icon"></i></li>
+                                    <li class="li-1">全部品牌<i class="icon"></i></li>
+                                    <li class="li-1">默认排序<i class="icon"></i></li>
+                                    <li class="li-1">选择省份<i class="icon"></i></li>
+                                    <li class="li-1">选择城市<i class="icon"></i></li>
+                                </ul>
+                            </div>
+                            <div class="lhh-HXSJ-SelectTab-block-wrap">
+                                <div class="lhh-HXSJ-SelectTab-block lhh-HXSJ-SelectTab-style border w-586 h-220">
+                                    <div class="p20 pb0">
+                                        <div class="lhh-HXSJ-Search lhh-HXSJ-Search-h20 lhh-HXSJ-Form mb10">
+                                            <input type="text" class="border" placeholder="搜索 品牌名称">
+                                            <i></i>
+                                        </div>
+                                        <div class="mb10">
+                                            <a href="###" class="strong">全部</a>
+                                        </div>
+                                        <div class="scroll_SelectTab h-135">    
+                                            <ul class="sectionFloat clearfix">
+                                                <li class="w-170 mr10 mb15"><a href="">1巴拉巴拉巴拉巴拉巴拉巴拉</a></li>
+                                                <li class="w-170 mr10 mb15"><a href="">mini paec</a></li>
+                                                <li class="w-170 mr10 mb15"><a href="">南极人</a></li>
+                                                
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lhh-HXSJ-SelectTab-block lhh-HXSJ-SelectTab-style lhh-HXSJ-SelectTab-price w-586 border none">
+                                    <div class="p20 pb0">
+                                        <div class="lhh-HXSJ-Price lhh-HXSJ-Form mb10 pb5 p-rel w-180">
+                                            <strong class="symbol">¥</strong>
+                                            <span class="js_focus_input"><input type="text" class="text js_text" value=""></span>
+                                            <span>-</span>
+                                            <strong class="symbol">¥</strong>
+                                            <span class="js_focus_input"><input type="text" class="text js_text" value=""></span>
+                                            <i class="p-button"></i>
+                                        </div>
+                                        
+                                        <div class="mb10">全部(5,4120)</div>
+                                        <div class="scroll_SelectTab h-135">
+                                            <ul class="sectionFloat clearfix">
+                                                <li class="lhh-HXSJ-Price mb10 w-170 mr10">
+                                                    <span><strong class="symbol">¥</strong><span class="number">25</span></span>
+                                                    <span>-</span>
+                                                    <span><strong class="symbol">¥</strong><span class="number">50<span class="SimSun">(412)</span></span></span>
+                                                </li>
+                                                <li class="lhh-HXSJ-Price mb10  w-170 mr10">
+                                                    <span><strong class="symbol">¥</strong><span class="number">25</span></span>
+                                                    <span>-</span>
+                                                    <span><strong class="symbol">¥</strong><span class="number">50<span class="SimSun">(412)</span></span></span>
+                                                </li>
+                                                <li class="lhh-HXSJ-Price mb10 w-170 mr10">
+                                                    <span><strong class="symbol">¥</strong><span class="number">25</span></span>
+                                                    <span>-</span>
+                                                    <span><strong class="symbol">¥</strong><span class="number">50<span class="SimSun">(412)</span></span></span>
+                                                </li>
+                                                
+
+
+                                            
+                                            
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="lhh-HXSJ-SelectTab-block lhh-HXSJ-SelectTab-style border w-586 h-220 none">
+                                    <div class="p20 pb0 clearfix">
+                                        <div class="lhh-HXSJ-Search lhh-HXSJ-Search-h20 lhh-HXSJ-Form mb10">
+                                            <input type="text" class="border" placeholder="搜索 品牌名称">
+                                            <i></i>
+                                        </div>
+                                        <div class="mb10">
+                                            <a href="###" class="strong">全部</a>
+                                        </div>
+                                        <div class="scroll_SelectTab h-135">    
+                                            <ul class="sectionFloat clearfix">
+                                                <li class="w-170 mr10 mb15"><a href="">1巴拉巴拉巴拉巴拉巴拉巴拉</a></li>
+                                                <li class="w-170 mr10 mb15"><a href="">mini paec</a></li>
+                                                <li class="w-170 mr10 mb15"><a href="">南极人</a></li>
+                                                
+
+                                            </ul>
+                                        </div>
+                                        
+                                
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                        <div class="js_thumbnails" style="width:590px;">
+                            <div class="lhh-HXSJ-Thumbnail sectionScroll_see">
+                                <ul class="sectionFloat clearfix ml5">
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon star"></i>
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <span class="mr5 L"><strong class="symbol">¥</strong><span class="number strong">1560.00</span></span>
+                                                    <span class="del L">234561</span>
+                                                    <a href="###" class="linkBlue R">详情</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <p class="call">暂无信息</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon star star-selected"></i>
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <span class="mr5 L"><strong class="symbol">¥</strong><span class="number strong">1560.00</span></span>
+                                                    <span class="del L">234561</span>
+                                                    <a href="###" class="linkBlue R">详情</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <p class="call">暂无信息</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon star star-selected"></i>
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <span class="mr5 L"><strong class="symbol">¥</strong><span class="number strong">1560.00</span></span>
+                                                    <span class="del L">234561</span>
+                                                    <a href="###" class="linkBlue R">详情</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <p class="call">暂无信息</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<#Block:end>
+
+<#Block:begin id="tool" data="{}">
+    <!-- 工具栏 -->
+    <div id="Tool" class="lhh-HXSJ-Tool">
+        <div class="title"></div>
+        <ul class="content lhh-HXSJ-Shadow-menu">
+            <li class="js_focus_image">
+                <a href="javascript:void(0);" class="create">
+                    <img src="__TOOL_ICON__/create.png" dsrc="tool_icon/create.png" hsrc="tool_icon/h_create.png" alt="" />
+                    <p class="mt5">建造空间</p>
+                </a>
+            </li>
+            <li class="js_focus_image">
+                <a href="javascript:void(0);" class="see">
+                    <img src="__TOOL_ICON__/see.png" dsrc="tool_icon/see.png" hsrc="tool_icon/h_see.png" alt="" />
+                    <p class="mt5">摆放看看</p>
+                </a>
+            </li>
+            <li class="js_focus_image">
+                <a href="javascript:void(0);" class="pt">
+                    <img src="__TOOL_ICON__/pt.png" dsrc="tool_icon/pt.png" hsrc="tool_icon/h_pt.png" alt="" />
+                    <p class="mt5">拼贴铺装</p>
+                </a>
+            </li>
+            <li class="last js_focus_image">
+                <a href="javascript:void(0);" class="collection">
+                    <img src="__TOOL_ICON__/collection.png" dsrc="tool_icon/collection.png" hsrc="tool_icon/h_collection.png" alt="" />
+                    <p class="mt5">我的收藏</p>
+                </a>
+            </li>
+
+            
+
+        </ul>
+    </div>
+    <#Block:end>
+
+<#Block:begin id="goods_sidebar" data="{}">
+    <!-- info商品介绍 -->
+    <div id="goods-sidebar" class="border">
+        <div class="lhh-HXSJ-Title-goods"><i class="more" href="javascript:;"></i></div>
+        <div class="p20">
+            <div class="lhh-HXSJ-Goods-info">
+                <i class="icon"></i>
+                <img class="border block" src="" width="" height="" alt=""/>
+                <div class="clearfix mt10 mb10">
+                    <div class="lhh-HXSJ-Price L">
+                        <span class="mr2"><strong class="symbol">¥</strong><span class="number strong">1560.00</span></span>
+                        <span class="del"><span class="symbol font-12">¥</span>5000.00</span>
+                    </div>
+                    <div class="lhh-HXSJ-Button-A1 R">
+                        <button class="button btn-blue">详细信息</button>
+                    </div>
+                </div>
+                <h4 class="lhh-HXSJ-Font font-14 mb10">商品名称商品名称商品名称 显示不...</h4>
+                <p class="lhh-HXSJ-Font lhh-HXSJ-Font-lightgrey">
+                    <a href="###">品牌馆名称品牌馆名称</a>
+                    <span>北京</span>
+                </p>
+            </div>
+        </div>
+    </div>
+<#Block:end>
+
+<#Block:begin id="regist" data="{}">
+    <!-- 注册模块 -->
+    <div id="HXSJ-reg" class="lhh-HXSJ-Login sectionAutoCenter js_popup_reg none">
+        <div class="loginBox lhh-HXSJ-Shadow-login">
+            <div class="lhh-HXSJ-Login-close js_popup_close_reg"><a href="javascript::void(0);"></a></div>
+            <div class="lhh-HXSJ-Login-content fl">
+                <h1><img src="__IMAGE__/logo.png" alt=""></h1>
+                <p>
+                    丰富多彩的居家设计方案<br>
+                    千万种家居商品<br>
+                    便捷的生活服务<br>
+                    尽在GezLife 格致生活
+                </p>
+            </div>
+            <div class="lhh-HXSJ-Form fl">
+                <ul class="lhh-HXSJ-Tab-login sectionFloat clearfix js_loginTab">
+                    <li class="curr">邮箱注册</li>
+                    <li>手机注册</li>
+                </ul>
+                <div class="">
+                    <!-- 邮箱注册 -->
+                    <div class="box js_loginBlock">
+                        <div class="js_focus_input">
+                            <input type="text" class="mb10 text js_text" size="26" placeholder="邮箱地址12">
+                        </div>
+                        <span class="js_focus_input"><input type="text" class="mb10 verify js_text" size="10" placeholder="填写验证码"></span>&nbsp;&nbsp;
+                        <input class="linkRed send_verify" type="button" disabled="true" value="发送验证码">
+                        <div class="js_focus_input">
+                            <input type="password" class="mb10 text js_text" size="26" placeholder="登录密码">
+                        </div>
+                        <p class="agree">
+                            <input type="checkbox" class="fl">
+                            <span class="fl">&nbsp;同意《格致生活服务协议》</span>
+                        </p>
+                        <p class="mt5 lh-30 clearfix">
+                            <button class="lhh-HXSJ-Button-green L mr10" style="width:70px;">立即注册</button>&nbsp;
+                            <span class="lhh-HXSJ-Font lhh-HXSJ-Font-lightgrey L">已经有账号？</span>
+                            <a href="javascript::void(0);" class="linkBlue font-unline goLogin R"><strong>去登录</strong></a>
+                        </p>
+                    </div>
+                    <!-- 手机注册 -->
+                    <div class="box js_loginBlock none">
+                        <div class="js_focus_input">
+                            <input type="text" class="mb10 text js_text" size="26" placeholder="手机号码4">
+                        </div>
+                        <span class="js_focus_input"><input type="text" class="mb10 verify js_text" size="10" placeholder="填写验证码"></span>&nbsp;&nbsp;
+                        <input class="linkRed send_verify" type="button" disabled="true" value="发送验证码">
+                        <div class="js_focus_input">
+                            <input type="password" class="mb10 text js_text" size="19" placeholder="设置登录密码">
+                        </div>
+                        <p class="agree">
+                            <input type="checkbox" class="fl">
+                            <span class="fl lhh-HXSJ-Font">&nbsp;同意《格致生活服务协议》</span>
+                        </p>
+                        <p class="mt5">
+                            <button class="lhh-HXSJ-Button-green">立即注册</button>&nbsp;
+                            <span class="lhh-HXSJ-Font lhh-HXSJ-Font-lightgrey">已经有账号？</span><a href="javascript::void(0);" class="linkBlue font-unline goLogin"><strong>去登录</strong></a>
+                        </p>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+<#Block:end>
+
+<#Block:begin id="login" data="{}">
+    <!-- 登录模块 -->
+    <div id="HXSJ-Login" class="lhh-HXSJ-Login sectionAutoCenter js_popup_login none">
+        <div class="loginBox lhh-HXSJ-Shadow-login">
+            <div class="lhh-HXSJ-Login-close js_popup_close_login"><a href="javascript::void(0);"></a></div>
+            <div class="lhh-HXSJ-Login-content fl">
+                <h1><img src="__IMAGE__/logo.png" alt=""></h1>
+                <p>
+                    丰富多彩的居家设计方案<br>
+                    千万种家居商品<br>
+                    便捷的生活服务<br>
+                    尽在GezLife 格致生活
+                </p>
+            </div>
+            <div class="lhh-HXSJ-Form fl">
+                <form>
+                    <div class="p20">
+                        <div class="js_focus_input">
+                            <input type="text" value="" class="mb15 text js_text" size="26" placeholder="手机号/会员名/邮箱">
+                        </div>
+                        <p class="text-right mb5"><a href="###" class="linkGrey font-unline-none">忘记密码？</a></p>
+                        <div class="js_focus_input">
+                            <input type="password" class="mb15 password js_text" size="26" placeholder="登录密码">
+                        </div>
+                        <p class="clearfix lhh-HXSJ-Font">
+                            <input type="checkbox" class="fl">&nbsp;<span class="lh-30">保持登录状态</span>
+                            <button type="button"class="lhh-HXSJ-Button-blue fr">登录</button>
+                        </p>
+                        <p class="divide"></p>
+                        <div class="clearfix">
+                            <div class="lhh-HXSJ-Icon-login fl">
+                                <a href="javascript:void(0)" class="icon a"></a>
+                                <a href="javascript:void(0)" class="icon b"></a>
+                                <a href="javascript:void(0)" class="icon c"></a>
+                            </div>
+                            <div class="fr linkGreen">
+                                <a class="font-unline-none lh-30 freeReg" href="javascript:void(0)"><strong>免费注册</strong></a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<#Block:end>
+
+
+<#Block:begin id="loading">
+    <div id="loading" class="none">
+        <img src="__IMAGE__/loading.gif" alt="">
+    </div>
+<#Block:end>
+
+<#Block:begin id="wall_hole">
+    <div class="lhh-HXSJ-Box lhh-HXSJ-PopBox lhh-HXSJ-PopWallBox lhh-HXSJ-PopWallBox-hole">
+        <div class="lhh-HXSJ-Title-pop lhh-HXSJ-Title-pop-h40">
+            <h2 class="text-left pl15">墙洞属性</h2>
+            <i class="more js_popup_close"></i>
+        </div>
+        <div class="lhh-HXSJ-PopWallBox-content">
+            <div class="p10">
+                <div class="lhh-HXSJ-PopWallBox-show">
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-wallW-t js_wall_w">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-wallH-r clockwise-90 js_wall_h">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-wall">
+                        <div class="lhh-HXSJ-PopWallBox-reference"></div>
+                        <div class="lhh-HXSJ-PopWallBox-wallhole"></div>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-PopWallBox-setup">
+                    <div class="lhh-HXSJ-Form lhh-HXSJ-Font clearfix mb10">
+                        <div class="L p-rel js_focus_input mr2 w-120">
+                            <label>洞宽</label>
+                            <input type="text" tabindex="1" class="text js_text js_hole_w" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                        <div class="R p-rel js_focus_input w-120">
+                            <label>离地</label>
+                            <input type="text" id="" tabindex="2" class="text js_text js_highGround" value="0">
+                            <span class="unit">mm</span>
+                        </div>
+                    </div>
+                    <div class="lhh-HXSJ-Form lhh-HXSJ-Font  clearfix h-1em mb10">
+                        <div class="L p-rel js_focus_input mr2 w-120">
+                            <label>洞高</label>
+                            <input type="text" id="" tabindex="3" class="text js_text js_hole_h" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                        <input type="checkbox" class="v-middle ml8 mr5 js_circleHole" tabindex="4" /><span class="mr10">圆拱</span>
+                        <a href="###" class="linkBlue js_delHole">删除墙洞</a>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-Button-A1 clearfix mt30">
+                    <button class="button btn-blue R mr10">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<#Block:end>
+
+<#Block:begin id="balcony">
+    <div class="lhh-HXSJ-Box lhh-HXSJ-PopBox lhh-HXSJ-PopWallBox lhh-HXSJ-PopWallBox-balcony">
+        <div class="lhh-HXSJ-Title-pop lhh-HXSJ-Title-pop-h40">
+            <h2 class="text-left pl15">阳台属性</h2>
+            <i class="more js_popup_close"></i>
+        </div>
+        <div class="lhh-HXSJ-PopWallBox-content">
+            <div class="p10">
+                <div class="lhh-HXSJ-PopWallBox-show">
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-balconyW-t js_balcony_w_text">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-wallH-r clockwise-90 js_wall_h">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-balconyH-r clockwise-90 js_balcony_h_text">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-wall">
+                        <div class="lhh-HXSJ-PopWallBox-reference"></div>
+                        <div class="lhh-HXSJ-PopWallBox-balconyBox"></div>
+                        <div class="lhh-HXSJ-PopWallBox-ceiling none"></div>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-PopWallBox-setup">
+                    <div class="lhh-HXSJ-Form lhh-HXSJ-Font clearfix mb10">
+                        <div class="L p-rel js_focus_input mr2 w-120">
+                            <label>长度</label>
+                            <input type="text" tabindex="1" class="text js_text js_balcony_l" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                        <div class="R p-rel js_focus_input w-120">
+                            <label>宽度</label>
+                            <input type="text" tabindex="2" class="text js_text js_balcony_w" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                    </div>
+                    <div class="lhh-HXSJ-Form lhh-HXSJ-Font  clearfix h-1em mb10">
+                        <div class="L p-rel js_focus_input mr2 w-120">
+                            <label>台高</label>
+                            <input type="text" tabindex="3" class="text js_text js_balcony_h" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                        <input type="checkbox" class="v-middle ml8 mr5 js_ceiling" tabindex="4" /><span class="mr10">天花板</span>
+                        <a href="###" class="linkBlue js_delBalcony">删除阳台</a>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-Button-A1 clearfix mt30">
+                    <button class="button btn-blue R mr10">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<#Block:end>

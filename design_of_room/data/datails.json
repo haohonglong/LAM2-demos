@@ -1,0 +1,12 @@
+<#define __IMAGE__="{{LAM.IMAGE}}/imgs_LHH/pics" />
+{
+  "imgs":[
+      [
+        {"img":"__IMAGE__/img_04.jpg"},
+        {"img":"__IMAGE__/img_05.jpg"},
+        {"img":"__IMAGE__/img_06.jpg"},
+        {"img":"__IMAGE__/img_07.jpg"},
+        {"img":"__IMAGE__/img_08.jpg"}
+      ]
+  ]
+}

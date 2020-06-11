@@ -1,0 +1,778 @@
+@charset "utf-8";
+/*
+整站命名规则：HXSJ(户型设计)
+lhh-HXSJ-Model{}
+作者-项目名称-模块名称{}
+*/
+body,button,input,select,textarea{font: 12px/22px "SimSun";color: #666;line-height: normal;}
+
+html {overflow: hidden;} 
+body{position: relative;}
+label,
+select,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+input[type="radio"],
+input[type="checkbox"] {
+  cursor: pointer;
+  cursor:hand;
+}
+
+a{text-decoration:none;outline:none;}
+a:link,a:visited{color:#666;text-decoration:none;}
+a:hover,a:active{ text-decoration:underline;}
+
+.border{border-color: #ccc;}
+.border-blue{border-color: #00aeef;}
+
+/*global*/
+/*============================================================================================================================*/
+/*link*/
+.linkBlue,.linkBlue a:link,.linkBlue a:visited,.linkBlue:link,.linkBlue a:visited,.linkBlue:visited{color:#227AB9!important;}
+.linkBlue a:hover,.linkBlue:hover{color:#227AB9!important;}
+.linkBlack,.linkBlack a:link,.linkBlack a:visited,.linkBlack:link,.linkBlack:visited{color:#000!important;}
+.linkBlack a:hover.linkBlack:hover{color:#000!important;}
+.linkRed,.linkRed a:link,.linkRed a:visited,a.linkRed:link,a.linkRed:visited{color:#ff0000!important;}
+.linkRed a:hover,.linkRed:hover{color:#ff0000!important;}
+.linkWhite,.linkWhite a:link,.linkWhite a:visited,.linkWhite:link,.linkWhite:visited{color:#ffffff!important;}
+.linkWhite a:hover,.linkWhite:hover{color:#ffffff!important;}
+.linkGreen,.linkGreen a:link,.linkGreen a:visited,.linkGreen:link,.linkGreen:visited{color:#41bd39 !important;}
+.linkGreen a:hover.linkGreen:hover{color:#41bd39!important;}
+.linkGrey,.linkGrey a:link,.linkGrey a:visited,.linkGrey:link,.linkGrey:visited{color:#999!important;}
+.linkGrey a:hover.linkGrey:hover{color:#999!important;}
+
+/*============================================================================================================================*/
+
+/*文字*/
+/*=================================================================================================================================*/
+/*传统标题*/
+h1,h2,h3,h4,h5,h6{font-weight:bold;color:#666;}
+h1{}
+h2{font-size: 14px;}
+h3{}
+h4{}
+h5{}
+h6{}
+
+
+
+
+/*文字样式*/
+.lhh-HXSJ-Font,.lhh-HXSJ-Font a{color: #666;font-size: 12px;}
+.lhh-HXSJ-Font-grey,.lhh-HXSJ-Font-grey a{color: #ccc;}
+.lhh-HXSJ-Font-333,.lhh-HXSJ-Font-333 a{color: #333;}
+.lhh-HXSJ-Font-f60,.lhh-HXSJ-Font-f60 a{color: #f60;}
+.lhh-HXSJ-Font-lightgrey,.lhh-HXSJ-Font-lightgrey a{color: #999;}
+.lhh-HXSJ-Font-ccc,.lhh-HXSJ-Font-ccc a{color: #ccc;}
+.lhh-HXSJ-Font-red,.lhh-HXSJ-Font-red a{color: #cc0000;}
+.lhh-HXSJ-Font-white,.lhh-HXSJ-Font-white a{color: #fff;}
+.lhh-HXSJ-Font-green,.lhh-HXSJ-Font-green a{color: #41bd39;}
+.lhh-HXSJ-Font-blue,.lhh-HXSJ-Font-blue a{color: #33a5f7;}
+
+
+/*段落样式*/
+.p{word-break: break-all;word-wrap: break-word;white-space: pre;white-space: pre-wrap;}
+section,.section{}
+
+
+.t-nowrap{white-space:nowrap;overflow: hidden;}
+
+/*cms 规定的格式*/
+.lhh-HXSJ-Cms,
+.lhh-HXSJ-Cms p{line-height: 22px;word-break: break-all;word-wrap: break-word;white-space: pre;white-space: pre-wrap;}
+
+
+/*文字 end*/
+/*=================================================================================================================================*/
+
+/*background*/
+.lhh-HXSJ-Bg-blue{background: #227ab9;}
+
+
+/*全局弹出层*/
+.lhh-HXSJ-PopupLayer{width: 1100px;position: fixed;background: #fff;z-index:11111;}
+.lhh-HXSJ-PopupLayer .popup-content{}
+
+
+/*整屏遮罩*/
+.lhh-HXSJ-Mask{width: 100%;height: 100%;position: fixed; z-index:2;left:0px;top:0px;background:#fff;opacity:0.4;filter:Alpha(opacity=40);}
+
+/*透明层*/
+.lhh-HXSJ-Transparent{opacity:0.3;filter:Alpha(opacity=30);}
+
+/*line*/
+.lhh-HXSJ-Line-col{background:#e5e5e5;height: 100%;width: 1px;}
+.lhh-HXSJ-Line-row{background:#e5e5e5;width: 100%; height: 1px;}
+
+/* fix-position */
+.lhh-HXSJ-Fixed{position: fixed;z-index: 1000;}
+.lhh-HXSJ-Fixed-top{top: 0;left: 0;}
+.lhh-HXSJ-Fixed-bottom{bottom: 0;left: 0;}
+
+
+/*icons*/
+.lhh-HXSJ-Icon{position: relative;top:4px; display: inline-block;width: 20px;height: 20px;background: url(images/icon.png) no-repeat 0 0;cursor: pointer;}
+/*提示图标 灯泡*/
+.lhh-HXSJ-Icon-tip{width: 9px;height: 14px;}
+
+
+/*注册里的图标*/
+.lhh-HXSJ-Icon-login{}
+.lhh-HXSJ-Icon-login .icon{display:inline-block;height: 16px; margin-right:15px; margin-top:7px;background:url(images/icons_login.png) -9px -78px no-repeat;}
+.lhh-HXSJ-Icon-login .a{ width:16px; background-position:-9px -78px;}
+.lhh-HXSJ-Icon-login .b{ width:20px; background-position:-35px -78px;}
+.lhh-HXSJ-Icon-login .c{ width:21px; background-position:-68px -78px;}
+
+/*欢迎模块头部图标*/
+.lhh-HXSJ-Icon-A{}
+.lhh-HXSJ-Icon-A a{display:block; width:60px;height: 60px;padding:0 40px;text-align: center;}
+.lhh-HXSJ-Icon-A a:hover,.lhh-HXSJ-Icon-A .cur a{font-weight:bold;}
+.lhh-HXSJ-Icon-A i{display:block; width:60px;height: 30px; background:url(images/hintIcon.png) no-repeat 0 0;}
+.lhh-HXSJ-Icon-A a.a i{background-position:6px -4px;}
+.lhh-HXSJ-Icon-A a.a:hover,.lhh-HXSJ-Icon-A .cur a.a{color:#ffa700;}
+.lhh-HXSJ-Icon-A a.a:hover i,.lhh-HXSJ-Icon-A .cur a.a i{background-position:6px -55px;}
+.lhh-HXSJ-Icon-A a.b i{background-position:-45px -2px;}
+.lhh-HXSJ-Icon-A a.b:hover,.lhh-HXSJ-Icon-A .cur a.b{color:#ec008c;}
+.lhh-HXSJ-Icon-A a.b:hover i,.lhh-HXSJ-Icon-A .cur a.b i{background-position:-45px -54px;}
+.lhh-HXSJ-Icon-A a.c i{background-position:-100px 0px;}
+.lhh-HXSJ-Icon-A a.c:hover,.lhh-HXSJ-Icon-A .cur a.c{color:#2489d1;}
+.lhh-HXSJ-Icon-A a.c:hover i,.lhh-HXSJ-Icon-A .cur a.c i{background-position:-100px -54px;}
+.lhh-HXSJ-Icon-A .line{width:1px; height:60px; background:url(images/hline.png) no-repeat;}
+
+
+/*输入框聚焦时的样式*/
+.cur .text,
+.bor-blue{border:1px solid #33a5f7!important;}
+
+
+
+
+
+/*通用价格*/
+.lhh-HXSJ-Price{color: #f10000;font-size: 14px;}
+.lhh-HXSJ-Price .number{font-family:"Microsoft Yahei";}
+.lhh-HXSJ-Price .symbol{font-size: 15px;font-family:"Microsoft Yahei";}
+.lhh-HXSJ-Price .word{font-size: 16px;margin-left: -2px;}
+.lhh-HXSJ-Price .del{text-decoration: line-through;color:#999;font-size: 12px;font-weight: normal; }
+.lhh-HXSJ-Price .call{ font-size:13px;color: #ccc;}
+.lhh-HXSJ-Price .icon{}
+
+/*阴影*/
+.lhh-HXSJ-Shadow-header{box-shadow:0 4px 8px rgba(0,0,0,0.3);}
+
+/*头部用户区域下拉菜单*/
+.lhh-HXSJ-Shadow-menu{box-shadow: 3px 3px 5px rgba(0,0,0,0.1);}
+.lhh-HXSJ-Shadow-content{box-shadow:3px 3px 5px rgba(0,0,0,0.3);}
+
+/*forms*/
+.lhh-HXSJ-Form{font-family:"SimSun";}
+.lhh-HXSJ-Form ul{*margin-bottom: 10px;}
+.lhh-HXSJ-Form li{position: relative;line-height: 25px;}
+.lhh-HXSJ-Form label{font-size: 12px;text-align: right;margin-right: 5px;}
+.lhh-HXSJ-Form label .warning{color: #f00;margin: 0;}
+.lhh-HXSJ-Form input{ border:1px solid #ccc; height:30px; padding-left:10px; color:#666;}
+.lhh-HXSJ-Form .text{width: 193px;}
+.lhh-HXSJ-Form .password{ width: 194px;}
+.lhh-HXSJ-Form .radio{}
+.lhh-HXSJ-Form .radio span{margin-right: 5px;color: #333;font-size: 12px;}
+.lhh-HXSJ-Form textarea{width: 490px;border: 1px solid #ccc;font-size: 12px;padding: 10px;color: #999;}
+.lhh-HXSJ-Form select{width: auto;padding: 3px 2px; font-size:12px;border: 1px solid #ccc;}
+.lhh-HXSJ-Form .warning{color: #f00;margin:0 5px;}
+.lhh-HXSJ-Form .message{color: #888;}
+.lhh-HXSJ-Form .date{}
+.lhh-HXSJ-Form .date span{margin: 0 5px;}
+.lhh-HXSJ-Form .size1of1{width: 100%;}
+.lhh-HXSJ-Form .long{width: 370px;}
+.lhh-HXSJ-Form .short{width: 60px;}
+.lhh-HXSJ-Form .verify .text{width: 45px; }/*验证码*/
+.lhh-HXSJ-Form .verify img{margin-top: 2px;}
+
+/*分享模块中的表单*/
+.lhh-HXSJ-Form-share label{ font-size:16px; color:#666; margin-bottom:15px;}
+.lhh-HXSJ-Form-share .text{ width:380px; height:40px; color:#666;}
+.lhh-HXSJ-Form-share .w-397{ width:375px;}
+.lhh-HXSJ-Form-share .w-355{ width:355px;}
+.lhh-HXSJ-Form-share .w-300{ width:300px;}
+.lhh-HXSJ-Form-share textarea{width: 368px; resize:none; border:1px solid #999; color:#ccc; line-height:18px; padding:11px;}
+
+/*设计风格多选框 */
+.lhh-HXSJ-Form-checkbox{width: auto;margin-left: 110px;}
+.lhh-HXSJ-Form-checkbox input{line-height: normal;}
+.lhh-HXSJ-Form-checkbox li{position: relative;line-height: 25px;width: 80px;}
+.lhh-HXSJ-Form-checkbox label{font-size:16px; color:#666; margin-bottom:15px;}
+
+
+/*通用抽象模块样式*/
+.lhh-HXSJ-Box{position: relative;}
+.lhh-HXSJ-Box h1,.lhh-HXSJ-Box h2,.lhh-HXSJ-Box h3,.lhh-HXSJ-Box h4,.lhh-HXSJ-Box h5,.lhh-HXSJ-Box h6{}
+.lhh-HXSJ-Box h1{}
+.lhh-HXSJ-Box h2{}
+.lhh-HXSJ-Box h3{}
+.lhh-HXSJ-Box h4{}
+.lhh-HXSJ-Box h5{}
+.lhh-HXSJ-Box h6{}
+.lhh-HXSJ-Box .more{ position:absolute;top: 0;right: 0;left: auto;cursor: pointer;}
+
+
+
+/*头部*/
+.lhh-HXSJ-Header{ width:100%; height:55px; border-bottom: 1px solid #ccc; background:#fafafa;}
+.lhh-HXSJ-Header-shadow{height: 11px; background:url(images/header_shadow.png) 0 0 repeat-x;}
+.lhh-HXSJ-Header .line{ height:55px; background:#f2f2f2;}
+.lhh-HXSJ-Header-logo{ padding:15px 0 0 20px; width:auto;}
+.lhh-HXSJ-Header-logo .logoImg{ width:190px; height:28px; background:url(images/logo.png) no-repeat;margin-right: 100px; }
+.lhh-HXSJ-Header-logo p{position: relative;top: 12px;font-family:"Microsoft Yahei";}
+.lhh-HXSJ-Header-user{ width:180px; }
+.lhh-HXSJ-Header-title{ padding:10px 0 0 20px;line-height: 22px;}
+.lhh-HXSJ-Header-title h4{ font-size:16px; font-weight:bold; color:#666;}
+.lhh-HXSJ-Header-title p{ color:#999;}
+.lhh-HXSJ-Header-icons i{display:block;background:url(images/icons_login.png) no-repeat 0 0;margin-top:3px; margin-right:5px;float:left;}
+.lhh-HXSJ-Header-icons .a i{  width:15px; height:10px; background-position: -8px -6px; }
+.lhh-HXSJ-Header-icons .b i{  width:18px; height:14px; background-position: -33px -5px;}
+.lhh-HXSJ-Header-icons a{ display:inline-block; font: bold 14px Arial, Helvetica, sans-serif; color:#999; }
+.lhh-HXSJ-Header-name { width:110px;line-height: 22px;}
+.lhh-HXSJ-Header-name b{ color:#666;}
+.lhh-HXSJ-Header-admin{ padding: 8px 0 0 10px; height:48px; position:relative;}
+.lhh-HXSJ-Header-img{ width:42px; height:42px; margin-right:10px;}
+.lhh-HXSJ-Header-img img{ width:100%; height:100%;}
+.lhh-HXSJ-Header-arrow{ display:block; width:8px; height:4px; background:url(images/icons_login.png) 0 0 no-repeat; position:absolute; top:15px; right:15px;}
+.lhh-HXSJ-Header-arrow.up{   background-position: -64px -9px;}
+.lhh-HXSJ-Header-arrow.down{ background-position: -64px -13px;}
+.lhh-HXSJ-Header-enter{ padding:20px 30px 15px 40px;}
+.lhh-HXSJ-Header-enter a{ font-weight:bold; color:#7a7a7a;}
+.lhh-HXSJ-Header-enter .register{ color:#11ad07;}
+.lhh-HXSJ-Header-enter a:hover{ color:#11ad07;}
+.lhh-HXSJ-Header-menu{ width: 160px; border-width: 0 1px 1px; border-style: none solid solid; border-color: transparent #e0e0e0 #e0e0e0; background: #fff; position: absolute; top: 56px; left: 0; padding: 5px 0;}
+.lhh-HXSJ-Header-menu li{ line-height: 23px; padding-left: 10px;}
+.lhh-HXSJ-Header-menu a{ color: #333;}
+.lhh-HXSJ-Header-menu b{ font-weight: bold;}
+
+
+
+/*Tel*/
+.lhh-HXSJ-Tel-A1{}
+
+
+/*登录注册模块*/
+.lhh-HXSJ-Login{margin:-130px 0 0 -265px; z-index:5;}
+.lhh-HXSJ-Login .loginBox{ width:535px; height:270px; background:#fff; position:relative; border: 1px solid #ccc;}
+.lhh-HXSJ-Login .lhh-HXSJ-Form{ width:236px; height:240px; background:#f1f1f1; margin-top:13px;}
+.lhh-HXSJ-Login .p20{ padding:20px 15px 0;}
+.lhh-HXSJ-Login .box{ padding:10px 15px 0; width:205px; height:190px;}
+.lhh-HXSJ-Login .send_verify{ padding-left: 0;border: 0; background: none;margin-left: -10px;}
+.lhh-HXSJ-Login .agree{ height:30px; line-height:30px;}
+.lhh-HXSJ-Login .divide{ width:100%; height:15px; background:url(images/divide.png) no-repeat; margin-top:15px;}
+
+/*注册登录关闭按钮*/
+.lhh-HXSJ-Login-close{ position:absolute; top:10px; right:5px; width:15px; height:15px;}
+.lhh-HXSJ-Login-close a{ display:block; width:15px; height:15px; background:url(images/icons_login.png) -85px -5px no-repeat; }
+
+.lhh-HXSJ-Login-content{ width:185px; margin:20px 65px 0 20px;}
+.lhh-HXSJ-Login-content h1{ margin-bottom:15px;}
+.lhh-HXSJ-Login-content p{ font:13px/24px "Microsoft Yahei"; color:#666;}
+
+
+
+
+/*Tabs*/
+/*注册登录框的tab标题*/
+.lhh-HXSJ-Tab-login li{display:block; width:118px; height:30px; line-height:30px; text-align:center; background:#e4e4e4; font-weight:bold; color:#666;cursor: pointer;}
+.lhh-HXSJ-Tab-login .curr{background:#f1f1f1;}
+
+
+
+/*弹框模块*/
+.lhh-HXSJ-PopBox{width:570px; height:auto; border:1px solid #ccc; background:#fff;}
+.lhh-HXSJ-PopBox .content{margin:30px 35px;}
+
+/*Title*/
+.lhh-HXSJ-Title{position: relative;}
+.lhh-HXSJ-Title h2{font-size: 14px;font-family:"Microsoft Yahei";}
+.lhh-HXSJ-Title .more{right:18px; top:0;background-position: 0 0;cursor: pointer;}
+
+/*带提示图标的标题*/
+.lhh-HXSJ-Title-tip{position: relative;}
+.lhh-HXSJ-Title-tip h2{}
+.lhh-HXSJ-Title-tip .more{}
+
+
+/*弹窗标题*/
+.lhh-HXSJ-Title-pop{position: relative; width:100%; height:50px; border-bottom:1px solid #bfbfbf; background:#f7f7f7; }
+.lhh-HXSJ-Title-pop h2{ font: bold 16px/50px "Microsoft Yahei"; color:#666; text-align:center;}
+.lhh-HXSJ-Title-pop .text-left{text-align: left;}
+.lhh-HXSJ-Title-pop .more{ width: 17px; height: 16px; background: url(images/icons_login.png) no-repeat -80px -32px; position: absolute; top: 16px; right: 18px;cursor: pointer;}
+
+.lhh-HXSJ-Title-pop-h40{height:40px;}
+.lhh-HXSJ-Title-pop-h40 h2{line-height: 40px; color:#666; text-align:left;}
+.lhh-HXSJ-Title-pop-h40 .more{ top: 10px;}
+
+/*清单标题*/
+.lhh-HXSJ-Title-DList{position: relative; width:100%; height:50px; background:#f7f7f7;border-bottom: 1px solid #bfbfbf; }
+.lhh-HXSJ-Title-DList h2{ font: bold 16px/50px "Microsoft Yahei"; color:#666; padding-left: 20px;}
+.lhh-HXSJ-Title-DList .more{  position: absolute; top: 16px; right: 18px;}
+.lhh-HXSJ-Title-DList .text{  top:18px;right: 36px;}
+.lhh-HXSJ-Title-DList .close{width: 17px; height: 16px; background: url(images/icons_login.png) no-repeat -80px -32px;cursor: pointer;}
+
+/*清单菜单标题*/
+.lhh-HXSJ-DListTab-A{}
+.lhh-HXSJ-DListTab-A dl{}
+.lhh-HXSJ-DListTab-A dt{color:#999b9a;}
+.lhh-HXSJ-DListTab-A a{width:auto;background:#f5f5f5;border-radius: 3px; }
+.lhh-HXSJ-DListTab-A strong,
+.lhh-HXSJ-DListTab-A a{padding: 10px;}
+.lhh-HXSJ-DListTab-A strong{padding-left:0;}
+.lhh-HXSJ-DListTab-A a:hover,
+.lhh-HXSJ-DListTab-A .hover a{background:#33a5f7;font-weight: bold;color: #fff;}
+.lhh-HXSJ-DListTab-A strong,
+.lhh-HXSJ-DListTab-A dt,
+.lhh-HXSJ-DListTab-A dd,
+.lhh-HXSJ-DListTab-A a{float: left;_display:inline;}
+.lhh-HXSJ-DListTab-A dd{margin-bottom: 10px;}
+
+/*清单二级筛选条件*/
+.lhh-HXSJ-DListTab-B{}
+.lhh-HXSJ-DListTab-B .border{border: none;border-bottom: 2px solid #f7f7f7;height: 25px;line-height: 25px;padding-bottom: 5px;padding-left: 15px;}
+.lhh-HXSJ-DListTab-B h2{ font-size: 13px; height: 25px;line-height: 25px;font-weight: normal;padding:0 5px 5px 5px;margin-right: 5px;cursor: pointer;}
+.lhh-HXSJ-DListTab-B h2.cur{border-bottom: 2px solid #33a5f7;color: #33a5f7;font-weight: bold;}
+.lhh-HXSJ-DListTab-B b{color: #f00;}
+.lhh-HXSJ-DListTab-B .more{ top:5px;cursor: default;right: 15px;}
+.lhh-HXSJ-DListTab-B .lhh-HXSJ-Price .word{position: relative;top:-2px;}
+
+
+/*清单商品*/
+.lhh-HXSJ-DListGoods .border{background: #fdfdfd;border-bottom:none;border-top: 1px solid #eaeaea;}
+.lhh-HXSJ-DListGoods .first.border{border-top: 1px solid #ccc;}
+.lhh-HXSJ-DListGoods .last.border{border-bottom: 1px solid #ccc;}
+.lhh-HXSJ-DListGoods .img{display: block;width: 100px;height: 100px;overflow: hidden;}
+.lhh-HXSJ-DListGoods .lhh-HXSJ-Button-A1{display: hidden;}
+.lhh-HXSJ-DListGoods .border.hover .lhh-HXSJ-Button-A1{display: block;}
+
+/*清单商品总标题*/
+.lhh-HXSJ-DListGoods-th{width: 100%; height: 30px;line-height: 30px;background: #f7f7f7;text-align: center;}
+.lhh-HXSJ-DListGoods-th li{width:20%;}
+.lhh-HXSJ-DListGoods-th .Gcol-1{width:40%;}
+
+/*清单商品 品牌名*/
+.lhh-HXSJ-DListGoods-name{}
+
+/*清单商品 详情*/
+.lhh-HXSJ-DListGoods-content{margin-left: 110px;}
+.lhh-HXSJ-DListGoods-content .color{display: inline-block;width: 15px;height: 15px;position: relative;top: 3px;}
+.lhh-HXSJ-DListGoods-content .blue{background: #227ab9;}
+.lhh-HXSJ-DListGoods-content .totle{}
+
+
+
+/*查看商品介绍标题*/
+.lhh-HXSJ-Title-goods{position: relative; width:100%; height:30px; border-bottom:1px solid #ccc; background:#f7f7f7 url(images/title_bg.png) no-repeat 15px 6px;}
+.lhh-HXSJ-Title-goods .more{ width: 17px; height: 16px; background: url(images/icons_login.png) no-repeat -80px -32px; position: absolute; top: 6px; right: 10px;cursor: pointer;}
+
+/*侧边栏查看商品信息*/
+.lhh-HXSJ-Goods-info{position: relative;}
+.lhh-HXSJ-Goods-info .icon{width: 37px;height: 37px; position: absolute;top: 2px;right: 0; background: url(images/goods_r_icon.png) no-repeat 0 0;}
+.lhh-HXSJ-Goods-info img{width: 260px;height: 260px;background: #ddd;}
+.lhh-HXSJ-Goods-info .button{width: 60px;font-size: 12px;position: relative;top: -3px;}
+
+
+
+/*button*/
+/*通用按钮*/
+.lhh-HXSJ-Button-A1 .button{display: block; width:90px; height:30px; font-size:14px;  border:none; padding:0; cursor:pointer;background: transparent;}
+.lhh-HXSJ-Button-A1 .btn-blue{background:#227ab9; color:#fff;}
+.lhh-HXSJ-Button-A1 .btn-gray{background:#ccc; color:#333;}
+.lhh-HXSJ-Button-A1 .button:hover,
+.lhh-HXSJ-Button-A1 .button.hover{}
+
+/*注册绿色按钮*/
+button.lhh-HXSJ-Button-green{ width:75px; height:30px; background:#41bd39; border:1px solid #1e9916; border-radius:3px; color:#fff; font-weight:bold; cursor:pointer;}
+
+/*登录蓝色按钮*/
+button.lhh-HXSJ-Button-blue{ width:60px; height:30px; background:#4b8df9; border:1px solid #266fe6; border-radius:2px; color:#fff; font-weight:bold;}
+
+
+/*加入购物车*/
+.lhh-HXSJ-Button-A1 .btn-red{background: #fd6f35;color: #fff;}
+.lhh-HXSJ-Button-A1 .btn-red:hover{background: #fd5916;}
+
+
+/*工具框*/
+.lhh-HXSJ-Tool{text-align: center;}
+.lhh-HXSJ-Tool .title{height: 10px; background: #474747;border-bottom: 1px solid #000;}
+.lhh-HXSJ-Tool .content{border: 1px solid #ccc; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;padding:10px 5px; padding-top: 0; text-align: center;}
+.lhh-HXSJ-Tool li{background: url(images/line_short.png) no-repeat 0 bottom;padding-bottom: 18px;margin-bottom: 5px;}
+.lhh-HXSJ-Tool li.last{background: none;margin-bottom: 0;padding-bottom: 10px;}
+.lhh-HXSJ-Tool a,
+.lhh-HXSJ-Tool img{display: inline-block;}
+.lhh-HXSJ-Tool a{width: 65px;height: 50px;color: #4c4c4c;}
+.lhh-HXSJ-Tool .cur a{color: #ec008c;font-weight: bold;}
+.lhh-HXSJ-Tool .cur .create{color: #fd9a00;}
+.lhh-HXSJ-Tool .cur .see{color: #ec008c;}
+.lhh-HXSJ-Tool .cur .pt{color: #2489d1;}
+.lhh-HXSJ-Tool .cur .collection{color: #069510;}
+.lhh-HXSJ-Tool .collection{}
+.lhh-HXSJ-Tool .collection img{position: relative;top: 4px;}
+.lhh-HXSJ-Tool img{width: 100%;height: 100%;}
+.lhh-HXSJ-Tool p{}
+
+/*工具盒子 形状集合*/
+.lhh-HXSJ-Toolbox{}
+.lhh-HXSJ-Toolbox ul{}
+.lhh-HXSJ-Toolbox li{display: inline-block; margin-bottom: 10px; cursor: pointer;margin-left: 5px; }
+.lhh-HXSJ-Toolbox .border{display: inline-block;width: 125px;height: 125px; padding:25px;}
+.lhh-HXSJ-Toolbox img{width: 100%;height: 100%;}
+.lhh-HXSJ-Toolbox p{text-align: center;font-weight: bold;color: #999;}
+
+
+/*建造房间，摆放看看，拼贴铺装 布局*/
+.lhh-HXSJ-Wrapper{width:765px;height:100%;overflow: hidden;}
+.lhh-HXSJ-Wrapper .secondary{width:170px;height:100%;border-right: 1px solid #ccc;}
+.lhh-HXSJ-Wrapper .primary{/*width: 586px; */margin-left:170px;height:100%;position: relative;}
+
+/*左区菜单栏*/
+.lhh-HXSJ-Menu{}
+.lhh-HXSJ-Menu .l-1{height: 42px;line-height: 42px; background: url(images/line_long.png) no-repeat center bottom;}
+.lhh-HXSJ-Menu a{font-weight: bold;}
+.lhh-HXSJ-Menu .selected a{color: #cc0000;}
+
+/*菜单栏右侧图标*/
+.lhh-HXSJ-Menu-Icon{position: relative;}
+.lhh-HXSJ-Menu-Icon .icon{width: 10px;height: 10px;position: absolute;top: 2px;right: 20px;z-index: 1;background:url(images/plus.png) no-repeat 0 0;cursor: pointer;}
+.lhh-HXSJ-Menu-Icon .plus{background-position: 0 0;}
+.lhh-HXSJ-Menu-Icon .minus{background-position: right 0;}
+
+/*摆放看看菜单 黑灰变换中间有箭头*/
+.lhh-HXSJ-Menu-A{}
+.lhh-HXSJ-Menu-A .title{position: relative; height: 25px;line-height: 25px; background: #e5e5e5;color: #666;font-size: 12px; font-weight: bold;text-align: center; cursor: pointer;}
+.lhh-HXSJ-Menu-A .hover.title{background: #ccc;color: #333;}
+.lhh-HXSJ-Menu-A .cur.title{background: #333;color: #fefefe;margin-bottom: 8px;}
+.lhh-HXSJ-Menu-A .cur .Arrow{width: 0;height: 0;position: absolute;overflow: hidden;border-width: 5px;font-size:0;line-height: 0; margin: 0;border-style: solid dashed dashed; border-color: #333 transparent transparent;left: 50%; bottom: -10px;}
+.lhh-HXSJ-Menu-A .l-1{height: auto;line-height: normal;}
+
+/*二级菜单下的列表链接*/
+.sectionList-A1 a{font-weight: normal; display: inline-block; margin-right: 5px;margin-bottom: 10px;}
+.sectionList-A1 a.cur{color: #cc0000;}
+.sectionList-A1 a:hover{}
+
+
+
+/*searchBox*/
+.lhh-HXSJ-Search{position: relative;}
+.lhh-HXSJ-Search i{position: absolute;width: 15px;height: 16px;top: 8px;left: 10px;background:url(images/search.png) no-repeat 0 0;cursor: pointer;}
+.lhh-HXSJ-Search input{width: 118px;padding-left: 30px;}
+
+.lhh-HXSJ-Search-h20 input{height: 22px;}
+.lhh-HXSJ-Search-h20 i{top: 5px;}
+
+
+.lhh-HXSJ-SimilarGoods{}
+.lhh-HXSJ-SimilarGoods .p15{line-height: 22px; background:#fff; padding:15px 10px;}
+.lhh-HXSJ-SimilarGoods-title{line-height: 25px;}
+.lhh-HXSJ-SimilarGoods-title strong{font-weight: bold;}
+.lhh-HXSJ-SimilarGoods-title a{display: inline-block;margin: 0 8px;}
+.lhh-HXSJ-SimilarGoods-title a:hover,
+.lhh-HXSJ-SimilarGoods-title .hover{color: #cc0000;}
+
+/* diy_select */
+/*仿下拉列表*/
+/*.diy_select{cursor: pointer;position: relative;margin-right: 65px;}
+.diy_select_txt{display: inline-block;}
+.diy_select_btn{display: inline-block;width:8px; height:5px;position: relative; top: 0; left:5px; background:url(images/arrow.png) no-repeat 0 0;}
+.diy_select_list{width:100px;position:absolute; top:20px; left:-25px; z-index:100; background:#fff; border:1px solid #ccc;padding: 5px;}
+.diy_select_list li{ padding-left:10px;line-height: 22px;}
+.diy_select_list li.focus{}
+*/
+
+
+/*同类商品列表页 下拉框*/
+.lhh-HXSJ-SimilarGoods-select{}
+
+
+/*下拉列表框*/
+.lhh-HXSJ-SelectTab{position: relative;z-index: 2;}
+.lhh-HXSJ-SelectTab-title{height: 35px;z-index: 12;border-bottom: 1px solid #ccc;margin-bottom: 12px;}
+.lhh-HXSJ-SelectTab-title .label{position: absolute;left: 25px;top: 10px;}
+.lhh-HXSJ-SelectTab-title ul{height: 100%; padding-left: 55px;}
+.lhh-HXSJ-SelectTab-title li .icon{width:8px; height:5px;background:url(images/arrow.png) no-repeat 0 0;position: absolute;right: 3px;top: 15px; }
+.lhh-HXSJ-SelectTab-title li.cur .icon{background-position: 0 -5px;}
+.lhh-HXSJ-SelectTab-title .li-1{width: 48px;height: 34px;line-height: 35px; overflow: hidden; padding:0 18px 0 6px; margin:0 3px;border: 1px solid #fff; cursor:pointer;border-bottom:none;position: relative;}
+.lhh-HXSJ-SelectTab-title .li-1.cur{margin-bottom:-1px;border-color: #ccc; border-bottom:1px solid #fff;/*box-shadow: 3px -5px 5px rgba(0,0,0,0.1);*/}
+.lhh-HXSJ-SelectTab-title-more{position: absolute;top:50px;right: 15px;z-index: 1; padding-right: 15px;cursor: pointer;}
+.lhh-HXSJ-SelectTab-title-more .icon{width:8px; height:4px; background:url(images/icons_login.png) -64px -9px no-repeat;position: absolute;right: 0;top: 5px; }
+.lhh-HXSJ-SelectTab-title-more .icon.up{background-position: -64px -13px;}
+
+.lhh-HXSJ-SelectTab-block-wrap{position: absolute;top: 45px;left: 0;z-index: 11;box-shadow:3px 4px 5px rgba(0,0,0,0.3);background: #fff;}
+.lhh-HXSJ-SelectTab-block-wrap .w-586{width: 594px;}
+.lhh-HXSJ-SelectTab-style{border-top: none;height: 220px;overflow: hidden;background: #fff;}
+.lhh-HXSJ-SelectTab-style .sectionScroll{}
+.lhh-HXSJ-SelectTab-style .p20{padding-right: 12px;}
+.lhh-HXSJ-SelectTab-style .h-220{height: 220px !important;overflow: hidden;}
+.lhh-HXSJ-SelectTab-style li{overflow: hidden;height: 18px;}
+.lhh-HXSJ-SelectTab-style .cur a{color: #ff0000;}
+.lhh-HXSJ-SelectTab-style .lhh-HXSJ-Search{}
+
+.lhh-HXSJ-SelectTab-price{font-size: 14px;font-family:"Microsoft Yahei";color: #999;position: relative;background: #fff;}
+.lhh-HXSJ-SelectTab-price .symbol{font-weight: normal;}
+.lhh-HXSJ-SelectTab-price .lhh-HXSJ-Price{color: #999;}
+.lhh-HXSJ-SelectTab-price .text{width: 35px;height: 18px;padding-left: 5px;}
+.lhh-HXSJ-SelectTab-price .p-button{width: 20px;height: 20px;background: url(images/price_btn1.png); position: absolute;right: 5px;bottom: 5px;cursor: pointer;}
+
+
+
+/*缩略图*/
+.lhh-HXSJ-Thumbnail{}
+.lhh-HXSJ-Thumbnail .ml5{}
+.lhh-HXSJ-Thumbnail li{margin-bottom:10px;margin-left: 11px; margin-right: 0;}
+.lhh-HXSJ-Thumbnail-box{width:178px; height:236px; border:1px solid #ccc;position: relative;background: #fff;}
+.lhh-HXSJ-Thumbnail-box .icon{width:37px; height:37px; background:url(images/new.png) no-repeat; position:absolute; z-index:1;}
+.lhh-HXSJ-Thumbnail-box .new{ right:0;top: 0;}
+.lhh-HXSJ-Thumbnail-box .star{width: 21px;height: 20px; background-position: -46px -20px;top: 2px; left: 2px;cursor: pointer;}
+.lhh-HXSJ-Thumbnail-box .star-selected{background-position: -46px 0;}
+.lhh-HXSJ-Thumbnail-img{width:178px; height:178px;overflow:hidden; border-bottom:1px solid #ccc; position:relative;}
+.lhh-HXSJ-Thumbnail-img .imgWrap{display: block;width:100%; height:100%;}
+.lhh-HXSJ-Thumbnail-img img{width:100%; height:100%;}
+.lhh-HXSJ-Thumbnail-button{display: none; width:100%; height:30px;line-height:30px;color:#fff!important; position:absolute; bottom:0; left:0; text-align:center;/*opacity:0;filter:Alpha(opacity=0);*/ }
+.lhh-HXSJ-Thumbnail-button-blue{background: #227ab9;}
+.lhh-HXSJ-Thumbnail-button-green{background: #069510;}
+.cur .lhh-HXSJ-Thumbnail-button,
+.hover .lhh-HXSJ-Thumbnail-button{display: block;}
+.lhh-HXSJ-Thumbnail-button:hover{ text-decoration:none;}
+.lhh-HXSJ-Thumbnail-info{padding: 0 10px;}
+.lhh-HXSJ-Thumbnail-info .del{font-family:"Microsoft Yahei";}
+
+
+
+/*Container*/
+#HXSJ-Container{margin-top: 56px;position: relative;z-index: 0;}
+
+/*头部*/
+#HXSJ-Header{position:fixed;top: 0; z-index:1;}
+
+
+#HXSJ-Footer{position: absolute;bottom: 0;right: 10px;line-height: 45px;}
+#HXSJ-Footer .f-icon{width: 37px;height: 37px;display: block;background:url(images/icons_login.png) -8px -30px no-repeat;}
+#HXSJ-Footer p{margin-left: 45px;color: #bebebe;}
+
+/*侧边栏查看商品介绍*/
+#goods-sidebar{width: 300px;position: absolute;right: 10px;top: 65px;background: #fff;}
+
+/*登录模块*/
+#HXSJ-Login{}
+
+/*注册模块*/
+#HXSJ-reg{}
+
+/*清单*/
+#HXSJ-DetailedList{width: 800px;background: #fff;}
+#HXSJ-DetailedList .content{padding: 20px;}
+
+
+/*flash*/
+#HXSJ-Flash,
+#HXSJ-Flash object{width: 100%;height: 100%;}
+
+/*主工具框*/
+#Tool-wrapper{position: absolute;top: 25px;left: 7px; background: #fff;z-index: 1;}
+#Tool{width: 80px;position: absolute;top: 16px;left: 7px; background: #fff;z-index: 1;}
+#Tool .mt5{margin-top: 0;}
+#Tool-content{width: 765px;position: absolute;top: 16px;left: 87px;background: #fff;z-index: 1;}
+#Tool-content-close{position: absolute;z-index: 13; width: 30px;height: 30px;background: url(images/content_closed.png) no-repeat 5px 5px;right: 10px;top: 10px;cursor: pointer;}
+
+/*同类商品列表页*/
+#SimilarGoods{width: 590px; position:absolute; top:0; left:10px; z-index:10;background: #fff;}
+#SimilarGoods .lhh-HXSJ-SelectTab-block-wrap{}
+#SimilarGoods .lhh-HXSJ-Thumbnail li{margin-left: 9px;}
+
+
+#createRoom{}
+#createRoom .primary .p15{}
+/*摆放看看*/
+#putSee{}
+
+
+/*拼贴铺装*/
+#CollagePavement{width: 1000px;z-index: 5;background: #fff;}
+#CollagePavement .cp-content{}
+#CollagePavement .cp-primary{width: 675px;height: 445px; padding: 30px 15px 40px 20px;}
+#CollagePavement .cp-secondary{height: 475px;position: relative; border-left: 1px solid #e8e8e8; margin-left: 710px;padding: 20px;padding-right: 10px;}
+#CollagePavement select{width: 170px;height: 20px;}
+#CollagePavement .text{width: 58px;height: 20px;padding-left: 5px;font-size: 14px;}
+#CollagePavement .unit{height: 20px; position: absolute;right: 1px;padding-right: 5px; top: 1px;color: #999;background: #fff;font-family:"Microsoft Yahei";font-size: 12px;}
+#CollagePavement label{margin-right: 0;}
+#CollagePavement .lhh-HXSJ-Button-A1{position: absolute;bottom: 20px;right: 20px;}
+#CollagePavement .material{height: 45px;line-height: 45px;}
+#CollagePavement .material-box{width: 115px;height: 35px;border:5px solid #eee;background: #ac8585;cursor: pointer;}
+#CollagePavement .material i{width: 30px;height: 30px;background: url(images/rotation.png) 0 0;position: relative;top: 8px;cursor: pointer;}
+#CollagePavement .material .R45{background-position: 0 0;}
+#CollagePavement .material .R90{background-position: -30px 0;}
+
+
+
+/*欢迎模块*/
+#popPlateWelcome{width:570px;height: 480px; }
+#popPlateWelcome .border{position: relative; }
+#popPlateWelcome .footer{}
+.popPlateWelcome-header{padding-top: 30px;margin:0 70px 35px;}
+.popPlateWelcome-header a{text-decoration: none;}
+.popPlateWelcome-header .line{width:1px; height:60px; background:url(images/hline.png) no-repeat;position: relative;/*top: 10px;*/}
+.popPlateWelcome-description{font-size: 14px;line-height: 25px;  color:#999; text-indent:2em;}
+.popPlateWelcome-content{height: 230px; border-top:1px solid #ccc; width:100%; background:#f7f7f7;}
+.popPlateWelcome-content h4{ margin:20px auto; font-size:16px;font-weight: normal; font-family:"Microsoft Yahei"; color:#999; text-align:center;}
+
+#popPlateWelcomeSlider .sliderbox{ margin:0 15px;}
+#popPlateWelcomeSlider .sliderbox li{ margin:0 15px; width:238px; height:130px; border:1px solid #ccc;overflow:hidden;}
+#popPlateWelcomeSlider .sliderbox a{ display:block; width:238px; height:130px;}
+#popPlateWelcomeSlider .sliderbox img{ width:100%; height:100%;}
+
+#popPlateWelcomeSlider .slidernav{ text-align:center; margin-top:20px; height:10px; line-height:10px;}
+#popPlateWelcomeSlider .slidernav li {width: 10px;height: 10px;margin: 0; border: none; display: inline-block; font-size: 14px; letter-spacing: normal; margin-left: 5px; vertical-align: top; word-spacing: normal;}
+#popPlateWelcomeSlider .slidernav a{ display: block; width: 10px; height: 10px; background: url(images/icons_login.png) no-repeat scroll -87px -60px; color: #000; text-align: center; text-indent: -999em;}
+#popPlateWelcomeSlider .slidernav li.current a { background: url(images/icons_login.png) no-repeat scroll -68px -60px; color: #fff;}
+
+.popPlateWelcome-showBox{position: absolute;bottom: 8px;left: 30px;}
+.popPlateWelcome-showBox{ color:#999;}
+.popPlateWelcome-showBox input{ margin-right:5px; vertical-align:middle; color:#999;}
+
+/*
+.popPlateWelcome-showBox{ margin-top:-16px; padding-left:30px; padding-bottom:8px;}
+.popPlateWelcome-showBox{ color:#999;}
+.popPlateWelcome-showBox input{ margin-right:5px; vertical-align:middle; color:#999;}
+
+*/
+
+#popPlateWelcome .last{width: 140px;}
+#popPlateWelcome li p{position: relative;top: -8px;}
+
+
+
+/*镜像设置*/
+#mirror{width: 268px;}
+#mirror .m-content{height: 139px;}
+#mirror .m-footer{height: 50px;line-height: 50px;padding: 0 15px;padding-right: 0; border-top: 1px solid #ededed;}
+
+
+/*墙，阳台属性弹出框*/
+.lhh-HXSJ-PopWallBox{width: 270px;height: 310px;background: #fff;line-height: 22px;}
+.lhh-HXSJ-PopWallBox input{height: 22px;}
+.lhh-HXSJ-PopWallBox .p10{}
+.lhh-HXSJ-PopWallBox-content{}
+.lhh-HXSJ-PopWallBox-show{width: 189px;height: 122px;margin: 0 auto; background: url(images/wallImg.png) no-repeat 0 0;position: relative;margin-bottom: 10px;}
+.lhh-HXSJ-PopWallBox-size{position: absolute;color: #999;font-size: 12px;}
+.lhh-HXSJ-PopWallBox-size-box{width: auto; text-align: center;}/*尺寸包含框*/
+.lhh-HXSJ-PopWallBox-size-wallW-t{top:-5px;left: 75px;}/*墙宽尺寸位置*/
+.lhh-HXSJ-PopWallBox-size-wallH-r{right: -12px;top:55px;}/*墙高尺寸位置*/
+.lhh-HXSJ-PopWallBox-size-balconyW-t{top:-2px;left: 65px;}/*阳台宽尺寸位置*/
+.lhh-HXSJ-PopWallBox-size-balconyH-r{right: 20px;top:85px;}/*阳台高尺寸位置*/
+.lhh-HXSJ-PopWallBox-wall{width:155px; height:96px;overflow: hidden; position:relative; top:19px; left:16px;}
+.lhh-HXSJ-PopWallBox-wallhole,
+.lhh-HXSJ-PopWallBox-balconyBox,
+.lhh-HXSJ-PopWallBox-ceiling{position: absolute; border: 1px solid #333; background: #fff;}
+.lhh-HXSJ-PopWallBox-wallhole{width:30px; height:50px; bottom:0px;left: 0;margin-bottom:2px;}
+.lhh-HXSJ-PopWallBox-wallhole.circle{border-top-left-radius: 4em 3em;border-top-right-radius: 4em 3em;}
+.lhh-HXSJ-PopWallBox-balconyBox{width:100px; height:40px;left: 17px; bottom:0;z-index: 1;}
+.lhh-HXSJ-PopWallBox-ceiling{width: 100px;border: none; height: 8px;background: #000;top: 0;left: 18px; z-index: 1;}/*天花板*/
+.lhh-HXSJ-PopWallBox-setup{}
+.lhh-HXSJ-PopWallBox .text{width: 45px;height: 20px;padding-left: 5px;}
+.lhh-HXSJ-PopWallBox .unit{font-family:"Microsoft Yahei";}
+.lhh-HXSJ-PopWallBox-reference{ width:19px; height:60px; background:url(images/reference.png) no-repeat; position:absolute; bottom:2px; left:50%; margin-left:-10px;z-index: 1;}
+/*设置墙洞*/
+.lhh-HXSJ-PopWallBox-hole{}
+
+/*阳台属性*/
+.lhh-HXSJ-PopWallBox-balcony{}
+.lhh-HXSJ-PopWallBox-balcony .lhh-HXSJ-PopWallBox-show{width: 184px;height: 126px;background-image: url(images/balcony.png);}
+
+
+/*全局设置*/
+#globalSet{width: 570px;}
+#globalSet .p30{padding: 30px 25px; }
+#globalSet .text{width: 110px;height: 25px;font-weight: bold;}
+.globalSet-header{height: 95px;border-bottom: 1px solid #bfbfbf;}
+.globalSet-content{height: 155px;overflow: hidden;}
+.globalSet-content li{cursor: pointer;}
+.globalSet-content .box{display:block; width:48px; height:48px; border:1px solid #f2f2f2; margin:3px;}
+.globalSet-content img{display:block; width:100%; height:100%; }
+.globalSet-colors{width: 170px;}
+.globalSet-colors .cur .box,
+.globalSet-colors .hover .box{border:5px solid #33a5f7; width:42px; height:42px; margin:2px;}
+.globalSet-images{width: 345px;}
+.globalSet-images .box{width:77px; height:75px;}
+.globalSet-images .cur .box,
+.globalSet-images .hover .box{width:73px; height:71px; border:4px solid #33a5f7; margin:2px;}
+
+
+
+
+
+
+
+
+/*loading 图片*/
+#loading{z-index: 10;}
+
+
+
+/*===========================================================================================================================*/
+.h-25{height: 25px;}
+.lh-25{line-height: 25px;}
+.lh-22{line-height: 22px;}
+.lh-28{line-height: 28px;}
+.lh-30{line-height: 30px;}
+.lh-40{line-height: 40px;}
+.ml8{margin-left: 8px;}
+.mr40{margin-right: 40px;}
+.mr45{margin-right: 45px;}
+.mr80{margin-right: 80px;}
+.mr100{margin-right: 100px;}
+.mt25{margin-top: 25px;}
+.mt50{margin-top: 50px;}
+.mb50{margin-bottom: 50px;}
+.mb95{margin-bottom: 95px;}
+.w-45{width: 45px;}
+.w-90{width: 90px;}
+.w-108{width: 108px;}
+.w-120{width: 120px;}
+.w-145{width: 145px;}
+.w-170{width: 170px;}
+.w-180{width: 180px;}
+.w-200{width: 200px;}
+.w-500{width: 500px;}
+.w-586{width: 586px;}
+.h-1em{height: 1em;}
+.h-135{height: 135px;}
+.h-360{height: 360px;overflow-y: auto;}
+.pb0{padding-bottom: 0;}
+
+body,#HXSJ-Container,#HXSJ-Flash{height: 100%;}
+
+/*
+
+页面统一标准
+注意：没有的话就空着
+
+页面min-width   ：1200px
+页面固定宽度    ：
+侧边栏宽度      ：
+主要内容宽度    ：
+body背景颜色    ：
+全局字体(字体,大小,颜色) ：(宋体,12px,#3b3b3b)
+最大号标题(字体,大小,颜色,行高)   ：
+通用标题(字体,大小,颜色,行高)     ：
+导航    (字体,大小,颜色,行高)     ：(微软雅黑,18px,#3b3b3b)
+导航链接                          ：
+全局边框颜色    ：#e5e5e5
+全局间距                          ：
+全局链接颜色                      ：#227AB9
+全局红颜色                        ：#f10000
+全局黄颜色                        ：
+全局蓝颜色                        ：
+全局绿颜色                        ：#6abf70 
+全局橙颜色                        ：#fd6f35
+全局黑颜色                        ：
+全局深灰颜色                      ：
+全局灰颜色                        ：
+全局浅灰颜色                      ：
+价格字体(字体,大小,颜色,行高)     ：(微软雅黑,14px,#f10000)
+加入购物车按钮：默认 #fd6f35，高亮#fd5916
+*/
