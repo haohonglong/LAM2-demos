@@ -1,0 +1,11 @@
+<#define __IMAGE__="{{LAM.IMAGE}}/imgs_LHH/pics" />
+{
+  "room":[
+    {"id":1,"name":"李晨","style":"新古典,其他,简约","img":"__IMAGE__/img_03.jpg"},
+    {"id":2,"name":"刘军","style":"地中海-田园,北欧,其他,简约","img":"__IMAGE__/img_04.jpg"},
+    {"id":3,"name":"王磊","style":"新古典,地中海-田园","img":"__IMAGE__/img_05.jpg"},
+    {"id":4,"name":"萧红","style":"新古典,地中海-田园,其他,简约","img":"__IMAGE__/img_06.jpg"},
+    {"id":5,"name":"马良","style":"新古典,地中海-田园,北欧,简约","img":"__IMAGE__/img_07.jpg"},
+    {"id":6,"name":"赵明","style":"新古典,地中海-田园,北欧,其他","img":"__IMAGE__/img_08.jpg"}
+  ]
+}

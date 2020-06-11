@@ -1,0 +1,75 @@
+<#define __PLUGINS__="{{LAM.PLUGINS}}" />
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+<#define __COMMON__="{{LAM.COMMON}}" />
+<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
+<#define __CSS__="{{LAM.CSS}}" />
+<#define __JS__="{{LAM.SCRIPT}}" />
+<#define __DATAPATH__="{{LAM.DATA}}" />
+#define# __MENU__ <#include repeat="0" tp-data=""  file="__DATAPATH__/menu.json" /> #end#
+
+<#import path="
+/Tools.class.js,
+/Tab.class.js,
+/PopupLayer.class.js
+" root="__CLASSPATH__" write="1" befor="1" />
+
+<#import path="
+/DATA.js,
+/Hxsj.class.js,
+/use.js
+" 
+root="__JS__" write="1" befor="1" />
+
+<#import type="css" path="/base.css" root="__CSS__" befor="1" />
+
+
+<#include repeat="0" tp-data="" file="__COMPONENTS__/list.html" />
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="keywords" content="{{title}}" />
+    <meta name="description" content="{{title}}" />
+    <!#HEAD/>
+    <!#CSS/>
+    <!#JS/>
+    <#beginBlock type="override" id="title" data="{'title':'{{title}}'}">
+    <title><%=title%></title>
+    <#endBlock>
+    <#=block id="title" />
+
+</head>
+
+<body>
+    <div id="HXSJ-Container">
+        <div id="HXSJ-Flash">
+            <object class="mt10" type="application/x-shockwave-flash" id="Flipper" name="Flipper" data="http://www.gezlife.com/common/flash/apartment/HouseDesign.swf?v=1423789742" width="100%" height="100%">
+                <param name="menu" value="false">
+                <param name="allowFullscreen" value="true">
+                <param name="allowScriptAccess" value="always">
+                <param name="bgcolor" value="">
+                <param name="wmode" value="opaque">
+                <param name="flashvars" value="configurl=http%3A%2F%2Fwww.gezlive.net%2Fcommon%2Fflash%2Fapartment%2F&amp;planid=0&amp;uid=23&amp;brandhallid=0">
+            </object>
+        </div>
+    </div>
+    
+    <#=block id="header" />
+    <!#=block id="footer" />
+
+    <#=block id="tool" />
+    <div id="Tool-content" class="border lhh-HXSJ-Shadow-menu page_h over-h">
+        <i id="Tool-content-close"></i>
+        <#=block id="putSee" />
+    </div>
+
+    
+    <#=block id="goods_sidebar" />
+    
+    <div class="lhh-HXSJ-Mask none"></div>
+    <!#=block id="loading" />
+
+</body>
+</html>
