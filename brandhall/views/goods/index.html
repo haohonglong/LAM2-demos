@@ -65,9 +65,7 @@
 <#Block:begin id="table" data="{'list':null}">
 
 <%LAM.each(list,function(i){%>
-
-<!--Escape:begin-->
-<!--
+<!--Del:begin-->
 <%
     var list = [];
     if(LAM.isset(this.bill_id)){
@@ -123,11 +121,9 @@
         'style':LAM.isset(this.bill_id) ? 'padding:1px;' : ''
     }
 })%>
--->
-<!--Escape:end-->
 
+<!--Del:end-->
 
-<!--!Escape:begin-->
 <div class="sectionBorder-A3 mt1" <%if(LAM.isset(this.bill_id)){%>style="padding:1px;"<%}%>>
     <div class="sectionTable-B1 sectionTable-B1-5">
         <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
@@ -168,7 +164,6 @@
         </div>
     </div>
 </div>
-<!--!Escape:end-->
 <%});%>
 <#Block:end>
 
