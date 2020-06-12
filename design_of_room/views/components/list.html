@@ -1,7 +1,7 @@
 <#define __CSS_IMG__="{{LAM.CSS}}/images" />
 <#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
 <#define __IMAGE__="{{LAM.IMAGE}}" />
-<#Block:begin id="header" data="{}">
+<#Block:begin id="header" data="{'name':'设计名称'}">
     <!-- header -->
     <div id="HXSJ-Header" class="lhh-HXSJ-Header">
         <div class="clearfix">
@@ -13,7 +13,7 @@
                 <div class="line lhh-HXSJ-Line-col L"></div>
                 <div class="lhh-HXSJ-Header-title L">
                     <div class="js_name_wrap js_focus_input">
-                        <h4>设计名称</h4>
+                        <h4><%=name%></h4>
                         <input type="text" tabindex="1" name="designname" id="textfield" class="none js_text" placeholder="设计名称"/>
                     </div>
                     <p>3室 2厅 2卫 1厨 2阳 3未知房间 （124㎡）</p>
@@ -312,17 +312,8 @@
                                     </div>
                                 </div>
 
-
-
-                                
-
                             </div>
                         </div>
-                        
-                        
-                    
-                        
-                    
                     
                     </div>
                 </div>
@@ -394,11 +385,6 @@
                                                     <span>-</span>
                                                     <span><strong class="symbol">¥</strong><span class="number">50<span class="SimSun">(412)</span></span></span>
                                                 </li>
-                                                
-
-
-                                            
-                                            
                                             </ul>
                                         </div>
                                     </div>

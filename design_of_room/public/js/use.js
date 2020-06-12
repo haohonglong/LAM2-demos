@@ -18,7 +18,9 @@ LAM.run([jQuery],function($){
     'use strict';
     var System = this;
 
-    var Hxsj=new System.Hxsj({
+    var _Hxsj = System.require("Hxsj");
+
+    var Hxsj=new _Hxsj({
         'D'    : DATA || {},
         'tab'  : new System.Tab(),
         'tools': new System.Tools(),
@@ -96,7 +98,7 @@ LAM.run([jQuery],function($){
 
 
         
-        System.Hxsj.changeDesignName();
+        Hxsj.changeDesignName();
       
 
     });

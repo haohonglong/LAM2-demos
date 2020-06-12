@@ -10,7 +10,7 @@
  * 注意：
  * Example：
  *----------------------------------*/
-LAM.Hxsj = LAM.run([LAM],function(LAM){
+LAM.run([LAM],function(LAM){
     'use strict';
     var System = LAM;
 
@@ -693,7 +693,7 @@ LAM.Hxsj = LAM.run([LAM],function(LAM){
                 this.loading_node=$('#loading');
             if(this.loading_node.length > 0)
                 this.autoScreenCenter(this.loading_node,0,function($window){
-                        var size=window.System.autoCenter($window.w,this.width(),
+                        var size=System.autoCenter($window.w,this.width(),
                                                           __this__.arear_h,this.height(),
                                                           0);
                         this.css({'top':size.y+'px',
@@ -1339,7 +1339,7 @@ LAM.Hxsj = LAM.run([LAM],function(LAM){
          *----------------------------------*/
         'setCenter_flash':function(padding){
             return function($window){
-                var size=window.System.autoCenter($window.w,this.width(),
+                var size=System.autoCenter($window.w,this.width(),
                                                   __this__.arear_h,this.height(),
                                                   padding);
                 this.css({'top':size.y+'px',
@@ -1457,8 +1457,7 @@ LAM.Hxsj = LAM.run([LAM],function(LAM){
              */
             'destructor':function(){}
         });
-    
-        return Hxsj;
+        System.export("Hxsj",Hxsj);
 });
 
 
