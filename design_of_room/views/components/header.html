@@ -1,0 +1,64 @@
+<#define __CSS_IMG__="{{LAM.CSS}}/images" />
+<#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#Block:begin id="header" data="{'name':'设计名称'}">
+    <!-- header -->
+    <div id="HXSJ-Header" class="lhh-HXSJ-Header">
+        <div class="clearfix">
+            <div class="lhh-HXSJ-Header-logo L mr30">
+                <div class="logoImg L mr10"></div>
+                <p class="lhh-HXSJ-Font lhh-HXSJ-Font-lightgrey L"><!-- © 2013-2016 GezLife 格致生活 , All rights reserved --></p>
+            </div>
+            <div class="L">
+                <div class="line lhh-HXSJ-Line-col L"></div>
+                <div class="lhh-HXSJ-Header-title L">
+                    <div class="js_name_wrap js_focus_input">
+                        <h4><%=name%></h4>
+                        <input type="text" tabindex="1" name="designname" id="textfield" class="none js_text" placeholder="设计名称"/>
+                    </div>
+                    <p>3室 2厅 2卫 1厨 2阳 3未知房间 （124㎡）</p>
+                </div>
+            </div>
+            <div class="lhh-HXSJ-Header-user R">
+                <div class="line lhh-HXSJ-Line-col L"></div>
+                <div class="lhh-HXSJ-Header-admin none"> <!-- 登陆后显示这块内容 -->
+                    <div class="lhh-HXSJ-Header-img L">
+                        <img src="__CSS_IMG__/avatar.png" alt="">
+                    </div>
+                    <div class="lhh-HXSJ-Header-name L">
+                        <p><b>富邦美品</b></p>
+                        <input type="hidden" value="23">
+                        <input type="hidden" value="富邦美品">
+                        <div class="lhh-HXSJ-Header-icons">
+                            <ul class="sectionFloat clearfix">
+                                <li class="a mr10"><a href="javascript::void(0);"><i></i>0</a></li>
+                                <li class="b"><a href="javascript::void(0);"><i></i>0</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a class="lhh-HXSJ-Header-arrow down" href="javascript::void(0);"></a>
+                    <div class="lhh-HXSJ-Header-menu lhh-HXSJ-Shadow-menu">
+                        <ul>
+                            <li><a href="javascript::void(0);">我的创意笔记本（<b>6</b>）</a></li>
+                            <li><a href="###">账户设置</a></li>
+                            <li><a href="###">退出</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-Header-enter "> <!-- 登陆前显示这块内容 -->
+                    <a href="javascript:void(0)" class="mr25 login js_showLogin">登录</a>
+                    <a href="javascript:void(0)" class="register js_showReg">免费注册</a>
+                </div>
+            </div>
+        </div>
+        <div class="lhh-HXSJ-Header-shadow"></div>
+    </div>
+<#Block:end>
+
+
+<#Block:begin id="footer">
+    <div id="HXSJ-Footer" class="lhh-HXSJ-Font">
+        <i class="f-icon L"></i>
+        <p>©2013-2016 GezLife格致生活，All rights reserved</p>
+    </div>
+<#Block:end>

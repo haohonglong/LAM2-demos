@@ -1,0 +1,49 @@
+<#define __CSS_IMG__="{{LAM.CSS}}/images" />
+<#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#Block:begin id="wall_hole">
+    <div class="lhh-HXSJ-Box lhh-HXSJ-PopBox lhh-HXSJ-PopWallBox lhh-HXSJ-PopWallBox-hole">
+        <div class="lhh-HXSJ-Title-pop lhh-HXSJ-Title-pop-h40">
+            <h2 class="text-left pl15">墙洞属性</h2>
+            <i class="more js_popup_close"></i>
+        </div>
+        <div class="lhh-HXSJ-PopWallBox-content">
+            <div class="p10">
+                <div class="lhh-HXSJ-PopWallBox-show">
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-wallW-t js_wall_w">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-wallH-r clockwise-90 js_wall_h">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-wall">
+                        <div class="lhh-HXSJ-PopWallBox-reference"></div>
+                        <div class="lhh-HXSJ-PopWallBox-wallhole"></div>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-PopWallBox-setup">
+                    <div class="lhh-HXSJ-Form lhh-HXSJ-Font clearfix mb10">
+                        <div class="L p-rel js_focus_input mr2 w-120">
+                            <label>洞宽</label>
+                            <input type="text" tabindex="1" class="text js_text js_hole_w" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                        <div class="R p-rel js_focus_input w-120">
+                            <label>离地</label>
+                            <input type="text" id="" tabindex="2" class="text js_text js_highGround" value="0">
+                            <span class="unit">mm</span>
+                        </div>
+                    </div>
+                    <div class="lhh-HXSJ-Form lhh-HXSJ-Font  clearfix h-1em mb10">
+                        <div class="L p-rel js_focus_input mr2 w-120">
+                            <label>洞高</label>
+                            <input type="text" id="" tabindex="3" class="text js_text js_hole_h" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                        <input type="checkbox" class="v-middle ml8 mr5 js_circleHole" tabindex="4" /><span class="mr10">圆拱</span>
+                        <a href="###" class="linkBlue js_delHole">删除墙洞</a>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-Button-A1 clearfix mt30">
+                    <button class="button btn-blue R mr10">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<#Block:end>

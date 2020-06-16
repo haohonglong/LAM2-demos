@@ -1,0 +1,38 @@
+<#define __CSS_IMG__="{{LAM.CSS}}/images" />
+<#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#Block:begin id="tool" data="{}">
+    <!-- 工具栏 -->
+    <div id="Tool" class="lhh-HXSJ-Tool">
+        <div class="title"></div>
+        <ul class="content lhh-HXSJ-Shadow-menu">
+            <li class="js_focus_image">
+                <a href="javascript:void(0);" class="create">
+                    <img src="__TOOL_ICON__/create.png" dsrc="tool_icon/create.png" hsrc="tool_icon/h_create.png" alt="" />
+                    <p class="mt5">建造空间</p>
+                </a>
+            </li>
+            <li class="js_focus_image">
+                <a href="javascript:void(0);" class="see">
+                    <img src="__TOOL_ICON__/see.png" dsrc="tool_icon/see.png" hsrc="tool_icon/h_see.png" alt="" />
+                    <p class="mt5">摆放看看</p>
+                </a>
+            </li>
+            <li class="js_focus_image">
+                <a href="javascript:void(0);" class="pt">
+                    <img src="__TOOL_ICON__/pt.png" dsrc="tool_icon/pt.png" hsrc="tool_icon/h_pt.png" alt="" />
+                    <p class="mt5">拼贴铺装</p>
+                </a>
+            </li>
+            <li class="last js_focus_image">
+                <a href="javascript:void(0);" class="collection">
+                    <img src="__TOOL_ICON__/collection.png" dsrc="tool_icon/collection.png" hsrc="tool_icon/h_collection.png" alt="" />
+                    <p class="mt5">我的收藏</p>
+                </a>
+            </li>
+
+            
+
+        </ul>
+    </div>
+<#Block:end>

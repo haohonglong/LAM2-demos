@@ -1,11 +1,7 @@
-<#define __PLUGINS__="{{LAM.PLUGINS}}" />
 <#define __CLASSPATH__="{{LAM.classPath}}" />
-<#define __COMMON__="{{LAM.COMMON}}" />
 <#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
 <#define __CSS__="{{LAM.CSS}}" />
 <#define __JS__="{{LAM.SCRIPT}}" />
-<#define __DATAPATH__="{{LAM.DATA}}" />
-#define# __MENU__ <#include repeat="0" tp-data=""  file="__DATAPATH__/menu.json" /> #end#
 
 <#import path="
 /Tools.class.js,
@@ -16,15 +12,15 @@
 
 <#import path="
 /DATA.js,
-/Hxsj.class.js,
-/use.js
+!/Hxsj.class.js,
+!/use.js
 " 
 root="__JS__" write="1" befor="1" />
 
 <#import type="css" path="/base.css" root="__CSS__" befor="1" />
 
 
-<#include repeat="0" tp-data="" file="__COMPONENTS__/list.html" />
+<#include repeat="0" tp-data="" file="__COMPONENTS__/index.html" />
 <!doctype html>
 <html lang="en">
 <head>
@@ -58,7 +54,7 @@ root="__JS__" write="1" befor="1" />
     </div>
     
     <#=block id="header" />
-    <!#=block id="footer" />
+    <#=block id="footer" />
 
     <#=block id="tool" />
     <div id="Tool-content" class="border lhh-HXSJ-Shadow-menu page_h over-h">

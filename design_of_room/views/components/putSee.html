@@ -1,0 +1,268 @@
+<#define __CSS_IMG__="{{LAM.CSS}}/images" />
+<#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+
+
+
+<#Block:begin id="putSee_menu_list" data="{'title':'沙发1','list':null}">
+    <div class="l-1 lhh-HXSJ-Font lhh-HXSJ-Menu-Icon pb5 mb15">
+        <div class="mb10 l-1-title"><i class="icon plus"></i><a href="###"><%=title%></a></div>
+        <div class="sectionList-A1 none">
+            <a href="###">全部</a>
+            <a href="###">鞋柜</a>
+            <a href="###">酒柜</a>
+            <a href="###">玄关柜</a>
+            <a class="cur" href="###">衣柜</a>
+            <a href="###">角柜</a>
+            <a href="###">全部</a>
+            <a href="###">鞋柜</a>
+            <a href="###">酒柜</a>
+            <a href="###">玄关柜</a>
+            <a class="cur" href="###">衣柜</a>
+            <a href="###">角柜</a>
+            
+        </div>
+    </div>
+<#Block:end>
+<#Block:begin id="putSee_menu" data="{'title':'最近使用的1'}">
+<div class="lhh-HXSJ-Menu-A mb1">
+            <div class="title"><i class="Arrow"></i><%=title%></div>
+            <div class="sectionScroll none">
+                <%LAM.each(['沙发','沙发','沙发','沙发'],function(i){%>    
+                        <%=LAM.Template.getBlock('putSee_menu_list',{'title':this+(i+1)})%>
+                <%});%>
+            </div>
+        </div>
+<#Block:end>
+
+<#Block:begin id="putSee" data="{}">
+        <!-- 摆放看看 -->
+        <div id="putSee" class="lhh-HXSJ-Wrapper clearfix">
+            <div class="secondary L">
+                <div class="p10">
+                    <div class="lhh-HXSJ-Search lhh-HXSJ-Form mb10">
+                        <input type="text" class="border" placeholder="搜索">
+                        <i></i>
+                    </div>
+                    <div class="lhh-HXSJ-Menu">
+                        <%LAM.each(['最近使用的','最近使用的','最近使用的','最近使用的'],function(i){%>    
+                            <%=LAM.Template.getBlock('putSee_menu',{'title':this+(i+1)})%>
+                        <%});%>
+
+                    </div>
+                </div>
+            </div>
+            <div class="primary">
+                <div class="">
+                    <!--同类商品列表页-->
+                    <div class="lhh-HXSJ-SimilarGoods lhh-HXSJ-Font">
+                        <!-- 下拉列表框 -->
+                        <div class="lhh-HXSJ-SelectTab lhh-HXSJ-Font mt10">
+                            <div class="lhh-HXSJ-SelectTab-title">
+                                <label class="label">筛选:</label>
+                                <ul class="sectionFloat clearfix">
+                                    <li class="li-1 cur">全部风格<i class="icon"></i></li>
+                                    <li class="li-1 price">全部价格<i class="icon"></i></li>
+                                    <li class="li-1">全部品牌<i class="icon"></i></li>
+                                    <li class="li-1">默认排序<i class="icon"></i></li>
+                                    <li class="li-1">选择省份<i class="icon"></i></li>
+                                    <li class="li-1">选择城市<i class="icon"></i></li>
+                                </ul>
+                            </div>
+                            <div class="lhh-HXSJ-SelectTab-block-wrap">
+                                <div class="lhh-HXSJ-SelectTab-block lhh-HXSJ-SelectTab-style border w-586 h-220">
+                                    <div class="p20 pb0">
+                                        <div class="lhh-HXSJ-Search lhh-HXSJ-Search-h20 lhh-HXSJ-Form mb10">
+                                            <input type="text" class="border" placeholder="搜索 品牌名称">
+                                            <i></i>
+                                        </div>
+                                        <div class="mb10">
+                                            <a href="###" class="strong">全部</a>
+                                        </div>
+                                        <div class="scroll_SelectTab h-135">    
+                                            <ul class="sectionFloat clearfix">
+                                                <li class="w-170 mr10 mb15"><a href="">1巴拉巴拉巴拉巴拉巴拉巴拉</a></li>
+                                                <li class="w-170 mr10 mb15"><a href="">mini paec</a></li>
+                                                <li class="w-170 mr10 mb15"><a href="">南极人</a></li>
+                                                
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lhh-HXSJ-SelectTab-block lhh-HXSJ-SelectTab-style lhh-HXSJ-SelectTab-price w-586 border none">
+                                    <div class="p20 pb0">
+                                        <div class="lhh-HXSJ-Price lhh-HXSJ-Form mb10 pb5 p-rel w-180">
+                                            <strong class="symbol">¥</strong>
+                                            <span class="js_focus_input"><input type="text" class="text js_text" value=""></span>
+                                            <span>-</span>
+                                            <strong class="symbol">¥</strong>
+                                            <span class="js_focus_input"><input type="text" class="text js_text" value=""></span>
+                                            <i class="p-button"></i>
+                                        </div>
+                                        
+                                        <div class="mb10">全部(5,4120)</div>
+                                        <div class="scroll_SelectTab h-135">
+                                            <ul class="sectionFloat clearfix">
+                                                <li class="lhh-HXSJ-Price mb10 w-170 mr10">
+                                                    <span><strong class="symbol">¥</strong><span class="number">25</span></span>
+                                                    <span>-</span>
+                                                    <span><strong class="symbol">¥</strong><span class="number">50<span class="SimSun">(412)</span></span></span>
+                                                </li>
+                                                <li class="lhh-HXSJ-Price mb10  w-170 mr10">
+                                                    <span><strong class="symbol">¥</strong><span class="number">25</span></span>
+                                                    <span>-</span>
+                                                    <span><strong class="symbol">¥</strong><span class="number">50<span class="SimSun">(412)</span></span></span>
+                                                </li>
+                                                <li class="lhh-HXSJ-Price mb10 w-170 mr10">
+                                                    <span><strong class="symbol">¥</strong><span class="number">25</span></span>
+                                                    <span>-</span>
+                                                    <span><strong class="symbol">¥</strong><span class="number">50<span class="SimSun">(412)</span></span></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="lhh-HXSJ-SelectTab-block lhh-HXSJ-SelectTab-style border w-586 h-220 none">
+                                    <div class="p20 pb0 clearfix">
+                                        <div class="lhh-HXSJ-Search lhh-HXSJ-Search-h20 lhh-HXSJ-Form mb10">
+                                            <input type="text" class="border" placeholder="搜索 品牌名称">
+                                            <i></i>
+                                        </div>
+                                        <div class="mb10">
+                                            <a href="###" class="strong">全部</a>
+                                        </div>
+                                        <div class="scroll_SelectTab h-135">    
+                                            <ul class="sectionFloat clearfix">
+                                                <li class="w-170 mr10 mb15"><a href="">1巴拉巴拉巴拉巴拉巴拉巴拉</a></li>
+                                                <li class="w-170 mr10 mb15"><a href="">mini paec</a></li>
+                                                <li class="w-170 mr10 mb15"><a href="">南极人</a></li>
+                                                
+
+                                            </ul>
+                                        </div>
+                                        
+                                
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                        <div class="js_thumbnails" style="width:590px;">
+                            <div class="lhh-HXSJ-Thumbnail sectionScroll_see">
+                                <ul class="sectionFloat clearfix ml5">
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon star"></i>
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <span class="mr5 L"><strong class="symbol">¥</strong><span class="number strong">1560.00</span></span>
+                                                    <span class="del L">234561</span>
+                                                    <a href="###" class="linkBlue R">详情</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <p class="call">暂无信息</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon star star-selected"></i>
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <span class="mr5 L"><strong class="symbol">¥</strong><span class="number strong">1560.00</span></span>
+                                                    <span class="del L">234561</span>
+                                                    <a href="###" class="linkBlue R">详情</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <p class="call">暂无信息</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon star star-selected"></i>
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <span class="mr5 L"><strong class="symbol">¥</strong><span class="number strong">1560.00</span></span>
+                                                    <span class="del L">234561</span>
+                                                    <a href="###" class="linkBlue R">详情</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="lhh-HXSJ-Thumbnail-box">
+                                            <i class="icon new"></i>
+                                            <div class="lhh-HXSJ-Thumbnail-img">
+                                                <a class="imgWrap" href="#"><img src="__IMAGE__/proListImg.jpg" alt=""/></a>
+                                                <a class="lhh-HXSJ-Thumbnail-button lhh-HXSJ-Thumbnail-button-green" href="#">替换到设计中</a>
+                                            </div>  
+                                            <div class="lhh-HXSJ-Thumbnail-info">
+                                                <p class="lhh-HXSJ-Font-lightgrey w-145 t-nowrap lh-28">商品名称商品名称商品名商品名称商品名</p>
+                                                <div class="lhh-HXSJ-Price lh-22 clearfix">
+                                                    <p class="call">暂无信息</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<#Block:end>

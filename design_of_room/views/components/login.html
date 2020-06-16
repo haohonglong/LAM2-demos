@@ -1,0 +1,48 @@
+<#define __CSS_IMG__="{{LAM.CSS}}/images" />
+<#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#Block:begin id="login" data="{}">
+    <!-- 登录模块 -->
+    <div id="HXSJ-Login" class="lhh-HXSJ-Login sectionAutoCenter js_popup_login none">
+        <div class="loginBox lhh-HXSJ-Shadow-login">
+            <div class="lhh-HXSJ-Login-close js_popup_close_login"><a href="javascript::void(0);"></a></div>
+            <div class="lhh-HXSJ-Login-content fl">
+                <h1><img src="__IMAGE__/logo.png" alt=""></h1>
+                <p>
+                    丰富多彩的居家设计方案<br>
+                    千万种家居商品<br>
+                    便捷的生活服务<br>
+                    尽在GezLife 格致生活
+                </p>
+            </div>
+            <div class="lhh-HXSJ-Form fl">
+                <form>
+                    <div class="p20">
+                        <div class="js_focus_input">
+                            <input type="text" value="" class="mb15 text js_text" size="26" placeholder="手机号/会员名/邮箱">
+                        </div>
+                        <p class="text-right mb5"><a href="###" class="linkGrey font-unline-none">忘记密码？</a></p>
+                        <div class="js_focus_input">
+                            <input type="password" class="mb15 password js_text" size="26" placeholder="登录密码">
+                        </div>
+                        <p class="clearfix lhh-HXSJ-Font">
+                            <input type="checkbox" class="fl">&nbsp;<span class="lh-30">保持登录状态</span>
+                            <button type="button"class="lhh-HXSJ-Button-blue fr">登录</button>
+                        </p>
+                        <p class="divide"></p>
+                        <div class="clearfix">
+                            <div class="lhh-HXSJ-Icon-login fl">
+                                <a href="javascript:void(0)" class="icon a"></a>
+                                <a href="javascript:void(0)" class="icon b"></a>
+                                <a href="javascript:void(0)" class="icon c"></a>
+                            </div>
+                            <div class="fr linkGreen">
+                                <a class="font-unline-none lh-30 freeReg" href="javascript:void(0)"><strong>免费注册</strong></a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<#Block:end>

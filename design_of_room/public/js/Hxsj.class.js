@@ -1424,12 +1424,6 @@ LAM.run([LAM],function(LAM){
             this.detailedList();
             this.similarGoods();
             
-
-            
-            
-            
-           
-            
             return this;
         },
         'run':function(){

@@ -1,0 +1,52 @@
+<#define __CSS_IMG__="{{LAM.CSS}}/images" />
+<#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+
+<#Block:begin id="balcony">
+    <div class="lhh-HXSJ-Box lhh-HXSJ-PopBox lhh-HXSJ-PopWallBox lhh-HXSJ-PopWallBox-balcony">
+        <div class="lhh-HXSJ-Title-pop lhh-HXSJ-Title-pop-h40">
+            <h2 class="text-left pl15">阳台属性</h2>
+            <i class="more js_popup_close"></i>
+        </div>
+        <div class="lhh-HXSJ-PopWallBox-content">
+            <div class="p10">
+                <div class="lhh-HXSJ-PopWallBox-show">
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-balconyW-t js_balcony_w_text">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-wallH-r clockwise-90 js_wall_h">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-size lhh-HXSJ-PopWallBox-size-balconyH-r clockwise-90 js_balcony_h_text">2500mm</div>
+                    <div class="lhh-HXSJ-PopWallBox-wall">
+                        <div class="lhh-HXSJ-PopWallBox-reference"></div>
+                        <div class="lhh-HXSJ-PopWallBox-balconyBox"></div>
+                        <div class="lhh-HXSJ-PopWallBox-ceiling none"></div>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-PopWallBox-setup">
+                    <div class="lhh-HXSJ-Form lhh-HXSJ-Font clearfix mb10">
+                        <div class="L p-rel js_focus_input mr2 w-120">
+                            <label>长度</label>
+                            <input type="text" tabindex="1" class="text js_text js_balcony_l" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                        <div class="R p-rel js_focus_input w-120">
+                            <label>宽度</label>
+                            <input type="text" tabindex="2" class="text js_text js_balcony_w" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                    </div>
+                    <div class="lhh-HXSJ-Form lhh-HXSJ-Font  clearfix h-1em mb10">
+                        <div class="L p-rel js_focus_input mr2 w-120">
+                            <label>台高</label>
+                            <input type="text" tabindex="3" class="text js_text js_balcony_h" value="1200">
+                            <span class="unit">mm</span>
+                        </div>
+                        <input type="checkbox" class="v-middle ml8 mr5 js_ceiling" tabindex="4" /><span class="mr10">天花板</span>
+                        <a href="###" class="linkBlue js_delBalcony">删除阳台</a>
+                    </div>
+                </div>
+                <div class="lhh-HXSJ-Button-A1 clearfix mt30">
+                    <button class="button btn-blue R mr10">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<#Block:end>

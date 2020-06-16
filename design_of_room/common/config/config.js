@@ -78,7 +78,7 @@
                 'routerId':'r',
                 'defaultRoute':'site/index',
                 'routeRules':{
-                    'login':'site/login'
+                    'index':'site/index'
                 },
                 'routeAutoRun':true,
                 't':function (System) {

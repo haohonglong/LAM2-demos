@@ -1,0 +1,69 @@
+<#define __CSS_IMG__="{{LAM.CSS}}/images" />
+<#define __TOOL_ICON__="{{LAM.PUBLIC}}/tool_icon" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#Block:begin id="regist" data="{}">
+    <!-- 注册模块 -->
+    <div id="HXSJ-reg" class="lhh-HXSJ-Login sectionAutoCenter js_popup_reg none">
+        <div class="loginBox lhh-HXSJ-Shadow-login">
+            <div class="lhh-HXSJ-Login-close js_popup_close_reg"><a href="javascript::void(0);"></a></div>
+            <div class="lhh-HXSJ-Login-content fl">
+                <h1><img src="__IMAGE__/logo.png" alt=""></h1>
+                <p>
+                    丰富多彩的居家设计方案<br>
+                    千万种家居商品<br>
+                    便捷的生活服务<br>
+                    尽在GezLife 格致生活
+                </p>
+            </div>
+            <div class="lhh-HXSJ-Form fl">
+                <ul class="lhh-HXSJ-Tab-login sectionFloat clearfix js_loginTab">
+                    <li class="curr">邮箱注册</li>
+                    <li>手机注册</li>
+                </ul>
+                <div class="">
+                    <!-- 邮箱注册 -->
+                    <div class="box js_loginBlock">
+                        <div class="js_focus_input">
+                            <input type="text" class="mb10 text js_text" size="26" placeholder="邮箱地址12">
+                        </div>
+                        <span class="js_focus_input"><input type="text" class="mb10 verify js_text" size="10" placeholder="填写验证码"></span>&nbsp;&nbsp;
+                        <input class="linkRed send_verify" type="button" disabled="true" value="发送验证码">
+                        <div class="js_focus_input">
+                            <input type="password" class="mb10 text js_text" size="26" placeholder="登录密码">
+                        </div>
+                        <p class="agree">
+                            <input type="checkbox" class="fl">
+                            <span class="fl">&nbsp;同意《格致生活服务协议》</span>
+                        </p>
+                        <p class="mt5 lh-30 clearfix">
+                            <button class="lhh-HXSJ-Button-green L mr10" style="width:70px;">立即注册</button>&nbsp;
+                            <span class="lhh-HXSJ-Font lhh-HXSJ-Font-lightgrey L">已经有账号？</span>
+                            <a href="javascript::void(0);" class="linkBlue font-unline goLogin R"><strong>去登录</strong></a>
+                        </p>
+                    </div>
+                    <!-- 手机注册 -->
+                    <div class="box js_loginBlock none">
+                        <div class="js_focus_input">
+                            <input type="text" class="mb10 text js_text" size="26" placeholder="手机号码4">
+                        </div>
+                        <span class="js_focus_input"><input type="text" class="mb10 verify js_text" size="10" placeholder="填写验证码"></span>&nbsp;&nbsp;
+                        <input class="linkRed send_verify" type="button" disabled="true" value="发送验证码">
+                        <div class="js_focus_input">
+                            <input type="password" class="mb10 text js_text" size="19" placeholder="设置登录密码">
+                        </div>
+                        <p class="agree">
+                            <input type="checkbox" class="fl">
+                            <span class="fl lhh-HXSJ-Font">&nbsp;同意《格致生活服务协议》</span>
+                        </p>
+                        <p class="mt5">
+                            <button class="lhh-HXSJ-Button-green">立即注册</button>&nbsp;
+                            <span class="lhh-HXSJ-Font lhh-HXSJ-Font-lightgrey">已经有账号？</span><a href="javascript::void(0);" class="linkBlue font-unline goLogin"><strong>去登录</strong></a>
+                        </p>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+<#Block:end>
