@@ -1,0 +1,81 @@
+<#define __HOMESTYLER__="{{LAM.HOMESTYLER}}/floorplan" />
+<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
+
+<#include repeat="0" tp-data="" file="__COMPONENTS__/index.html" />
+
+
+<!doctype html>
+<!--[if lt IE 8]> <html class="ie ie6 ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie ie8" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=9;IE=10;IE=Edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="Decoration,Indoor-Decoration,Decoration design,Decoration design sketch,Online Design,Decoration Tips,Panorama,EZhome,HomeStyler" />
+  <meta name="description" content="Easily realize furnished plan and render of home design, create your floor plan, find interior design and decorating ideas to furnish your house online in 3D." />
+  <link rel="canonical" href="__HOMESTYLER__/floorplan/" />
+  <title>Home Design & FREE Floor Plan Software Online - Homestyler</title>
+</head>
+
+<body>
+  <!--header-->
+  <div id="header" class="pageHeader noprint">
+    <#=block id="header" />
+  </div>
+  <!--editor-->
+  <div id="editor" class="editor noprint">
+    <div id='editor3d'></div>
+    <div id='editor2d'></div>
+    <div id='aux3d'></div>
+  </div>
+  <!-- plugins html -->
+  <div id="plugin-container">
+    <!--new catalog-->
+    <div class="catalogEntry" class="noprint">
+      <#=block id="catalogEntry" />
+    </div>
+    <div class="catalogPanel" class="noprint"></div>
+    <div class="popupcontainer" class="noprint"></div>
+    <!--user guide-->
+    <div class="guidecontainer" class="noprint"></div>
+    <div class="firstlogincontainer" class="noprint"></div>
+    <div class="rolepromotecontainer" class="noprint"></div>
+    <!--feedback plugin -->
+    <div class="feedbackEntry"></div>
+    <div class="panoEditTagContainer" class="noprint"></div>
+    <!--feedback plugin -->
+    <div class="compasscontainer"></div>
+    <div class="canvashintcontainer"></div>
+  </div>
+
+  <!-- ui html -->
+  <div id="ui-container">
+    <div class="userCenter"></div>
+    <div class="openAndSave"></div>
+    <div class="welcomecontainer"></div>
+  <!--browser reminder dialog -->
+    <div class="browserreminderdialog"></div>
+  </div>
+  <!-- <script type="text/javascript" src="./dist/browserutil.js"></script> -->
+
+  <#import path="
+/vendor.bundle.js,
+/utils.99902298de406b65ef90.bundle.js,
+/internal.99902298de406b65ef90.bundle.js,
+/constants.99902298de406b65ef90.bundle.js,
+/core.99902298de406b65ef90.bundle.js,
+/ui.99902298de406b65ef90.bundle.js,
+/coreplugin.99902298de406b65ef90.bundle.js,
+/uiplugin.99902298de406b65ef90.bundle.js,
+/extplugin.99902298de406b65ef90.bundle.js,
+/startup.99902298de406b65ef90.bundle.js
+
+" root="__HOMESTYLER__/dist" write="true" />
+</body>
+
+</html>

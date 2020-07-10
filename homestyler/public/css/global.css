@@ -1,0 +1,323 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*init box*/
+*{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}
+*:before,
+*:after{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}
+
+.content-box,
+.content-box:before,
+.content-box:after{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}
+
+.border-box,
+.border-box:before,
+.border-box:after {-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+/*======================================================================================================================================*/
+html {/*此属性还支持百分比，这在当前的桌面版的webkit浏览器是不支持的，所以如果不想让iPhone横坚屏切换的时候调节文字，用 -webkit-text-size-adjust: 100%; 绝对不能用 -webkit-text-size-adjust: none; 这会导致仍然支持 -webkit-text-size-adjust: none;的桌面版的webkit浏览器无法人为放大文字大小，严重影响可用性。*/
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+html {overflow-y: scroll;} 
+body,h1,h2,h3,h4,h5,h6,hr,p,dl,dt,dd,ul,ol,li,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}
+body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53;}
+body{background:#fff;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+em,i{font-style:normal;}
+fieldset,img{border:none;*border:0;}
+ul,ol,li{list-style:none;}
+a{text-decoration:none;outline:none;}
+a:link,a:visited{color:#333;text-decoration:none;}
+a:hover,a:active{ text-decoration:underline;}
+button,input,select,textarea{font-size:100%;outline:none}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
+table{border-collapse:collapse;border-spacing:0;}
+textarea{resize:vertical;overflow: auto;vertical-align: top;padding: 10px;}
+
+/*float*/
+.L,.R,.fl,.fr{_display: inline;}
+.L,.fl{float:left;}
+.R,.fr{float: right;}
+.f-none{float: none!important;}
+
+/*clear float*/
+.clearfix:after {content: "."; display: block; height:0;line-height: 0;font-size: 0; clear:both; visibility: hidden;}
+.clearfix { *zoom:1; }
+.clear{clear:both;display:block;height:0;overflow:hidden;font-size:0;}
+.clear-L{clear: left;}
+.clear-R{clear: right;}
+
+
+
+/*======================================================================================================================================================*/
+/*float*/
+.sectionFloat{position:relative;}
+.sectionFloat li{float:left;_display: inline;}
+.sectionFloat .R{float:right;}
+.sectionFloat .N{float:none;}
+
+
+/*text*/
+.notext{font-size:0;line-height:0;text-indent:-9999px}/*去掉文字*/
+.sectionWord{word-break: break-all;word-wrap: break-word;white-space: pre-wrap;}
+.text-idt25{text-indent: 25px;}
+
+sub,sup {position:relative;font-size:75%;line-height:0;vertical-align:baseline;}
+sup {top: -.5em;}
+sub {bottom: -.25em;}
+
+
+/*overflow*/
+.over-h{overflow:hidden;}
+.over-auto{overflow:auto;}
+.over-x-h{overflow-x:hidden;}
+.over-y-h{overflow-y:hidden;}
+
+
+/*position*/
+.p-rel{position: relative;}
+.p-abs{position: absolute;}
+.p-fixed{position: fixed;}
+.t0{top: 0;}
+.L0{left: 0;}
+.r0{right: 0;}
+.b0{bottom: 0;}
+
+/*margin*/
+.m5{margin:5px;}
+.m10{margin:10px;}
+.m15{margin:15px;}
+.m20{margin:20px;}
+.m25{margin:25px;}
+.mb0{margin-bottom:0;}
+.mt0{margin-top:0px;}
+.mt1{margin-top:1px;}
+.mt5{margin-top:5px;}
+.mt10{margin-top:10px;}
+.mt20{margin-top:20px;}
+.mt15{margin-top:15px;}
+.mt20{margin-top:20px;}
+.mt30{margin-top:30px;}
+.mt50{margin-top:50px;}
+.mb1{margin-bottom:1px;}
+.mb2{margin-bottom:2px;}
+.mb3{margin-bottom:3px;}
+.mb5{margin-bottom:5px;}
+.mb10{margin-bottom:10px;}
+.mb15{margin-bottom:15px;}
+.mb20{margin-bottom:20px;}
+.mb25{margin-bottom:25px;}
+.mb30{margin-bottom:30px;}
+.mb40{margin-bottom:40px;}
+.mr1{margin-right:1px;}
+.mr2{margin-right:2px;}
+.mr5{margin-right:5px;}
+.mr10{margin-right:10px;}
+.mr12{margin-right:12px;}
+.mr15{margin-right:15px;}
+.mr20{margin-right:20px;}
+.mr23{margin-right:23px;}
+.mr25{margin-right:25px;}
+.mr30{margin-right:30px;}
+.ml2{margin-left: 2px;}
+.ml5{margin-left: 5px;}
+.ml10{margin-left:10px}
+.ml15{margin-left:15px}
+.ml20{margin-left: 20px;}
+.ml30{margin-left: 30px;}
+.mr0{margin-right: 0;}
+.ml0{margin-left: 0;}
+.mt0{margin-top: 0;}
+.mb0{margin-bottom: 0;}
+
+/*padding*/
+.p1{padding:1px;}
+.pb5{padding-bottom:5px;}
+.pb10{padding-bottom:10px;}
+.pb15{padding-bottom:15px;}
+.p2{padding:2px;}
+.p5{padding:5px;}
+.p10{padding: 10px;}
+.p15{padding: 15px;}
+.p20{padding: 20px;}
+.p25{padding: 25px;}
+.p30{padding: 30px;}
+.p135{padding: 35px;}
+.pt5{padding-top:5px;}
+.pt10{padding-top:10px;}
+.pt15{padding-top: 15px;}
+.pt20{padding-top:20px;}
+.pt30{padding-top:30px;}
+.pl5{padding-left: 5px;}
+.pl10{padding-left: 10px;}
+.pl15{padding-left: 15px;}
+.pl20{padding-left: 20px;}
+.pl25{padding-left: 25px;}
+.pl35{padding-left: 35px;}
+.pr5{padding-right: 5px;}
+.pr10{padding-right: 10px;}
+.pr20{padding-right: 20px;}
+.pr0{padding-right: 0;}
+.pt0{padding-top:0;}
+.p0{padding:0;}
+
+/*align*/
+.align-center,.auto{margin-right: auto;margin-left: auto;}
+.align-left{margin-right: auto;}
+.align-right{margin-left: auto;}
+
+/*text align*/
+.text-left{text-align:left}
+.text-right{text-align:right}
+.text-center{text-align:center}
+.text-justify{text-align:justify}
+.text-nowrap{white-space:nowrap}
+.text-lowercase{text-transform:lowercase}
+.text-uppercase{text-transform:uppercase}
+.text-capitalize{text-transform:capitalize}
+.v-top{vertical-align:top;}
+.v-middle{vertical-align:middle;}
+.v-bottom{vertical-align: bottom;}
+.v-to3{vertical-align: 3px;}
+.v-to-3{vertical-align: -3px;}
+
+/*display*/
+.inline{display: inline;}
+.table-cell{display: table-cell;}
+.inline-b{display: inline-block;}
+.block{display: block;}
+.none{display: none;}
+.visible{visibility: visible;}
+.hidden{visibility: hidden;}
+
+/*size*/
+.h-percent-of100,
+.h-all,.h100{height: 100%;}
+.w-all{width:100%;}
+.w-page{width:960px;margin-right: auto;margin-left: auto; position:relative;}
+.w-min{width:1200px;}
+.w-auto{width:auto!important;}
+.w-percent-of105{width:105%;}
+.w-percent-of110{width:110%;}
+
+
+/*960 grid system*/
+.size1of1{width:100%;}        /*100%宽度*/
+.size1of2{width:50%;}         /*占总宽度的一半：1/2*/
+.size1of3{width:33.33333%;}   /*占总宽度的三分之一:1/3*/
+.size2of3{width:66.66666%;}   /*占总宽度的三分之二：2/3*/
+.size1of4{width:25%;}         /*占总宽度的四分之一:1/4*/
+.size3of4{width:75%;}         /*占总宽度的四分之 三:3/4*/
+.size1of5{width:20%;}         /*占总宽度的五分之一：1/5*/
+.size2of5{width:40%;}         /*占总宽度的五分之二：2/5*/
+.size3of5{width:60%;}         /*占总宽度的五分之三：3/5*/
+.size4of5{width:80%;}         /*占总宽度的五分之四：4/5*/
+.size1of6{width:16.66666%;}   /*占总宽度的六分之一：1/6*/
+.size1of12{width:8.33333333%;}/*占总宽度的十二分之一：1/12*/
+
+/*网格布局分列*/
+.sectionGrids {margin-left: -20px;*zoom: 1;}
+.sectionGrids .grid-1   {width:40px;}
+.sectionGrids .grid-2   {width:100px;}
+.sectionGrids .grid-3   {width:160px;}
+.sectionGrids .grid-4   {width:220px;}
+.sectionGrids .grid-5   {width:280px;}
+.sectionGrids .grid-6   {width:340px}
+.sectionGrids .grid-7   {width:400px}
+.sectionGrids .grid-8   {width:460px}
+.sectionGrids .grid-9   {width:520px}
+.sectionGrids .grid-10  {width:580px}
+.sectionGrids .grid-11  {width:640px}
+.sectionGrids .grid-12  {width:700px}
+.sectionGrids .grid-13  {width:760px}
+.sectionGrids .grid-14  {width:820px}
+.sectionGrids .grid-15  {width:880px}
+.sectionGrids .grid-16  {width:940px}
+
+/*font size*/
+.font-12{font-size: 12px!important;}
+.font-13{font-size: 13px!important;}
+.font-14{font-size: 14px!important;}
+.font-15{font-size: 15px!important;}
+.font-16{font-size: 16px!important;}
+.font-18{font-size: 18px!important;}
+.font-20{font-size: 20px!important;}
+.font-24{font-size: 24px!important;}
+.font-26{font-size: 26px!important;}
+.font-28{font-size: 28px!important;}
+.font-30{font-size: 30px!important;}
+.font-32{font-size: 32px!important;}
+
+/*font style*/
+.font-italic{font-style: italic!important;}
+.font-normal{font-style: normal!important;}
+.font-bold,.strong {font-weight:bold!important;}
+.font-unline{text-decoration: underline!important;}
+.font-unline-none{text-decoration: none!important;}
+
+/*font family*/
+.tahoma{font-family:"tahoma"!important;}
+.arial {font-family:"arial"!important;}
+.SimSun{font-family:"SimSun"!important;}
+.Yahei{font-family:"Microsoft Yahei"!important;}
+
+/*background*/
+.bg-black{background: #000;}
+.bg-white{background: #fff;}
+.bg-yellow{background-color:#f1e6d5;}
+.bg-blue{background-color:#2099ff;}
+.bg-orange{background-color:#ff8c40;}
+.bg-green{background-color:#e1f9cd;}
+.bg-grey{background-color:#f8f8f8;}
+.bg-dark-gray{background-color:#4c4c4c}
+.bg-auto{background-size: cover;}/*背景图自适应大小*/
+
+
+/*鼠标形状*/
+.hand{cursor: pointer; *cursor:hand;}
+.move{cursor: move;}
+.default{cursor: default;}
+
+/*border*/
+.border{border:1px solid #e5e5e5;}
+.under-line{border-bottom:1px solid #ccc;}
+.border-b0{border-bottom: none!important;}
+.border-t0{border-top: none!important;}
+.border-L0{border-left: none!important;}
+.border-r0{border-right: none!important;}
+.border-none{border: none!important;}
+.border-radius-2{border-radius: 2px;}
+.border-radius-3{border-radius: 3px;}
+.border-radius-5{border-radius: 5px;}
+.border-radius-10{border-radius: 10px;}
+
+
+/*角度*/
+/*============================================================================*/
+/*顺时针90度旋转*/
+.clockwise-90{transform:rotate(90deg);-moz-transform:rotate(90deg);-webkit-transform:rotate(90deg);-o-transform:rotate(90deg);-ms-transform:rotate(90deg);}
+
+/*顺时针45度旋转*/
+.clockwise-45{transform:rotate(45deg);-moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);-o-transform:rotate(45deg);-ms-transform:rotate(45deg);}
+
+/*逆时针时针90度旋转*/
+.anti-clockwise-90{transform:rotate(-90deg);-moz-transform:rotate(-90deg);-webkit-transform:rotate(-90deg);-o-transform:rotate(-90deg);-ms-transform:rotate(-90deg);}
+/*============================================================================*/
+
+
+/*z-index*/
+.z1{z-index: 1;}
+.z2{z-index: 2;}
+.z3{z-index: 3;}
+.z4{z-index: 4;}
+.z5{z-index: 5;}
+.z10{z-index: 100}
+.z100{z-index: 100;}
+.z1000{z-index: 1000;}
+.z10000{z-index: 10000;}
+
+
+/*屏幕居中*/
+.sectionAutoCenter{position: absolute; margin: -200px 0px 0px -250px; top: 50%; left: 50%;}
