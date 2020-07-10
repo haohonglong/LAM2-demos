@@ -47,13 +47,13 @@
     })(function(System){
         'use strict';
         System.Config = Config = {
-            'vendorPath':'http://lam2.core',
+            'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
             'Public':(function(){
-                var ROOT = _ROOT_;
+                var ROOT = _ROOT_ + "/GFsystem";
                 return {
-                    'ROOT':_ROOT_
+                    'ROOT':ROOT
                     ,'COMMON':_ROOT_+'/common'
                     ,'MYCOMMON':ROOT+'/common'
                     ,'CONF':ROOT+'/common/config'
@@ -66,12 +66,12 @@
                     ,'ERROR_404':ROOT+'/views/_404.html'
                     ,'INDEX':'index.html?r='
                     ,'SERVER':'http://yaf.local'
-                    ,'PLUGINS':_ROOT_+'/plugins'
-                    ,'CSS':_ROOT_+'/public/css'
-                    ,'LESS':_ROOT_+'/public/less'
-                    ,'JS':_ROOT_+'/public/js'
-                    ,'IMAGE':_ROOT_+'/public/images'
-                    ,'FONTS':_ROOT_+'/public/fonts'
+                    ,'PLUGINS':ROOT+'/plugins'
+                    ,'CSS':ROOT+'/public/css'
+                    ,'LESS':ROOT+'/public/less'
+                    ,'JS':ROOT+'/public/js'
+                    ,'IMAGE':ROOT+'/public/images'
+                    ,'FONTS':ROOT+'/public/fonts'
                 };
             })(),
             'components':{
