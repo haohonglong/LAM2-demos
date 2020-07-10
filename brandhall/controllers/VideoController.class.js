@@ -22,6 +22,7 @@
             __this__=this;
             this.viewpath = System.VIEWS+'/video';
             this.layoutPath = this.layoutPath+'/default';
+            this.layout = 'auth';
             this.content = {
                 'user':{
                     'name':'name',
