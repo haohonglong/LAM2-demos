@@ -7,6 +7,15 @@
   },
   {
     "icon":"a-2",
+    "title":"demos",
+    "ul":[
+      {"title":"验证码","href":"__INDEX__test/code"},
+      {"title":"react","href":"__INDEX__test/react"},
+      {"title":"seajs","href":"__INDEX__test/seajs"}
+    ]
+  },
+  {
+    "icon":"a-2",
     "title":"网页地址",
     "ul":[
       {"title":"列表","href":"__INDEX__url/index"},

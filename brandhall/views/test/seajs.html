@@ -1,3 +1,7 @@
+<#extends title="seajs" />
+<#import type="css" path="http://seajs.github.io/examples/static/hello/src/style.css" befor="1" />
+<#import path="http://yslove.net/actjs/assets/sea-modules/seajs/2.1.1/sj.js" write="1" befor="1" />
+
 <div id="container">
     <img src="https://i.alipayobjects.com/e/201211/1cqKb32QfE.png" width="44" height="44" alt="H">
     <img src="https://i.alipayobjects.com/e/201211/1cqKb2rJHI.png" width="44" height="44" alt="e">
@@ -14,23 +18,8 @@
 
 <script type="text/javascript">
 
-    LAM.run(function(){
-        'use strict';
-        var System = this;
-        System.TITLE= "Hello Sea.js";
-        System.Loader
-            .load({
-                'baseUrl':false,
-                'suffix':'.css',
-                'rel':'stylesheet',
-                'css':[
-                    'http://seajs.github.io/examples/static/hello/src/style.css'
-                ]
-            })
-            .print();
-        System.import(['http://yslove.net/actjs/assets/sea-modules/seajs/2.1.1/sj.js'],false);
-    });
-    LAM.wait(function() {
+    
+    LAM.run(function() {
         'use strict';
         var System = this;
 

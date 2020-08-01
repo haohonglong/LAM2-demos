@@ -1,11 +1,17 @@
-
+<#extends title="react" />
+<#import type="css" path="https://fonts.googleapis.com/css?family=Roboto:300,400,500" befor="1" />
+<#import path="
+https://unpkg.com/babel-standalone@6/babel.min.js,
+https://unpkg.com/react@16/umd/react.production.min.js,
+https://unpkg.com/react-dom@16/umd/react-dom.production.min.js,
+https://unpkg.com/@material-ui/core/umd/material-ui.production.min.js
+" write="1" befor="1" />
 <div id="app"></div>
 <script type="text/javascript">
 
     LAM.run(function(){
         'use strict';
         var System = this;
-        System.TITLE= "react";
         System.Loader
             .load({
                 'baseUrl':false,
@@ -34,9 +40,5 @@
             ],false,null,{xhr:false});
     });
     
-
-</script>
-
-<script type="text/babel">
 
 </script>
