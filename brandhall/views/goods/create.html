@@ -31,19 +31,25 @@
 </li>
 <#Block:end>
 
-<#Block:begin id="goods" data="{'remove':true,'list':[]}">
+<#Block:begin id="radio" data="{'index': 1}">
+<input name="listId" type="radio" id="listId_<%=index%>" value="<%=index%>" /> <%=index%>
+<#Block:end>
+<#Block:begin id="goods" data="{'remove':true,'list':[], 'index': 1}">
 <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
-    <ul class="clear mb5">
+    <ul class="clear mb5 row">
+        <li class="L mr15"><%=System.Template.getBlock('radio', {'index': index})%></li>
         <#=block id="input-text" data="{'name':'name[]','label':'商店名称','input_style':'width:120px;'}" />
-        <#=block id="input-text" data="{'name':'number[]','label':'数量','value':1,'input_style':'width:45px;'}" />
-        <#=block id="input-text" data="{'name':'weight[]','label':'重量','value':1}" />
-        <#=block id="input-text" data="{'name':'single_price[]','label':'单价','input_style':'width:45px;'}" />
-        <#=block id="input-text" data="{'name':'final_price[]','label':'结算价格','input_style':'width:45px;'}" />
+        <#=block id="input-text" data="{'name':'number[]','label':'数量','value':1,'input_style':'width:45px;', 'input_class': 'number'}" />
+        <#=block id="input-text" data="{'name':'weight[]','label':'重量','value':1, 'input_class': 'weight'}" />
+        <#=block id="input-text" data="{'name':'single_price[]','label':'单价','input_style':'width:45px;', 'input_class': 'single_price'}" />
+        <#=block id="input-text" data="{'name':'final_price[]','label':'结算价格','input_style':'width:45px;', 'input_class': 'final_price'}" />
+        <!--Del:begin-->
         <%if(remove){%>
         <li class="R sectionButton-B1">
             <button data-remove="goods" type="button" class="btn save L mr15">删除</button>
         </li>
         <%}%>
+        <!--Del:end-->
     </ul>
 </div>
 <#Block:end>
@@ -66,15 +72,22 @@
                     <#=block id="input-text" data="{'name':'discount','label':'折扣价','value':0,'input_style':'width:30px;'}" />
                     <#=block id="input-text" data="{'name':'create_by','label':'创建日期'}" />
                     <li class="R sectionButton-B1">
-                        <button type="button" id="add_goods_agin" class="btn save L mr15">添加一个商品</button>
+                        <button type="button" id="add_goods_agin" class="btn save L mr15">添加</button>
+                        <button type="button" id="copy_goods_agin" class="btn save L mr15">复制</button>
+                        <button type="button" id="del_goods" class="btn save L mr15">删除</button>
                     </li>
                 </ul>
 
             </div>
             <div id="goods">
-                <#=block id="goods" data="{'remove':false}" />
+                <#=block id="goods" data="{'remove':false, 'index': 1}" />
             </div>
-
+            <div class="row mb10">
+                <div class="col-sm-1">
+                    总金额: <span id="total">0.00</span>
+                </div>
+                <div class="col-sm-1"><a class="btn btn-default" id="checkout" href="javascript:void();">结算</a></div>
+            </div>
 
             <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2">
                 <button type="submit" class="btn save L mr15">提交</button>
@@ -104,12 +117,64 @@
 
         $(function(){
             var $goods = $('#goods');
+            var $dom = null;
+            var index = 1;
+
+
+            var $discount = $('[name="discount"]');
+            var total = 0.00;
+            $(document).on('click','#checkout',function() {
+                $goods.find('.final_price').each(function () {
+                    var val = parseFloat($(this).val());
+                    total  += val;
+                });
+                var discount = parseFloat($discount.val());
+                $('#total').text(parseFloat(total-discount).toFixed(2));
+                // $(this).remove();
+                total = 0.00;
+
+            });
+
+            $(document).on('click','.final_price',function() {
+                var $row = $(this).closest('.row');
+                var price = $('.single_price',$row).val() * $('.number',$row).val() * $('.weight',$row).val();
+                price = parseFloat(price).toFixed(2);
+                $(this).val(price);
+            });
+
             $('#add_goods_agin').on('click',function () {
-                $goods.append(System.Template.getBlock('goods'))
+                index++;
+                $goods.append(System.Template.getBlock('goods', {'index': index}))
             });
+            
+            $('#copy_goods_agin').on('click',function () {
+                if ($dom) {
+                    index++;
+                    var _$dom = $dom.clone(true);
+                    _$dom.find('[name="listId"]').parent().html(System.Template.getBlock('radio', {'index': index}));
+                    $goods.append(_$dom);
+                    _$dom.find('[name="listId"]').attr('checked','checked')
+                    $dom = _$dom;
+                }
+            });
+
+
+            $(document).on('click','[name="listId"]',function () {
+                $dom = $(this).closest('.sectionForm-A1');
+            });
+
+            $(document).on('click','#del_goods',function () {
+                if ($dom && index > 1) {
+                    $dom.remove();
+                    $dom = null;
+                }
+            });
+
             $(document).on('click','[data-remove="goods"]',function () {
-                $(this).closest('.sectionForm-A1').remove();
+                // $(this).closest('.sectionForm-A1').remove();
             });
+
+
 
             
             $('form').submit(function () {
