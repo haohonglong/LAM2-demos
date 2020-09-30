@@ -1,5 +1,6 @@
 <#define __CSS__="{{LAM.CSS}}" />
 <#define _PICS_="{{LAM.IMAGE}}/imgs_LHH/pics" />
+<#define __CLASSPATH__="{{LAM.classPath}}" />
 <#define __DATAPATH__="{{LAM.DATA}}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__DATAPATH__/empower.json" /> #end#
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
@@ -9,7 +10,7 @@
 {'name':'店铺职责','href':'###','title':''},
 {'name':'设置店铺职责权限'}
 ]}" />
-
+<#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 
 <#Block:begin id="empower_menu" data="{'list':[{'title':'title','href':'###','child':[]}]}">
 <div class="sectionMenu-A1 sectionMenu-A1-3 j_sectionMenuA1">

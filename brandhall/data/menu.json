@@ -11,7 +11,16 @@
     "ul":[
       {"title":"验证码","href":"__INDEX__test/code"},
       {"title":"react","href":"__INDEX__test/react"},
+      {"title":"阿里巴巴报关","href":"__INDEX__test/alibabaBaoGuan"},
       {"title":"seajs","href":"__INDEX__test/seajs"}
+    ]
+  },
+  {
+    "icon":"a-10",
+    "title":"角色管理",
+    "ul":[
+      {"title":"创建","href":"__INDEX__role/index"},
+      {"title":"react","href":"__INDEX__role/react"}
     ]
   },
   {

@@ -1,0 +1,66 @@
+<#Block:begin id="check-label" data="{'key':'','content':''}">
+<label class="checkbox-inline">
+  <input type="checkbox" name="role[]" data-key="<%=key%>" value=""> <%=content%>
+</label>
+<#Block:end>
+
+<#Block:begin id="check-list" data="{'head':['用户管理','角色管理','单据管理','系统管理'],'list':['查询','编辑','删除']}">
+<style>
+label{width: 119px;}
+</style>
+<div>
+  权限分配：
+  <label id="role_all" class="checkbox-inline">
+  	<input type="checkbox" name="role_all[]" value=""> 所有权限
+  </label>
+<%head.each(function(i){%>
+<label class="checkbox-inline" data-key="<%=this%>">
+  <input type="checkbox" name="role[]" value=""> <%=this%>
+</label>
+<%});%>
+</div>
+<div style="margin-left:196px">
+  <%list.each(function(i,item){%>
+  <div>
+    <%head.each(function(){%>
+    	<%=LAM.Template.getBlock('check-label',{'key':this,'content':item})%>
+    <%});%>
+  </div>
+  <%});%>
+<div>
+<#Block:end>
+
+
+
+<script type="text/javascript">
+LAM.run([jQuery],function($){
+  'use strict';
+  var System = this;
+  $(function(){
+    var $input = $('#role label input');
+
+    {{head}}.each(function(i,item){
+      $('label[data-key="'+this+'"]').on('click',function(){
+        var input = $(this).find('input')[0];
+        var $checks = $('[data-key="'+item+'"]');
+        if(input.checked) {
+          $checks.each(function(){this.checked = 'checked';});
+        }else {
+          $checks.each(function(){this.checked = '';});
+        }
+      });
+    });
+    
+
+    $('#role_all').on('click',function(){
+      var input = $(this).find('input')[0];
+      if(input.checked) {
+        $input.each(function(){this.checked = 'checked';});
+      }else {
+        $input.each(function(){this.checked = '';});
+      }
+    });
+  });
+
+});
+</script>  

@@ -7,16 +7,16 @@
     }else{
         typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(System) :
             typeof define === 'function' && define.amd ? define(factory(System)) :
-                (System['TestController'] = factory(System));
+                (System['RoleController'] = factory(System));
     }
 
 })(this,function(System){
     'use strict';
     var __this__=null;
-    System.is(System,'Controller','TestController',System.classPath+'/base');
+    System.is(System,'Controller','RoleController',System.classPath+'/base');
     var E = {file_404:System.ERROR_404};
     var ROOT  = System.BACKEND;
-    var TestController = System.Controller.extend({
+    var RoleController = System.Controller.extend({
         constructor: function (init){
             this.base(init || {});
             __this__=this;
@@ -34,15 +34,9 @@
 
 
         },
-        '_className':'TestController',
+        '_className':'RoleController',
         'indexAction':function(){
             return this.render('index',{
-                'ROOT':ROOT
-
-            },E);
-        },
-        'codeAction':function(){
-            return this.render('code',{
                 'ROOT':ROOT
 
             },E);
@@ -53,18 +47,7 @@
 
             },E);
         },
-        'seajsAction':function(){
-            return this.render('seajs',{
-                'ROOT':ROOT
-
-            },E);
-        },
-        'alibabaBaoGuanAction':function(){
-            return this.renderPartial('alibabaBaoGuan',{
-                'ROOT':ROOT
-
-            },E);
-        },
+        
 
         /**
          *
@@ -73,7 +56,7 @@
          * 创建日期：2015-4-2
          * 修改日期：2015-4-2
          * 名称：destructor
-         * 功能：在注销TestController对象时调用此方法
+         * 功能：在注销RoleController对象时调用此方法
          * 说明：
          * 注意：
          * @return  ()
@@ -81,7 +64,7 @@
          */
         'destructor':function(){}
     });
-    return TestController;
+    return RoleController;
 });
 
 

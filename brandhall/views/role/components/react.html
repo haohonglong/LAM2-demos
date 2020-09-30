@@ -1,0 +1,61 @@
+<script type="text/babel">
+
+
+  class Label extends React.Component {
+  		render(){
+			return (
+		        <label className="checkbox-inline">
+		          <input type="checkbox" name="role[]" data-key={this.props.keyNme} value="" /> {this.props.name}
+		        </label>
+		        )
+  		}
+		
+  }
+
+  class Role extends React.Component {
+  	label(){
+	  	
+	}
+    render(){
+        return (
+          <>
+            <div>
+                  权限分配：
+                  <label id="role_all" className="checkbox-inline">
+                  <input type="checkbox" name="role_all[]" value="" /> 所有权限
+                </label>
+                
+                
+                {
+
+                        {#head#}.map(function(name){
+                            return (
+                            <label className="checkbox-inline" data-key={name}>
+                              <input type="checkbox" name="role[]" value="" /> {name}
+                            </label>
+                            )
+                            
+                        })
+                    }
+                </div>
+                <div>
+                  <div>
+                    {
+						{#head#}.map(function(roleName){
+							
+		                        {#list#}.map(function(name){
+		                            <Label keyNme={roleName} name={name} />
+		                            
+		                        })
+	                    })
+                    }
+                    
+                  </div>
+                </div>
+          </>
+         );
+    }
+    
+  }
+  ReactDOM.render(<Role />, document.getElementById('root'));
+</script>

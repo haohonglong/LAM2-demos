@@ -1,0 +1,8 @@
+
+<#define __DATAS__="{'head':['用户管理','角色管理','单据管理','系统管理'],'list':['查询','编辑','删除']}" />
+<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
+<#include tp-data="__DATAS__" file="__COMPONENTS__/role.html" />
+
+<div id="role">
+  <#=block id="check-list" data="__DATAS__" />
+</div>

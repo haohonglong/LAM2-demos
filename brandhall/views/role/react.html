@@ -1,0 +1,19 @@
+
+<#define _@="{{LAM.VIEWS}}" />
+<#define __COMPONENTS__="_@/role/components" />
+
+<#import type="css" path="https://fonts.googleapis.com/css?family=Roboto:300,400,500" befor="1" />
+<#import path="
+https://unpkg.com/@babel/standalone/babel.js,
+https://unpkg.com/react/umd/react.development.js,
+https://unpkg.com/react-dom/umd/react-dom.development.js,
+
+!https://unpkg.com/@material-ui/core/umd/material-ui.production.min.js
+" write="1" befor="1" />
+
+<style>
+label{width: 119px;}
+</style>
+
+<div id="root"></div>
+<#include tp-data="{'head':['用户管理','角色管理','单据管理','系统管理'],'list':['查询','编辑','删除']}" delimiters="['{#','#}']" file="__COMPONENTS__/react.html" />

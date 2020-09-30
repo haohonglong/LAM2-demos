@@ -1,44 +1,59 @@
 <#extends title="react" />
 <#import type="css" path="https://fonts.googleapis.com/css?family=Roboto:300,400,500" befor="1" />
 <#import path="
-https://unpkg.com/babel-standalone@6/babel.min.js,
-https://unpkg.com/react@16/umd/react.production.min.js,
-https://unpkg.com/react-dom@16/umd/react-dom.production.min.js,
-https://unpkg.com/@material-ui/core/umd/material-ui.production.min.js
+https://unpkg.com/@babel/standalone/babel.js,
+https://unpkg.com/react/umd/react.development.js,
+https://unpkg.com/react-dom/umd/react-dom.development.js,
+
+!https://unpkg.com/@material-ui/core/umd/material-ui.production.min.js
 " write="1" befor="1" />
-<div id="app"></div>
-<script type="text/javascript">
 
-    LAM.run(function(){
-        'use strict';
-        var System = this;
-        System.Loader
-            .load({
-                'baseUrl':false,
-                'suffix':' ',
-                'rel':'stylesheet',
-                'css':[
-                    'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
-                ]
-            })
-            .print();
-        System.import(['https://unpkg.com/babel-standalone@6/babel.min.js'],false,null,{});
-        System
-            .import([
+
+<div id="root"></div>
+<script type="text/babel">
+  class Role extends React.Component {
+    render(){
+        return (
+          <>
+            <div>
+                  权限分配：
+                  <label id="role_all" className="checkbox-inline">
+                  <input type="checkbox" name="role_all[]" value="" /> 所有权限
+                </label>
+                
+                
                 {
-                    crossorigin:'',
-                    src:'https://unpkg.com/react@16/umd/react.production.min.js'
-                },
-                {
-                    crossorigin:'',
-                    src:'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js'
-                },
-                {
-                    src:'https://unpkg.com/@material-ui/core/umd/material-ui.production.min.js',
-                    crossorigin:"anonymous"
-                }
-            ],false,null,{xhr:false});
-    });
+
+                        ['用户管理','角色管理','单据管理','系统管理'].map(function(name){
+                            return (
+                            <label className="checkbox-inline" data-key="{name}">
+                              <input type="checkbox" name="role[]" value="" /> {name}
+                            </label>
+                            );
+                            
+                        })
+                    }
+                </div>
+                <div>
+                  <div>
+                    {
+
+                        ['查询','编辑','删除'].map(function(name){
+                            return (
+                            <label className="checkbox-inline">
+                              <input type="checkbox" name="role[]" data-key="" value="" /> {name}
+                            </label>
+                            );
+                            
+                        })
+                    }
+                    
+                  </div>
+                </div>
+          </>
+         );
+    }
     
-
+  }
+  ReactDOM.render(<Role />, document.getElementById('root'));
 </script>
