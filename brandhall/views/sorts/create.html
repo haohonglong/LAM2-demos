@@ -1,6 +1,8 @@
 <#define __SERVER__="{{LAM.SERVER}}" />
+<#define __MODELS__="{{LAM.MODELS}}" />
+<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
+<#define __COOKIE__="{{cookie}}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
-
 
 <#define _TITLE_="添加类别" />
 
@@ -10,18 +12,14 @@
 {'name':'_TITLE_'}
 ]}" />
 
-<#beginBlock id="crumb" data="{'list':[
+<#Block:begin id="crumb" data="{'list':[
 {'name':'类别','href':'###','title':''},
 {'name':'类别','href':'###','title':''},
 {'name':'_TITLE_'}
 ]}">
-<#endBlock>
-<#Block:begin id="select" data="{'list':[]}">
-<option value="0">一级</option>
-<%LAM.each(list,function(i){%>
-<option value="<%=this.id%>"><%=this.name%></option>
-<%});%>
 <#Block:end>
+
+<#include repeat="0" tp-data="{'cookie':__COOKIE__}"  file="__COMPONENTS__/selectBox.html" />
 <form class="form-horizontal" action="__SERVER__/sorts/add" method="post">
     <div class="sectionWrap-A5">
         <div class="p15">
@@ -29,10 +27,7 @@
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <select class="L" name="pid">
-                            <option value="0">请选择</option>
-                            <#=block id="select" data="{'list':__DATA__}" />
-                        </select>
+                        <#=block id="selectBox" data="{'list':__DATA__, 'name':'pid'}" />
                         <span data-error="pid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
@@ -44,7 +39,7 @@
                 </ul>
             </div>
             <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
-                <button type="submit" class="btn save L mr15">提交</button>
+                <button type="submit" class="btn save L mr15">添加</button>
                 <button type="reset" class="btn btn-cancel L">恢复</button>
             </div>
         </div>
@@ -75,7 +70,7 @@
                         alert(data.message);
                         System.redirect(System.INDEX+"sorts/index");
                     }else{
-                        // alert(data.message);
+                        alert(data.message);
                         System.each(data.errors,function (key,value) {
                             $('[data-error="'+key+'"]').text(value).show();
                         });

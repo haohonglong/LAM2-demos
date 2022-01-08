@@ -97,7 +97,7 @@
                     // return System.timestamp();
                 },
                 'runtime':function (System) {
-                    System.COOKIE = new System.PowerCookie('guest',{"expires":System.timestamp()+10000000});
+                    System.COOKIE = new System.PowerCookie('guest');
 
                 }
 
@@ -151,6 +151,7 @@
                     ,"Router":classPath+'/base/Router.class.js'
 
                     ,"vue":PLUGINS+'/vue/vue.js'
+                    // ,"vue": 'https://cdn.jsdelivr.net/npm/vue@2.6.12'
                     ,"layer":PLUGINS+'/layer-v3.1.1/layer/layer.js'
                 };
             },

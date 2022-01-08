@@ -141,7 +141,7 @@ a:hover,a:active{ text-decoration:underline;}*/
 .sectionWrap-A5 .p15{padding:0 15px;}
 .sectionWrap-A5 .p30{padding-left: 60px;padding-top: 30px;}
 
-.sectionWrap-A6{background: #ebedf4;margin-left: 127px;}
+.sectionWrap-A6{background: #ebedf4;margin-left: 168px;}
 .sectionWrap-A6 .p30{padding:19px 25px;}
 
 .sectionWrap-A7{}
@@ -618,7 +618,7 @@ a:hover,a:active{ text-decoration:underline;}*/
 
 
 /*Menu*/
-.sectionMenu-A1{width: 128px;position: absolute;left: 0;top: 0; z-index: 10;}
+.sectionMenu-A1{width: 170px;position: absolute;left: 0;top: 0; z-index: 10;}
 .sectionMenu-A1 .border{border: 1px solid #ccced7;border-right: none;border-top: none; }
 .sectionMenu-A1 dd{line-height: 30px;background: #fafafa;color: #808080;padding: 2px 15px;border: 1px solid #ccced7;border-left: none;border-bottom: none;position: relative;cursor: pointer; }
 .sectionMenu-A1 .cur{background: #ebedf4;color: #333;border-right: none;}

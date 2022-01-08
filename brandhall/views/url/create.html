@@ -1,7 +1,9 @@
 <#define __SERVER__="{{LAM.SERVER}}" />
 <#define __MODELS__="{{LAM.MODELS}}" />
+<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
 <#define __COOKIE__="{{cookie}}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+
 
 <#define _TITLE_="添加地址" />
 
@@ -12,34 +14,16 @@
 ]}" />
 
 
-<!--Del:begin--><script type="text/javascript"><!--Del:end-->
-
-<!--Script:begin-->
-    var cookie = __COOKIE__;
-    var sid = cookie && cookie.sid || 0;
-    sid = sid > 0 ? sid : 0;
-    LAM.sid = sid;
-
-<!--Script:end-->
-<!--Del:begin--></script><!--Del:end-->
-
-
 <#beginBlock id="crumb" data="{'list':[
 {'name':'网页地址','href':'###','title':''},
 {'name':'网页地址','href':'###','title':''},
 {'name':'_TITLE_'}
 ]}">
 <#endBlock>
-<#Block:begin id="select" data="{'list':[]}">
-<%
-var cookie = __COOKIE__;
-var sid = cookie && cookie.sid || 0;
-sid = sid > 0 ? sid : 0;
-%>
-<%LAM.each(list,function(i){%>
-<option value="<%=this.id%>" <%if(sid == this.id){%>selected="selected"<%}%> ><%=this.name%></option>
-<%});%>
-<#Block:end>
+
+
+<#include repeat="0" tp-data="{'cookie':__COOKIE__}"  file="__COMPONENTS__/selectBox.html" />
+
 <form class="form-horizontal" action="__SERVER__/url/add" method="post">
     <div class="sectionWrap-A5">
         <div class="p15">
@@ -47,10 +31,7 @@ sid = sid > 0 ? sid : 0;
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <select class="L" name="sid">
-                            <option value="0">请选择</option>
-                            <#=block id="select" data="{'list':__DATA__}" />
-                        </select>
+                        <#=block id="selectBox" data="{'list':__DATA__, 'name':'sid'}" />
                         <span data-error="sid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
@@ -78,7 +59,11 @@ sid = sid > 0 ? sid : 0;
         </div>
     </div>
 </form>
-
+<style type="text/css">
+    #selectBox{width: 165px; padding: 10px; border: 1px solid #ccc; position: absolute;top:0; left:85px; background: #fff; z-index: 9999;}
+    #selectBox li{padding: 2px; cursor: pointer;}
+    .selected{font-weight: bold;color:red;}
+</style>
 <script type="text/javascript">
 
     LAM.run([jQuery],function($) {
@@ -93,6 +78,7 @@ sid = sid > 0 ? sid : 0;
 
 
         $(function(){
+            
             $('form').submit(function () {
                 var wait = layer.load();
                 $('[data-error]').hide();
@@ -100,6 +86,8 @@ sid = sid > 0 ? sid : 0;
                 var name = getByName("name");
                 var url  = getByName("url");
                 var info = getByName("info");
+
+                
 
                 $[this.method](this.action,{
                     'sid':sid,

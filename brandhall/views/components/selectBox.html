@@ -1,0 +1,80 @@
+<#define __COOKIE__="{{cookie}}" />
+
+<!--Del:begin--><script type="text/javascript"><!--Del:end-->
+<!--Script:begin-->
+    var cookie = __COOKIE__;
+    var sid = cookie && cookie.sid || 0;
+    sid = sid > 0 ? sid : 0;
+    LAM.sid = sid;
+
+    var count = 1;
+
+<!--Script:end-->
+<!--Del:begin--></script><!--Del:end-->
+
+
+<#Block:begin id="option" data="{'list':[]}">
+
+<%if(sid != 0){%>
+<option value="<%=cookie.sid%>" class="none"><%=cookie.sort_name%></option>
+<%}else{%>
+<option value="0" class="none">请选择</option>
+<%}%>
+<#Block:end>
+
+<#Block:begin id="selectList" data="{'list':[]}">
+<ul>
+<%if(count == 1){%>
+<li value="0">请选择</li>
+<%count++;%>
+<%}%>
+<%LAM.each(list,function(i){%>
+<li value="<%=this.id%>" <%if(sid == this.id){%>class="selected"<%}%>><%=this.name%></li>
+<%if(LAM.isArray(this.child)){%>
+    <li class="ml10"><%=LAM.Template.getBlock('selectList',{list:this.child})%></li>
+<%}%>
+<%});%>
+</ul>
+<#Block:end>
+
+<#Block:begin id="selectBox" data="{'list':[], 'name':''}">
+<select id="select" class="L" name="<%=name%>">
+	<%=LAM.Template.getBlock('option',{list:[]})%>
+</select>
+<div id="selectBox" class="none"><%=LAM.Template.getBlock('selectList',{list:list})%></div>
+<#Block:end>
+<style type="text/css">
+    #selectBox{width: 165px; padding: 10px; border: 1px solid #ccc; position: absolute;top:0; left:85px; background: #fff; z-index: 9999;}
+    #selectBox li{padding: 2px; cursor: pointer;}
+    .selected{font-weight: bold;color:red;}
+</style>
+<script type="text/javascript">
+	LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+        $(function(){
+            $(document).on('click', '#select',function(e){
+                    $('#selectBox').show();
+                    e.preventDefault();  //阻止自身的事件，并不能阻止冒泡
+                    e.stopPropagation();  //阻止事件冒泡
+                    
+                });
+            $(document).on('click', '#selectBox li',function(e){
+                    $('#selectBox li').removeClass("selected");
+                    $(this).addClass("selected");
+                    $('#select').find('option').val($(this).attr("value"));
+                    $('#select').find('option').text($(this).text());
+                    $('#selectBox').hide();
+                    e.preventDefault();  //阻止自身的事件，并不能阻止冒泡
+                    e.stopPropagation();  //阻止事件冒泡
+                    
+                });
+
+            $(document).on('click',function(e) {
+                $('#selectBox').hide();
+                
+            });
+        });
+        
+    });
+</script>

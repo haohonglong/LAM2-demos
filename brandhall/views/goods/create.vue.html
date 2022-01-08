@@ -31,12 +31,12 @@
 <#Block:begin id="goods">
 <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
     <ul class="clear mb5 row">
-        <li class="L mr15"><input name="listId" type="radio" :value="index" /> ${ index } </li> 
-        <input-text name="name[]" label="商店名称" input_style="width:120px;" />
-        <input-text name="number[]" label="数量" input_style="width:45px;" value="1" input_class="number" />
-        <input-text name="weight[]" label="重量" input_style="width:45px;" value="1" input_class="weight" />
-        <input-text name="single_price[]" label="单价" input_style="width:45px;" value="1" input_class="single_price" />
-        <input-text name="final_price[]" label="结算价格" input_style="width:45px;" value="1" input_class="final_price" />
+        <li class="L mr15"><input name="listId" type="radio" @click="handelClick(index)" v-model="picked" :value="index" /> ${ index+1 } </li> 
+        <input-text v-model="list['name']" :name="list['name']" label="商店名称" input_style="width:120px;" />
+        <input-text v-model="list['number']" :name="list['number']" label="数量" input_style="width:45px;" value="" input_class="number" />
+        <input-text v-model="list['weight']" :name="list['weight']" label="重量" input_style="width:45px;" value="1" input_class="weight" />
+        <input-text v-model="list['single_price']" :name="list['single_price']" label="单价" input_style="width:45px;" value="1" input_class="single_price" />
+        <input-text v-model="list['final_price']" :name="list['final_price']" label="结算价格" input_style="width:45px;" value="1" input_class="final_price" />
     </ul>
 </div>
 <#Block:end>
@@ -56,9 +56,9 @@
                         <a href="__INDEX__shop/create" class="btn save L ml5">添加店铺</a>
                     </li>
                     <li class="R sectionButton-B1">
-                        <button type="button" @click="add_goods_agin" class="btn save L mr15">添加</button>
-                        <button type="button" @click="copy_goods_agin" class="btn save L mr15">复制</button>
-                        <button type="button" @click="del_goods" class="btn save L mr15">删除</button>
+                        <button type="button" @click="handelAdd" class="btn save L mr15">添加</button>
+                        <button type="button" @click="handelCopy" class="btn save L mr15">复制</button>
+                        <button type="button" @click="handelRemove" class="btn save L mr15">删除</button>
                     </li>
                     <input-text name="bill_id" label="账单号" input_style="width:120px;" value="__BILLID__" input_class="final_price" />
                     <input-text name="discount" label="折扣价" input_style="width:30px;" value="0" input_class="discount" />
@@ -66,14 +66,23 @@
                     
                 </ul>
             </div>
-            <div id="goods">
-                <the-goods v-for="(v, i ) in list" :index="i+1" />
+            <div>
+                <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15" v-for="(v, i) in list" :key="i">
+                    <ul class="clear mb5 row">
+                        <li class="L mr15"><input name="listId" type="radio" @click="handelClick(i)" v-model="picked" :value="i" /> ${ i+1 } </li> 
+                        <input-text v-model="v['name']" label="商店名称" input_style="width:120px;" />
+                        <input-text v-model="v['number']" label="数量" input_style="width:45px;" input_class="number" />
+                        <input-text v-model="v['weight']" label="重量" input_style="width:45px;" value="1" input_class="weight" />
+                        <input-text v-model="v['single_price']" label="单价" input_style="width:45px;" value="1" input_class="single_price" />
+                        <input-text v-model="v['final_price']" label="结算价格" input_style="width:45px;" value="1" input_class="final_price" />
+                    </ul>
+                </div>
             </div>
             <div class="row mb10">
                 <div class="col-sm-1">
                     总金额: <span id="total">0.00</span>
                 </div>
-                <div class="col-sm-1"><a class="btn btn-default" id="checkout" href="javascript:void();">结算</a></div>
+                <div class="col-sm-1"><a class="btn btn-default">结算</a></div>
             </div>
 
             <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2">
@@ -91,18 +100,6 @@
         'use strict';
         var System = this;
 
-        
-
-        function getElementByName(name) {
-            return document.getElementsByName(name)[0].value;
-        }
-        function getElementsByName(name) {
-            var arr = [];
-            System.each(document.getElementsByName(name),function () {
-                arr.push(this.value);
-            });
-            return arr;
-        }
 
         $(function(){
 
@@ -139,145 +136,63 @@
               },
               template: System.Template.getBlock('input-text')
             });
-
+            var n = 0;
 
             Vue.component('the-goods', {
               props: {
-                index: Number
+                index: Number,
+                list: {
+                    type: Object
+                }
               },
               data: function () {
                 return {
-                  
+                    'picked': '',
+                    'n': 0
+
+                }
+              },
+              methods: {
+                handelClick: function (i) {
+                    n = i;
                 }
               },
               delimiters: delimiters,
               template: System.Template.getBlock('goods')
             });
 
+            var goods = {
+                'name': '',
+                'number': '',
+                'weight': '',
+                'single_price': '',
+                'final_price': ''
+            };
+
             new Vue({
               el: '#goodsApp',
               delimiters: delimiters,
               data: {
+                picked: '',
+                n: 0,
                 shops: __DATA__.data,
-                list: [{}]
+                list: [System.clone(goods)]
               },
               methods: {
-                add_goods_agin: function () {
-                    this.list.push({});
+                handelAdd: function () {
+                    this.list.push(System.clone(goods));
                 },
-                copy_goods_agin: function () {
-
+                handelClick: function (i) {
+                    this.n = i;
                 },
-                del_goods: function () {
+                handelCopy: function () {
+                    this.list.push(System.clone(this.list[this.n]));
+                },
+                handelRemove: function () {
 
                 }
               }
             });
-
-            var $goods = $('#goods');
-            var $dom = null;
-            var index = 1;
-
-
-            var $discount = $('[name="discount"]');
-            var total = 0.00;
-            $(document).on('click','#checkout',function() {
-                $goods.find('.final_price').each(function () {
-                    var val = parseFloat($(this).val());
-                    total  += val;
-                });
-                var discount = parseFloat($discount.val());
-                $('#total').text(parseFloat(total-discount).toFixed(2));
-                // $(this).remove();
-                total = 0.00;
-
-            });
-
-            $(document).on('click','.final_price',function() {
-                var $row = $(this).closest('.row');
-                var price = $('.single_price',$row).val() * $('.number',$row).val() * $('.weight',$row).val();
-                price = parseFloat(price).toFixed(2);
-                $(this).val(price);
-            });
-
-            
-            $('#copy_goods_agin').on('click',function () {
-                if ($dom) {
-                    index++;
-                    var _$dom = $dom.clone(true);
-                    _$dom.find('[name="listId"]').parent().html(System.Template.getBlock('radio', {'index': index}));
-                    $goods.append(_$dom);
-                    _$dom.find('[name="listId"]').attr('checked','checked')
-                    $dom = _$dom;
-                }
-            });
-
-
-            $(document).on('click','[name="listId"]',function () {
-                $dom = $(this).closest('.sectionForm-A1');
-            });
-
-            $(document).on('click','#del_goods',function () {
-                if ($dom && index > 1) {
-                    $dom.remove();
-                    $dom = null;
-                }
-            });
-
-            $(document).on('click','[data-remove="goods"]',function () {
-                // $(this).closest('.sectionForm-A1').remove();
-            });
-
-
-
-            
-            $('form').submit(function () {
-                $('[data-error]').hide();
-                var shop_id = getElementByName("shop_id");
-                var bill_id = getElementByName("bill_id");
-                var discount = getElementByName("discount");
-                var create_by = getElementByName("create_by");
-
-                var names = getElementsByName("name[]");
-                var numbers = getElementsByName("number[]");
-                var weights = getElementsByName("weight[]");
-                var single_prices = getElementsByName("single_price[]");
-                var final_prices = getElementsByName("final_price[]");
-
-                $[this.method](this.action,{
-                    'shop_id':shop_id,
-                    'bill_id':bill_id,
-                    'discount':discount,
-                    'create_by':create_by,
-                    'name':names,
-                    'number':numbers,
-                    'weight':weights,
-                    'single_price':single_prices,
-                    'final_price':final_prices
-                },function(data){
-                    if(data.status){
-                        alert(data.message);
-                        System.redirect(System.INDEX+"goods/index");
-                    }else{
-                        alert(data.message);
-                        System.each(data.errors,function (key,value) {
-                            if(System.isString(value)) {
-                                $('[data-error="'+key+'"]').text(value).show();
-                            }else {
-                                System.each(value,function (i) {
-                                    $('[data-error="'+key+'[]"]').eq(i).text(this).show();
-                                });
-                            }
-
-                        });
-                    }
-                },'json');
-
-                return false;
-            });
-
-
-
         });
     });
 </script>

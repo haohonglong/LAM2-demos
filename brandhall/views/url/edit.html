@@ -1,4 +1,7 @@
 <#define __SERVER__="{{LAM.SERVER}}" />
+<#define __MODELS__="{{LAM.MODELS}}" />
+<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
+<#define __COOKIE__="{{cookie}}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
 
 
@@ -10,17 +13,15 @@
 {'name':'_TITLE_'}
 ]}" />
 
-<#beginBlock id="crumb" data="{'list':[
+<#Block:begin id="crumb" data="{'list':[
 {'name':'网页地址','href':'###','title':''},
 {'name':'网页地址','href':'###','title':''},
 {'name':'_TITLE_'}
 ]}">
-<#endBlock>
-<#Block:begin id="select" data="{'list':[],'sid':'0'}">
-<%LAM.each(list,function(i){%>
-<option <%if(this.id == sid){%>selected="selected"<%}%> value="<%=this.id%>"><%=this.name%></option>
-<%});%>
 <#Block:end>
+
+
+<#include repeat="0" tp-data="{'cookie':__COOKIE__}"  file="__COMPONENTS__/selectBox.html" />
 <#Block:begin id="url_form" data="{'id':'0','sid':'0','name':'','url':'','info':''}">
 <form class="form-horizontal" action="__SERVER__/url/edit?id=<%=id%>" method="post">
     <input type="hidden" name="id" value="<%=id%>">
@@ -31,10 +32,7 @@
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <select class="L" name="sid">
-                            <option value="0">请选择</option>
-                            <%=LAM.Template.getBlock("select",{'list':__DATA__,'sid':sid})%>
-                        </select>
+                        <%=LAM.Template.getBlock("selectBox",{'list':__DATA__, 'name':'sid'})%>
                         <span data-error="sid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">

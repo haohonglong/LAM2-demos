@@ -14,6 +14,7 @@
     'use strict';
     var __this__=null;
     System.is(System,'Controller','SortsController',System.classPath+'/base');
+    System.import(['/CookieModel.class'],System.MODELS);
     var ROOT  = System.BACKEND;
     var views = System.VIEWS+'/room';
     var E = {file_404:System.ERROR_404};
@@ -23,6 +24,7 @@
             __this__=this;
             this.viewpath = System.VIEWS+'/sorts';
             this.layoutPath = this.layoutPath+'/default';
+            this.cookie =System.CookieModel.get();
             this.content = {
                 'user':{
                     'name':'name',
@@ -46,7 +48,8 @@
             return this.render('create',{
                 'VIEWS':System.VIEWS,
                 'IMAGE':System.IMAGE,
-                'ROOT':ROOT
+                'ROOT':ROOT,
+                'cookie':this.cookie
 
             },E);
         },

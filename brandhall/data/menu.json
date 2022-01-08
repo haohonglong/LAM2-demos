@@ -6,6 +6,13 @@
     "ul":null
   },
   {
+    "icon":"a-4",
+    "title":"博彩",
+    "ul":[
+      {"title":"博彩","href":"__INDEX__gambling/index&m=gambling"}
+    ]
+  },
+  {
     "icon":"a-2",
     "title":"demos",
     "ul":[

@@ -18,13 +18,13 @@
 <#extends title="网页地址" data="{'list':[
 {'name':'网页地址','href':'###','title':''},
 {'name':'网页地址','href':'###','title':''},
-{'name':'网页地址列表'}
+{'name':'无分类'}
 ]}" />
 
 <#beginBlock id="crumb" data="{'list':[
 {'name':'网页地址','href':'###','title':''},
 {'name':'网页地址','href':'###','title':''},
-{'name':'网页地址列表'}
+{'name':'无分类'}
 ]}">
 <#endBlock>
 
@@ -32,11 +32,29 @@
 
 
 
+<#Block:begin id="left_side_menu" data="{'list':[{'id':0,'name':'name','child':[]}]}">
+    <%LAM.each(list,function(i){%>
+        <dd class="dd-1" style="border-left: 1px solid #ccc;">
+            <div class="title" data-id="<%=this.id%>"><%=this.name%></div>
+            <%if(System.isArray(this.child)){%>
+                <dl class="ml5"><%=LAM.Template.getBlock('left_side_menu',{list:this.child})%></dl>
+            <%}%>
+        </dd>
+        
+    <%});%>
+<#Block:end>
+
 <#Block:begin id="empower_menu" data="{'list':[{'id':0,'name':'name','child':[]}]}">
 <div class="sectionMenu-A1 sectionMenu-A1-3 j_sectionMenuA1 mCustomScrollbar" id="address_menu" data-mcs-theme="dark">
     <dl class="border dl-1">
         <%LAM.each(list,function(i){%>
-        <dd class="dd-1 <%if(0 === i){%>cur<%}%>"><div class="title" data-id="<%=this.id%>"><%=this.name%></div></dd>
+            <dd class="dd-1 <%if(0 === i){%>cur<%}%>">
+                <div class="title" data-id="<%=this.id%>"><%=this.name%></div>
+                <%if(System.isArray(this.child)){%><div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1"><i></i></div><%}%>
+            </dd>
+            <%if(System.isArray(this.child)){%>
+                <%=LAM.Template.getBlock('left_side_menu',{list:this.child})%>
+            <%}%>
         <%});%>
     </dl>
 </div>
@@ -69,7 +87,7 @@
         <input type="text" class="text w-160 L" value="" placeholder="请输入商品名称">
     </li>
     <li class="R sectionButton-B1">
-        <button type="submit" class="btn">保存</button>
+        <a href="__INDEX__url/create"><button type="button" class="btn">添加</button></a>
     </li>
 </ul>
 <#Block:end>
@@ -100,9 +118,7 @@
                         <span class="mr5"><input class="v-negative3 js_allcheckbok" type="checkbox"></span>
                         <span>全选当前商品</strong>
                     </div>
-                    <div class="R sectionButton-B1">
-                        <button type="submit" class="btn">保存</button>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -137,10 +153,14 @@
                         }else{
                             list = "没有数据";
                         }
+
                     },'json');
                 }else{
                     list = this.get(index).list;
                 }
+                var name = $('#address_menu [data-id="'+id+'"]').text();
+                $("#crumb strong").text(name);
+
                 System.listen(function(){
                     if(list){
                         if(System.isString(list)){
@@ -205,12 +225,14 @@
                 'or':true,
                 'fn':function () {
                     var id = $(this).find('[data-id]').data('id');
+                    var name = $(this).find('[data-id]').text();
                     $("#mCSB_1_container").css("top", -this.offsetTop);
                     getContent(id);
                     System.COOKIE.find('id',"1",function (index) {
                         if(-1 !== index){
                             var data = this.get(index);
                             data.sid = id;
+                            data.sort_name = name;
                             this.update(index,data);
                         }
                     });
