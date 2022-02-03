@@ -1,7 +1,6 @@
 <#define __SERVER__="{{LAM.SERVER}}" />
 <#define __MODELS__="{{LAM.MODELS}}" />
 <#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
-<#define __COOKIE__="{{cookie}}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
 
 <#define _TITLE_="添加类别" />
@@ -19,7 +18,7 @@
 ]}">
 <#Block:end>
 
-<#include repeat="0" tp-data="{'cookie':__COOKIE__}"  file="__COMPONENTS__/selectBox.html" />
+<#include repeat="0" tp-data="{'cookie':{{cookie}}}"  file="__COMPONENTS__/selectBox.html" />
 <form class="form-horizontal" action="__SERVER__/sorts/add" method="post">
     <div class="sectionWrap-A5">
         <div class="p15">
