@@ -4,7 +4,7 @@ these are usage case of LAM2
 ### usage:
              git clone https://github.com/haohonglong/LAM2-demos.git
              cd LAM2-demos
-             git clone  --branch v2.1.5 https://github.com/haohonglong/LAM2.git
+             git clone  --branch v2.1.6 https://github.com/haohonglong/LAM2.git
              
              以下命令不是必须的
              cd LAM2
