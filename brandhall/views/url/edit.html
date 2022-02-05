@@ -2,9 +2,13 @@
 <#define __MODELS__="{{LAM.MODELS}}" />
 <#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+#define# __COOKIE__ {{cookie}} #end#
+
 
 
 <#define _TITLE_="修改地址" />
+
+<#beginBlock id="title" data="{'title':'_TITLE_'}"><#endBlock>
 
 <#extends title="_TITLE_" data="{'list':[
 {'name':'网页地址','href':'###','title':''},
@@ -20,7 +24,7 @@
 <#Block:end>
 
 
-<#include repeat="0" tp-data="{'cookie':{{cookie}}}"  file="__COMPONENTS__/selectBox.html" />
+<#include repeat="0" tp-data="{'cookie':__COOKIE__}"  file="__COMPONENTS__/selectBox.html" />
 <#Block:begin id="url_form" data="{'id':'0','sid':'0','name':'','url':'','info':''}">
 <form class="form-horizontal" action="__SERVER__/url/edit?id=<%=id%>" method="post">
     <input type="hidden" name="id" value="<%=id%>">

@@ -80,7 +80,8 @@
                 'routeRules':{
                     'login':'site/login',
                     'list':'room/list',
-                    'detail':'room/detail'
+                    'detail':'room/detail',
+                    'url':'url/index',
                 },
                 'routeAutoRun':true,
                 't':function (System) {

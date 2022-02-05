@@ -13,18 +13,21 @@
 <#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
 
-<#beginBlock id="title" data="{'title':'网页地址'}"><#endBlock>
+<#define _TITLE_="网页地址" />
 
-<#extends title="网页地址" data="{'list':[
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<#extends title="_TITLE_" data="{'list':[
 {'name':'网页地址','href':'###','title':''},
 {'name':'网页地址','href':'###','title':''},
-{'name':'无分类'}
+{'name':'_TITLE_'}
 ]}" />
 
 <#beginBlock id="crumb" data="{'list':[
 {'name':'网页地址','href':'###','title':''},
 {'name':'网页地址','href':'###','title':''},
-{'name':'无分类'}
+{'name':'_TITLE_'}
 ]}">
 <#endBlock>
 
@@ -92,33 +95,35 @@
 </ul>
 <#Block:end>
 <#Block:begin id="empower" data="{}">
-<div class="sectionWrap-A7 p-rel">
-    <#=block id="empower_menu" data="{'list':__DATA__}" />
+<div id="vue_url_index">
+    <div class="sectionWrap-A7 p-rel">
+        <#=block id="empower_menu" data="{'list':__DATA__}" />
 
-    <div class="sectionWrap-A6">
-        <div class="j_sectionBlock p-rel sectionBorder-A4 ">
-            <div class="p25">
+        <div class="sectionWrap-A6">
+            <div class="j_sectionBlock p-rel sectionBorder-A4 ">
+                <div class="p25">
 
-                <#=block id="empower_search" />
-                <div class="sectionFloat sectionWrap-A17 mb10">
-                    <ul class="clear" id="address_content">
-                        <#=block id="empower_button" data="{'list':__DATA_LIST__.data}" />
-                    </ul>
-                </div>
-
-
-                <div class="sectionPageing-A2 clear mb20">
-                    <div class="R">
-                        <#include repeat="0" tp-data="{}"  file="{{LAM.COMPONENTS}}/paging.html" />
+                    <#=block id="empower_search" />
+                    <div class="sectionFloat sectionWrap-A17 mb10">
+                        <ul class="clear" id="address_content">
+                            <#=block id="empower_button" data="{'list':__DATA_LIST__.data}" />
+                        </ul>
                     </div>
-                </div>
 
-                <div class="sectionTitle-A5 sectionTitle-A5-p0 clear">
-                    <div class="L">
-                        <span class="mr5"><input class="v-negative3 js_allcheckbok" type="checkbox"></span>
-                        <span>全选当前商品</strong>
+
+                    <div class="sectionPageing-A2 clear mb20">
+                        <div class="R">
+                            <#include repeat="0" tp-data="{}"  file="{{LAM.COMPONENTS}}/paging.html" />
+                        </div>
                     </div>
-                    
+
+                    <div class="sectionTitle-A5 sectionTitle-A5-p0 clear">
+                        <div class="L">
+                            <span class="mr5"><input class="v-negative3 js_allcheckbok" type="checkbox"></span>
+                            <span>全选当前商品</strong>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>

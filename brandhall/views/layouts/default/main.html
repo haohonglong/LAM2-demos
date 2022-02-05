@@ -18,8 +18,8 @@
         <#include repeat="0" tp-data="{'name':'{{D.user.name}}','age':'{{D.user.age}}'}" delimiters="['{#','#}']"  file="_LAYOUTS_/default/include/inc_header.html" />
         <#=block id="header" />
 
-        <#include repeat="0" tp-data="{'list':'{{D.list}}'}" file="_LAYOUTS_/default/include/inc_crumb.vue.html" />
-        <#=block id="crumb" />
+        <#include repeat="0" tp-data="{'list':'{{D.list}}'}" file="_LAYOUTS_/default/include/inc_crumb.html" />
+        <#=block id="crumb" data="{}" />
         <!#include repeat="0" tp-data="{}" file="_LAYOUTS_/default/test.html" />
         {{content}}
 

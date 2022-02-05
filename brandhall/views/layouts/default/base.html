@@ -25,10 +25,10 @@
     <!#HEAD/>
     <!#CSS/>
     <!#JS/>
-    <#beginBlock type="override" id="title" data="{'title':'{{title}}'}">
+    <#Block:begin type="override" id="title" data="{'title':'{{title}}'}">
     <title><%=title%></title>
-    <#endBlock>
-    <#=block id="title" />
+    <#Block:end>
+    <#=block id="title" data="{}" />
 
 </head>
 
