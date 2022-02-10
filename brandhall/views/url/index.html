@@ -5,6 +5,7 @@
 <#define __CSS__="{{LAM.CSS}}" />
 <#define __PLUGINS__="{{LAM.PLUGINS}}" />
 <#define __CLASSPATH__="{{LAM.classPath}}" />
+<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
 
 
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
@@ -33,33 +34,11 @@
 
 
 
-
-
-<#Block:begin id="left_side_menu" data="{'list':[{'id':0,'name':'name','child':[]}]}">
-    <%LAM.each(list,function(i){%>
-        <dd class="dd-1" style="border-left: 1px solid #ccc;">
-            <div class="title" data-id="<%=this.id%>"><%=this.name%></div>
-            <%if(System.isArray(this.child)){%>
-                <dl class="ml5"><%=LAM.Template.getBlock('left_side_menu',{list:this.child})%></dl>
-            <%}%>
-        </dd>
-        
-    <%});%>
-<#Block:end>
+<#include repeat="0" tp-data="{}"  file="__COMPONENTS__/left_side_menu.html" />
 
 <#Block:begin id="empower_menu" data="{'list':[{'id':0,'name':'name','child':[]}]}">
 <div class="sectionMenu-A1 sectionMenu-A1-3 j_sectionMenuA1 mCustomScrollbar" id="address_menu" data-mcs-theme="dark">
-    <dl class="border dl-1">
-        <%LAM.each(list,function(i){%>
-            <dd class="dd-1 <%if(0 === i){%>cur<%}%>">
-                <div class="title" data-id="<%=this.id%>"><%=this.name%></div>
-                <%if(System.isArray(this.child)){%><div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1"><i></i></div><%}%>
-            </dd>
-            <%if(System.isArray(this.child)){%>
-                <%=LAM.Template.getBlock('left_side_menu',{list:this.child})%>
-            <%}%>
-        <%});%>
-    </dl>
+    <%=LAM.Template.getBlock('left_side_menu',{list:list, level: 0})%>
 </div>
 <#Block:end>
 
@@ -129,8 +108,8 @@
         </div>
     </div>
 </div>
+<#Block:end>
 
-<!--Escape:begin-->
 <script type="text/javascript">
 
     LAM.run([jQuery],function($) {
@@ -257,8 +236,7 @@
         });
     });
 </script>
-<!--Escape:end-->
-<#Block:end>
+<#=block id="empower" />
 <style type="text/css">
     .mCustomScrollbar{height: 500px;overflow: auto;}
     .mCSB_inside > .mCSB_container{margin:0;}
@@ -267,6 +245,6 @@
     .sectionButton-B1 .btn a{color:#fff;}
 
 </style>
-<#=block id="empower" />
+
 
 
