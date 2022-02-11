@@ -75,8 +75,8 @@
 
         $(function(){
 
-
-
+            // 自定义滚动条
+            $('.mCustomScrollbar').mCustomScrollbar();
 
 
 
@@ -115,5 +115,10 @@
 
     });
 </script>
+<style type="text/css">
+    .mCustomScrollbar{height: 500px;overflow: auto;}
+    .mCSB_inside > .mCSB_container{margin:0;}
+    .mCSB_scrollTools .mCSB_draggerContainer{left:17px;}
+</style>
 </body>
 </html>
