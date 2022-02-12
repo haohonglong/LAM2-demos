@@ -209,7 +209,7 @@
                 'fn':function () {
                     var id = $(this).find('[data-id]').data('id');
                     var name = $(this).find('[data-id]').text();
-                    $("#mCSB_1_container").css("top", -this.offsetTop);
+                    $("#mCSB_2_container").css("top", -this.offsetTop);
                     getContent(id);
                     System.COOKIE.find('id',"1",function (index) {
                         if(-1 !== index){

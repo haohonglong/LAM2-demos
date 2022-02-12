@@ -46,7 +46,11 @@
     </div>
 </div>
 <script type="text/javascript">
-    //main
+    
+    // 自定义滚动条
+    LAM.mCustomScrollbar = function() {
+        $('.mCustomScrollbar').mCustomScrollbar();
+    };
     LAM.run([LAM,jQuery],function(LAM,$){
         'use strict';
         var System = this;
@@ -75,8 +79,8 @@
 
         $(function(){
 
-            // 自定义滚动条
-            $('.mCustomScrollbar').mCustomScrollbar();
+            
+            LAM.mCustomScrollbar();
 
 
 
