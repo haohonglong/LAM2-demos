@@ -98,7 +98,7 @@
                     // return System.timestamp();
                 },
                 'runtime':function (System) {
-                    System.COOKIE = new System.PowerCookie('guest');
+                    System.COOKIE = new System.Storage('guest', localStorage);
 
                 }
 
