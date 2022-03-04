@@ -34,7 +34,28 @@
 
 
 
-<#include repeat="0" tp-data="{}"  file="__COMPONENTS__/left_side_menu.html" />
+<#Block:begin id="left_side_menu" data="{'list':[{'id':0,'name':'name','child':[]}], level: 0}">
+    <%LAM.each(list,function(i){%>
+        <%if (0 == level){%>
+            <dl class="border dl-1">
+                <dd class="dd-1 <%if(0 === i){%>cur<%}%>">
+                    <div class="title" data-id="<%=this.id%>"><%=this.name%></div>
+                    <%if(System.isArray(this.child)){%><div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1"><i></i></div><%}%>
+                </dd>
+                <%if(System.isArray(this.child)){%>
+                    <%=LAM.Template.getBlock('left_side_menu',{list:this.child, level: 1})%>
+                <%}%>
+            </dl>
+        <%} else {%>
+            <dd class="dd-1" style="border-left: 1px solid #ccc;">
+                <div class="title" data-id="<%=this.id%>"><%=this.name%></div>
+                <%if(System.isArray(this.child)){%>
+                    <dl class="ml5"><%=LAM.Template.getBlock('left_side_menu',{list:this.child, level: 1})%></dl>
+                <%}%>
+            </dd>
+        <%}%>
+    <%});%>
+<#Block:end>
 
 <#Block:begin id="empower_menu" data="{'list':[{'id':0,'name':'name','child':[]}]}">
 <div class="sectionMenu-A1 sectionMenu-A1-3 j_sectionMenuA1 mCustomScrollbar" id="address_menu" data-mcs-theme="dark">
@@ -48,7 +69,7 @@
     <div class="btn">
         <a href="<%=this.url%>" target="_blank"><%=this.name%></a>
         <a href="__INDEX__url/edit&id=<%=this.id%>" target="_blank">修改</a>
-        <a data-type="delete" href="__INDEX__url/delete&id=<%=this.id%>">删除</a>
+        <a data-type="delete" href="javascript:void(0)" data-url="__INDEX__url/delete&id=<%=this.id%>">删除</a>
     </div>
 </div>
 <%});%>
@@ -169,25 +190,16 @@
 
 
 
-            $('[data-type="delete"]').on('click',function () {
-                alert(222)
-                var $btn = $(this).closest('[data-id]');
-                var id = $btn.data('id');
-                $.get('__SERVER__/url/delete',{
-                    'id':id
-                },function(data){
-                    if(data.status){
-                        alert(data.message);
-                        $btn.remove();
-                    }else{
-                        alert(data.message);
-                        System.each(data.errors,function (key,value) {
-                            alert(value)
-                        });
-                    }
-                },'json');
+            $(document).on('click', '[data-type="delete"]', function () {
+                var $this = $(this);
+                layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
+                  //do something
+                  System.redirect($this.data('url'));
+                  layer.close(index);
+                });
 
             });
+            
             System.COOKIE.find('id',"1",function (index) {
                 if(-1 !== index){
                     var sid = this.get(index).sid;

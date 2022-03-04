@@ -68,7 +68,6 @@
                 'id':id
             },function(data){
                 if(data.status){
-                    alert(data.message);
                     System.redirect(System.INDEX+'sorts/index');
                 }else{
                     alert(data.message);

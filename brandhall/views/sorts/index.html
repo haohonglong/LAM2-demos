@@ -30,7 +30,7 @@
 				<div class="btn mt5">
 			        <span><%=this.name%></span>
 			        <a href="__INDEX__sorts/edit&id=<%=this.id%>&pid=<%=this.pid%>" target="_blank">修改</a>
-			        <a data-type="delete" href="__INDEX__sorts/delete&id=<%=this.id%>">删除</a>
+			        <a data-type="delete" href="javascript:void(0)" data-url="__INDEX__sorts/delete&id=<%=this.id%>">删除</a>
 			    </div>
 				<ul class="ml10"><%=LAM.Template.getBlock('child',{list:this.child})%></ul>
 			</li>
@@ -39,7 +39,7 @@
 	    		<div class="btn">
 			        <span><%=this.name%></span>
 			        <a href="__INDEX__sorts/edit&id=<%=this.id%>&pid=<%=this.pid%>" target="_blank">修改</a>
-			        <a data-type="delete" href="__INDEX__sorts/delete&id=<%=this.id%>">删除</a>
+			        <a data-type="delete" href="javascript:void(0)" data-url="__INDEX__sorts/delete&id=<%=this.id%>">删除</a>
 			    </div>
 	    	</li>
 	    <%}%>
@@ -53,7 +53,7 @@
 	<div class="btn">
         <span><%=this.name%></span>
         <a href="__INDEX__sorts/edit&id=<%=this.id%>&pid=<%=this.pid%> target="_blank">修改</a>
-        <a data-type="delete" href="__INDEX__sorts/delete&id=<%=this.id%>">删除</a>
+        <a data-type="delete" href="javascript:void(0)" data-url="__INDEX__sorts/delete&id=<%=this.id%>">删除</a>
     </div>
 	<%if(System.isArray(this.child)){%>
 		<ul class="ml10"><%=LAM.Template.getBlock('child',{list:this.child})%></ul>
@@ -63,7 +63,21 @@
 <#Block:end>
 
 <#=block id="sorts_list" data="{'list':__DATA__}" />
+<script type="text/javascript">
+	LAM.run([jQuery],function($){
+		$(function(){
+			$(document).on('click', '[data-type="delete"]', function () {
+                var $this = $(this);
+                layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
+                  //do something
+                  System.redirect($this.data('url'));
+                  layer.close(index);
+                });
 
+            });
+		});
+	});
+</script>
 <style type="text/css">
     .sectionButton-B1 .btn{}
     .sectionButton-B1 .btn a{color:#fff;}

@@ -71,7 +71,6 @@
                 'id':id
             },function(data){
                 if(data.status){
-                    alert(data.message);
                     System.redirect(System.INDEX+'url/index');
                 }else{
                     alert(data.message);
