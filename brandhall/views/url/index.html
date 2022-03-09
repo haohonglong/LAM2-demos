@@ -39,7 +39,7 @@
         <%if (0 == level){%>
             <dl class="border dl-1">
                 <dd class="dd-1 <%if(0 === i){%>cur<%}%>">
-                    <div class="title" data-id="<%=this.id%>"><%=this.name%></div>
+                    <div class="title" v-on:click="getContent($event, <%=this.id%>)" data-id="<%=this.id%>"><%=this.name%></div>
                     <%if(System.isArray(this.child)){%><div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1"><i></i></div><%}%>
                 </dd>
                 <%if(System.isArray(this.child)){%>
@@ -48,7 +48,7 @@
             </dl>
         <%} else {%>
             <dd class="dd-1" style="border-left: 1px solid #ccc;">
-                <div class="title" data-id="<%=this.id%>"><%=this.name%></div>
+                <div class="title" v-on:click="getContent($event, <%=this.id%>)" data-id="<%=this.id%>"><%=this.name%></div>
                 <%if(System.isArray(this.child)){%>
                     <dl class="ml5"><%=LAM.Template.getBlock('left_side_menu',{list:this.child, level: 1})%></dl>
                 <%}%>
@@ -63,17 +63,7 @@
 </div>
 <#Block:end>
 
-<#Block:begin id="empower_button" data="{'list':[{'name':'name','url':'###'}]}">
-<%LAM.each(list,function(i){%>
-<div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="<%=this.id%>">
-    <div class="btn">
-        <a href="<%=this.url%>" target="_blank"><%=this.name%></a>
-        <a href="__INDEX__url/edit&id=<%=this.id%>" target="_blank">修改</a>
-        <a data-type="delete" href="javascript:void(0)" data-url="__INDEX__url/delete&id=<%=this.id%>">删除</a>
-    </div>
-</div>
-<%});%>
-<#Block:end>
+
 
 <#Block:begin id="empower_search" data="{}">
 <ul class="sectionTitle-A5 sectionTitle-A5-p0 clear mb10 sectionForm-A1 sectionForm-A1-1 sectionForm-A1-2 sectionFloat">
@@ -105,8 +95,14 @@
 
                     <#=block id="empower_search" />
                     <div class="sectionFloat sectionWrap-A17 mb10">
-                        <ul class="clear" id="address_content">
-                            <#=block id="empower_button" data="{'list':__DATA_LIST__.data}" />
+                        <ul class="clear">
+                            <li v-for="(item, index) in contents" class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big">
+                                <div class="btn">
+                                    <a :href="item.url" target="_blank">${ item.name }</a>
+                                    <a v-on:click="modify(item.id)">修改</a>
+                                    <a v-on:click="remove(item.id)" href="javascript:void(0)">删除</a>
+                                </div>
+                            </li>
                         </ul>
                     </div>
 
@@ -142,45 +138,61 @@
 
 
 
-        function getContent(id) {
-            cache.find('id',id,function (index,id) {
-                var _this = this;
-                var list=null;
-                if(-1 === index){
-                    var wait = layer.load();
-                    $.get('__SERVER__/url/index',{
-                        'sid':id
-                    },function(D){
-                        layer.close(wait);
-                        if(D.status){
-                            list = D.data;
-                            _this.add({list:list});
-                        }else{
-                            list = "没有数据";
-                        }
-
-                    },'json');
-                }else{
-                    list = this.get(index).list;
-                }
-                var name = $('#address_menu [data-id="'+id+'"]').text();
-                $("#crumb strong").text(name);
-
-                System.listen(function(){
-                    if(list){
-                        if(System.isString(list)){
-                            $('#address_content').html(list);
-                        }else{
-                            $('#address_content').html(System.Template.getBlock('empower_button',{list:list}));
-                        }
-
-                        return true;
-                    }
-                },1);
-
-            });
-        }
         $(function(){
+
+            LAM.GVue = new Vue({
+                'el': '#vue_url_index',
+                'delimiters': ['${','}'],
+                'data': {
+                    'list': __DATA__,
+                    'contents': []
+                },
+                'methods': {
+                    'getContent': function(e, sid){
+                        var vue = this;
+                        cache.find('id',sid,function (index,sid) {
+                            var _this = this;
+                            var list=null;
+                            if(-1 === index){
+                                var wait = layer.load();
+                                $.get('__SERVER__/url/index',{
+                                    'sid':sid
+                                },function(D){
+                                    layer.close(wait);
+                                    if(D.status){
+                                        list = D.data;
+                                        vue.contents = list;
+                                        _this.add({list:list});
+                                    }else{
+                                        list = "没有数据";
+                                    }
+
+                                },'json');
+                            }else{
+                                vue.contents = this.get(index).list;
+                            }
+                            var name = $('#address_menu [data-id="'+sid+'"]').text();
+                            $("#crumb strong").text(name);
+
+                        });
+                        
+                    },
+                    'remove': function(id){
+                        layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
+                          //do something
+                          System.redirect('__INDEX__url/delete&id=' + id);
+                          layer.close(index);
+                        });
+                    },
+                    'modify': function(id){
+                        System.redirect('__INDEX__url/edit&id=' + id);
+                    }
+                },
+                'watch': {
+
+                }
+            });
+
             $('.sectionTitle-A5 [type="checkbox"]').on('click',function () {
                 tools.checkboxSelectAll($('.sectionWrap-A17 input[type="checkbox"]'),this);
 
@@ -190,15 +202,6 @@
 
 
 
-            $(document).on('click', '[data-type="delete"]', function () {
-                var $this = $(this);
-                layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
-                  //do something
-                  System.redirect($this.data('url'));
-                  layer.close(index);
-                });
-
-            });
             
             System.COOKIE.find('id',"1",function (index) {
                 if(-1 !== index){
@@ -222,7 +225,6 @@
                     var id = $(this).find('[data-id]').data('id');
                     var name = $(this).find('[data-id]').text();
                     $("#mCSB_2_container").css("top", -this.offsetTop);
-                    getContent(id);
                     System.COOKIE.find('id',"1",function (index) {
                         if(-1 !== index){
                             var data = this.get(index);
@@ -232,14 +234,6 @@
                         }
                     });
                 }
-            }).run();
-            new System.Tab({
-                'list':$('.j_sectionMenuA2 .dd-2'),
-                'event':'click',
-                'class':'cur2',
-                'or':true
-
-
             }).run();
 
 
