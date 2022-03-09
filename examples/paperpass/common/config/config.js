@@ -68,7 +68,7 @@
                     ,'INDEX':'index.html?r='
                     ,'beta_2':'https://kjds.gezlife.com/beta_2'
                     ,'PLUGINS':_ROOT_+'/common/plugins'
-                    ,'PAPERPASSWWW':'http://www.paperpass.com'
+                    ,'PAPERPASSWWW':'https://www.paperpass.com'
                 };
             })(),
             'components':{

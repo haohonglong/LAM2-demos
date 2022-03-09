@@ -34,8 +34,7 @@
 </head>
 
 <body>
-<canvas id="box1" class="box" width="1000" height="450">box3</canvas>
-<canvas id="box2" class="box" width="1000" height="500">box3</canvas>
+<canvas id="box1" class="box" width="1600" height="1450">box3</canvas>
 
 <script type="text/javascript">
 
@@ -43,6 +42,8 @@
 		'use strict';
 		var System=this;
 		var dbox1,canvas;
+
+		var canvas = null;
 
 
 
@@ -52,7 +53,7 @@
         }
 
         function box() {
-            canvas=new System.Html5.Shape(document.getElementById("box2"));
+            // canvas=new System.Html5.Shape(document.getElementById("box2"));
 
             var colors = ['#ff9300','#c45100','#f60'];
             var strokeStyle = '#e5e5e5';
@@ -60,6 +61,7 @@
             function f1(canvas) {canvas.closePath().stroke().fill(colors[1]);}
             function f2(canvas) {canvas.closePath().stroke().fill(colors[2]);}
             canvas
+            	
 				.triangle({'strokeStyle':strokeStyle,'position':[100,0,50,100,150,100],'callback':f0})
 				.triangle({'strokeStyle':strokeStyle,'position':[50,100,150,100,100,200],'callback':f0})
 				.triangle({'strokeStyle':strokeStyle,'position':[50,100,0,200,100,200],'callback':f0})
@@ -85,16 +87,15 @@
 				.triangle({'strokeStyle':strokeStyle,'position':[150,100,250,100,200,200],'callback':f2})
 				.triangle({'strokeStyle':strokeStyle,'position':[250,100,200,200,300,200],'callback':f2})
 				.triangle({'strokeStyle':strokeStyle,'position':[250,100,300,200,350,100],'callback':f2})
-				.triangle({'strokeStyle':strokeStyle,'position':[350,100,300,200,400,200],'callback':f2})
-			;
-
+				.triangle({'strokeStyle':strokeStyle,'position':[350,100,300,200,400,200],'callback':f2});
 
 
         }
 
-		$(function () {
-            canvas=new System.Html5.Three(document.getElementById("box1"));
-            canvas.cube({
+        function box2(){
+        	canvas
+
+            .cube({
                 'positions':[
                     [200,100,100,200,300,200],
                     [200,100,300,200,400,100],
@@ -120,11 +121,47 @@
                         ,[500,200,600,200,600,300]
                     ],
 					'colors':['#c45100','#c45100','#ff9300']
-				})
+				});
+        }
 
-			;
+		$(function () {
+            canvas=new System.Html5.Three(document.getElementById("box1"));
+            
 
-            box();
+
+           	System.run(function(){
+           		let x = 1, y =0, z = 0;
+           		function animate () {
+           			requestAnimationFrame(animate);
+					canvas.clearRect(0, 0, canvas.theCanvas.width, canvas.theCanvas.height);
+           			z += 0.01
+           			
+           			canvas
+           				.save()
+			            .translate(++x, 0)
+			            ;
+
+			        box();
+			        canvas.restore();
+
+			        canvas
+           				.save()
+           				.scale(z, z)
+			            .translate(0, y++);
+			            
+           			box2();
+           			canvas.restore();
+           		}
+
+           		
+           		System.listen(function(){
+           			animate();
+			            return true;
+           		},1000/60);
+
+
+           	});
+            
 
             // new System.Drag(canvas.theCanvas,{'noText':true});
         });

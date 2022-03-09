@@ -1,7 +1,7 @@
 /**
  * 创建人：lhh
  * 创建日期:2015-3-20
- * 修改日期:2018-3-6
+ * 修改日期:2018-11-25
  * 功能：配置文件
  * 说明 : 这个文件要copy到项目里面可以修改 System.Config里的属性 和 GRN_LHH; 的值；
  *
@@ -49,33 +49,59 @@
         System.Config = Config = {
             'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
-            'LAM_ENV':'pro',
+            'LAM_ENV':'dev',
             'Public':(function(){
                 var ROOT = _ROOT_+'/demo';
                 return {
-                    'ROOT':ROOT
-                    ,'_ROOT_':_ROOT_
-                    ,'_COMMON':ROOT+'/common'
+                    'ROOT':_ROOT_
+                    ,'BACKEND':ROOT
                     ,'COMMON':_ROOT_+'/common'
                     ,'PLUGINS':_ROOT_+'/common/plugins'
+                    ,'MYCOMMON':ROOT+'/common'
+                    ,'CONF':ROOT+'/common/config'
+                    ,'CSS':ROOT+'/public/css'
+                    ,'SCRIPT':ROOT+'/public/js'
+                    ,'DATA':ROOT+'/data'
+                    ,'IMAGE':ROOT+'/public/images'
                     ,'CONTROLLERS':ROOT+'/controllers'
+                    ,'MODELS':ROOT+'/models'
                     ,'VIEWS':ROOT+'/views'
-                    ,'ERROR_404':ROOT+'/views/404.html'
-                    ,'CSS':ROOT+'/css'
-                    ,'JS':ROOT+'/js'
+                    ,'LAYOUTS':ROOT+'/views/layouts'
+                    ,'COMPONENTS':ROOT+'/views/components'
+                    ,'ERROR_404':ROOT+'/views/_404.html'
+                    ,'INDEX':'index.html?r='
                 };
             })(),
             'components':{
-                'routeName':'r',
+                'moduleId':'m',
+                'routerId':'r',
                 'defaultRoute':'demo/cube',
-                'routeRules':{}
+                'routeRules':{},
+                'routeAutoRun':true,
+                't':function (System) {
+                    // var id =0;
+                    // System.Moudle = System.createDict();
+                    // System.Object.g_key_id=function(){
+                    //     return System.timestamp()+Math.round(Math.random()*System.random)+'_'+id++;
+                    // };
+                    // System.listen(function(){
+                    //     if(System.isFunction(System.import)){
+                    //         return true;
+                    //     }
+                    // },1);
+                    // return System.timestamp();
+                },
+                'runtime':function (System) {
+                    System.COOKIE = new System.Storage('guest', localStorage);
+
+                }
+
             },
             'configure_cache':{
                 'type':sessionStorage,
                 'expires':0
             },
-            //hashcode 随机种子
-            'random':10000,
+            'hashLength':32,
             //定义模版标签
             'templat':{
                 'custom_attr':'[data-var=tpl]',
@@ -92,17 +118,20 @@
             'autoLoadFile':function(){
                 ROOT = this.Public.ROOT;
                 var PLUGINS = this.Public.PLUGINS;
+                var MYCOMMON = this.Public.MYCOMMON;
+                var CONTROLLERS = this.Public.CONTROLLERS;
                 var classPath=this.getClassPath();
                 return {
                     "jquery":classPath+'/jQuery/jquery.js'
-                    // ,classPath+'/build/base.min.js'
-
+                    // ,"build":classPath+'/build/base.min.js'
                     ,"Base":classPath+'/base/Base.class.js'
                     ,"Object":classPath+'/base/Object.class.js'
                     ,"Component":classPath+'/base/Component.class.js'
                     ,"Compiler":classPath+'/base/Compiler.class.js'
                     ,"Base64":classPath+'/base/Base64.class.js'
                     ,"Cache":classPath+'/base/Cache.class.js'
+                    ,"PowerCookie":classPath+'/base/PowerCookie.class.js'
+                    ,"Storage":classPath+'/base/Storage.class.js'
                     ,"HttpRequest":classPath+'/base/HttpRequest.class.js'
                     ,"Helper":classPath+'/base/Helper.class.js'
                     ,"Browser":classPath+'/base/Browser.class.js'
@@ -111,13 +140,10 @@
                     ,"View":classPath+'/base/View.class.js'
                     ,"Template":classPath+'/base/Template.class.js'
                     ,"Html":classPath+'/base/Html.class.js'
-
                     ,"Loader":classPath+'/base/Loader.class.js'
-                    ,"Storage":classPath+'/base/Storage.class.js'
                     ,"Controller":classPath+'/base/Controller.class.js'
+                    ,"Model":classPath+'/base/Model.class.js'
                     ,"Router":classPath+'/base/Router.class.js'
-                    // ,"layer":PLUGINS+'/layer-v3.1.1/layer/layer.js'
-                    ,"vue":PLUGINS+'/vue/vue.js'
                 };
             },
 
@@ -130,8 +156,8 @@
                 //true : document.createElement(); false :document.write();
                 'create':false,
                 //加载后是否要移除添加过的script 节点
-                'remove':true,
-                'append':'befor',
+                'remove':false,
+                'append':'after',
                 'default':{
                     'script':{
                         'Attribute':{
@@ -165,10 +191,8 @@
                     var k;
                     var fragment;
                     node=document.createElement(tag);
-
-                    for(k in D){
+                    for(k in D)
                         node[k] = D[k];
-                    }
 
                     if(!Config.render.fragment){
                         Config.render.fragment = document.createDocumentFragment();
@@ -201,7 +225,6 @@
                 return this.vendorPath;
             }
         };
-
         return System;
     });
 
