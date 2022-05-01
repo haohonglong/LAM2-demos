@@ -48,12 +48,15 @@
             'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
-            'Public':{
-                 'ROOT':_ROOT_
-                ,'ROUTE':''
-                ,'COMMON':_ROOT_+'/common'
-                ,'PLUGINS':_ROOT_+'/common/plugins'
-                ,'Moudle':function(){return LAMJS.createDict();}
+            'Public':function(System){
+                ROOT = _ROOT_;
+             return {
+                     'ROOT':_ROOT_
+                    ,'ROUTE':''
+                    ,'COMMON':_ROOT_+'/common'
+                    ,'PLUGINS':_ROOT_+'/common/plugins'
+                    ,'Moudle':function(){return LAMJS.createDict();}
+                };
             },
             'components':{
                 'routeName':'r',
@@ -73,32 +76,13 @@
                 ,'beforeSend':function(){}
             },
             //配置基础文件
-            'autoLoadFile':function(){
-                ROOT = this.Public.ROOT;
+            'autoLoadFile':function(System){
                 var classPath=this.getClassPath();
-                return [
-                    classPath+'/jQuery/jquery.js'
-                    ,classPath+'/build/base.min.js'
-
-                    // ,classPath+'/base/Base.class.js'
-                    // ,classPath+'/base/Object.class.js'
-                    // ,classPath+'/base/Component.class.js'
-                    // ,classPath+'/base/Compiler.class.js'
-                    // ,classPath+'/base/Base64.class.js'
-                    // ,classPath+'/base/Cache.class.js'
-                    // ,classPath+'/base/HttpRequest.class.js'
-                    // ,classPath+'/base/Helper.class.js'
-                    // ,classPath+'/base/Browser.class.js'
-                    // ,classPath+'/base/Event.class.js'
-                    // ,classPath+'/base/Dom.class.js'
-                    // ,classPath+'/base/View.class.js'
-                    // ,classPath+'/base/Template.class.js'
-                    // ,classPath+'/base/Html.class.js'
-                    // ,classPath+'/base/Loader.class.js'
-
-                    ,classPath+'/base/Controller.class.js'
-                    ,classPath+'/base/Css.class.js'
-                ];
+                return {
+                    files: [
+                        {'name': 'Css', 'path': classPath+'/base/Css.class.js'}
+                    ]
+                };
             },
             //标签的渲染方式
             'render':{

@@ -50,8 +50,9 @@
             'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
-            'Public':(function(){
-                var ROOT = _ROOT_+'/brandhall';
+            'Public':function(System){
+                
+                ROOT = _ROOT_+'/brandhall';
                 return {
                     'ROOT':_ROOT_
                     ,'BACKEND':ROOT
@@ -71,9 +72,12 @@
                     ,'ERROR_404':ROOT+'/views/_404.html'
                     ,'INDEX':'index.html?r='
                     ,'SERVER':'http://yaf.local'
+                    ,'CONFIGURATION_PATH': ROOT+'/common/config/config.js'
+
                 };
-            })(),
+            },
             'components':{
+                'excluded': [],
                 'moduleId':'m',
                 'routerId':'r',
                 'defaultRoute':'room/list',
@@ -95,7 +99,7 @@
                     //         return true;
                     //     }
                     // },1);
-                    // return System.timestamp();
+                    // return System.md5(System.timestamp());
                 },
                 'runtime':function (System) {
                     System.COOKIE = new System.Storage('guest', localStorage);
@@ -121,39 +125,10 @@
                 ,'beforeSend':function(){}
             },
             //配置基础文件
-            'autoLoadFile':function(){
-                ROOT = this.Public.ROOT;
-                var PLUGINS = this.Public.PLUGINS;
-                var MYCOMMON = this.Public.MYCOMMON;
-                var CONTROLLERS = this.Public.CONTROLLERS;
-                var classPath=this.getClassPath();
+            'autoLoadFile':function(System){
+                var PLUGINS = System.PLUGINS;
                 return {
-                    "jquery":classPath+'/jQuery/jquery.js'
-                    // ,"build":classPath+'/build/base.min.js'
-                    ,"Base":classPath+'/base/Base.class.js'
-                    ,"Object":classPath+'/base/Object.class.js'
-                    ,"Component":classPath+'/base/Component.class.js'
-                    ,"Compiler":classPath+'/base/Compiler.class.js'
-                    ,"Base64":classPath+'/base/Base64.class.js'
-                    ,"Cache":classPath+'/base/Cache.class.js'
-                    ,"PowerCookie":classPath+'/base/PowerCookie.class.js'
-                    ,"Storage":classPath+'/base/Storage.class.js'
-                    ,"HttpRequest":classPath+'/base/HttpRequest.class.js'
-                    ,"Helper":classPath+'/base/Helper.class.js'
-                    ,"Browser":classPath+'/base/Browser.class.js'
-                    ,"Event":classPath+'/base/Event.class.js'
-                    ,"Dom":classPath+'/base/Dom.class.js'
-                    ,"View":classPath+'/base/View.class.js'
-                    ,"Template":classPath+'/base/Template.class.js'
-                    ,"Html":classPath+'/base/Html.class.js'
-                    ,"Loader":classPath+'/base/Loader.class.js'
-                    ,"Controller":classPath+'/base/Controller.class.js'
-                    ,"Model":classPath+'/base/Model.class.js'
-                    ,"Router":classPath+'/base/Router.class.js'
-
-                    ,"vue":PLUGINS+'/vue/vue.js'
-                    // ,"vue": 'https://cdn.jsdelivr.net/npm/vue@2.6.12'
-                    ,"layer":PLUGINS+'/layer-v3.1.1/layer/layer.js'
+                    files: []
                 };
             },
 

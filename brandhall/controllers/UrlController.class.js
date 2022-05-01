@@ -27,7 +27,7 @@
             this.cookie =System.CookieModel.get();
             this.content = {
                 'user':{
-                    'name':'name',
+                    'name':'李强',
                     'age':28
                 }
 

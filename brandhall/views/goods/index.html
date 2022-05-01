@@ -12,196 +12,165 @@
 {'name':'商品列表'}
 ]}">
 <#endBlock>
-<#Block:begin id="theader" data="{}">
-<div class="sectionBorder-A3">
-    <div class="sectionTable-B1 sectionTable-B1-5">
-        <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
-            <ul class="clear" style="font-weight: bold;">
-                <li class="col-8">商品id</li>
-                <li class="col-1">店名</li>
-                <li class="col-1">商品名称</li>
-                <li class="col-7">价格</li>
-                <li class="col-7">日期</li>
-                <li class="col-7">操作</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<#Block:end>
 
-<#Block:begin id="bill" data="{'name':'','value':'','style':''}">
-<div class="sectionBorder-A3 mb1">
-    <div class="sectionTable-B1 sectionTable-B1-5">
-        <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
-            <ul class="clear">
-                <li class="col-1" style="font-weight: bold;"><%=name%></li>
-                <li class="col-1 pl5 <%=style%>" style="width:75%;text-align: left;"><%=value%></li>
-            </ul>
+
+<#Block:begin id="bill">
+<div>
+    <div class="sectionBorder-A3 mb1">
+        <div class="sectionTable-B1 sectionTable-B1-5">
+            <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+                <ul class="clear">
+                    <li class="col-1" style="font-weight: bold;">${item.name}</li>
+                    <li :class="'col-1 pl5 ' + item.style" style="width:75%;text-align: left;">${item.value}</li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
 <#Block:end>
 
 
-<#Block:begin id="table_" data="{
-    'lis':[],
-    'sectionBorder':{
-        'class':'mb1',
-        'style':''
-    }
-}">
-<div class="sectionBorder-A3 <%=sectionBorder.class%>" style="<%=sectionBorder.style%>">
-    <div class="sectionTable-B1 sectionTable-B1-5">
-        <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
-            <ul class="clear">
-                <%LAM.each(lis,function(i){%>
-                <li class="<%=this.class%>" style="<%=this.style%>"><%=this.name%></li>
-                <%});%>
-            </ul>
+
+
+<#Block:begin id="table">
+<div>
+    <div v-for="(v1, i) in list" class="sectionBorder-A3 mt1" v-bind:style="isset(v1.bill_id) ? 'padding:1px;' : ''">
+        <div class="sectionTable-B1 sectionTable-B1-5">
+            <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+                <ul class="clear">
+                    <div v-if="isset(v1.bill_id)">
+                            <li v-if="v1.bill_id != 0" class="first col-7" style="width:25%;">
+                                <bill-component v-for="(item, key) in getBill(
+                                                                        v1.bill_id,
+                                                                        v1.shop_name,
+                                                                        v1.total_price,
+                                                                        v1.discount,
+                                                                        v1.create_at)" :key="key" :item="item"></bill-component>
+                            </li>
+                            <li v-else class="first col-7" style="width:25%;font-weight: bold;">这些商品没建立订单</li>
+
+                        <li class="first col-1" style="width:75%;">
+                            <div class="sectionBorder-A3">
+                                <div class="sectionTable-B1 sectionTable-B1-5">
+                                    <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+                                        <ul class="clear" style="font-weight: bold;">
+                                            <li class="col-8">商品id</li>
+                                            <li class="col-1">店名</li>
+                                            <li class="col-1">商品名称</li>
+                                            <li class="col-7">价格</li>
+                                            <li class="col-7">日期</li>
+                                            <li class="col-7">操作</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <table-component :list="v1.childs"></table-component>
+
+                        </li>
+                    </div>
+                    <div v-else>
+                        <li class="col-8">${v1.id}</li>
+                        <li class="col-1">${v1.shop_name}</li>
+                        <li class="col-1">${v1.name}</li>
+                        <li class="col-7 color-red">${v1.single_price}</li>
+                        <li class="col-7">${v1.create_at}</li>
+                        <li class="col-7">删除</li>
+                    </div>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
 <#Block:end>
 
-<#Block:begin id="table" data="{'list':null}">
 
-<%LAM.each(list,function(i){%>
-<!--Del:begin-->
-<%
-    var list = [];
-    if(LAM.isset(this.bill_id)){
-        if(this.bill_id != 0){
-            var arr = [
-                [
-                    {"name":"订单号","class":"col-1","style":"font-weight: bold;"},
-                    {"name":this.bill_id,"class":"col-1 pl5","style":"width:75%;text-align:left;"}
-                ],
-                [
-                    {"name":"店名","class":"col-1","style":"font-weight: bold;"},
-                    {"name":this.shop_name,"class":"col-1 pl5","style":"width:75%;text-align:left;"}
-                ],
-                [
-                    {"name":"总价","class":"col-1","style":"font-weight: bold;"},
-                    {"name":this.total_price,"class":"col-1 pl5 color-red","style":"width:75%;text-align:left;"}
-                ],
-                [
-                    {"name":"折扣","class":"col-1","style":"font-weight: bold;"},
-                    {"name":this.discount,"class":"col-1 pl5 color-yellow","style":"width:75%;text-align:left;"}
-                ],
-                [
-                    {"name":"日期","class":"col-1","style":"font-weight: bold;"},
-                    {"name":this.create_at,"class":"col-1 pl5","style":"width:75%;text-align:left;"}
-                ]
-            ];
-            var lis = [];
-            LAM.each(arr,function(i){
-                lis.push(LAM.Template.getBlock("table_",{'lis':this}));
-            });
-            list.push({"class":"first col-7","style":"width:25%;","name":lis.join("")});
-        }else {
-            list.push({"class":"first col-7","style":"width:25%;font-weight: bold;","name":"这些商品没建立订单"});
-        }
-
-        var content = LAM.Template.getBlock("theader") + LAM.Template.getBlock("table",{"list":this.childs});
-
-        list.push({"class":"first col-1","style":"width:75%;","name":content});
-    }else {
-        list = [
-            {"name":this.id,"class":"col-8"},
-            {"name":this.shop_name,"class":"col-1"},
-            {"name":this.name,"class":"col-1"},
-            {"name":this.single_price,"class":"col-7 color-red"},
-            {"name":this.create_at,"class":"col-1"}
-        ];
-    }
-%>
-<%=LAM.Template.getBlock("table_",{
-    'lis':list,
-    'sectionBorder':{
-        'class':'mb1',
-        'style':LAM.isset(this.bill_id) ? 'padding:1px;' : ''
-    }
-})%>
-
-<!--Del:end-->
-
-<div class="sectionBorder-A3 mt1" <%if(LAM.isset(this.bill_id)){%>style="padding:1px;"<%}%>>
-    <div class="sectionTable-B1 sectionTable-B1-5">
-        <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
-            <ul class="clear">
-                <%if(LAM.isset(this.bill_id)){%>
-
-                <%if(this.bill_id != 0){%>
-                    <li class="first col-7" style="width:25%;">
-                        <%
-                        var arr = [
-                        {"name":"订单号","value":this.bill_id},
-                        {"name":"店名","value":this.shop_name},
-                        {"name":"合计","value":this.total_price,"style":"color-red"},
-                        {"name":"折扣","value":this.discount,"style":"color-green"},
-                        {"name":"日期","value":this.create_at}
-                        ];
-                        %>
-                        <%LAM.each(arr,function(){%>
-                        <%=LAM.Template.getBlock("bill",this)%>
-                        <%});%>
-                    </li>
-                <%}else {%>
-                    <li class="first col-7" style="width:25%;font-weight: bold;">这些商品没建立订单</li>
-                <%}%>
-
-                    <li class="first col-1" style="width:75%;">
-                        <%=LAM.Template.getBlock("theader")%>
-                        <%=LAM.Template.getBlock("table",{"list":this.childs})%>
-                    </li>
-                <%}else{%>
-                    <li class="col-8"><%=this.id%></li>
-                    <li class="col-1"><%=this.shop_name%></li>
-                    <li class="col-1"><%=this.name%></li>
-                    <li class="col-7 color-red"><%=this.single_price%></li>
-                    <li class="col-7"><%=this.create_at%></li>
-                    <li class="col-7">删除</li>
-                <%}%>
-            </ul>
+<div id="app">
+    <div class="sectionBorder-A3">
+        <div class="sectionTable-B1 sectionTable-B1-5">
+            <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+                <ul class="clear" style="font-weight: bold;">
+                    <li class="first col-1" style="width:25%;">订单信息</li>
+                    <li class="col-2" style="width:75%;">商品信息</li>
+                </ul>
+            </div>
         </div>
     </div>
+    <table-component :list="list"></table-component>
 </div>
-<%});%>
-<#Block:end>
 
-<#Block:begin id="goods_list" data="{}">
-<div class="sectionBorder-A3">
-    <div class="sectionTable-B1 sectionTable-B1-5">
-        <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
-            <ul class="clear" style="font-weight: bold;">
-                <li class="first col-1" style="width:25%;">订单信息</li>
-                <li class="col-2" style="width:75%;">商品信息</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<%=LAM.Template.getBlock("table",{"list":__DATA__})%>
-
-<#Block:end>
-<#=block id="goods_list" />
 
 
 <script type="text/javascript">
-    LAM.run([jQuery],function ($) {
+    var vm = LAM.run([jQuery],function ($) {
         'use strict';
         var System = this;
+        var delimiters = ['${', '}'];
+
+        var billComponent = {
+              name: 'billComponent',
+              props: {
+                'item': Object
+              },
+              delimiters: delimiters,
+              data: function () {
+                return {
+                }
+              },
+              methods: {
+              },
+              template: System.Template.getBlock('bill')
+            };
 
 
-        // $.get('http://blog.admin/link-address/index',{
-        //     'sorts_id':2
-        // },function(D){
-        //     var list = "没有数据";
-        //     if(D.status){
-        //         list = D.data;
-        //     }
-        //     console.log(list)
-        //
-        // },'json');
+        var tableComponent = {
+              name: 'tableComponent',
+              props: {
+                'list': Array
+              },
+              delimiters: delimiters,
+              data: function () {
+                return {
+                }
+              },
+              'components': {
+                 'bill-component': billComponent
+              },
+              methods: {
+                'isset': function(value) {
+                    return System.isset(value);
+                },
+                'getBill': function(bill_id, shop_name, total_price, discount, create_at) {
+                    return [
+                            {"name":"订单号","value": bill_id, "style": ""},
+                            {"name":"店名","value": shop_name, "style": ""},
+                            {"name":"合计","value": total_price,"style":"color-red"},
+                            {"name":"折扣","value": discount,"style":"color-green"},
+                            {"name":"日期","value": create_at, "style": ""}
+                            ];
+                }
+              },
+              template: System.Template.getBlock('table')
+            };
+
+
+        var vm = new Vue({
+                'el': '#app',
+                'delimiters': delimiters,
+                'data': {
+                    'list': __DATA__
+                },
+                'components': {
+                    'table-component': tableComponent
+                },
+                'methods': {
+                    'isset': function(value) {
+                        return System.isset(value);
+                    }
+                },
+                'watch': {}
+            });
+
+            return vm;
 
     });
 </script>

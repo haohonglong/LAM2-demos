@@ -46,25 +46,28 @@
         window[namespace] = System = factory(System);
     })(function(System){
         'use strict';
-        var ROOT = _ROOT_ +'/examples/weixin_common';
         System.Config = Config = {
             'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
-            'Public':{
-                'ROOT':ROOT
-                ,'COMMON':_ROOT_+'/common'
-                ,'PLUGINS':_ROOT_+'/common/plugins'
-                ,'MYCOMMON':ROOT+'/common'
-                ,'CSS':ROOT+'/public/css'
-                ,'SCRIPT':ROOT+'/public/js'
-                ,'IMAGE':ROOT+'/public/images'
-                ,'CONTROLLERS':ROOT+'/controllers'
-                ,'VIEWS':ROOT+'/views'
-                ,'LAYOUTS':ROOT+'/views/layouts'
-                ,'COMPONENTS':ROOT+'/views/components'
-                ,'ERROR_404':ROOT+'/views/_404.html'
-                ,'INDEX':'index.html?r='
+            'Public':function(System){
+                ROOT = _ROOT_ +'/examples/weixin_common';
+                return {
+                    'ROOT':ROOT
+                    ,'COMMON':_ROOT_+'/common'
+                    ,'PLUGINS':_ROOT_+'/common/plugins'
+                    ,'MYCOMMON':ROOT+'/common'
+                    ,'CSS':ROOT+'/public/css'
+                    ,'SCRIPT':ROOT+'/public/js'
+                    ,'IMAGE':ROOT+'/public/images'
+                    ,'CONTROLLERS':ROOT+'/controllers'
+                    ,'VIEWS':ROOT+'/views'
+                    ,'LAYOUTS':ROOT+'/views/layouts'
+                    ,'COMPONENTS':ROOT+'/views/components'
+                    ,'ERROR_404':ROOT+'/views/_404.html'
+                    ,'INDEX':'index.html?r='
+                    ,'CONFIGURATION_PATH': ROOT+'/common/config/config.js',
+                };
             },
             'components':{
                 'routeName':'r',
@@ -90,33 +93,11 @@
                 ,'beforeSend':function(){}
             },
             //配置基础文件
-            'autoLoadFile':function(){
-                ROOT = this.Public.ROOT;
-                var classPath=this.getClassPath();
+            'autoLoadFile':function(System){
+                ROOT = System.ROOT;
+                var PLUGINS = System.PLUGINS;
                 return {
-                    "jquery":classPath+'/jQuery/jquery.js'
-                    // ,classPath+'/build/base.min.js'
-
-                    ,"Base":classPath+'/base/Base.class.js'
-                    ,"Object":classPath+'/base/Object.class.js'
-                    ,"Component":classPath+'/base/Component.class.js'
-                    ,"Compiler":classPath+'/base/Compiler.class.js'
-                    ,"Base64":classPath+'/base/Base64.class.js'
-                    ,"Cache":classPath+'/base/Cache.class.js'
-                    ,"HttpRequest":classPath+'/base/HttpRequest.class.js'
-                    ,"Helper":classPath+'/base/Helper.class.js'
-                    ,"Browser":classPath+'/base/Browser.class.js'
-                    ,"Event":classPath+'/base/Event.class.js'
-                    ,"Dom":classPath+'/base/Dom.class.js'
-                    ,"View":classPath+'/base/View.class.js'
-                    ,"Template":classPath+'/base/Template.class.js'
-                    ,"Html":classPath+'/base/Html.class.js'
-
-                    ,"Loader":classPath+'/base/Loader.class.js'
-                    ,"Storage":classPath+'/base/Storage.class.js'
-                    ,"Controller":classPath+'/base/Controller.class.js'
-                    ,"Router":classPath+'/base/Router.class.js'
-                    // ,"layer":PLUGINS+'/layer-v3.1.1/layer/layer.js'
+                    files: []
                 };
             },
             //标签的渲染方式

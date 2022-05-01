@@ -50,8 +50,8 @@
             'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
-            'Public':(function(){
-                var ROOT = _ROOT_ + "/GFsystem";
+            'Public':function(System){
+                ROOT = _ROOT_ + "/GFsystem";
                 return {
                     'ROOT':ROOT
                     ,'COMMON':_ROOT_+'/common'
@@ -72,8 +72,9 @@
                     ,'JS':ROOT+'/public/js'
                     ,'IMAGE':ROOT+'/public/images'
                     ,'FONTS':ROOT+'/public/fonts'
+                    ,'CONFIGURATION_PATH': ROOT+'/common/config/config.js',
                 };
-            })(),
+            },
             'components':{
                 'moduleId':'m',
                 'routerId':'r',
@@ -120,35 +121,10 @@
                 ,'beforeSend':function(){}
             },
             //配置基础文件
-            'autoLoadFile':function(){
-                ROOT = this.Public.ROOT;
-                var PLUGINS = this.Public.PLUGINS;
-                var MYCOMMON = this.Public.MYCOMMON;
-                var CONTROLLERS = this.Public.CONTROLLERS;
-                var classPath=this.getClassPath();
+            'autoLoadFile':function(System){
+                var PLUGINS = System.PLUGINS;
                 return {
-                    "jquery":classPath+'/jQuery/jquery.js'
-                    // ,"build":classPath+'/build/base.min.js'
-                    ,"Base":classPath+'/base/Base.class.js'
-                    ,"Object":classPath+'/base/Object.class.js'
-                    ,"Component":classPath+'/base/Component.class.js'
-                    ,"Compiler":classPath+'/base/Compiler.class.js'
-                    ,"Base64":classPath+'/base/Base64.class.js'
-                    ,"Cache":classPath+'/base/Cache.class.js'
-                    ,"PowerCookie":classPath+'/base/PowerCookie.class.js'
-                    ,"Storage":classPath+'/base/Storage.class.js'
-                    ,"HttpRequest":classPath+'/base/HttpRequest.class.js'
-                    ,"Helper":classPath+'/base/Helper.class.js'
-                    ,"Browser":classPath+'/base/Browser.class.js'
-                    ,"Event":classPath+'/base/Event.class.js'
-                    ,"Dom":classPath+'/base/Dom.class.js'
-                    ,"View":classPath+'/base/View.class.js'
-                    ,"Template":classPath+'/base/Template.class.js'
-                    ,"Html":classPath+'/base/Html.class.js'
-                    ,"Loader":classPath+'/base/Loader.class.js'
-                    ,"Controller":classPath+'/base/Controller.class.js'
-                    ,"Router":classPath+'/base/Router.class.js'
-
+                    files: []
                 };
             },
 

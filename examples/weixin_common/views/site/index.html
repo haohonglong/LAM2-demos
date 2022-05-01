@@ -1,30 +1,18 @@
+<#define __PLUGINS__="{{LAM.PLUGINS}}" />
+<#define __SCRIPT__="{{LAM.SCRIPT}}" />
+<#define __ROOT__="{{LAM.ROOT}}" />
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__ROOT__/json/data_3.json" /> #end#
+<#import type="css" path="/bootstrap/bootstrap" root="__PLUGINS__" befor="1" />
+<#import path="/vue/vue.js,/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
+<#import path="/Pagination.class" root="__SCRIPT__" write="1" befor="1" />
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}}</title>
-    <script type="text/javascript">
-        LAM.run(function(){
-            'use strict';
-            var System=this;
-            System.Loader
-                    .load({
-                        'baseUrl':System.PLUGINS,
-                        'suffix':'.css',
-                        'rel':'stylesheet',
-                        'css':[
-                            '/bootstrap/bootstrap'
-                        ]
-                    }).print();
-
-            System
-                    .import(['/artTemplate/artTemplate'],System.PLUGINS)
-                    .import(['/Pagination.class'],System.SCRIPT)
-            ;
-        });
-    </script>
     <style type="text/css">
+        .pagination li a{ cursor: pointer; }
         .pagination li a.active{
             color: #2a6496;
             background-color: #eee;
@@ -33,102 +21,103 @@
     </style>
 </head>
 <body class="container-fluid">
+<div id="app">
+    
+    <ul>
+        <li class="list-group-item active" style="margin-top: 10px;">${title} </li>
+        <li v-for="item in list" class="list-group-item">${item.code} . ${item.name}</li>
+    </ul>
 
-<ul class="list-group"></ul>
-<nav aria-label="Page navigation">
-    <ul class="pagination"></ul>
-</nav>
+    <nav>
+        <ul class="pagination">
+            <li v-if="current_num > 1">
+                <a v-on:click="previous()">
+                    <span>&laquo;</span>
+                </a>
+            </li>
 
-<script type="text/template" id="list:tp">
-    <li class="list-group-item active" style="margin-top: 10px;"><%=title%></li>
-    <% for(var i=0,length =data.length; i < end && start < length;i++,start++){%>
-    <li class="list-group-item"><%=data[start]['code']%> .<%=data[start]['name']%></li>
-    <% }%>
-</script>
-<script type="text/template" id="pagination:tp">
-    <li>
-        <a href="javascript:void(0);" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-        </a>
-    </li>
-    <% for(var i=1;i<= num;i++){%>
-    <% if(1 === i){%>
-    <li><a href="javascript:void(0);" aria-label="li" class="active" data-num="<%=i%>"><%=i%></a></li>
-    <% }else{%>
-    <li><a href="javascript:void(0);" aria-label="li" data-num="<%=i%>"><%=i%></a></li>
-    <% }%>
-    <% }%>
-    <li>
-        <a href="javascript:void(0);" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-        </a>
-    </li>
-</script>
+            <li v-for="i in pagination_num"><a v-on:click="getNum(i)" v-bind:class="{ active: (current_num === i) }">${i}</a></li>
+
+            <li v-if="current_num != pagination_num">
+                <a v-on:click="next()">
+                    <span>&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
 </body>
 <script type="text/javascript">
-    (function($){
-        var DATA =[];
-        var TOTAL_NUM= 0,row_num= 20,pagination_num= 0,current_num= 1,title="";
-        function init(){
-            TOTAL_NUM = DATA.length;
-            pagination_num = Math.ceil(TOTAL_NUM / row_num);
-        }
-        function setList(num){//设置数据
-            var start = (num-1) * row_num;
-//            console.log(start,'---',row_num);
-            $('.list-group').html(template('list:tp',{
-                'data':DATA,
-                'title':title,
-                'end':row_num,
-                'start':start
-            }));
-        }
-        function setPagination(num){//设置分页
-            $('.pagination').html(template('pagination:tp',{'num':num}));
-            setList(current_num);
-        }
+    var vm = LAM.run([jQuery],function($){
+        'use strict';
+        var System = this;
 
-        function removeClass($current){
-//            console.log(current_num);
-            $('[aria-label="li"]').removeClass('active');
-            if($current){
-                $current.eq(current_num-1).addClass('active');
+        var data = __DATA__.data;
+        var len = data.length;
+
+        var delimiters = ['${', '}'];
+        var vm = new Vue({
+          el: '#app',
+          delimiters: delimiters,
+          data: function(){
+            return {
+                title : "", 
+                list : [],
+                data_len: len,
+                row_num : 100,
+                pagination_num : 0,
+                current_num : 0,
+                start : 0
+            };
+          },
+          created: function(){
+            this.title = __DATA__.title;
+            this.pagination_num = Math.ceil(len / this.row_num);
+            this.current_num = 1;
+          },
+          methods: {
+            getData : function() {
+                this.list = [];
+                this.start = (this.current_num-1) * this.row_num;
+                var len_move = (this.start + this.row_num)
+                var end = len_move < len ? len_move  : len;
+                for(var i = this.start; i < end; i++){
+                    this.list.push(data[i]);
+                }
+            },
+            previous : function(){
+                this.current_num--;
+                if(!(this.current_num > 0)){
+                    this.current_num = 1;
+                }
+            },
+            next : function(){
+                this.current_num++;
+                if(!(this.current_num < this.pagination_num)){
+                    this.current_num = this.pagination_num;
+                }
+            },
+            getNum : function(n){
+                this.start = (n-1) * this.row_num
+                this.current_num = n;
             }
-        }
-        $.get("{{LAM.ROOT}}/json/data_3.json",function(D){//初始化数据
-            DATA  = D.data;
-            title = D.title;
-            init();
-            $(function(){
-                setPagination(pagination_num);
-                $('[aria-label="Previous"]').on('click',function(){
-                    current_num = current_num-1;
-                    if(!(current_num > 0)){
-                        current_num = 1;
-                    }
-                    removeClass($('[aria-label="li"]'));
-                    setList(current_num);
-                });
-                $('[aria-label="Next"]').on('click',function(){
-                    current_num = current_num+1;
-                    if(!(current_num < pagination_num)){
-                        current_num = pagination_num;
-                    }
-                    removeClass($('[aria-label="li"]'));
-                    setList(current_num);
+          },
+          watch: {
+            current_num : function(){this.getData();}
+          }
+        });
 
-                });
-                $('[aria-label="li"]').on('click',function(){
-                    removeClass();
-                    current_num = parseInt($(this).data('num'));
-                    setList(current_num);
+        return vm;
 
-                });
 
-            });
-        },'json');
-    })(jQuery);
+        
+    });
+
+
+
+
+
 
 </script>
 </html>

@@ -50,8 +50,8 @@
             'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
-            'Public':(function(){
-                var ROOT = _ROOT_+'/project';
+            'Public':function(System){
+                ROOT = _ROOT_+'/project';
                 return {
                     'ROOT':ROOT
                     ,'_ROOT_':_ROOT_
@@ -63,8 +63,9 @@
                     ,'ERROR_404':ROOT+'/views/404.html'
                     ,'CSS':ROOT+'/css'
                     ,'JS':ROOT+'/js'
+                    ,'CONFIGURATION_PATH': ROOT+'/common/config/config.js',
                 };
-            })(),
+            },
             'components':{
                 'moduleId':'m',
                 'routerId':'r',
@@ -90,35 +91,12 @@
                 ,'beforeSend':function(){}
             },
             //配置基础文件
-            'autoLoadFile':function(){
-                ROOT = this.Public.ROOT;
-                var PLUGINS = this.Public.PLUGINS;
-                var classPath=this.getClassPath();
+            'autoLoadFile':function(System){
+                var PLUGINS = System.PLUGINS;
                 return {
-                    "jquery":classPath+'/jQuery/jquery.js'
-                    // ,classPath+'/build/base.min.js'
-
-                    ,"Base":classPath+'/base/Base.class.js'
-                    ,"Object":classPath+'/base/Object.class.js'
-                    ,"Component":classPath+'/base/Component.class.js'
-                    ,"Compiler":classPath+'/base/Compiler.class.js'
-                    ,"Base64":classPath+'/base/Base64.class.js'
-                    ,"Cache":classPath+'/base/Cache.class.js'
-                    ,"HttpRequest":classPath+'/base/HttpRequest.class.js'
-                    ,"Helper":classPath+'/base/Helper.class.js'
-                    ,"Browser":classPath+'/base/Browser.class.js'
-                    ,"Event":classPath+'/base/Event.class.js'
-                    ,"Dom":classPath+'/base/Dom.class.js'
-                    ,"View":classPath+'/base/View.class.js'
-                    ,"Template":classPath+'/base/Template.class.js'
-                    ,"Html":classPath+'/base/Html.class.js'
-
-                    ,"Loader":classPath+'/base/Loader.class.js'
-                    ,"Storage":classPath+'/base/Storage.class.js'
-                    ,"Controller":classPath+'/base/Controller.class.js'
-                    ,"Router":classPath+'/base/Router.class.js'
-                    // ,"layer":PLUGINS+'/layer-v3.1.1/layer/layer.js'
-                    ,"vue":PLUGINS+'/vue/vue.js'
+                    files: [
+                        {'name': 'vue', 'path': PLUGINS+'/vue/vue.js'}
+                    ]
                 };
             },
 

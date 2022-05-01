@@ -48,15 +48,18 @@
             'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
-            'Public':{
-                'ROOT':_ROOT_
-                ,'COMMON':_ROOT_+'/common'
-                ,'VIEWS':_ROOT_+'/views'
-                ,'PLUGINS':_ROOT_+'/plugins'
-                ,'CSS':_ROOT_+'/css'
-                ,'JS':_ROOT_+'/js'
-                ,'IMAGE':_ROOT_+'/images'
-                ,'Moudle':function(){return LAMJS.createDict();}
+            'Public':function(System){
+                return {
+                    'ROOT':_ROOT_
+                    ,'COMMON':_ROOT_+'/common'
+                    ,'VIEWS':_ROOT_+'/views'
+                    ,'PLUGINS':_ROOT_+'/plugins'
+                    ,'CSS':_ROOT_+'/css'
+                    ,'JS':_ROOT_+'/js'
+                    ,'IMAGE':_ROOT_+'/images'
+                    ,'Moudle':function(){return LAMJS.createDict();}
+                    ,'CONFIGURATION_PATH': ROOT+'/common/config/config.js',
+                };
             },
             'components':{
                 't':function (System) {
@@ -78,24 +81,11 @@
                 ,'beforeSend':function(){}
             },
             //配置基础文件
-            'autoLoadFile':function(){
-                ROOT = this.Public.ROOT;
-                var classPath=this.getClassPath();
-                return [
-                    classPath+'/jQuery/jquery.js'
-                    ,classPath+'/build/base.min.js'
-                    // ,classPath+'/base/System.js'
-                    // ,classPath+'/base/Base.class.js'
-                    // ,classPath+'/base/Object.class.js'
-                    // ,classPath+'/base/Component.class.js'
-                    // ,classPath+'/base/Helper.class.js'
-                    // ,classPath+'/base/Browser.class.js'
-                    // ,classPath+'/base/Event.class.js'
-                    // ,classPath+'/base/Dom.class.js'
-                    // ,classPath+'/base/Html.class.js'
-                    // ,classPath+'/base/Loader.class.js'
-                    // ,classPath+'/base/Template.class.js'
-                ];
+            'autoLoadFile':function(System){
+                var PLUGINS = System.PLUGINS;
+                return {
+                    files: []
+                };
             },
             //标签的渲染方式
             'render':{
