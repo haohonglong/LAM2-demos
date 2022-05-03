@@ -1,18 +1,18 @@
-<#define __IMAGE__="{{LAM.IMAGE}}" />
-<#define __MYCOMMON__="{{LAM.MYCOMMON}}" />
-<#define __PLUGINS__="{{LAM.PLUGINS}}" />
-<#define __CLASSPATH__="{{LAM.classPath}}" />
-<#define __COMMON__="{{LAM.COMMON}}" />
-<#define __CSS__="{{LAM.CSS}}" />
-<#define _LAYOUTS_="{{LAM.LAYOUTS}}" />
-<#define __DATAPATH__="{{LAM.DATA}}" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
+<#define __MYCOMMON__="{#LAM.MYCOMMON#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMMON__="{#LAM.COMMON#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
 #define# __MENU__ <#include repeat="0" tp-data=""  file="__DATAPATH__/menu.json" /> #end#
-<#include repeat="0" tp-data="{'menu':__MENU__,'title':'{{title}}'}" file="_LAYOUTS_/default/base.html" />
+<#include repeat="0" tp-data="{'menu':__MENU__,'title':'{#title#}'}" file="_LAYOUTS_/default/base.html" />
 
 <#Block:begin id="content">
 <div class="col-md-10 sectionWrap-A4">
     <div class="p20">
-        {{content}}
+        {#content#}
 
     </div>
 </div>

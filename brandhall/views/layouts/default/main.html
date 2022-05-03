@@ -1,12 +1,12 @@
-<#define __IMAGE__="{{LAM.IMAGE}}" />
-<#define __MYCOMMON__="{{LAM.MYCOMMON}}" />
-<#define __PLUGINS__="{{LAM.PLUGINS}}" />
-<#define __CLASSPATH__="{{LAM.classPath}}" />
-<#define __COMMON__="{{LAM.COMMON}}" />
-<#define __CSS__="{{LAM.CSS}}" />
-<#define _LAYOUTS_="{{LAM.LAYOUTS}}" />
-<#define __DATAPATH__="{{LAM.DATA}}" />
-#define# __MENU__ <#include repeat="0" tp-data=""  file="__DATAPATH__/menu.json" /> #end#
+<#define __IMAGE__="{#LAM.IMAGE#}" />
+<#define __MYCOMMON__="{#LAM.MYCOMMON#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMMON__="{#LAM.COMMON#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
+#define# __MENU__ <#include repeat="0" tp-data="" file="__DATAPATH__/menu.json" /> #end#
 
 <#import path="/vue/vue.js,/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
@@ -22,12 +22,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="keywords" content="{{title}}" />
-    <meta name="description" content="{{title}}" />
+    <meta name="keywords" content="{#title#}" />
+    <meta name="description" content="{#title#}" />
     <!#HEAD/>
     <!#CSS/>
     <!#JS/>
-    <#Block:begin type="override" id="title" data="{'title':'{{title}}'}">
+    <#Block:begin type="override" id="title" data="{'title':'{#title#}'}">
     <title><%=title%></title>
     <#Block:end>
     <#=block id="title" data="{}" />
@@ -50,12 +50,12 @@
 		        <#include tp-data="{'menu':__MENU__,'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/default/include/inc_menu_mobile.html" />
 
 
-		        <#include repeat="0" tp-data="{'name':'{{D.user.name}}','age':'{{D.user.age}}'}" delimiters="['{#','#}']"  file="_LAYOUTS_/default/include/inc_header.html" />
+		        <#include repeat="0" tp-data="{'name':'{#D.user.name#}','age':'{#D.user.age#}'}" file="_LAYOUTS_/default/include/inc_header.html" />
 		        <#=block id="header" />
 
-		        <#include repeat="0" tp-data="{'list':'{{D.list}}'}" file="_LAYOUTS_/default/include/inc_crumb.html" />
+		        <#include repeat="0" tp-data="{'list':'{#D.list#}'}" file="_LAYOUTS_/default/include/inc_crumb.html" />
 		        <#=block id="crumb" data="{}" />
-		        {{content}}
+		        {#content#}
 
 		    </div>
 		</div>
@@ -130,6 +130,7 @@
 
             });
         });
+
 
 
 

@@ -1,4 +1,4 @@
-<#define __IMAGE__="{{LAM.IMAGE}}/imgs_LHH/pics" />
+<#define __IMAGE__="{#LAM.IMAGE#}/imgs_LHH/pics" />
 {
   "room":[
     {"id":1,"name":"李晨","style":"新古典,其他,简约","img":"__IMAGE__/img_03.jpg"},

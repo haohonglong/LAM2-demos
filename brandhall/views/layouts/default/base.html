@@ -1,11 +1,11 @@
-<#define __IMAGE__="{{LAM.IMAGE}}" />
-<#define __MYCOMMON__="{{LAM.MYCOMMON}}" />
-<#define __PLUGINS__="{{LAM.PLUGINS}}" />
-<#define __CLASSPATH__="{{LAM.classPath}}" />
-<#define __COMMON__="{{LAM.COMMON}}" />
-<#define __CSS__="{{LAM.CSS}}" />
-<#define _LAYOUTS_="{{LAM.LAYOUTS}}" />
-<#define __DATAPATH__="{{LAM.DATA}}" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
+<#define __MYCOMMON__="{#LAM.MYCOMMON#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMMON__="{#LAM.COMMON#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
 <#import path="/vue/vue.js,/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
@@ -20,12 +20,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="keywords" content="{{title}}" />
-    <meta name="description" content="{{title}}" />
+    <meta name="keywords" content="{#title#}" />
+    <meta name="description" content="{#title#}" />
     <!#HEAD/>
     <!#CSS/>
     <!#JS/>
-    <#Block:begin type="override" id="title" data="{'title':'{{title}}'}">
+    <#Block:begin type="override" id="title" data="{'title':'{#title#}'}">
     <title><%=title%></title>
     <#Block:end>
     <#=block id="title" data="{}" />
@@ -41,7 +41,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 sectionSidebar-A1">
-            <#include tp-data="{'menu':{{menu}},'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/default/include/inc_menu.html" />
+            <#include tp-data="{'menu':{#menu#},'title':'喜鹊筑家旗舰店'}" file="_LAYOUTS_/default/include/inc_menu.html" />
         </div>
         <#=block id="content" />
     </div>

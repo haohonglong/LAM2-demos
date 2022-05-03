@@ -115,7 +115,7 @@
             //定义模版标签
             'templat':{
                 'custom_attr':'[data-var=tpl]',
-                'delimiters':['{{','}}']
+                'delimiters':['{#','#}']
             },
             'files':[],
             'XHR':{//配置加载xhr 的公共参数

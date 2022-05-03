@@ -1,4 +1,4 @@
-<#define __INDEX__="{{LAM.INDEX}}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
 <#Block:begin id="components:list" data="{'list':null}">
 <%if(list){%>
     <%LAM.each(list,function(i){%>

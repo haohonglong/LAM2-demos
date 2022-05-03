@@ -1,4 +1,4 @@
-<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
 <div id="mobile" class="sectionPhoneTop-A1 clear none mb20">
     <img class="L logo" src="__IMAGE__/imgs_LHH/logo.png" width="130" height="54" alt="">
     <div id="mobile-button" class="sectionBtn-A2 R mt20 mr15">
@@ -7,21 +7,21 @@
         <span></span>
     </div>
     <div id="mobile-content">
-        <dl id="vue-menu-mobile">
+        <dl>
             <dd v-for="menu in list">
                 <div class="title">
-                    <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{#menu.title#}</a>
+                    <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{{ menu.title }}</a>
                 </div>
                 <div v-if="menu.ul" class="">
                     <ul>
-                        <li v-for="v in menu.ul"><a :href="v.href">{#v.title#}</a></li>
+                        <li v-for="v in menu.ul"><a :href="v.href">{{ v.title }}</a></li>
                     </ul>
                 </div>
 
             </dd>
         </dl>
     </div>
-    <img class="R img" data-var="tpl" src="__IMAGE__/imgs_LHH/pics/img_01.gif" width="20" height="20" alt="">
+    <img class="R img" src="__IMAGE__/imgs_LHH/pics/img_01.gif" width="20" height="20" alt="">
 </div>
 
 <style type="text/css">
@@ -35,39 +35,37 @@
         'use strict';
         var System = this;
 
+        new Vue({
+                el: '#mobile-content',
+                data: function(){
+                    return {
+                        list: {# menu #}
+                    };
+                }
+            });
 
 
         $(function(){
 
-            System.run(function () {
-                'use strict';
-                var System = this;
-                var $mobile = $("#mobile-button");
-                var $content = $("#mobile-content");
-                var flag = true;
-                $content.hide();
+            var $mobile = $("#mobile-button");
+            var $content = $("#mobile-content");
+            var flag = true;
+            // $content.hide();
 
-                $mobile.on("click",function () {
-                    if(flag){
-                        $content.show();
-                        flag = false;
-                    }else{
-                        $content.hide();
-                        flag = true;
-                    }
-                });
-            });
-
-            new Vue({
-                delimiters: ['{#', '#}'],
-                el: '#vue-menu-mobile',
-                data: {
-                    list: {{menu}}
+            $mobile.on("click",function () {
+                if(flag){
+                    $content.show();
+                    flag = false;
+                }else{
+                    $content.hide();
+                    flag = true;
                 }
             });
+
+            
         });
 
-
+        
 
 
     });

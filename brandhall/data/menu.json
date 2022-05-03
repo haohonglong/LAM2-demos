@@ -1,4 +1,4 @@
-<#define __INDEX__="{{LAM.INDEX}}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
 [
   {
     "icon":"a-1",

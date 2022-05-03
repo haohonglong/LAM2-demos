@@ -1,4 +1,4 @@
-<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
 <#Block:begin id="images" data="{'list':null}">
 <%if(list){%>
     <%LAM.each(list,function(i){%>
@@ -133,7 +133,7 @@
 
         <div class="sectionPageing-A2 clear mt10">
             <div class="R">
-                <#include repeat="" tp-data=""  file="{{LAM.COMPONENTS}}/paging.html" />
+                <#include repeat="" tp-data=""  file="{#LAM.COMPONENTS#}/paging.html" />
             </div>
         </div>
     </div>

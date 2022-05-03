@@ -1,6 +1,6 @@
-<#define __SERVER__="{{LAM.SERVER}}" />
-<#define __INDEX__="{{LAM.INDEX}}" />
-<#define __BILLID__="{{LAM.md5(LAM.hash())}}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __BILLID__="{#LAM.md5(LAM.hash())#}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/shop/index" /> #end#
 
 
