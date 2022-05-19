@@ -1,9 +1,84 @@
 
 <#define __DATAS__="{'head':['用户管理','角色管理','单据管理','系统管理'],'list':['查询','编辑','删除']}" />
-<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
-<#include tp-data="__DATAS__" file="__COMPONENTS__/role.html" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 
 
+
+
+<#Block:begin id="content">
 <div id="role">
-  <#=block id="check-list" data="__DATAS__" />
-</div>
+  权限分配：
+  <label id="role_all" class="checkbox-inline">
+  	<input type="checkbox" name="role_all[]" value=""> 所有权限
+  </label>
+	<label v-for="item in head" class="checkbox-inline" :data-key="item">
+	  <input type="checkbox" name="role[]" value=""> {{ item }}
+	</label>
+	</div>
+	<div style="margin-left:196px">
+	  <div v-for="item in list">
+		<label v-for="v in head" class="checkbox-inline">
+		  <input type="checkbox" name="role[]" :data-key="v" value=""> {{ item }}
+		</label>
+	  </div>
+	<div>
+	</div>
+<div>
+  
+<#Block:end>
+
+<#Block:begin id="contentComponent">
+<script type="text/javascript">
+
+    var contentComponent = LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        var contentComponent = {
+          name: "contentComponent",
+          props: {},
+          components: {},
+          data: function () {
+            return {
+            	list: __DATAS__
+            }
+          },
+          methods: {},
+          template: System.Template.getBlock('content')
+        };
+
+        $(function(){
+		    var $input = $('#role label input');
+
+		    {#head#}.each(function(i,item){
+		      $('label[data-key="'+this+'"]').on('click',function(){
+		        var input = $(this).find('input')[0];
+		        var $checks = $('[data-key="'+item+'"]');
+		        if(input.checked) {
+		          $checks.each(function(){this.checked = 'checked';});
+		        }else {
+		          $checks.each(function(){this.checked = '';});
+		        }
+		      });
+		    });
+		    
+
+		    $('#role_all').on('click',function(){
+		      var input = $(this).find('input')[0];
+		      if(input.checked) {
+		        $input.each(function(){this.checked = 'checked';});
+		      }else {
+		        $input.each(function(){this.checked = '';});
+		      }
+		    });
+	  });
+
+
+
+        return contentComponent;
+    });
+</script>
+<style type="text/css">
+	label{width: 119px;}
+</style>
+<#Block:end>

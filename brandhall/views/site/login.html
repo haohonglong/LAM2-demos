@@ -1,8 +1,8 @@
-<#define __CLASSPATH__="{{LAM.classPath}}" />
-<#define __COMMON__="{{LAM.COMMON}}" />
-<#define __CSS__="{{LAM.CSS}}" />
-<#define __SERVER__="{{LAM.SERVER}}" />
-<#define __INDEX__="{{LAM.INDEX}}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMMON__="{#LAM.COMMON#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
 <#import path="/PopupLayer.class,/Validation.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
 <#import type="css" path="/global,/lib,/login" root="__CSS__" befor="1" />
@@ -12,9 +12,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{title}}</title>
-<meta name="keywords" content="{{title}}" />
-<meta name="description" content="{{title}}" />
+<title>{#title#}</title>
+<meta name="keywords" content="{#title#}" />
+<meta name="description" content="{#title#}" />
     <!#HEAD/>
     <!#CSS/>
     <!#JS/>

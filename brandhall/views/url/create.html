@@ -24,6 +24,7 @@
 
 <#include repeat="0" tp-data="{'cookie':__COOKIE__}"  file="__COMPONENTS__/selectBox.html" />
 
+<#Block:begin id="content">
 <form class="form-horizontal" action="__SERVER__/url/add" method="post">
     <div class="sectionWrap-A5">
         <div class="p15">
@@ -31,7 +32,7 @@
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <#=block id="selectBox" data="{'list':__DATA__, 'name':'sid'}" />
+                        <select-box-component :list="list" name="sid"></select-box-component>
                         <span data-error="sid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
@@ -59,12 +60,32 @@
         </div>
     </div>
 </form>
+<#Block:end>
 
+<#Block:begin id="contentComponent">
+<#=block id="selectBoxComponent" />
 <script type="text/javascript">
-
-    LAM.run([jQuery],function($) {
+    var contentComponent = LAM.run(function(){
         'use strict';
         var System = this;
+
+        var contentComponent = {
+          name: "contentComponent",
+          props: {
+          },
+          components: {
+            "select-box-component": selectBoxComponent
+          },
+          data: function () {
+            return {
+                list: __DATA__
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('content')
+        };
+
         function getByName(name) {
             return document.getElementsByName(name)[0].value;
         }
@@ -109,5 +130,8 @@
 
 
         });
+
+        return contentComponent;
     });
 </script>
+<#Block:end>

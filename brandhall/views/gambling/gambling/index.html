@@ -19,8 +19,8 @@
 <#import path="/vue-seamless-scroll.min.js" root="https://cdn.jsdelivr.net/npm/vue-seamless-scroll@latest/dist" write="1" befor="1" />
 
 
-
-<div id="test">
+<#Block:begin id="content">
+<div>
 	<button v-on:click="left" class="left">left</button>
 	<button v-on:click="right" class="right">right</button>
 	<div class="box"><span :style="'left:' + n +'px;'"></span></div>
@@ -33,74 +33,80 @@
 		    </ul>
 		</vue-seamless-scroll>
 	</div>
-
-	
 </div>
+<#Block:end>
 
-<script>
-    LAM.run([jQuery],function($){
-    	var System = this;
-    	$(function(){
-    		var vue = new Vue({
-		        el: '#test',
-		        delimiters:['%','%'],
-		        components: {
-			      vueSeamlessScroll
-			    },
-		        data: {
-		        	n: 0,
-		        	timer: 1,
-		        	data: []
-		        },
-		        methods: {
-		        	'exist':function(id){
-		        		return this.data.in_array(id);
-		        	},
-		        	'remove':function(id){
-		        		this.data.remove(id);
-		        	},
-		        	'left':function(){
-		        		System.listen(function(id){
-		        			if(!vue.exist(id)) {
-		        				vue.data.push(id);
-		        			}
-		        			
-		        			if(vue.n < 1) {
-		        				vue.remove(id);
-		        				return true;
-		        			}
+<#Block:begin id="contentComponent">
+<script type="text/javascript">
 
-		        			vue.n--
-		        			console.log('the n of left:', vue.n);
+    var contentComponent = LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
 
-		        		},vue.timer++);
-		        		console.log('the timer of left function:', this.timer);
+        var contentComponent = {
+	         name: "contentComponent",
+	         props: {},
+	         components: {
+				vueSeamlessScroll: vueSeamlessScroll
+			 },
+			 data: {
+				n: 0,
+				timer: 1,
+				data: []
+			 },
+	         methods: {
+	        	'exist':function(id){
+	        		return this.data.in_array(id);
+	        	},
+	        	'remove':function(id){
+	        		this.data.remove(id);
+	        	},
+	        	'left':function(){
+	        		System.listen(function(id){
+	        			if(!vue.exist(id)) {
+	        				vue.data.push(id);
+	        			}
+	        			
+	        			if(vue.n < 1) {
+	        				vue.remove(id);
+	        				return true;
+	        			}
 
-		        	},
-		        	'right':function(){
-						System.listen(function(id){
-							if(!vue.exist(id)) {
-		        				vue.data.push(id);
-		        			}
-		        			if(vue.n > 1150) {
-		        				vue.remove(id);
-		        				return true;
-		        			}
-		        			vue.n++
-		        			console.log('the n of right:', vue.n);
-		        		},vue.timer++);
-		        		console.log('the timer of right function:', this.timer);
-		        	}
-		        },
-		        watch: {
-		        	data:function(){
-		        		this.$refs.seamlessScroll.reset()
-		        		console.log('watch', '============================');
-		        	}
-		        }
-		    });
-    	});
-    	
+	        			vue.n--
+	        			console.log('the n of left:', vue.n);
+
+	        		},vue.timer++);
+	        		console.log('the timer of left function:', this.timer);
+
+	        	},
+	        	'right':function(){
+					System.listen(function(id){
+						if(!vue.exist(id)) {
+	        				vue.data.push(id);
+	        			}
+	        			if(vue.n > 1150) {
+	        				vue.remove(id);
+	        				return true;
+	        			}
+	        			vue.n++
+	        			console.log('the n of right:', vue.n);
+	        		},vue.timer++);
+	        		console.log('the timer of right function:', this.timer);
+	        	}
+	        },
+	        watch: {
+	        	data:function(){
+	        		this.$refs.seamlessScroll.reset()
+	        		console.log('watch', '============================');
+	        	}
+	        },
+            template: System.Template.getBlock('content')
+        };
+
+
+
+
+        return contentComponent;
     });
 </script>
 <style type="text/css">
@@ -134,6 +140,7 @@
     }
   }
 </style>
+<#Block:end>
 
 
 

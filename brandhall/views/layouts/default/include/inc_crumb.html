@@ -1,17 +1,35 @@
-<#Block:begin type="override" id="crumb" data="{'list':null}">
-<% if(list){%>
+<#Block:begin id="crumb">
 <div id="crumb" class="sectionCrumb-A1 mb20">
     <ul class="clear">
-        <%LAM.each(list,function(){%>
-        <li>
-        <% if(this.href){%>
-        <a title="<%=this.title%>" href="<%=this.href%>" class="linkBlue"><%=this.name%></a>&nbsp;&gt;&nbsp;
-        <%}else{%>
-        <strong><%=this.name%></strong>
-        <%}%>
+        <li v-for="item in list">
+        <a v-if="item.href" :title="item.title" :href="item.href" class="linkBlue">{{ item.name }}</a>&nbsp;&gt;&nbsp;
+        <strong v-else>{{ item.name }}</strong>
         </li>
-        <%});%>
     </ul>
 </div>
-<%}%>
+<#Block:end>
+
+<#Block:begin id="crumbComponent">
+<script type="text/javascript">
+    var crumbComponent = LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var crumbComponent = {
+          name: "crumbComponent",
+          props: {
+            "list": Object
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('crumb')
+        };
+
+        return crumbComponent;
+    });
+</script>
 <#Block:end>

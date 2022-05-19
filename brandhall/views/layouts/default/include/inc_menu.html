@@ -1,32 +1,46 @@
-<div class="sectionBox sectionTitle-A2"><h2>{#title#}</h2></div>
-<div class="sectionScroll sectionList-A2 sectionIcon-B1 sectionFont-A1 mCustomScrollbar">
-    <dl id="vue-menu">
-        <dd v-for="menu in list">
-            <div class="title">
-                <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{{ menu.title }}</a>
-            </div>
-            <div v-if="menu.ul" class="sectionList-A1 sectionList-A1-3 none">
-                <ul>
-                    <li v-for="v in menu.ul"><a :href="v.href">{{ v.title }}</a></li>
-                </ul>
-            </div>
+<#Block:begin id="menu">
+<div>
+    <div class="sectionBox sectionTitle-A2"><h2>{{ title }}</h2></div>
+    <div class="sectionScroll sectionList-A2 sectionIcon-B1 sectionFont-A1 mCustomScrollbar">
+        <dl id="vue-menu">
+            <dd v-for="menu in list">
+                <div class="title">
+                    <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{{ menu.title }}</a>
+                </div>
+                <div v-if="menu.ul" class="sectionList-A1 sectionList-A1-3 none">
+                    <ul>
+                        <li v-for="v in menu.ul"><a :href="v.href">{{ v.title }}</a></li>
+                    </ul>
+                </div>
 
-        </dd>
-    </dl>
+            </dd>
+        </dl>
+    </div>
 </div>
 
+<#Block:end>
+
+<#Block:begin id="menuComponent">
 <script type="text/javascript">
     //menu
-    LAM.run([LAM,jQuery],function(LAM,$) {
+    var menuComponent = LAM.run([LAM,jQuery],function(LAM,$) {
         'use strict';
         var System = this;
 
-        new Vue({
-                el: '#vue-menu',
-                data: {
-                    list: {#menu#}
-                }
-            });
+        var menuComponent = {
+          name: "menuComponent",
+          props: {
+            "title": String,
+            "list": Array
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('menu')
+        };
 
         System.setMenuSelectedStatus=function(href){
             $('.sectionList-A1-3 li a[href*="'+href+'"]')
@@ -42,7 +56,8 @@
         });
 
 
-
+        return menuComponent;
 
     });
 </script>
+<#Block:end>

@@ -1,4 +1,5 @@
 <#define __IMAGE__="{#LAM.IMAGE#}" />
+<#Block:begin id="mobilelMenu">
 <div id="mobile" class="sectionPhoneTop-A1 clear none mb20">
     <img class="L logo" src="__IMAGE__/imgs_LHH/logo.png" width="130" height="54" alt="">
     <div id="mobile-button" class="sectionBtn-A2 R mt20 mr15">
@@ -23,7 +24,9 @@
     </div>
     <img class="R img" src="__IMAGE__/imgs_LHH/pics/img_01.gif" width="20" height="20" alt="">
 </div>
+<#Block:end>
 
+<#Block:begin id="mobileMenuComponent">
 <style type="text/css">
     #mobile{position: relative;z-index: 99999;}
     #mobile-content{position: absolute;width:100%;top:80px;left:0;background: #fff;}
@@ -31,18 +34,25 @@
 </style>
 <script type="text/javascript">
     //menu
-    LAM.run([LAM,jQuery],function(LAM,$) {
+    var mobileMenuComponent = LAM.run([LAM,jQuery],function(LAM,$) {
         'use strict';
         var System = this;
 
-        new Vue({
-                el: '#mobile-content',
-                data: function(){
-                    return {
-                        list: {# menu #}
-                    };
-                }
-            });
+        var mobileMenuComponent = {
+          name: "mobileMenuComponent",
+          props: {
+            "title": String,
+            "list": Array
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('mobilelMenu')
+        };
+
 
 
         $(function(){
@@ -65,8 +75,8 @@
             
         });
 
-        
-
+        return mobileMenuComponent;
 
     });
 </script>
+<#Block:end>

@@ -1,29 +1,8 @@
 <#define __IMG__="{#LAM.IMAGE#}/imgs_LHH" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#import path="/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#define __IMG_S_W="15" />
-<#Block:begin id="infobox" data="{'title':'','date':''}">
-    <div class="sectionBorder-A1 sectionBorder-pb0">
-        <div class="sectionBox-A3 sectionBox-A3-1">
-            <div class="p10 clear">
-                <div class="L mr12"><img src="__IMG__/li1.png" width="__IMG_S_W" height="__IMG_S_W" alt=""></div>
-                <div class="sectionBox-A2">
-                    <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">
-                        <h2>乌鸦-lucian</h2>
-                        <div class="more sectionIcon-A1 sectionIcon-A2">
-                            <i></i>
-                        </div>
-                        <div class="sectionMessage-A2 none">
-                            <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>
-                            <p>标记为未读</p>
-                        </div>
-                    </div>
-                    <p>恭喜你获得免费洗20张照片的机会...</p>
-                    <p class="date">2014-06-20 17:25</p>
-                </div>
-            </div>
-        </div>
-    </div>
-<#Block:end>
-<#beginBlock type="override" id="header" data="{'name':'{#name#}','age':'{#age#}','address':'中国'}">
+<#Block:begin id="header">
 <div class="sectionTop-A2 clear mb10 p-rel">
     <div class="L">
         <div class="sectionNav-A1 sectionFloat-A1 top8 pl5 sectionFont-A2">
@@ -43,9 +22,27 @@
                             </div>
                         </div>
                         <div class="js_Block_A1">
-                            <%for(var i=0;i<3;i++){%>
-                            <%=LAM.Template.getBlock('infobox')%>
-                            <%}%>
+                            <div v-for="i in 3" class="sectionBorder-A1 sectionBorder-pb0">
+                                <div class="sectionBox-A3 sectionBox-A3-1">
+                                    <div class="p10 clear">
+                                        <div class="L mr12"><img src="__IMG__/li1.png" width="__IMG_S_W" height="__IMG_S_W" alt=""></div>
+                                        <div class="sectionBox-A2">
+                                            <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">
+                                                <h2>乌鸦-lucian</h2>
+                                                <div class="more sectionIcon-A1 sectionIcon-A2">
+                                                    <i></i>
+                                                </div>
+                                                <div class="sectionMessage-A2 none">
+                                                    <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>
+                                                    <p>标记为未读</p>
+                                                </div>
+                                            </div>
+                                            <p>恭喜你获得免费洗20张照片的机会...</p>
+                                            <p class="date">2014-06-20 17:25</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                         <div class="js_Block_A1 none">
@@ -132,7 +129,7 @@
         </div>
         <div class="L sectionBox-A1 mr10 p-rel z1 js_showBoxA1">
             <div class="p5">
-                <img class="mr5" data-var="tpl" src="{#LAM.IMAGE#}/imgs_LHH/pics/img_01.gif" width="20" height="20" alt=""><span><%=name%>&nbsp; <%=age%></span>
+                <img class="mr5" data-var="tpl" src="__IMG__/pics/img_01.gif" width="20" height="20" alt=""><span>{{ name }}&nbsp; {{ age }}</span>
             </div>
             <div class="sectionShowBox-A1 sectionShowBox-A1-1 none">
                 <div class="sectionArrow-A1 sectionArrow-double-A1 sectionArrow-double-A1-1 sectionArrow-double-A1-1-1"><i class="A"></i><i class="B"></i></div>
@@ -187,13 +184,34 @@
 
     </div>
 </div>
-<!--Escape:begin-->
+<#Block:end>
+
+<#Block:begin id="headerComponent">
 <script type="text/javascript">
     //header
-    LAM.run([jQuery],function($) {
+    var headerComponent = LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
+
         var tools=new System.Tools();
+
+        var headerComponent = {
+          name: "headerComponent",
+          props: {
+            "name": String,
+            "age": Number
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('header')
+        };
+
+
+        
 
         /**
          *头部分区域
@@ -266,7 +284,8 @@
             'wSize':$('.sectionTitle-A12').length,
             'hSize':200
         });
+
+        return headerComponent;
     });
 </script>
-<!--Escape:end-->
 <#endBlock>

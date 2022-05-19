@@ -14,14 +14,14 @@
 <#endBlock>
 
 
-<#Block:begin id="bill">
+<#Block:begin id="goodsBill">
 <div>
     <div class="sectionBorder-A3 mb1">
         <div class="sectionTable-B1 sectionTable-B1-5">
             <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
                 <ul class="clear">
-                    <li class="col-1" style="font-weight: bold;">${item.name}</li>
-                    <li :class="'col-1 pl5 ' + item.style" style="width:75%;text-align: left;">${item.value}</li>
+                    <li class="col-1" style="font-weight: bold;">{{ item.name }}</li>
+                    <li :class="'col-1 pl5 ' + item.style" style="width:75%;text-align: left;">{{ item.value }}</li>
                 </ul>
             </div>
         </div>
@@ -32,7 +32,7 @@
 
 
 
-<#Block:begin id="table">
+<#Block:begin id="goodsTable">
 <div>
     <div v-for="(v1, i) in list" class="sectionBorder-A3 mt1" v-bind:style="isset(v1.bill_id) ? 'padding:1px;' : ''">
         <div class="sectionTable-B1 sectionTable-B1-5">
@@ -69,11 +69,11 @@
                         </li>
                     </div>
                     <div v-else>
-                        <li class="col-8">${v1.id}</li>
-                        <li class="col-1">${v1.shop_name}</li>
-                        <li class="col-1">${v1.name}</li>
-                        <li class="col-7 color-red">${v1.single_price}</li>
-                        <li class="col-7">${v1.create_at}</li>
+                        <li class="col-8">{{ v1.id }}</li>
+                        <li class="col-1">{{ v1.shop_name }}</li>
+                        <li class="col-1">{{ v1.name }}</li>
+                        <li class="col-7 color-red">{{ v1.single_price }}</li>
+                        <li class="col-7">{{ v1.create_at }}</li>
                         <li class="col-7">删除</li>
                     </div>
                 </ul>
@@ -84,7 +84,8 @@
 <#Block:end>
 
 
-<div id="app">
+<#Block:begin id="content">
+<div>
     <div class="sectionBorder-A3">
         <div class="sectionTable-B1 sectionTable-B1-5">
             <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
@@ -97,37 +98,30 @@
     </div>
     <table-component :list="list"></table-component>
 </div>
+<#Block:end>
 
-
-
+<#Block:begin id="contentComponent">
 <script type="text/javascript">
-    var vm = LAM.run([jQuery],function ($) {
+    var contentComponent = LAM.run([jQuery],function ($) {
         'use strict';
         var System = this;
-        var delimiters = ['${', '}'];
 
         var billComponent = {
               name: 'billComponent',
-              props: {
-                'item': Object
-              },
-              delimiters: delimiters,
+              props: ["item"],
               data: function () {
                 return {
                 }
               },
               methods: {
               },
-              template: System.Template.getBlock('bill')
+              template: System.Template.getBlock('goodsBill')
             };
 
 
         var tableComponent = {
               name: 'tableComponent',
-              props: {
-                'list': Array
-              },
-              delimiters: delimiters,
+              props: ["list"],
               data: function () {
                 return {
                 }
@@ -149,28 +143,30 @@
                             ];
                 }
               },
-              template: System.Template.getBlock('table')
+              template: System.Template.getBlock('goodsTable')
             };
 
-
-        var vm = new Vue({
-                'el': '#app',
-                'delimiters': delimiters,
-                'data': {
-                    'list': __DATA__
-                },
-                'components': {
-                    'table-component': tableComponent
-                },
-                'methods': {
-                    'isset': function(value) {
+        var contentComponent = {
+              name: "contentComponent",
+              props: [],
+              components: {
+                'table-component': tableComponent
+              },
+              data: function () {
+                return {
+                    list: __DATA__
+                }
+              },
+              methods: {
+                'isset': function(value) {
                         return System.isset(value);
                     }
-                },
-                'watch': {}
-            });
+              },
+              template: System.Template.getBlock('content')
+            };
 
-            return vm;
+            return contentComponent;
 
     });
 </script>
+<#Block:end>

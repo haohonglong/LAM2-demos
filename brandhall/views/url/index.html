@@ -33,7 +33,7 @@
 <#endBlock>
 
 
-<#Block:begin id="menu">
+<#Block:begin id="urlMenu">
     <div>
         <dl v-for="(item, key) in list" v-if="0 == level" class="border dl-1">
             <dd class="dd-1" v-bind:class="{ cur: (0 === key) }">
@@ -52,64 +52,66 @@
 <#Block:end>
 
 
-<div id="app">
-    <div class="sectionWrap-A7 p-rel">
-        <div class="sectionMenu-A1 sectionMenu-A1-3 j_sectionMenuA1 mCustomScrollbar" id="address_menu" data-mcs-theme="dark">
-            <menu-component :list="list" level="0"></menu-component>
-        </div>
+<#Block:begin id="content">
+<div class="sectionWrap-A7 p-rel">
+    <div class="sectionMenu-A1 sectionMenu-A1-3 j_sectionMenuA1 mCustomScrollbar" id="address_menu" data-mcs-theme="dark">
+        <menu-component :list="list" level="0"></menu-component>
+    </div>
 
-        <div class="sectionWrap-A6">
-            <div class="j_sectionBlock p-rel sectionBorder-A4 ">
-                <div class="p25">
+    <div class="sectionWrap-A6">
+        <div class="j_sectionBlock p-rel sectionBorder-A4 ">
+            <div class="p25">
 
-                    <ul class="sectionTitle-A5 sectionTitle-A5-p0 clear mb10 sectionForm-A1 sectionForm-A1-1 sectionForm-A1-2 sectionFloat">
-                        
-                        <li class="mr20">
-                            <label class="L w-auto">筛选：</label>
-                            <input type="text" v-model="keyword" class="text w-160 L" value="" placeholder="请输入关键字">
-                        </li>
-                        <!-- <li class="L sectionButton-B1">
-                            <a><button type="button" v-on:click="search()" class="btn">搜索</button></a>
-                        </li> -->
-                        <li class="R sectionButton-B1">
-                            <a href="__INDEX__url/create"><button type="button" class="btn">添加</button></a>
+                <ul class="sectionTitle-A5 sectionTitle-A5-p0 clear mb10 sectionForm-A1 sectionForm-A1-1 sectionForm-A1-2 sectionFloat">
+                    
+                    <li class="mr20">
+                        <label class="L w-auto">筛选：</label>
+                        <input type="text" v-model="keyword" class="text w-160 L" value="" placeholder="请输入关键字">
+                    </li>
+                    <!-- <li class="L sectionButton-B1">
+                        <a><button type="button" v-on:click="search()" class="btn">搜索</button></a>
+                    </li> -->
+                    <li class="R sectionButton-B1">
+                        <a href="__INDEX__url/create"><button type="button" class="btn">添加</button></a>
+                    </li>
+                </ul>
+                <div class="sectionFloat sectionWrap-A17 mb10">
+                    <ul class="clear">
+                        <li v-for="(item, index) in contents" class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big">
+                            <div class="btn">
+                                <a :href="item.url" target="_blank">{{ item.name }}</a>
+                                <a v-on:click="modify(item.id)">修改</a>
+                                <a v-on:click="remove(item.id)" href="javascript:void(0)">删除</a>
+                            </div>
                         </li>
                     </ul>
-                    <div class="sectionFloat sectionWrap-A17 mb10">
-                        <ul class="clear">
-                            <li v-for="(item, index) in contents" class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big">
-                                <div class="btn">
-                                    <a :href="item.url" target="_blank">{{ item.name }}</a>
-                                    <a v-on:click="modify(item.id)">修改</a>
-                                    <a v-on:click="remove(item.id)" href="javascript:void(0)">删除</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                </div>
 
 
-                    <div class="sectionPageing-A2 clear mb20">
-                        <div class="R">
-                            <#include repeat="0" tp-data="{}"  file="{#LAM.COMPONENTS#}/paging.html" />
-                        </div>
+                <div class="sectionPageing-A2 clear mb20">
+                    <div class="R">
+                        <#include repeat="0" tp-data="{}"  file="{#LAM.COMPONENTS#}/paging.html" />
                     </div>
+                </div>
 
-                    <div class="sectionTitle-A5 sectionTitle-A5-p0 clear">
-                        <div class="L">
-                            <span class="mr5"><input class="v-negative3 js_allcheckbok" type="checkbox"></span>
-                            <span>全选当前商品</strong>
-                        </div>
-                        
+                <div class="sectionTitle-A5 sectionTitle-A5-p0 clear">
+                    <div class="L">
+                        <span class="mr5"><input class="v-negative3 js_allcheckbok" type="checkbox"></span>
+                        <span>全选当前商品</span>
                     </div>
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
+<#Block:end>
 
+
+<#Block:begin id="contentComponent">
 <script type="text/javascript">
 
-    var vm = LAM.run([jQuery],function($) {
+    var contentComponent = LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
 
@@ -118,116 +120,119 @@
 
 
         var menuComponent = {
-              name: 'menuComponent',
-              props: {
-                'list': Array,
-                'level': {
-                    type: String,
-                    default: 0
-                }
-              },
-              data: function () {
+          name: 'menuComponent',
+          props: {
+            'list': Array,
+            'level': {
+                type: String,
+                default: 0
+            }
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+            'isArray': function(value) {
+                return System.isArray(value);
+            },
+            'getContent': function($event, id, title){
+                this.$parent.getContent($event, id, title);
+            }
+          },
+          template: System.Template.getBlock('urlMenu')
+        };
+
+
+        var contentComponent = {
+            'name': contentComponent,
+            'data': function(){
                 return {
-                }
-              },
-              methods: {
-                'isArray': function(value) {
-                    return System.isArray(value);
-                },
-                'getContent': function($event, id, title){
-                    this.$root.getContent($event, id, title);
-                }
-              },
-              template: System.Template.getBlock('menu')
-            };
-
-
-            var vm = new Vue({
-                'el': '#app',
-                'data': {
                     'list': __DATA__,
                     'contents': [],
                     'keyword': "",
                     'title': "",
                     'sid': 0
+                };
+            },
+            'components': {
+                'menu-component': menuComponent
+            },
+            'methods': {
+                'search': function() {
+                    var vue = this;
+                    var sid = this.sid;
+                    var name = this.keyword;
+                    
+                    if(sid > 0) {
+                        var wait = layer.load();
+                        $.get('__SERVER__/url/search',{
+                            'sid':sid,
+                            'name':name
+                        },function(D){
+                            layer.close(wait);
+                            if(D.status){
+                                vue.contents = D.data;
+                            }
+
+                        },'json');
+                    }
+
                 },
-                'components': {
-                    'menu-component': menuComponent
-                },
-                'methods': {
-                    'search': function() {
-                        var vue = this;
-                        var sid = this.sid;
-                        var name = this.keyword;
-                        
-                        if(sid > 0) {
+                'getContent': function(e, sid, title){
+                    this.sid = sid;
+                    var vue = this;
+                    this.title = title;
+                    cache.find('id',sid,function (index,sid) {
+                        var _this = this;
+                        var list=null;
+                        if(-1 === index){
                             var wait = layer.load();
-                            $.get('__SERVER__/url/search',{
-                                'sid':sid,
-                                'name':name
+                            $.get('__SERVER__/url/index',{
+                                'sid':sid
                             },function(D){
                                 layer.close(wait);
                                 if(D.status){
-                                    vue.contents = D.data;
+                                    list = D.data;
+                                    vue.contents = list;
+                                    _this.add({list:list});
+                                }else{
+                                    list = "没有数据";
                                 }
 
                             },'json');
+                        }else{
+                            vue.contents = this.get(index).list;
                         }
+                    });
 
-                    },
-                    'getContent': function(e, sid, title){
-                        this.sid = sid;
-                        var vue = this;
-                        this.title = title;
-                        cache.find('id',sid,function (index,sid) {
-                            var _this = this;
-                            var list=null;
-                            if(-1 === index){
-                                var wait = layer.load();
-                                $.get('__SERVER__/url/index',{
-                                    'sid':sid
-                                },function(D){
-                                    layer.close(wait);
-                                    if(D.status){
-                                        list = D.data;
-                                        vue.contents = list;
-                                        _this.add({list:list});
-                                    }else{
-                                        list = "没有数据";
-                                    }
-
-                                },'json');
-                            }else{
-                                vue.contents = this.get(index).list;
-                            }
-                        });
-
-                        $("#crumb strong").text(this.title);
-                        System.COOKIE.find('id',"1",function (index) {
-                            if(-1 !== index){
-                                var data = this.get(index);
-                                data.sid = sid;
-                                data.sort_name = title;
-                                this.update(index,data);
-                            }
-                        });
-                        
-                    },
-                    'remove': function(id){
-                        layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
-                          //do something
-                          System.redirect('__INDEX__url/delete&id=' + id);
-                          layer.close(index);
-                        });
-                    },
-                    'modify': function(id){
-                        System.redirect('__INDEX__url/edit&id=' + id);
-                    }
+                    $("#crumb strong").text(this.title);
+                    System.COOKIE.find('id',"1",function (index) {
+                        if(-1 !== index){
+                            var data = this.get(index);
+                            data.sid = sid;
+                            data.sort_name = title;
+                            this.update(index,data);
+                        }
+                    });
+                    
                 },
-                'watch': {
-                    'keyword': function() { this.search();}
+                'remove': function(id){
+                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
+                      //do something
+                      System.redirect('__INDEX__url/delete&id=' + id);
+                      layer.close(index);
+                    });
+                },
+                'modify': function(id){
+                    System.redirect('__INDEX__url/edit&id=' + id);
                 }
-            });
+            },
+            'watch': {
+                'keyword': function() { this.search();}
+            },
+            template: System.Template.getBlock('content')
+        };
 
         $(function(){      
             System.COOKIE.find('id',"1",function (index) {
@@ -257,7 +262,7 @@
 
         });
 
-        return vm;
+        return contentComponent;
     });
 </script>
 <style type="text/css">
@@ -266,6 +271,7 @@
     .sectionButton-B1 .btn a{color:#fff;}
 
 </style>
+<#Block:end>
 
 
 

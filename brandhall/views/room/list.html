@@ -14,41 +14,68 @@
 
 <#Block:begin id="title" data="{'title':'商品列表'}"><#Block:end>
 
+<#Block:begin id="content">
+<div>
+    <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-2 sectionForm-A2 mb15">
+        <button type="submit" class="btn save L mr15">+&nbsp;&nbsp;添加新案例 </button>
+    </div>
 
-<div class="clear mb10 sectionForm-A1 sectionForm-A1-1-2 sectionForm-A2 mb15">
-    <button type="submit" class="btn save L mr15">+&nbsp;&nbsp;添加新案例 </button>
-</div>
+    <form class="form-horizontal">
+        <div class="sectionBorder-A3 mb15">
+            <div class="sectionTable-B1 sectionTable-B1-5">
+                <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+                    <ul class="clear">
+                        <li class="first col-1">案例封面图片</li>
+                        <li class="col-2">案例信息</li>
+                        <li class="col-3">排序</li>
+                        <li class="col-7">最后编辑时间</li>
+                        <li class="col-8">操作</li>
+                    </ul>
+                </div>
 
-<form class="form-horizontal">
-    <div class="sectionBorder-A3 mb15">
-        <div class="sectionTable-B1 sectionTable-B1-5">
-            <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
-                <ul class="clear">
-                    <li class="first col-1">案例封面图片</li>
-                    <li class="col-2">案例信息</li>
-                    <li class="col-3">排序</li>
-                    <li class="col-7">最后编辑时间</li>
-                    <li class="col-8">操作</li>
-                </ul>
+                <room-list-component :list="roomList"></room-list-component>
+
             </div>
 
-            <#include repeat="0" tp-data="{}" file="{#LAM.COMPONENTS#}/list.html" />
-            <#=block id="components:list" data="{'list':__DATA__.room}" />
-
-
-
-
-
         </div>
 
-    </div>
-
-    <div class="sectionPageing-A2 clear">
-        <div class="R">
-            <#include repeat="0" tp-data=""  file="{#LAM.COMPONENTS#}/paging.html" />
+        <div class="sectionPageing-A2 clear">
+            <div class="R">
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
+<#Block:end>
+
+<#include repeat="0" tp-data="{}" file="{#LAM.COMPONENTS#}/list.html" />
+<#Block:begin id="contentComponent">
+<#=block id="roomListComponent" />
+<script type="text/javascript">
+    var contentComponent = LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var contentComponent = {
+          name: "contentComponent",
+          props: {
+          },
+          components: {
+            "room-list-component": roomListComponent
+          },
+          data: function () {
+            return {
+                roomList: __DATA__.room
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('content')
+        };
+
+        return contentComponent;
+    });
+</script>
+<#Block:end>
 
 
 

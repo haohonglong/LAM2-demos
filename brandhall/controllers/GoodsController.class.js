@@ -44,7 +44,7 @@
             // if (id) {
             //     return this.render('create.vue',null,E);
             // }
-            return this.render('create.vue', null, E);
+            return this.render('create', null, E);
         },
 
 

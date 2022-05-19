@@ -5,6 +5,15 @@
 {'name':'店铺基本设置'}
 ]}" />
 
+
+<#beginBlock id="crumb" data="{'list':[
+{'name':'店铺管理','href':'###','title':''},
+{'name':'店铺管理','href':'###','title':''},
+{'name':'_TITLE_'}
+]}">
+<#endBlock>
+
+<#Block:begin id="content">
 <form class="form-horizontal">
     <div class="sectionWrap-A5">
         <div class="p15">
@@ -60,4 +69,29 @@
         </div>
     </div>
 </form>
+<#Block:end>
+
+<#Block:begin id="contentComponent">
+<script type="text/javascript">
+
+    var contentComponent = LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        var contentComponent = {
+          name: "contentComponent",
+          props: {},
+          components: {},
+          data: function () {
+            return {
+            }
+          },
+          methods: {},
+          template: System.Template.getBlock('content')
+        };
+
+        return contentComponent;
+    });
+</script>
+<#Block:end>
 

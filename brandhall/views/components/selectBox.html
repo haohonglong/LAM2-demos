@@ -1,57 +1,78 @@
 #define# __COOKIE__ {#cookie#} #end#
 
-<!--Del:begin--><script type="text/javascript"><!--Del:end-->
-<!--Script:begin-->
-    var cookie = __COOKIE__;
-    var sid = cookie && cookie.sid || 0;
-    sid = sid > 0 ? sid : 0;
-    LAM.sid = sid;
-
-    var count = 1;
-
-<!--Script:end-->
-<!--Del:begin--></script><!--Del:end-->
-
-
-<#Block:begin id="option" data="{'list':[]}">
-
-<%if(sid != 0){%>
-<option value="<%=cookie.sid%>" class="none"><%=cookie.sort_name%></option>
-<%}else{%>
-<option value="0" class="none">请选择</option>
-<%}%>
-<#Block:end>
-
-<#Block:begin id="selectList" data="{'list':[]}">
+<#Block:begin id="selectBoxList">
 <ul>
-<%if(count == 1){%>
-<li value="0">请选择</li>
-<%count++;%>
-<%}%>
-<%LAM.each(list,function(i){%>
-<li value="<%=this.id%>" <%if(sid == this.id){%>class="selected"<%}%>><%=this.name%></li>
-<%if(LAM.isArray(this.child)){%>
-    <li class="ml10"><%=LAM.Template.getBlock('selectList',{list:this.child})%></li>
-<%}%>
-<%});%>
+    <li v-if="1 == count" value="0">请选择</li>
+    <template v-for="item in list">
+        <li :value="item.id" v-bind:class="{ selected: (sid == item.id)}">{{ item.name }} </li>
+        <li v-if="isArray(item.child)"  class="ml10">
+            <select-list-component :count="count++" :sid="sid" :list="item.child"></select-list-component> 
+        </li>
+    </template>
+    
 </ul>
 <#Block:end>
 
-<#Block:begin id="selectBox" data="{'list':[], 'name':''}">
-<select id="select" class="L" name="<%=name%>">
-	<%=LAM.Template.getBlock('option',{list:[]})%>
-</select>
-<div id="selectBox" class="none">
-    <div class="mCustomScrollbar">
-    <%=LAM.Template.getBlock('selectList',{list:list})%>
-    </div>
+<#Block:begin id="selectBox">
+<div>
+    <select id="select" class="L" :name="name">
+        <option v-if="0 == cookie.sid" value="0" class="none">请选择</option>
+        <option v-else :value="cookie.sid" class="none"> {{ cookie.sort_name }} </option>
+    </select>
+    <div id="selectBox" class="none">
+        <div class="mCustomScrollbar">
+            <select-list-component :count="1" :sid="cookie.sid || 0" :list="list"></select-list-component>
+        </div>
+    </div>    
 </div>
 <#Block:end>
 
+<#Block:begin id="selectBoxComponent">
 <script type="text/javascript">
-	LAM.run([jQuery],function($) {
+	var selectBoxComponent = LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
+
+        var selectListComponent = {
+              name: "selectListComponent",
+              props: ["list", "sid", "count"],
+              components: {
+              },
+              data: function () {
+                return {
+                }
+              },
+              methods: {
+                isArray: function(v){
+                    console.log(this.count,'=========================');
+                    console.log(v);
+                    var a = !(this.empty(v)) && System.isArray(v);
+                    console.log(a);
+                    return a;
+                },
+                empty:function(v){ return System.empty(v); }
+              },
+              template: System.Template.getBlock('selectBoxList')
+        };
+
+        var selectBoxComponent = {
+          name: "selectBoxComponent",
+          props: ["list", "name"],
+          components: {
+            "select-list-component": selectListComponent
+          },
+          data: function () {
+            return {
+                cookie: __COOKIE__
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('selectBox')
+        };
+
+
+
         $(function(){
             $(document).on('click', '#select',function(e){
                     $('#selectBox').show();
@@ -75,6 +96,8 @@
                 
             });
         });
+
+        return selectBoxComponent;
         
     });
 </script>
@@ -84,3 +107,4 @@
     #selectBox li{padding: 2px; cursor: pointer;}
     .selected{font-weight: bold;color:red;}
 </style>
+<#Block:end>

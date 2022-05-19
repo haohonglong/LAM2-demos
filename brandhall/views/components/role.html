@@ -39,7 +39,7 @@ LAM.run([jQuery],function($){
   $(function(){
     var $input = $('#role label input');
 
-    {{head}}.each(function(i,item){
+    {#head#}.each(function(i,item){
       $('label[data-key="'+this+'"]').on('click',function(){
         var input = $(this).find('input')[0];
         var $checks = $('[data-key="'+item+'"]');
