@@ -6,21 +6,15 @@
 <#define __CLASSPATH__="{#LAM.classPath#}" />
 
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
-
+<#define _TITLE_="类别列表" />
 
 
 <#extends title="类别" data="{'list':[
 {'name':'类别','href':'###','title':''},
 {'name':'类别列表','href':'###','title':''},
-{'name':'类别列表'}
+{'name':'_TITLE_'}
 ]}" />
 
-<#beginBlock id="crumb" data="{'list':[
-{'name':'类别','href':'###','title':''},
-{'name':'类别列表','href':'###','title':''},
-{'name':'类别列表'}
-]}">
-<#endBlock>
 
 
 <#Block:begin id="childComponent">

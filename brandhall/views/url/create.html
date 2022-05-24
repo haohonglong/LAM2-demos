@@ -22,7 +22,7 @@
 <#endBlock>
 
 
-<#include repeat="0" tp-data="{'cookie':__COOKIE__}"  file="__COMPONENTS__/selectBox.html" />
+<#include repeat="0" file="__COMPONENTS__/selectBox.html" />
 
 <#Block:begin id="content">
 <form class="form-horizontal" action="__SERVER__/url/add" method="post">
@@ -32,7 +32,7 @@
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <select-box-component :list="list" name="sid"></select-box-component>
+                        <select-box-component :cookie="cookie" :list="list" name="sid"></select-box-component>
                         <span data-error="sid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
@@ -54,7 +54,7 @@
                 </ul>
             </div>
             <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
-                <button type="submit" class="btn save L mr15">提交</button>
+                <button type="button" class="btn save L mr15">提交</button>
                 <button type="reset" class="btn btn-cancel L">恢复</button>
             </div>
         </div>
@@ -78,10 +78,14 @@
           },
           data: function () {
             return {
-                list: __DATA__
+                list: __DATA__,
+                cookie: __COOKIE__
             }
           },
           methods: {
+            submit:function(){
+
+            }
           },
           template: System.Template.getBlock('content')
         };
@@ -106,7 +110,7 @@
 
                 
 
-                $[this.method](this.action,{
+                $.post("__SERVER__/url/add",{
                     'sid':sid,
                     'name':name,
                     'url':url,

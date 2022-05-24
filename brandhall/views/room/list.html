@@ -1,18 +1,13 @@
+<#define _TITLE_="商品列表" />
 #define# __DATA__ <#include repeat="0" tp-data="" file="{#LAM.DATA#}/list.json" /> #end#
-<#extends title="商品列表" data="{'list':[
+<#extends title="_TITLE_" data="{'list':[
 {'name':'喜鹊筑家旗舰店','href':'###','title':''},
 {'name':'商品管理','href':'###','title':''},
-{'name':'仓库中的商品'}
+{'name':'_TITLE_'}
 ]}" />
 
-<#Block:begin id="crumb" data="{'list':[
-{'name':'喜鹊筑家旗舰店','href':'###','title':''},
-{'name':'商品管理','href':'###','title':''},
-{'name':'仓库中的商品'}
-]}">
-<#Block:end>
 
-<#Block:begin id="title" data="{'title':'商品列表'}"><#Block:end>
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
 <#Block:begin id="content">
 <div>

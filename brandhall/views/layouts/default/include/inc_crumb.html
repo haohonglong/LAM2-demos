@@ -1,8 +1,10 @@
-<#Block:begin id="crumb">
+<#Block:begin id="crumb" override="1:0">
 <div id="crumb" class="sectionCrumb-A1 mb20">
     <ul class="clear">
         <li v-for="item in list">
-        <a v-if="item.href" :title="item.title" :href="item.href" class="linkBlue">{{ item.name }}</a>&nbsp;&gt;&nbsp;
+        <span v-if="item.href">
+          <a :title="item.title" :href="item.href" class="linkBlue">{{ item.name }} </a> &nbsp;&gt;&nbsp;
+        </span>
         <strong v-else>{{ item.name }}</strong>
         </li>
     </ul>

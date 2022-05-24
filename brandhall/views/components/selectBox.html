@@ -1,5 +1,3 @@
-#define# __COOKIE__ {#cookie#} #end#
-
 <#Block:begin id="selectBoxList">
 <ul>
     <li v-if="1 == count" value="0">请选择</li>
@@ -57,13 +55,12 @@
 
         var selectBoxComponent = {
           name: "selectBoxComponent",
-          props: ["list", "name"],
+          props: ["list", "name","cookie"],
           components: {
             "select-list-component": selectListComponent
           },
           data: function () {
             return {
-                cookie: __COOKIE__
             }
           },
           methods: {

@@ -20,8 +20,6 @@
 <#include file="_LAYOUTS_/default/include/inc_menu_mobile.html" />
 <#include file="_LAYOUTS_/default/include/inc_header.html" />
 <#include file="_LAYOUTS_/default/include/inc_crumb.html" />
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -33,7 +31,7 @@
     <!#HEAD/>
     <!#CSS/>
     <!#JS/>
-    <#Block:begin type="override" id="title" data="{'title':'{#title#}'}">
+    <#Block:begin override="1:0" id="title" data="{'title':'{#title#}'}">
     <title><%=title%></title>
     <#Block:end>
     <#=block id="title" data="{}" />
