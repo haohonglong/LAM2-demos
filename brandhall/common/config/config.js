@@ -13,7 +13,7 @@
 
 (function(window,undefined){
     'use strict';
-    var ROOT="",_ROOT_="",System={},Config={},namespace="";
+    var ROOT="", _ROOT_="", namespace="";
     //check
     if(window.GRN_LHH && window[window.GRN_LHH] != undefined){
         return;
@@ -41,12 +41,11 @@
         _ROOT_ = window._ROOT_;
     }
 
-    (function(factory){
+    window[namespace] = {};
+    window[namespace].configure = function(System){
         'use strict';
-        window[namespace] = System = factory(System);
-    })(function(System){
-        'use strict';
-        System.Config = Config = {
+        
+        return {
             'vendorPath':_ROOT_+'/LAM2/lamborghiniJS',
             'LAM_DEBUG':true,
             'LAM_ENV':'dev',
@@ -77,7 +76,7 @@
                 };
             },
             'components':{
-                'excluded': [],
+                'excluded': [""],
                 'moduleId':'m',
                 'routerId':'r',
                 'defaultRoute':'room/list',
@@ -121,14 +120,17 @@
             'XHR':{//配置加载xhr 的公共参数
                 'type': 'GET'
                 ,'async':false
-                ,'cache':true
+                ,'cache':false
                 ,'beforeSend':function(){}
             },
             //配置基础文件
             'autoLoadFile':function(System){
                 var PLUGINS = System.PLUGINS;
                 return {
-                    files: []
+                    files: [
+                    // {'name': 'Router', 'path': System.classPath+'/jQuery/jquery1.js'}
+
+                    ]
                 };
             },
 
@@ -210,8 +212,7 @@
                 return this.vendorPath;
             }
         };
-        return System;
-    });
+    };
 
 })(this);
 
