@@ -1,10 +1,10 @@
 <#Block:begin id="selectBoxList">
 <ul>
-    <li v-if="1 == count" value="0">请选择</li>
+    <li v-if="0 == count" value="0">请选择</li>
     <template v-for="item in list">
-        <li :value="item.id" v-bind:class="{ selected: (sid == item.id)}">{{ item.name }} </li>
+        <li :value="item.id" @click="childMethod(item)" v-bind:class="{ selected: (sid == item.id)}">{{ item.name }} </li>
         <li v-if="isArray(item.child)"  class="ml10">
-            <select-list-component :count="count++" :sid="sid" :list="item.child"></select-list-component> 
+            <select-list-component :count="1" :sid="sid" :list="item.child"></select-list-component> 
         </li>
     </template>
     
@@ -13,13 +13,13 @@
 
 <#Block:begin id="selectBox">
 <div>
-    <select id="select" class="L" :name="name">
+    <select id="select" class="L" :name="name" v-on:click="arrowDown">
         <option v-if="0 == cookie.sid" value="0" class="none">请选择</option>
         <option v-else :value="cookie.sid" class="none"> {{ cookie.sort_name }} </option>
     </select>
-    <div id="selectBox" class="none">
+    <div id="selectBox" v-show="isShow">
         <div class="mCustomScrollbar">
-            <select-list-component :count="1" :sid="cookie.sid || 0" :list="list"></select-list-component>
+            <select-list-component @fatherMethod="fatherMethod" :count="0" :sid="cookie.sid || 0" :list="list"></select-list-component>
         </div>
     </div>    
 </div>
@@ -41,17 +41,22 @@
                 }
               },
               methods: {
+                childMethod: function(item){
+                  this.$emit('fatherMethod', item);
+                },
                 isArray: function(v){
-                    console.log(this.count,'=========================');
-                    console.log(v);
-                    var a = !(this.empty(v)) && System.isArray(v);
-                    console.log(a);
-                    return a;
+                    return System.isset(v) && System.isArray(v) && !(System.empty(v));
+                },
+                click: function(item) {
+                  alert(item.name);
+                  this.$emit('select', item);
                 },
                 empty:function(v){ return System.empty(v); }
               },
               template: System.Template.getBlock('selectBoxList')
         };
+
+        // ==================================================================================================
 
         var selectBoxComponent = {
           name: "selectBoxComponent",
@@ -61,38 +66,50 @@
           },
           data: function () {
             return {
+              sid: 0,
+              isShow: false
             }
           },
           methods: {
+            fatherMethod: function(item){
+              alert('测试1', item.name);
+            },
+            arrowDown: function(){
+              this.isShow = !this.isShow;
+            },
+            select: function(item) {
+              alert(item.id);
+            }
+
           },
           template: System.Template.getBlock('selectBox')
         };
 
 
 
-        $(function(){
-            $(document).on('click', '#select',function(e){
-                    $('#selectBox').show();
-                    e.preventDefault();  //阻止自身的事件，并不能阻止冒泡
-                    e.stopPropagation();  //阻止事件冒泡
+        // $(function(){
+        //     $(document).on('click', '#select',function(e){
+        //             $('#selectBox').show();
+        //             e.preventDefault();  //阻止自身的事件，并不能阻止冒泡
+        //             e.stopPropagation();  //阻止事件冒泡
                     
-                });
-            $(document).on('click', '#selectBox li',function(e){
-                    $('#selectBox li').removeClass("selected");
-                    $(this).addClass("selected");
-                    $('#select').find('option').val($(this).attr("value"));
-                    $('#select').find('option').text($(this).text());
-                    $('#selectBox').hide();
-                    e.preventDefault();  //阻止自身的事件，并不能阻止冒泡
-                    e.stopPropagation();  //阻止事件冒泡
+        //         });
+        //     $(document).on('click', '#selectBox li',function(e){
+        //             $('#selectBox li').removeClass("selected");
+        //             $(this).addClass("selected");
+        //             $('#select').find('option').val($(this).attr("value"));
+        //             $('#select').find('option').text($(this).text());
+        //             $('#selectBox').hide();
+        //             e.preventDefault();  //阻止自身的事件，并不能阻止冒泡
+        //             e.stopPropagation();  //阻止事件冒泡
                     
-                });
+        //         });
 
-            $(document).on('click',function(e) {
-                $('#selectBox').hide();
+        //     $(document).on('click',function(e) {
+        //         $('#selectBox').hide();
                 
-            });
-        });
+        //     });
+        // });
 
         return selectBoxComponent;
         

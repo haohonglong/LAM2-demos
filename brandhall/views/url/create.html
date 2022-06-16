@@ -25,7 +25,7 @@
 <#include repeat="0" file="__COMPONENTS__/selectBox.html" />
 
 <#Block:begin id="content">
-<form class="form-horizontal" action="__SERVER__/url/add" method="post">
+<form class="form-horizontal">
     <div class="sectionWrap-A5">
         <div class="p15">
             <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
@@ -54,7 +54,7 @@
                 </ul>
             </div>
             <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
-                <button type="button" class="btn save L mr15">提交</button>
+                <button type="button" v-on:click="submit()" class="btn save L mr15">提交</button>
                 <button type="reset" class="btn btn-cancel L">恢复</button>
             </div>
         </div>
@@ -79,38 +79,23 @@
           data: function () {
             return {
                 list: __DATA__,
-                cookie: __COOKIE__
+                cookie: __COOKIE__,
+                sid: -1,
+                name: "",
+                url: "",
+                info: ""
             }
           },
           methods: {
             submit:function(){
-
-            }
-          },
-          template: System.Template.getBlock('content')
-        };
-
-        function getByName(name) {
-            return document.getElementsByName(name)[0].value;
-        }
-
-
-
-
-
-        $(function(){
-            
-            $('form').submit(function () {
                 var wait = layer.load();
                 $('[data-error]').hide();
-                var sid  = getByName("sid");
-                var name = getByName("name");
-                var url  = getByName("url");
-                var info = getByName("info");
+                var sid  = this.sid;
+                var name = this.name;
+                var url  = this.url;
+                var info = this.info;
 
-                
-
-                $.post("__SERVER__/url/add",{
+                 $.post("__SERVER__/url/add",{
                     'sid':sid,
                     'name':name,
                     'url':url,
@@ -128,12 +113,10 @@
                     }
                 },'json');
 
-                return false;
-            });
-
-
-
-        });
+            }
+          },
+          template: System.Template.getBlock('content')
+        };
 
         return contentComponent;
     });

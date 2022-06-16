@@ -127,10 +127,7 @@
             'autoLoadFile':function(System){
                 var PLUGINS = System.PLUGINS;
                 return {
-                    files: [
-                    // {'name': 'Router', 'path': System.classPath+'/jQuery/jquery1.js'}
-
-                    ]
+                    files: []
                 };
             },
 

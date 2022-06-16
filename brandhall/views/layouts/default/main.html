@@ -9,6 +9,7 @@
 #define# __MENU__ <#include repeat="0" tp-data="" file="__DATAPATH__/menu.json" /> #end#
 
 <#import path="/vue/vue.js,/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
+<#import path="/vuex@4.0.2/dist/vuex.global.js" root="https://unpkg.com" write="1" befor="1" />
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
 <#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
@@ -16,10 +17,12 @@
 <#import type="css" path="/jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" root="__PLUGINS__" befor="1" />
 <#import path="/jquery.mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js" root="__PLUGINS__" write="1" befor="1" />
 
+
 <#include file="_LAYOUTS_/default/include/inc_menu.html" />
 <#include file="_LAYOUTS_/default/include/inc_menu_mobile.html" />
 <#include file="_LAYOUTS_/default/include/inc_header.html" />
 <#include file="_LAYOUTS_/default/include/inc_crumb.html" />
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -72,6 +75,7 @@
 <#=block id="contentComponent" />
 
 <script type="text/javascript">
+    Vue.use(Vuex);
     
     // 自定义滚动条
     LAM.mCustomScrollbar = function() {
@@ -175,6 +179,7 @@
 
 
     });
+
 </script>
 <style type="text/css">
     .mCustomScrollbar{height: 500px;overflow: auto;}

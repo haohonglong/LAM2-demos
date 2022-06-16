@@ -113,6 +113,10 @@
         var cache = new System.Cache('url');
         var tools =new System.Tools();
 
+        LAM.index = {
+            'cache': cache
+        };
+
 
         var menuComponent = {
           name: 'menuComponent',
@@ -140,14 +144,15 @@
 
 
         var contentComponent = {
-            'name': contentComponent,
+            'name': "contentComponent",
             'data': function(){
                 return {
                     'list': __DATA__,
                     'contents': [],
                     'keyword': "",
                     'title': "",
-                    'sid': 0
+                    'sid': 0,
+                    'cache': cache
                 };
             },
             'components': {
@@ -178,7 +183,7 @@
                     this.sid = sid;
                     var vue = this;
                     this.title = title;
-                    cache.find('id',sid,function (index,sid) {
+                    this.cache.find('id',sid,function (index,sid) {
                         var _this = this;
                         var list=null;
                         if(-1 === index){

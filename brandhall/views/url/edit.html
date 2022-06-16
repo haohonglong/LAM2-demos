@@ -5,7 +5,6 @@
 #define# __COOKIE__ {#cookie#} #end#
 
 
-
 <#define _TITLE_="修改地址" />
 
 <#beginBlock id="title" data="{'title':'_TITLE_'}"><#endBlock>
@@ -24,8 +23,9 @@
 <#Block:end>
 
 
-<#include repeat="0" tp-data="{'cookie':__COOKIE__}"  file="__COMPONENTS__/selectBox.html" />
-<#Block:begin id="url_form" data="{'id':'0','sid':'0','name':'','url':'','info':''}">
+<#include repeat="0" file="__COMPONENTS__/selectBox.html" />
+
+<#Block:begin id="content" data="{'id':'0','sid':'0','name':'','url':'','info':''}">
 <form class="form-horizontal" action="__SERVER__/url/edit?id=<%=id%>" method="post">
     <input type="hidden" name="id" value="<%=id%>">
     <div class="sectionWrap-A5">
@@ -35,7 +35,7 @@
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <%=LAM.Template.getBlock("selectBox",{'list':__DATA__, 'name':'sid'})%>
+                        <select-box-component :cookie="cookie" :list="list" name="sid"></select-box-component>
                         <span data-error="sid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
@@ -64,8 +64,86 @@
     </div>
 </form>
 <#Block:end>
-<div id="url_form"></div>
 
+
+
+<#Block:begin id="contentComponent">
+<#=block id="selectBoxComponent" />
+<script type="text/javascript">
+    var contentComponent = LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var contentComponent = {
+          name: "contentComponent",
+          props: {
+          },
+          components: {
+            "select-box-component": selectBoxComponent
+          },
+          data: function () {
+            return {
+                list: __DATA__,
+                cookie: __COOKIE__
+            }
+          },
+          methods: {
+            submit:function(){
+
+            }
+          },
+          template: System.Template.getBlock('content')
+        };
+
+        function getByName(name) {
+            return document.getElementsByName(name)[0].value;
+        }
+
+
+
+
+
+        $(function(){
+            
+            $('form').submit(function () {
+                var wait = layer.load();
+                $('[data-error]').hide();
+                var sid  = getByName("sid");
+                var name = getByName("name");
+                var url  = getByName("url");
+                var info = getByName("info");
+
+                
+
+                $.post("__SERVER__/url/add",{
+                    'sid':sid,
+                    'name':name,
+                    'url':url,
+                    'info':info
+                },function(data){
+                    layer.close(wait);
+                    if(data.status){
+                        alert(data.message);
+                        System.redirect(System.INDEX+"url/index");
+                    }else{
+                        // alert(data.message);
+                        System.each(data.errors,function (key,value) {
+                            $('[data-error="'+key+'"]').text(value).show();
+                        });
+                    }
+                },'json');
+
+                return false;
+            });
+
+
+
+        });
+
+        return contentComponent;
+    });
+</script>
+<#Block:end>
 <script type="text/javascript">
 
     LAM.run([jQuery],function($) {

@@ -22,7 +22,6 @@
             __this__=this;
             this.viewpath = System.VIEWS+'/test';
             this.layoutPath = this.layoutPath+'/default';
-            this.layout = 'auth';
             this.content = {
                 'user':{
                     'name':'name',
