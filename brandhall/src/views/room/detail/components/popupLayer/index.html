@@ -1,0 +1,143 @@
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define @="{#LAM.VIEWS#}/room/detail/components/popLayer" />
+<#import path="/PopupLayer.class" root="__CLASSPATH__" write="1" befor="1" />
+<#import path="/layer-v3.1.1/layer/layer" root="__PLUGINS__" write="1" befor="1" />
+
+
+
+<#Block:begin id="popupLayer">
+<div>
+    <div v-if="hasShow" class="sectionTransparent-A1 js_sectionTransparentA1"></div>
+</div>
+
+<#Block:end>
+
+<#include repeat="0" tp-data="{}" file="@/PopupLayerAComponent.html" />
+<#include repeat="0" tp-data="{}" file="@/PopupLayerBComponent.html" />
+<script type="text/javascript">
+    var PopupLayerComponent = LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        return {
+          name: "PopupLayerComponent",
+          props: {
+          },
+          components: {
+
+          },
+          data: function () {
+            return {
+                hasShow: false
+            }
+          },
+          methods: {
+              "PopupLayerAComponent": PopupLayerAComponent,
+              "PopupLayerBComponent": PopupLayerBComponent
+          },
+          template: System.Template.getBlock('popupLayer')
+        };
+    });
+
+
+    // LAM.run(function(){
+    //     'use strict';
+    //     var System = this;
+
+    //     $(function(){
+
+
+
+    //         var pop=new System.PopupLayer({
+    //             '$popLayout':$('.js_sectionPopupLayerA1'),
+    //             '$mask':$('.js_sectionTransparentA1'),
+    //             'padding':2,
+    //             'animate':null
+    //         });
+    //         pop.create().setCenter();
+
+
+    //         $('.js_sectionPopupLayerA1Close,.js_sectionTransparentA1').on('click',function(){
+    //             pop.hide();
+    //         });
+
+    //         $('.js_addChangeStruct').on('click',function(){
+
+    //             // layer.open({
+    //             //     title: ''
+    //             //     ,type:1
+    //             //     ,fixed:false
+    //             //     ,resize:false
+    //             //     ,area:['50%','80%']
+    //             //     ,content: pop.$popLayout.find('.content').html()
+    //             // });
+    //             pop.show().scroll();
+    //         });
+
+
+
+
+
+
+    //         // //第二个弹出框
+    //         var pop2=new System.PopupLayer({
+    //             '$popLayout':$('.js_sectionPopupLayerA2'),
+    //             '$mask':pop.$mask,
+    //             'padding':0,
+    //             'animate':{}
+    //         });
+    //         pop2.create().setCenter();
+
+    //         $('.js_sectionPopupLayerA1Close,.js_sectionTransparentA1').on('click',function(){
+
+    //             pop2.hide();
+    //         });
+
+    //         $('.js_addChangeStruct2').on('click',function(){
+    //             pop2.show().scroll();
+    //         });
+
+
+    //         $('.js_saveButton').bind('click',function(){
+    //             pop.hide();
+    //             pop2.hide();
+    //         });
+
+
+
+    //         // $('.js_showList').toggle(function(){
+    //         //     $(this).text("收起方案列表");
+    //         //     $(this).parents('.sectionWrap-A15').next().show();
+    //         // },function(){
+    //         //     $(this).text("展开方案列表");
+    //         //     $(this).parents('.sectionWrap-A15').next().hide();
+    //         // });
+
+    //         $(window).scroll(function() {
+    //             if(!pop.is_hide())
+    //                 pop.scroll();
+    //             if(!pop2.is_hide())
+    //                 pop2.scroll();
+    //         });
+    //         $(window).resize(function() {
+    //             if(!pop.is_hide())
+    //                 pop.resize().scroll();
+    //             if(!pop2.is_hide())
+    //                 pop2.resize().scroll();
+    //         });
+
+    //         window.pop = pop;
+    //         window.pop2= pop2;
+
+
+
+
+
+    //     });
+
+    // });
+
+
+
+</script>

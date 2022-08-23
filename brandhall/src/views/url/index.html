@@ -1,0 +1,251 @@
+<#define __LAMPATH__="{#LAM.classPath#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+<#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
+<#import type="css" path="/tree" root="__CSS__" befor="1" />
+
+<#define _TITLE_="网页地址" />
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#Block:begin id="content">
+<div class="sectionWrap-A7 p-rel">
+    <div class="sectionMenu-A1">
+        <el-input
+            placeholder="输入关键字进行过滤"
+            v-model="filterText">
+        </el-input>
+
+        <el-tree
+            :expand-on-click-node="false"
+            :current-node-key="currentNodeKey"
+            @node-click="handleNodeClick"
+            class="filter-tree mCustomScrollbar _mCS_1 mCS_no_scrollbar"
+            :data="data"
+            :props="defaultProps"
+            :filter-node-method="filterNode"
+            ref="tree">
+        </el-tree>
+    </div>
+
+    <div class="sectionWrap-A6">
+        <div class="j_sectionBlock p-rel sectionBorder-A4 ">
+            <div class="p25">
+
+                <ul class="sectionTitle-A5 sectionTitle-A5-p0 clear mb10 sectionForm-A1 sectionForm-A1-1 sectionForm-A1-2 sectionFloat">
+                    
+                    <li class="mr20">
+                        <label class="L w-auto">筛选：</label>
+                        <input type="text" v-model="keyword" class="text w-160 L" value="" placeholder="请输入关键字">
+                    </li>
+                    <li class="R sectionButton-B1">
+                        <a href="__INDEX__url/create"><button type="button" class="btn">添加</button></a>
+                    </li>
+                </ul>
+                <div class="sectionFloat sectionWrap-A17 mb10">
+                    <ul class="clear">
+                        <li v-for="(item, index) in contents" class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big">
+                            <div class="btn">
+                                <a :href="item.url" target="_blank">{{ item.name }}</a>
+                                <a v-on:click="modify(item.id)">修改</a>
+                                <a v-on:click="remove(item.id)" href="javascript:void(0)">删除</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="sectionPageing-A2 clear mb20">
+                    <div class="R">
+                        
+                        <paging-omponent></paging-omponent>
+                    </div>
+                </div>
+
+                <div class="sectionTitle-A5 sectionTitle-A5-p0 clear">
+                    <div class="L">
+                        <span class="mr5"><input class="v-negative3 js_allcheckbok" type="checkbox"></span>
+                        <span>全选当前商品</span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<#Block:end>
+
+
+
+<#include file="__COMPONENTS__/PagingComponent.html" />
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        var cache = new System.Cache('url');
+        var tools =new System.Tools();
+
+        LAM.index = {
+            'cache': cache
+        };
+
+
+        var ContentComponent = {
+            'name': "ContentComponent",
+            data(){
+                return {
+                    'contents': [],
+                    'currentNodeKey': '',
+                    'keyword': "",
+                    'title': "",
+                    'sid': 0,
+                    cache,
+                    filterText: '',
+                    data: __DATA__,
+                    defaultProps: {
+                        children: 'child',
+                        label: 'name'
+                    }
+
+                };
+            },
+            'components': {
+                'paging-omponent': System.require('PagingComponent')
+            },
+            beforeCreate() { },
+            created() {
+                let v = this;
+                System.COOKIE.find('id',"1",function (index) {
+                    if(-1 !== index){
+                        const { sid, sort_name: name } = this.get(index);
+                        if(sid > 0){
+                            System.wait(function () {
+                                // v.currentNodeKey = sid+'';
+                                v.filterText = name;
+                                v.getContent(sid, name);
+                                
+                            },1);
+                        }
+
+                    }
+                });
+            },
+            'methods': {
+                search() {
+                    let sid = this.sid;
+                    let name = this.keyword;
+                    
+                    if(sid > 0) {
+                        let wait = layer.load();
+                        Api.url.search({ sid, name }, D => {
+                            layer.close(wait);
+                            if(D.status){
+                                this.contents = D.data;
+                            }
+                        });
+                        
+                    }
+
+                },
+                getContent(sid, title){
+                    this.sid = sid;
+                    var vue = this;
+                    this.title = title;
+                    this.cache.find('id',sid,function (index,sid) {
+                        var list=null;
+                        if(-1 === index){
+                            var wait = layer.load();
+                            Api.url.get(sid, D =>{
+                                layer.close(wait);
+                                if(D.status){
+                                    list = D.data;
+                                    vue.contents = list;
+                                    this.add({list:list});
+                                }else{
+                                    list = "没有数据";
+                                }
+                            });
+                            
+                        }else{
+                            vue.contents = this.get(index).list;
+                        }
+                    });
+
+                    $("#crumb strong").text(this.title);
+                    System.COOKIE.find('id',"1",function (index) {
+                        if(-1 !== index){
+                            var data = this.get(index);
+                            data.sid = sid;
+                            data.sort_name = title;
+                            this.update(index,data);
+                        }
+                    });
+                    
+                },
+                remove(id){
+                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
+                      //do something
+                        Api.url.delete(id, data => {
+                            alert(data.message);
+                            if(!data.status){
+                                System.each(data.errors,function (key,value) {
+                                    alert(value)
+                                });
+                            }
+                            layer.close(index);
+                        });
+                      
+                    });
+                },
+                modify(id){
+                    System.redirect('__INDEX__url/edit&id=' + id);
+                },
+                filterNode(value, data) {
+                    if (!value) return true;
+                    return data.name.indexOf(value) !== -1;
+                },
+                handleNodeClick(data) {
+                    this.getContent(data.id, data.name);
+                }
+            },
+            'watch': {
+                'keyword': function() { this.search();},
+                filterText(val) {
+                    this.$refs.tree.filter(val);
+                }
+            },
+            template: System.Template.getBlock('content')
+        };
+
+        System.export('ContentComponent', ContentComponent)
+    });
+</script>
+
+<style type="text/css">
+    .sectionButton-B1 .btn a{color:#fff;}
+    .sectionMenu-A1 { position: relative; float: left; }
+    .sectionWrap-A6 { margin-left: 180px; }
+    .el-input { width: auto; }
+
+</style>
+
+
+
+

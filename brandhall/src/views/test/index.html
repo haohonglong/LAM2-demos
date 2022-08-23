@@ -1,0 +1,93 @@
+<#define __SERVER__="{#LAM.SERVER#}" />
+#define# __DATA__ <#include repeat="0" tp-data="{}" file="__SERVER__/sorts/index" /> #end#
+
+<#define _TITLE_="tesst" />
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#Block:begin id="content">
+<div class="clearfix mCustomScrollbar _mCS_1 mCS_no_scrollbar">
+  <div class="sectionMenu-A1">
+    <el-input
+      placeholder="输入关键字进行过滤"
+      v-model="filterText">
+    </el-input>
+
+    <el-tree
+      @node-click="handleNodeClick"
+      class="filter-tree"
+      :data="data"
+      :props="defaultProps"
+      :filter-node-method="filterNode"
+      ref="tree">
+    </el-tree>
+  </div>
+  <div class="sectionWrap-A6">
+      <div class="j_sectionBlock p-rel sectionBorder-A4 ">
+          <div class="p25">
+              dfadsfadsf
+              
+          </div>
+      </div>
+  </div>
+
+</div>
+
+<#Block:end>
+
+<#Block:begin id="ContentComponent">
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+
+        var ContentComponent = {
+            'name': "ContentComponent",
+            data() {
+              return {
+                filterText: '',
+                data: __DATA__,
+                defaultProps: {
+                  children: 'child',
+                  label: 'name'
+                }
+              };
+            },
+            created() { },
+            'methods': {
+              filterNode(value, data) {
+                if (!value) return true;
+                return data.name.indexOf(value) !== -1;
+              },
+              handleNodeClick(data) {
+                console.log(data);
+              }
+            },
+            watch: {
+              filterText(val) {
+                this.$refs.tree.filter(val);
+              }
+            },
+
+            template: System.Template.getBlock('content')
+        };
+
+        System.export('ContentComponent', ContentComponent);
+    });
+</script>
+<#Block:end>
+
+<style>
+  .sectionMenu-A1 { position: relative; float: left; }
+  .sectionWrap-A6 { margin-left: 180px; }
+  .el-input { width: auto; }
+</style>

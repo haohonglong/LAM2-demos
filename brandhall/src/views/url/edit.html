@@ -1,0 +1,146 @@
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __MODELS__="{#LAM.MODELS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+
+#define# __COOKIE__ {#cookie#} #end#
+
+
+<#define _TITLE_="修改地址" />
+
+<#beginBlock id="title" data="{'title':'_TITLE_'}"><#endBlock>
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#Block:begin id="crumb" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}">
+<#Block:end>
+
+<#Block:begin id="content">
+<form class="form-horizontal">
+    <div class="sectionWrap-A5">
+        <div class="p15">
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+                <span data-error="id" class="help-block none"></span>
+                <ul>
+                    <li class="clear mb5">
+                        <label class="L">类别：<span class="warning">*</span></label>
+                        <select-box-component :cookie="cookie" v-on:setSid="setSid" :list="list" name="sid"></select-box-component>
+                        <span data-error="sid" class="help-block none"></span>
+                    </li>
+                    <li class="clear mb5">
+                        <label class="L">名称：<span class="warning">*</span></label>
+                        <input type="text" v-model="name" class="text name L">
+                        <span data-error="name" class="help-block none"></span>
+                    </li>
+
+                    <li class="clear mb5">
+                        <label class="L">url：<span class="warning">*</span></label>
+                        <input type="text" v-model="url" class="text name L">
+                        <span data-error="url" class="help-block none"></span>
+                    </li>
+                    <li class="textarea clear">
+                        <label class="L">简介：<span class="warning">*</span></label>
+                        <textarea class="L" v-model="info">{{ info }}</textarea>
+                        <span data-error="info" class="help-block none"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
+                <button type="button" @click="submit" class="btn save L mr15">提交</button>
+                <button type="reset" class="btn btn-cancel L">恢复</button>
+            </div>
+        </div>
+    </div>
+</form>
+<#Block:end>
+
+
+
+
+<#include repeat="0" file="__COMPONENTS__/SelectBoxComponent.html" />
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        var id = System.get('id');
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          props: {
+          },
+          components: {
+            "select-box-component": System.require('SelectBoxComponent')
+          },
+          data() {
+            return {
+                list: [],
+                cookie: __COOKIE__,
+                sid: '',
+                name: '',
+                url: '',
+                info: '',
+                id
+            }
+          },
+          beforeCreate() {
+            Api.sorts.get(data =>{
+                this.list = data;
+            });
+            Api.url.detail(id, ({ data, status, message = 'error'}) => {
+                if(status){
+                    this.sid = data.sorts_id;
+                    this.name = data.name;
+                    this.url = data.url;
+                    this.info = data.info;
+
+                }else{
+                    alert(message);
+                }
+            },'json');
+          },
+          methods: {
+            setSid(sid){
+                this.sid = sid;
+            },
+            submit() {
+                var wait = layer.load();
+                $('[data-error]').hide();
+                var sid  = this.sid;
+                var name = this.name;
+                var url  = this.url;
+                var info = this.info;
+
+                Api.url.edit({
+                    id,
+                    sid,
+                    name,
+                    url,
+                    info
+                }, data => {
+                    layer.close(wait);
+                    if(data.status){
+                        alert(data.message);
+                        System.redirect(System.INDEX+"url/index");
+                    }else{
+                        alert(data.message);
+                        System.each(data.errors,function (key,value) {
+                            $('[data-error="'+key+'"]').text(value).show();
+                        });
+                    }
+                },'json');
+            }
+          },
+          template: System.Template.getBlock('content')
+        };
+
+        System.export('ContentComponent', ContentComponent);
+    });
+</script>
+

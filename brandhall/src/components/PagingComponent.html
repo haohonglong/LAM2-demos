@@ -1,0 +1,28 @@
+<#Block:begin id="paging">
+<div>
+  <span class="mr10">共1页</span>到第<span class="sectionForm-A2 mr5 ml5"><input type="text" class="text w-38"></span>页
+  <span class="sectionForm-A3 ml5"><input class="" type="submit" value="确定"></span>
+</div>
+<#Block:end>
+
+
+<script type="text/javascript">
+	LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+        
+        var PagingComponent = {
+              name: "PagingComponent",
+              props: [],
+              components: {},
+              data() {
+                return {}
+              },
+              methods: {},
+              template: System.Template.getBlock('paging')
+        };
+
+        System.export('PagingComponent', PagingComponent);
+        
+    });
+</script>

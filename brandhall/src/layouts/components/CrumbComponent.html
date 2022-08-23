@@ -1,0 +1,33 @@
+<#Block:begin id="crumb" override="1:0">
+<el-breadcrumb separator-class="el-icon-arrow-right">
+  <template v-for="item in list">
+    <el-breadcrumb-item v-if="item.href" :to="{ path: item.href }">{{ item.name }}</el-breadcrumb-item>
+    <el-breadcrumb-item v-else>{{ item.name }}</el-breadcrumb-item>
+  </template>
+</el-breadcrumb>
+<#Block:end>
+
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+
+
+        var CrumbComponent = {
+          name: "CrumbComponent",
+          props: {
+            "list": Object
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('crumb')
+        };
+
+        System.export('CrumbComponent', CrumbComponent);
+    });
+</script>

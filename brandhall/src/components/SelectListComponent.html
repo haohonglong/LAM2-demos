@@ -1,0 +1,59 @@
+<#Block:begin id="selectBoxList">
+<ul>
+    <li v-if="0 == count" value="0">请选择</li>
+    <template v-for="item in list">
+        <li :value="item.id" @click="setData(item)" v-bind:class="{ selected: (sid == item.id)}">{{ item.name }} </li>
+        <li v-if="isArray(item.child)"  class="ml10">
+            <select-list-component @setSid="setSid" @setName="setName" @hideSelectBox="hideSelectBox" :count="1" :sid="sid" :list="item.child"></select-list-component> 
+        </li>
+    </template>
+    
+</ul>
+<#Block:end>
+
+<script type="text/javascript">
+	LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+        
+        var SelectListComponent = {
+              name: "SelectListComponent",
+              props: ["list", "sid", "count"],
+              components: { },
+              data: function () {
+                return {
+                }
+              },
+              methods: {
+								setData(item) {
+									this.setName(item.name);
+									this.setSid(item.id);
+									this.$emit('hideSelectBox');
+								},
+                setSid(id) {
+                  this.$emit('setSid', id);
+                },
+                setName(name) {
+                  this.$emit('setName', name);
+                },
+                hideSelectBox() {
+                  this.$emit('hideSelectBox');
+                },
+                isArray(v) {
+                    return System.isset(v) && System.isArray(v) && !(System.empty(v));
+                },
+                click(item) {
+                  alert(item.name);
+                  this.$emit('select', item);
+                },
+                empty(v) { return System.empty(v); }
+              },
+              template: System.Template.getBlock('selectBoxList')
+        };
+
+        System.export('SelectListComponent', SelectListComponent);
+        
+    });
+</script>
+
+

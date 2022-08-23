@@ -1,0 +1,90 @@
+<#define __LAMPATH__="{#LAM.classPath#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define ~@="{#LAM.VIEWS#}/sorts" />
+
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+<#define _TITLE_="类别列表" />
+
+
+<#extends title="类别" data="{'list':[
+{'name':'类别','href':'###','title':''},
+{'name':'类别列表','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#Block:begin id="content">
+<div>
+	<!-- <div v-for="v in list" class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" :data-id="v.id">
+		<div class="btn">
+	        <span>{{ v.name }}</span>
+	        <a @click="modify(v.id, v.pid)">修改</a>
+	        <a @click="remove(v.id)">删除</a>
+	    </div>
+		<ul v-if="isArray(v.child)" class="ml10"><child-component v-on:modify="modify" :list="v.child"></child-component></ul>
+	</div> -->
+    <child-component v-on:modify="modify" :list="list"></child-component>
+</div>
+<#Block:end>
+
+
+
+<#include file="~@/components/ChildComponent.html" />
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        var ContentComponent = {
+            'name': 'ContentComponent',
+            data(){
+                return {
+                	list: __DATA__
+                };
+            },
+            'components': {
+                'child-component': System.require('ChildComponent')
+            },
+            'methods': {
+                modify(id, pid) {
+                    System.redirect(`__INDEX__sorts/edit&id=${id}&pid=${pid}`);
+                },
+                remove(id) {
+                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
+                    
+                        Api.sorts.delete(id, data => {
+                            if(data.status){
+                                System.redirect(System.INDEX+'sorts/index');
+                            }else{
+                                alert(data.message);
+                                System.each(data.errors,function (key,value) {
+                                    alert(value)
+                                });
+                                layer.close(index);
+                            }
+                        })
+                    });
+                },
+            	isArray(value) {
+	                return System.isArray(value);
+	            }
+            },
+            'watch': { },
+            template: System.Template.getBlock('content')
+        };
+
+
+        System.export('ContentComponent', ContentComponent);
+    });
+</script>
+
+
+<style type="text/css">
+    .sectionButton-B1 .btn{}
+    .sectionButton-B1 .btn a{color:#fff;}
+
+</style>

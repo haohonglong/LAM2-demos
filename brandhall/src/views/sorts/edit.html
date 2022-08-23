@@ -1,0 +1,117 @@
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __MODELS__="{#LAM.MODELS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+#define# __COOKIE__ {#cookie#} #end#
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+
+<#define _TITLE_="修改类别" />
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#Block:begin id="crumb" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}">
+<#Block:end>
+
+
+<#Block:begin id="content">
+<form class="form-horizontal">
+    <div class="sectionWrap-A5">
+        <div class="p15">
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+                <ul>
+                    <li class="clear mb5">
+                        <label class="L">类别：<span class="warning">*</span></label>
+                        <select-box-component :cookie="cookie" v-on:setSid="setSid" :list="list" name="sid"></select-box-component>
+                        <span data-error="pid" class="help-block none"></span>
+                    </li>
+                    <li class="clear mb5">
+                        <label class="L">名称：<span class="warning">*</span></label>
+                        <input type="text" v-model="name" class="text name L">
+                        <span data-error="name" class="help-block none"></span>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
+                <button type="button" @click="submit" class="btn save L mr15">修改</button>
+                <button type="reset" class="btn btn-cancel L">恢复</button>
+            </div>
+        </div>
+    </div>
+</form>
+<#Block:end>
+
+
+
+
+<#include repeat="0" file="__COMPONENTS__/SelectBoxComponent.html" />
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        const System = this;
+        const id = System.get('id'), pid = System.get('pid');
+
+        const ContentComponent = {
+          name: "ContentComponent",
+          props: {
+          },
+          components: {
+            "select-box-component": System.require('SelectBoxComponent')
+          },
+          data() {
+            return {
+                list: __DATA__,
+                cookie: __COOKIE__,
+                sid: pid || -1,
+                name: ""
+            }
+          },
+          beforeCreate() {
+          },
+          methods: {
+            setSid(sid){
+                this.sid = sid;
+            },
+            submit(){
+                var wait = layer.load();
+                $('[data-error]').hide();
+                const pid = this.sid;
+                const name = this.name;
+
+                var data = { 
+                    id,
+                    pid,
+                    name
+                };
+
+                Api.sorts.edit(data, D => {
+                    layer.close(wait);
+                    if(D.status){
+                        alert(D.message);
+                        System.redirect(System.INDEX+"sorts/index");
+                    }else{
+                        // alert(D.message);
+                        // System.each(D.errors,function (key,value) {
+                        //     $('[data-error="'+key+'"]').text(value).show();
+                        // });
+                    }
+
+                });
+                 
+
+            }
+          },
+          template: System.Template.getBlock('content')
+        };
+
+        System.export('ContentComponent', ContentComponent);
+    });
+</script>
+

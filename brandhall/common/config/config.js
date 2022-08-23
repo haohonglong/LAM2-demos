@@ -52,31 +52,38 @@
             'Public':function(System){
                 
                 ROOT = _ROOT_+'/brandhall';
+                const SRC = ROOT+'/src',
+                      ASSETS = ROOT+'/src/assets',
+                      VIEWS = SRC+'/views',
+                      CONF = ROOT+'/common/config';
+
                 return {
                     'ROOT':_ROOT_
                     ,'BACKEND':ROOT
                     ,'COMMON':_ROOT_+'/common'
                     ,'PLUGINS':_ROOT_+'/common/plugins'
                     ,'MYCOMMON':ROOT+'/common'
-                    ,'CONF':ROOT+'/common/config'
-                    ,'CSS':ROOT+'/public/css'
-                    ,'SCRIPT':ROOT+'/public/js'
-                    ,'DATA':ROOT+'/data'
-                    ,'IMAGE':ROOT+'/public/images'
-                    ,'CONTROLLERS':ROOT+'/controllers'
-                    ,'MODELS':ROOT+'/models'
-                    ,'VIEWS':ROOT+'/views'
-                    ,'LAYOUTS':ROOT+'/views/layouts'
-                    ,'COMPONENTS':ROOT+'/views/components'
-                    ,'ERROR_404':ROOT+'/views/_404.html'
+                    ,CONF
+                    ,SRC
+                    ,'CSS':ASSETS+'/css'
+                    ,'SCRIPT':ASSETS+'/js'
+                    ,'IMAGE':ASSETS+'/images'
+                    ,'DATA':SRC+'/data'
+                    ,'CONTROLLERS':SRC+'/controllers'
+                    ,'MODELS':SRC+'/models'
+                    ,'LAYOUTS':SRC+'/layouts'
+                    ,'API':SRC+'/api'
+                    ,'COMPONENTS':SRC+'/components'
+                    ,VIEWS
+                    ,'ERROR_404':VIEWS+'/_404.html'
                     ,'INDEX':'index.html?r='
                     ,'SERVER':'http://yaf.local'
-                    ,'CONFIGURATION_PATH': ROOT+'/common/config/config.js'
+                    ,'CONFIGURATION_PATH': CONF+'/config.js'
 
                 };
             },
             'components':{
-                'excluded': [""],
+                'excluded': [],
                 'moduleId':'m',
                 'routerId':'r',
                 'defaultRoute':'room/list',
@@ -148,13 +155,15 @@
                             'type':'text/javascript',
                             //'async':'async',
                             //'defer':'defer',
-                            'charset':'utf-8'
+                            'charset':'utf-8',
+                            'sn': System.timestamp()
                         }
                     },
                     'css':{
                         'Attribute':{
                             'type':'text/css',
-                            'rel':'stylesheet'
+                            'rel':'stylesheet',
+                            'sn': System.timestamp()
                         }
                     }
                 },

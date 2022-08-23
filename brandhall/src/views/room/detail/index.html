@@ -1,0 +1,127 @@
+<#define _TITLE_="楼盘详细" />
+<#define ~@="{#LAM.VIEWS#}/room/detail" />
+<#define COMPONENTS="~@/components" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#import type="css" path="/tree" root="__CSS__" befor="1" />
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'喜鹊筑家旗舰店','href':'###','title':''},
+{'name':'样板间管理','href':'###','title':''},
+{'name':'楼盘户型管理','href':'###','title':''},
+{'name':'大华锦绣华城-香鸢美颂'}
+]}" />
+
+
+
+
+<#Block:begin id="content">
+
+<div>
+    <div class="row mb15">
+      <div class="col-md-12">
+          <div class="sectionWrap-A14">
+              <div class="sectionBorder-A4 p15 clear">
+                  <div class="L mr20">
+                      <img data-var="tpl" src="__IMAGE__/imgs_LHH/pics/img_02.jpg" width="100%" height="100%" alt="">
+                  </div>
+                  <div class="">
+                      <div class="sectionBox sectionTitle-A sectionTitle-A8 sectionTitle-A8-2 mb5">
+                          <h2>大华锦绣华城 香鸢美颂</h2>
+                          <div class="more">
+                              <a href="###"></a>
+                          </div>
+                      </div>
+                      <div class="sectionText-A3 sectionText-A3-2 mb10">
+                          <p class="grey"><strong>07月31日价格：9000元/㎡</strong>(乐美颂小公馆起售)</p>
+                          <p class="grey"><strong>交付时间：</strong>2015年08月31日   <strong>开盘时间：</strong>预计8月上旬推香鸢美颂25号楼</p>
+                          <p class="grey"><strong>售楼地址：</strong>浦口区浦珠北路59号（浦珠路南侧 长江北侧）</p>
+                          <p class="grey"><strong>项目地址：</strong>[江北·浦口区] 浦口区浦珠北路59号（浦珠北路和柳州南路交汇处）</p>
+                      </div>
+                      <div>
+                          <a href="###" class="linkBlue mr10">展开浏览楼盘详细信息</a>
+                          <span class="linkBlue js_addChangeStruct hand">添加新户型</span>
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+          <div class="sectionWrap-A7 p-rel">
+              <div class="sectionMenu-A1 sectionMenu-A1-2 sectionMenu-A1-2-1 j_sectionMenuA1">
+                  <dl class="border">
+                      <dd class="cur">
+                          <div class="title">香鸢美颂2街区B1户型</div>
+                          <div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1 none"><i></i></div>
+                      </dd>
+                      <dd>
+                          <div class="title">香鸢美颂2街区B2户型</div>
+                          <div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1 none"><i></i></div>
+                      </dd>
+                      <dd>
+                          <div class="title">香鸢美颂2街区B2户型</div>
+                          <div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1 none"><i></i></div>
+                      </dd>
+                      <dd>
+                          <div class="title">香鸢美颂2街区B2户型</div>
+                          <div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1 none"><i></i></div>
+                      </dd>
+                      <dd>
+                          <div class="title">香鸢美颂2街区B2户型</div>
+                          <div class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1 none"><i></i></div>
+                      </dd>
+
+                  </dl>
+
+              </div>
+              <div class="sectionWrap-A6">
+                <list-component></list-component>
+              </div>
+          </div>
+      </div>
+  </div>
+    <div>
+        <PopupLayerAComponent></PopupLayerAComponent>
+        <PopupLayerBComponent></PopupLayerBComponent>
+        <div v-if="hasShow" class="sectionTransparent-A1 js_sectionTransparentA1"></div>
+    </div>
+</div>
+<#Block:end>
+
+
+<#include file="COMPONENTS/ListComponent.html" />
+<#include file="COMPONENTS/popupLayer/PopupLayerAComponent.html" />
+<#include file="COMPONENTS/popupLayer/PopupLayerBComponent.html" />
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          props: {
+          },
+          components: {
+            "list-component": System.require('ListComponent'),
+            "PopupLayerAComponent": System.require('PopupLayerAComponent'),
+            "PopupLayerBComponent": System.require('PopupLayerBComponent')
+          },
+          data: function () {
+            return {
+                hasShow: false
+            }
+          },
+          methods: {
+              
+          },
+          template: System.Template.getBlock('content')
+        };
+
+        System.export('ContentComponent', ContentComponent);
+    });
+
+
+</script>
