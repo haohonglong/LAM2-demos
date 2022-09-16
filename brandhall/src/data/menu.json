@@ -1,12 +1,6 @@
 <#define __INDEX__="{#LAM.INDEX#}" />
 [
   {
-    "index": "a1",
-    "icon":"a-1",
-    "title":"我购买的服务",
-    "ul":null
-  },
-  {
     "index": "a2",
     "icon":"a-4",
     "title":"博彩",
@@ -70,17 +64,6 @@
     ]
   },
   {
-    "index": "a9",
-    "icon":"a-3",
-    "title":"宝贝管理",
-    "ul":[
-      {  "index": "a9-b1", "title":"卖家地图","href":"###"},
-      {  "index": "a9-b2", "title":"我家要装修","href":"###"},
-      {  "index": "a9-b3", "title":"格致商城","href":"###"},
-      {  "index": "a9-b4", "title":"格致社区","href":"###"}
-    ]
-  },
-  {
     "index": "a10",
     "icon":"a-4",
     "title":"样板间管理",
@@ -112,72 +95,6 @@
     "ul":[
       { "index": "a12-b1", "title":"商品列表","href":"__INDEX__goods/index"},
       { "index": "a12-b2", "title":"添加商品","href":"__INDEX__goods/create"}
-    ]
-  },
-  {
-    "index": "a13",
-    "icon":"a-6",
-    "title":"消息中心",
-    "ul":[
-      {  "index": "a13-b1", "title":"卖家地图","href":"###"},
-      {  "index": "a13-b2", "title":"我家要装修","href":"###"},
-      {  "index": "a13-b3", "title":"格致商城","href":"###"},
-      {  "index": "a13-b4", "title":"格致社区","href":"###"}
-    ]
-  },
-  {
-    "index": "a14",
-    "icon":"a-7",
-    "title":"品牌经销商",
-    "ul":[
-      { "index": "a14-b1", "title":"卖家地图","href":"###"},
-      { "index": "a14-b2", "title":"我家要装修","href":"###"},
-      { "index": "a14-b3", "title":"格致商城","href":"###"},
-      { "index": "a14-b4", "title":"格致社区","href":"###"}
-    ]
-  },
-  {
-    "index": "a15",
-    "icon":"a-8",
-    "title":"营销中心",
-    "ul":[
-      { "index": "a15-b1", "title":"卖家地图","href":"###"},
-      { "index": "a15-b2", "title":"我家要装修","href":"###"},
-      { "index": "a15-b3", "title":"格致商城","href":"###"},
-      { "index": "a15-b4", "title":"格致社区","href":"###"}
-    ]
-  },
-  {
-    "index": "a16",
-    "icon":"a-9",
-    "title":"软件服务",
-    "ul":[
-      { "index": "a16-b1", "title":"卖家地图","href":"###"},
-      { "index": "a16-b2", "title":"我家要装修","href":"###"},
-      { "index": "a16-b3", "title":"格致商城","href":"###"},
-      { "index": "a16-b4", "title":"格致社区","href":"###"}
-    ]
-  },
-  {
-    "index": "a17",
-    "icon":"a-10",
-    "title":"客户服务",
-    "ul":[
-      { "index": "a17-b1", "title":"卖家地图","href":"###"},
-      { "index": "a17-b2", "title":"我家要装修","href":"###"},
-      { "index": "a17-b3", "title":"格致商城","href":"###"},
-      { "index": "a17-b4", "title":"格致社区","href":"###"}
-    ]
-  },
-  {
-    "index": "a18",
-    "icon":"a-11",
-    "title":"友情链接",
-    "ul":[
-      { "index": "a18-b1", "title":"卖家地图","href":"###"},
-      { "index": "a18-b2", "title":"我家要装修","href":"###"},
-      { "index": "a18-b3", "title":"格致商城","href":"###"},
-      { "index": "a18-b4", "title":"格致社区","href":"###"}
     ]
   }
 

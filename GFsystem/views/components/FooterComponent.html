@@ -1,0 +1,29 @@
+<#Block:begin id="footerComponent">
+<div class="footer" id="footer">
+    © 2013 <a href="http://bootstrapguru.com">Bootstrap Guru</a>
+</div>
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var FooterComponent = {
+          name: "FooterComponent",
+          props: {
+          },
+          components: {
+          },
+          data() {
+            return {
+
+            }
+          },
+          methods: { },
+          template: System.Template.getBlock('footerComponent')
+        };
+
+        System.export('FooterComponent', FooterComponent);
+    });
+</script>

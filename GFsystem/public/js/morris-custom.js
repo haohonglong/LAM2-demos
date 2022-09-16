@@ -1,6 +1,6 @@
 // First Donut chart on Dashboard
 function initDonut(){
-    //console.log(Morris)
+    console.log(Morris)
     Morris.Donut({
         element: "donut",
         //resize:true,

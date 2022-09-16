@@ -1,0 +1,267 @@
+<#define __ROOT__="{#LAM.ROOT#}" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
+<#define __INCLUDE__="{#LAM.VIEWS#}/include" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __JS__="{#LAM.JS#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#import type="css" path="
+/bootstrapSwitch
+" root="__CSS__" befor="1" />
+
+<#import path="/bootstrapSwitch" root="__JS__" />
+
+<#Block:begin id="headerComponent">
+<div class="_lhh_header">
+    <div class="M20">
+        <div class="_lhh_header-left">
+            <div class="navbar pull-left none">
+                <a href="javascript:void(0);" class="navbar-brand">
+                    <i class="fa fa-list btn-nav-toggle-responsive text-white"></i>
+                </a>
+            </div>
+
+            <div class="_lhh_logo pull-left">
+                <!--<span src="" alt="" class="_lhh_logo-img"></span>-->
+                <h1>光伏运维生成管理系统</h1>
+            </div>
+        </div>
+
+        <div class="_lhh_header-middle center-block visible-lg">
+            <div class="_lhh_powerPanel">
+                <div class="text line-height pull-left p-rel">
+                    <h4 class="text line-height pull-left">累计上网电量</h4>
+                    <div class="_lhh_powerPanel-switch ML15">
+                        <div class="switch switch-small" data-on="info" data-off="success" data-on-label="今年"
+                             data-off-label="累计">
+                            <input type="checkbox" checked/>
+                        </div>
+                    </div>
+                </div>
+                <div class="powerCounts pull-left ML10 MT10">
+                    <div class="none">
+                        <div class="odometer"></div>
+                        <div class="text pull-right" style="line-height:68px; margin-top: -65px;margin-right: 20px;">
+                            <p class="M0">万 kWh</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="_lhh_header-right">
+            <div id="topWidget" class="navbar">
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav user-menu navbar-right ">
+
+                        <li><a href="#" class="settings dropdown-toggle" data-toggle="dropdown"><i
+                                class="fa fa-envelope"></i><span class="badge bg-pink">4</span></a>
+                            <ul class="dropdown-menu inbox">
+                                <li>
+                                    <a href="inbox.php">
+                                        <img src="__IMAGE__/profiles/three.png" alt="" class="avatar">
+
+                                        <div class="message">
+                                            <span class="username">John Deo</span>
+                                            <span class="mini-details">(6) <i class="fa fa-paper-clip"></i></span>
+                                                <span class="time pull-right"> <i
+                                                        class="fa fa-clock-o"></i> 06:58 PM</span>
+
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                industry. Lorem Ipsum has been the industry's ... </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="inbox.php">
+                                        <img src="__IMAGE__/profiles/four.png" alt="" class="avatar">
+
+                                        <div class="message">
+                                            <span class="username">Jane Deo</span>
+                                            <span class="mini-details">(6) <i class="fa fa-paper-clip"></i></span>
+                                                <span class="time pull-right"> <i
+                                                        class="fa fa-clock-o"></i> 06:58 PM</span>
+
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                industry. Lorem Ipsum has been the industry's ... </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="inbox.php">
+                                        <img src="__IMAGE__/profiles/five.png" alt="" class="avatar">
+
+                                        <div class="message">
+                                            <span class="username">Mr Deo</span>
+                                            <span class="mini-details">(6) <i class="fa fa-paper-clip"></i></span>
+                                                <span class="time pull-right"> <i
+                                                        class="fa fa-clock-o"></i> 06:58 PM</span>
+
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                industry. Lorem Ipsum has been the industry's ... </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="inbox.php">
+                                        <img src="__IMAGE__/profiles/six.png" alt="" class="avatar">
+
+                                        <div class="message">
+                                            <span class="username">Miss Deo</span>
+                                            <span class="mini-details">(6) <i class="fa fa-paper-clip"></i></span>
+                                                <span class="time pull-right"> <i
+                                                        class="fa fa-clock-o"></i> 06:58 PM</span>
+
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                industry. Lorem Ipsum has been the industry's ... </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><a href="inbox.php" class="btn bg-primary">View All</a></li>
+                            </ul>
+                        <li><a href="#" class="settings dropdown-toggle" data-toggle="dropdown"><i
+                                class="fa fa-bell animated shake"></i><span class="badge bg-success">10</span></a>
+                            <ul class="dropdown-menu notifications">
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-user noty-icon bg-primary"></i>
+                                        <span class="description">10 Users are registered</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-danger">
+                                        <i class="fa fa-inbox noty-icon bg-pink"></i>
+                                        <span class="description">Your disk space has been exceeeded</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-info">
+                                        <i class="fa fa-comment noty-icon bg-purple"></i>
+                                        <span class="description">58 new comments</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-warning">
+                                        <i class="fa fa-user noty-icon bg-warning"></i>
+                                        <span class="description">User deleted</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-success">
+                                        <i class="fa fa-bookmark-o noty-icon bg-seagreen"></i>
+                                        <span class="description">You have a new badge</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-info">
+                                        <i class="fa fa-envelope noty-icon bg-info"></i>
+                                        <span class="description">24 Unread mails</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-success">
+                                        <i class="fa fa-link noty-icon bg-purple"></i>
+                                        <span class="description">Urls forwarding activated</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-warning">
+                                        <i class="fa fa-clock-o noty-icon bg-yellow"></i>
+                                        <span class="description">Action</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-danger">
+                                        <i class="fa fa-exclamation noty-icon bg-danger"></i>
+                                        <span class="description">3 domains expired</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-success">
+                                        <i class="fa fa-clock-o noty-icon bg-success"></i>
+                                        <span class="description">Your have $950 as outstanding amount</span>
+                                        <span class="time"> <i class="fa fa-clock-o"></i> 06:58 PM</span>
+                                    </a>
+                                </li>
+
+                                <li><a href="#" class="btn bg-primary">View All</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var HeaderComponent = {
+          name: "HeaderComponent",
+          props: {
+          },
+          components: {
+          },
+          data() {
+            return {
+
+            }
+          },
+          methods: { },
+          template: System.Template.getBlock('headerComponent')
+        };
+
+        System.export('HeaderComponent', HeaderComponent);
+    });
+</script>
+
+<script type="text/javascript">
+    LAM.run([jQuery],function($){
+        'use strict';
+        var System=this;
+
+        /**
+         * 累计上网电量
+         */
+        function odometer(n){
+            System.wait(function(){
+                $('.odometer').each(function(){
+                    $(this).parent().hide();
+                    $(this).html(n);
+                    $(this).parent().show();
+                });
+
+            }, 1000);
+        }
+
+        function powerPanel_switch(a,b){
+            $('.switch-left').on('click',function(){
+                odometer(a);
+            });
+            $('.switch-right').on('click',function(){
+                odometer(b);
+            });
+        }
+
+
+        $(function(){
+            odometer(445514);
+            powerPanel_switch(111111,2222222);
+        });
+    });
+</script>

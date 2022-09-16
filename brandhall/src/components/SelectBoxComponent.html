@@ -2,13 +2,13 @@
 
 <#Block:begin id="selectBox">
 <div>
-    <select id="select" class="L" :name="name" v-on:click="arrowDown">
-        <option v-if="0 == cookie.sid" value="0" class="none">请选择</option>
+    <select id="select" class="L" v-on:click="arrowDown">
+        <option v-if="0 == sid" value="0" class="none">请选择</option>
         <option v-else :value="sid" class="none"> {{ sortName }} </option>
     </select>
     <div id="selectBox" v-show="isShow" @mouseleave="mouseleave">
       <div class="mCustomScrollbar">
-        <el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+        <el-tree :data="getList" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
       </div>
     </div>    
 </div>
@@ -17,19 +17,31 @@
 
 
 <script type="text/javascript">
-	LAM.run([jQuery],function($) {
+	LAM.run(function() {
         'use strict';
         var System = this;
 
         var SelectBoxComponent = {
           name: "SelectBoxComponent",
-          props: ["list", "name","cookie"],
-          components: {
+          props: {
+            "list": {
+              type: Array,
+              require: true,
+            }, 
+            "sid": {
+              type: String,
+            },
+            "sortName": {
+              type: String
+            },
+            "id": {
+              type: String,
+              default: null
+            }
           },
+          components: { },
           data() {
             return {
-              sid: this.cookie.sid,
-              sortName: this.cookie.sort_name,
               isShow: false,
               defaultProps: {
                 children: 'child',
@@ -37,12 +49,19 @@
               }
             }
           },
+          computed:{
+            getList(){
+              const arr = [{id: "-1", name: "请选择", pid : "0"}, ...this.list];
+              return arr;
+            }
+          },
+
           methods: {
             setSid(id){
               this.$emit('setSid', id);
             },
-            setName(name) {
-              this.sortName = name;
+            setSortName(name) {
+              this.$emit('setSortName', name);
             },
             hideSelectBox() {
               this.isShow = false;
@@ -57,8 +76,12 @@
               alert(item.id);
             },
             handleNodeClick(data) {
+              if (this.id && data.id == this.id) {
+                alert("当前的类名称不能选择自己为父类");
+                return;
+              }
               this.setSid(data.id);
-              this.setName(data.name);
+              this.setSortName(data.name);
               this.hideSelectBox();
             }
 

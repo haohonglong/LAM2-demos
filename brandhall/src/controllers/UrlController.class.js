@@ -1,24 +1,29 @@
-(function(IT,factory){
+(function(global,factory){
     'use strict';
-    var System = IT['LAM_20150910123700_'];
+
+    global = typeof globalThis !== 'undefined' ? globalThis : global || self;
+    var System = global['LAM_20150910123700_'];
 
     if(!System){
         return;
     }else{
-        typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(System) :
-            typeof define === 'function' && define.amd ? define(factory(System)) :
-                (System['UrlController'] = factory(System));
+        var UrlController = factory(System);
+        typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = UrlController :
+        typeof define === 'function' && define.amd ? define(factory) : System.UrlController = UrlController;
+        System.export("UrlController", UrlController);
     }
 
 })(this,function(System){
     'use strict';
     var __this__=null;
     System.is(System,'Controller','UrlController',System.classPath+'/base');
+    var Controller = System.require("System.base.Controller");
+
     System.import(['/CookieModel.class'],System.MODELS);
     var ROOT  = System.BACKEND;
     var views = System.VIEWS+'/room';
     var E = {file_404:System.ERROR_404};
-    var UrlController = System.Controller.extend({
+    var UrlController = Controller.extend({
         constructor: function (init){
             this.base(init || {});
             __this__=this;

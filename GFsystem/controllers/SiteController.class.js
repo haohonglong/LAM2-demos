@@ -21,7 +21,6 @@
             this.base(init || {});
             __this__=this;
             this.viewpath = System.VIEWS+'/site';
-            this.layoutPath = this.layoutPath;
             this.defaultRoute = System.routeRules.list;
 
 

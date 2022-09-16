@@ -38,15 +38,15 @@
 </form>
 <#Block:end>
 
-<#Block:begin id="contentComponent">
+
 <script type="text/javascript">
 
-    var contentComponent = LAM.run([jQuery],function($) {
+    LAM.run(function() {
         'use strict';
         var System = this;
 
-        var contentComponent = {
-          name: "contentComponent",
+        var ContentComponent = {
+          name: "ContentComponent",
           props: {},
           components: {},
           data: function () {
@@ -59,11 +59,11 @@
           },
           methods: {
             submit: function(){
-                var vm = this;
-                var name = this.username;
+                const vm = this;
+                const name = this.username;
 
-                $.post("__SERVER__/shop/add",{
-                    'name':name
+                Api.shop.add({
+                    name
                 },function(data){
                     if(data.status){
                         System.redirect(System.INDEX+"shop/index");
@@ -78,7 +78,6 @@
           template: System.Template.getBlock('content')
         };
 
-        return contentComponent;
+        System.export("ContentComponent", ContentComponent);
     });
 </script>
-<#Block:end>

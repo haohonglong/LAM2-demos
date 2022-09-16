@@ -1,0 +1,42 @@
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+
+<#Block:begin id="crumbComponent">
+<div class="row _lhh_breadcrumb MB10 visible-lg">
+	<ul class="breadcrumb pull-left">
+		<template v-for="item in list">
+			<li v-if="item.href"><a :href="item.href">{{ item.name }}</a></li>
+			<li v-else class="active">{{ item.name }}</li>
+		</template>
+		</ul>
+    <div class="p-rel">
+        <div class="_lhh_breadcrumb-more MR15">
+					<clock-component></clock-component>
+				</div>
+    </div>
+</div>
+<#Block:end>
+
+<#include file="__COMPONENTS__/ClockComponent.html" />
+<script type="text/javascript">
+	LAM.run(function(){
+			'use strict';
+			var System = this;
+
+			var CrumbComponent = {
+				name: "CrumbComponent",
+				props: ["list"],
+				components: {
+					'clock-component': System.require('ClockComponent')
+				},
+				data() {
+					return {
+
+					}
+				},
+				methods: { },
+				template: System.Template.getBlock('crumbComponent')
+			};
+
+			System.export('CrumbComponent', CrumbComponent);
+	});
+</script>

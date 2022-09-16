@@ -71,7 +71,7 @@
 
             },E);
         },
-        'loader':function(){
+        'loaderAction':function(){
             return this.render('loader',{
                 'COMMON':System.COMMON,
                 'ROOT':System.ROOT,

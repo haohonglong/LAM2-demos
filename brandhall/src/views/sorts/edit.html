@@ -1,23 +1,19 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 <#define __SERVER__="{#LAM.SERVER#}" />
 <#define __MODELS__="{#LAM.MODELS#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
-#define# __COOKIE__ {#cookie#} #end#
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
 
 <#define _TITLE_="修改类别" />
 
-<#extends title="_TITLE_" data="{'list':[
-{'name':'网页地址','href':'###','title':''},
-{'name':'网页地址','href':'###','title':''},
+
+
+<#extends title="类别" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'类别列表','href':'__INDEX__sorts/index','title':''},
 {'name':'_TITLE_'}
 ]}" />
-
-<#Block:begin id="crumb" data="{'list':[
-{'name':'网页地址','href':'###','title':''},
-{'name':'网页地址','href':'###','title':''},
-{'name':'_TITLE_'}
-]}">
-<#Block:end>
 
 
 <#Block:begin id="content">
@@ -28,7 +24,7 @@
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <select-box-component :cookie="cookie" v-on:setSid="setSid" :list="list" name="sid"></select-box-component>
+                        <select-box-component :id="id" :sid="sid" v-on:setSid="setSid" v-on:setSortName="setSortName" :sortName="sortName" :list="list"></select-box-component>
                         <span data-error="pid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
@@ -51,12 +47,15 @@
 
 
 
-<#include repeat="0" file="__COMPONENTS__/SelectBoxComponent.html" />
+<#include file="__COMPONENTS__/SelectBoxComponent.html" />
 <script type="text/javascript">
     LAM.run(function(){
         'use strict';
         const System = this;
-        const id = System.get('id'), pid = System.get('pid');
+
+        const Api = System.require("Api");
+        const  id = System.get('id'), 
+               sid = System.get('pid');
 
         const ContentComponent = {
           name: "ContentComponent",
@@ -68,16 +67,37 @@
           data() {
             return {
                 list: __DATA__,
-                cookie: __COOKIE__,
-                sid: pid || -1,
+                id,
+                sid,
+                sortName: "",
                 name: ""
             }
           },
           beforeCreate() {
+            Api.sorts.detail(id, ({ data, status, message = 'error'}) => {
+                if(status){
+                    this.name = data.name;
+                }else{
+                    alert(message);
+                }
+            },'json');
+            if(sid > 0) {
+                Api.sorts.detail(sid, ({ data, status, message = 'error'}) => {
+                    if(status){
+                        this.sortName = data.name;
+                    }else{
+                        alert(message);
+                    }
+                },'json');
+            }
+            
           },
           methods: {
             setSid(sid){
                 this.sid = sid;
+            },
+            setSortName(name) {
+                this.sortName = name;
             },
             submit(){
                 var wait = layer.load();

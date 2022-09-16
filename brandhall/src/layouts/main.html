@@ -43,9 +43,9 @@
   <!#HEAD/>
   <!#CSS/>
   <!#JS/>
-  <#Block:begin override="1:0" id="title" data="{'title':'{#title#}'}">
+<#Block:begin override="1:0" id="title" data="{'title':'{#title#}'}">
   <title><%=title%></title>
-  <#Block:end>
+<#Block:end>
   <#=block id="title" data="{}" />
 
 </head>
@@ -58,14 +58,16 @@
       <el-container>
         <el-header><header-component :name="user.name" :age="user.age"></header-component></el-header>
         <div class="ml20 mb30"><crumb-component :list="crumbData"></crumb-component></div>
-        <el-main><content-component ref="content"></content-component></el-main>
-        <el-footer>Footer</el-footer>
+        <el-main>
+          <content-component ref="content"></content-component>
+          <el-backtop></el-backtop>
+        </el-main>
       </el-container>
     </el-container>
 </div>
 
 <style type="text/css">
-  .mCustomScrollbar{height: 500px;overflow: auto;}
+  .mCustomScrollbar{height: 1000px;overflow: auto;}
   .mCSB_inside > .mCSB_container{margin:0;}
   .mCSB_scrollTools .mCSB_draggerContainer{left:17px;}
 </style>
@@ -104,10 +106,10 @@
 
 
 
-        // $(function(){
+        $(function(){
 
             
-        //     LAM.mCustomScrollbar();
+            // $(".mCustomScrollbar").mCustomScrollbar();
 
 
 
@@ -140,7 +142,7 @@
 
 
         //     });
-        // });
+        });
 
         var vm = new Vue({
               data: function(){

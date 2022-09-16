@@ -1,17 +1,14 @@
+<#define _TITLE_="商品列表" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 <#define __SERVER__="{#LAM.SERVER#}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/goods/index" /> #end#
-<#extends title="商品列表" data="{'list':[
-{'name':'喜鹊筑家旗舰店','href':'###','title':''},
-{'name':'商品管理','href':'###','title':''},
-{'name':'商品列表'}
-]}" />
 
-<#beginBlock id="crumb" data="{'list':[
-{'name':'喜鹊筑家旗舰店','href':'###','title':''},
-{'name':'商品管理','href':'###','title':''},
-{'name':'商品列表'}
-]}">
-<#endBlock>
+<#extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'添加商品','href':'__INDEX__goods/create','title':''},
+{'name':'_TITLE_'}
+]}" />
 
 
 <#Block:begin id="goodsBill">
@@ -86,7 +83,10 @@
 
 <#Block:begin id="content">
 <div>
-    <div class="sectionBorder-A3">
+    <div class="sectionButton-B1">
+        <a href="__INDEX__goods/create" class="btn save">添加商品</a>
+    </div>
+    <div class="sectionBorder-A3 mt20">
         <div class="sectionTable-B1 sectionTable-B1-5">
             <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
                 <ul class="clear" style="font-weight: bold;">
@@ -100,9 +100,8 @@
 </div>
 <#Block:end>
 
-<#Block:begin id="ContentComponent">
 <script type="text/javascript">
-    LAM.run([jQuery],function ($) {
+    LAM.run(function () {
         'use strict';
         var System = this;
 
@@ -169,4 +168,3 @@
 
     });
 </script>
-<#Block:end>

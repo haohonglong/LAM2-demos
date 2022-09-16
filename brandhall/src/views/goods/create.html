@@ -6,7 +6,7 @@
 
 <#extends title="_TITLE_" data="{'list':[
 {'name':'商品','href':'###','title':''},
-{'name':'店铺管理','href':'###','title':''},
+{'name':'商品列表','href':'__INDEX__goods/index','title':''},
 {'name':'_TITLE_'}
 ]}" />
 
@@ -55,7 +55,15 @@
                     </li>
                     <input-component v-model="bill_id" label="账单号" :error="bill_id_error" input_style="width:120px;" input_class="final_price"></input-component>
                     <input-component v-model="discount" label="折扣价" :error="discount_error" input_style="width:30px;" input_class="discount"></input-component>
-                    <input-component v-model="create_by" :error="create_by_error" input_style="width:150px;" label="创建日期"></input-component>
+                    <li class="L ml10">
+                        <span class="warning">*</span> <label> 创建日期 : </label>
+                        <el-date-picker
+                            v-model="create_by"
+                            size="mini"
+                            placeholder="选择日期">
+                        </el-date-picker>
+                    </li>
+                    
                     
                 </ul>
             </div>
@@ -95,11 +103,12 @@
 <#Block:end>
 
 
-<#Block:begin id="ContentComponent">
 <script type="text/javascript">
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
+
+        const Api = System.require("Api");
 
             var inputComponent = {
               props: {
@@ -197,7 +206,7 @@
             var ContentComponent = {
               name: "ContentComponent",
               props: [],
-              data: function(){
+              data(){
                 return {
                     picked: '',
                     n: 0,
@@ -218,7 +227,7 @@
                 'goods-component': goodsComponent
               },
               computed: {
-                total: function(){
+                total(){
                     var result = 0.00;
                     System.each(this.list,function(){
                         result += parseFloat(this.final_price);
@@ -231,25 +240,25 @@
                 }
               },
               methods: {
-                handelAdd: function () {
+                handelAdd() {
                     this.handelClick();
                     this.list.push(System.clone(true, goods));
                 },
-                handelClick: function () {
+                handelClick() {
                     this.n++;
                 },
-                handelCopy: function (i) {
+                handelCopy(i) {
                     this.handelClick();
                     this.list.insertAt(System.clone(true, this.list[i]),i+1);
                 },
-                handelRemove: function (i) {
+                handelRemove(i) {
                     if (this.list.length > 1) {
                         this.n--;
                         this.list.removeAt(i);
                     }
                     
                 },
-                init: function(){
+                init(){
                     System.each(this.list,function(){
                         this.error.name = "";
                         this.error.number = "";
@@ -262,7 +271,7 @@
                     this.bill_id_error = "";
                     this.discount_error = "";
                 },
-                validate: function(i) {
+                validate(i) {
                     this.list[i].error.name = "";
                     this.list[i].error.number = "";
                     this.list[i].error.weight = "";
@@ -276,7 +285,7 @@
                     if (this.list[i].single_price <= 0) error.single_price = NAMES.single_price + MSG;
 
                 },
-                result:function(i){
+                result(i){
                     let single_price = this.list[i].single_price;
                     let weight = this.list[i].weight;
                     let number = this.list[i].number;
@@ -302,7 +311,7 @@
                     this.validate(i);
 
                 },
-                submit: function() {
+                submit() {
                     this.init();
 
                     let _this = this;
@@ -319,17 +328,18 @@
                         final_prices.push(this.final_price);
                     });
 
-                    $.post("__SERVER__/goods/add",{
-                        'shop_id':shop_id,
-                        'bill_id':bill_id,
-                        'discount':discount,
-                        'create_by':create_by,
-                        'name':names,
-                        'number':numbers,
-                        'weight':weights,
-                        'single_price':single_prices,
-                        'final_price':final_prices
-                    },function(data){
+                    Api.goods.add({
+                        shop_id,
+                        bill_id,
+                        discount,
+                        create_by,
+                        name: names,
+                        number: numbers,
+                        weight: weights,
+                        single_price: single_prices,
+                        final_price: final_prices 
+                    }, data => {
+                        console.log(data)
                         if(data.status){
                             alert(data.message);
                             System.redirect(System.INDEX+"goods/index");
@@ -347,7 +357,8 @@
 
                             });
                         }
-                    },'json');
+
+                    });
 
                 }
               },
@@ -371,7 +382,6 @@
             System.export('ContentComponent', ContentComponent);
     });
 </script>
-<#Block:end>
 
 <style type="text/css">
     .sectionWrap-A5{width:auto;margin:0 auto;}

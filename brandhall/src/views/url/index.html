@@ -2,6 +2,7 @@
 <#define __SERVER__="{#LAM.SERVER#}" />
 <#define __DATAPATH__="{#LAM.DATA#}" />
 <#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 <#define __CSS__="{#LAM.CSS#}" />
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
@@ -18,8 +19,8 @@
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
 <#extends title="_TITLE_" data="{'list':[
-{'name':'网页地址','href':'###','title':''},
-{'name':'网页地址','href':'###','title':''},
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'网页地址','href':'__INDEX__url/index','title':''},
 {'name':'_TITLE_'}
 ]}" />
 
@@ -73,7 +74,7 @@
                 <div class="sectionPageing-A2 clear mb20">
                     <div class="R">
                         
-                        <paging-omponent></paging-omponent>
+                        <paging-component></paging-component>
                     </div>
                 </div>
 
@@ -98,6 +99,8 @@
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
+
+        const Api = System.require("Api");
 
         var cache = new System.Cache('url');
         var tools =new System.Tools();
@@ -127,7 +130,7 @@
                 };
             },
             'components': {
-                'paging-omponent': System.require('PagingComponent')
+                'paging-component': System.require('PagingComponent')
             },
             beforeCreate() { },
             created() {
@@ -208,6 +211,8 @@
                                 System.each(data.errors,function (key,value) {
                                     alert(value)
                                 });
+                            } else {
+                                window.location.reload();
                             }
                             layer.close(index);
                         });

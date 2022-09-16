@@ -1,0 +1,117 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#Block:begin id="menuComponent">
+<div class="left-sidebar Z1">
+    <div class="sidebar-holder">
+        <ul class="nav  nav-list">
+
+            <!-- sidebar to mini Sidebar toggle -->
+            <li class="nav-toggle">
+                <button class="btn  btn-nav-toggle text-primary"><i class="fa fa-angle-double-left toggle-left"></i> </button>
+            </li>
+
+
+            <li class="active"><a href="__INDEX__site/index" data-original-title="Dashboard"><i class="fa fa-home"></i><span class="hidden-minibar"> 首页 </span></a></li>
+
+
+            
+
+            <li class="submenu">
+                <a class="dropdown" href="#" data-original-title="Utility"><i class="fa fa-tint"></i><span class="hidden-minibar">  事件告警 </span></a>
+                <ul>
+                    <li><a href="404.html" data-original-title="404"><i class="fa fa-exclamation-circle"></i><span> 404 Error Page</span></a></li>
+                </ul>
+            </li>
+
+            
+
+            <li class=""><a href="__INDEX__site/logout" data-original-title="Dashboard"><i class="fa fa-dashboard"></i><span class="hidden-minibar"> 退出 </span></a></li>
+
+        </ul>
+    </div>
+</div>
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var MenuComponent = {
+          name: "MenuComponent",
+          props: {
+          },
+          components: {
+          },
+          data() {
+            return {
+
+            }
+          },
+          methods: { },
+          template: System.Template.getBlock('menuComponent')
+        };
+
+        System.export('MenuComponent', MenuComponent);
+    });
+</script>
+
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System=this;
+
+        var side=function(){
+            $('ul.nav-list').accordion();
+
+            $('li.nav-toggle > button').on('click',function(e){
+                e.preventDefault();
+                $('.hidden-minibar').toggleClass("hide");
+                $('.site-holder').toggleClass("mini-sidebar");
+                if($('.toggle-left').hasClass('fa-angle-double-left')){ $('.toggle-left').removeClass('fa-angle-double-left').addClass('fa-angle-double-right'); }
+                else { $('.toggle-left').removeClass('fa-angle-double-right').addClass('fa-angle-double-left'); }
+
+
+                if($('.site-holder').hasClass('mini-sidebar'))
+                {
+                    $('.sidebar-holder').tooltip({
+                        selector: "a",
+                        container: "body",
+                        placement: "right"
+                    });
+                    $('li.submenu ul').tooltip('destroy');
+                }
+                else
+                {
+                    $('.sidebar-holder').tooltip('destroy');
+                }
+
+
+            });
+
+
+            $('.nav-list a').on('click',function(){
+                $('.nav-list li').removeClass('active');
+                if('iframe' === $(this).attr('target')){
+                    $(this).parent().addClass('active');
+
+                }
+            });
+        };
+
+
+        $(function(){
+            side();
+
+        });
+
+
+
+
+
+    });
+
+
+
+
+</script>

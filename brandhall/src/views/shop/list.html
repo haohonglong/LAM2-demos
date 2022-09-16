@@ -1,5 +1,6 @@
 
 <#define _PICS_="{#LAM.IMAGE#}/imgs_LHH/pics" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define _TITLE_="商品列表" />
 <#layout title="_TITLE_" data="{'list':[
 {'name':'喜鹊筑家旗舰店','href':'###','title':''},
@@ -179,7 +180,7 @@
                 </p>
             </div>
             <div class="R">
-                <#include repeat="" tp-data=""  file="{#LAM.COMPONENTS#}/paging.html" />
+                <paging-omponent></paging-omponent>
             </div>
         </div>
 
@@ -188,17 +189,19 @@
 </div>
 <#Block:end>
 
-<#Block:begin id="contentComponent">
+<#include file="__COMPONENTS__/PagingComponent.html" />
 <script type="text/javascript">
 
-    var contentComponent = LAM.run([jQuery],function($) {
+    LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
 
-        var contentComponent = {
-          name: "contentComponent",
+        var ContentComponent = {
+          name: "ContentComponent",
           props: {},
-          components: {},
+          components: {
+            'paging-omponent': System.require('PagingComponent')
+          },
           data: function () {
             return {
             }
@@ -225,7 +228,6 @@
 
         });
 
-        return contentComponent;
+        System.export("ContentComponent", ContentComponent);
     });
 </script>
-<#Block:end>

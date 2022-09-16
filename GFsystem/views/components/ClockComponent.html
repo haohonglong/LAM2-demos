@@ -1,0 +1,61 @@
+<#Block:begin id="clockComponent">
+<div class="clock _lhh_clock clearfix">
+    <div class="_lhh_clock-date pull-left lh-35 MR10">{{ clockDate }}</div>
+    <ul class="_lhh_clock-ul pull-left lh-35">
+        <li>{{ clockHours }}</li>
+        <li class="_lhh_clock-ul-point">:</li>
+        <li>{{ clockMin }}</li>
+        <li class="_lhh_clock-ul-point">:</li>
+        <li>{{ clockSec }}</li>
+    </ul>
+</div>
+<#Block:end>
+
+<script type="text/javascript">
+	LAM.run(function(){
+        'use strict';
+        const System = this;
+
+        const ClockComponent = {
+            name: "ClockComponent",
+            props: {},
+            components: {},
+            data() {
+                return {
+                    monthNames: [ "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" ],
+                    dayNames: ["星期天","星期一","星期二","星期三","星期四","星期五","星期六"],
+                    clockDate: "",
+                    clockSec: "",
+                    clockMin: "",
+                    clockHours: ""
+                }
+            },
+            created() { 
+                this.init();
+            },
+            methods: {
+                init() {
+                    const newDate = new Date();
+                    newDate.setDate(newDate.getDate());
+                    const date = newDate.getFullYear()+'年'+ this.monthNames[newDate.getMonth()]+newDate.getDate()+'日'+' '+ this.dayNames[newDate.getDay()];
+                    this.clockDate = date;
+
+                    System.listen(() => {
+                        const seconds = new Date().getSeconds();
+                        const minutes = new Date().getMinutes();
+                        const hours = new Date().getHours();
+
+                        this.clockSec = ( seconds < 10 ? "0" : "" ) + seconds;
+                        this.clockMin = ( minutes < 10 ? "0" : "" ) + minutes;
+                        this.clockHours = ( hours < 10 ? "0" : "" ) + hours;
+
+                    },1000);
+                }
+            },
+            template: System.Template.getBlock('clockComponent')
+        };
+        System.export('ClockComponent', ClockComponent);
+
+	});
+</script>
+

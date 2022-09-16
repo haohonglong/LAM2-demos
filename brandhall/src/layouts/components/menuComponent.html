@@ -35,7 +35,7 @@
             "list": Array
           },
           created() {
-            this.setDefaultActive();
+            this.init();
 
           },
           data: function () {
@@ -46,7 +46,7 @@
             }
           },
           methods: {
-            setDefaultActive() {
+            init() {
               for (let i =0; i < this.list.length; i++) {
                 let item = this.list[i].ul;
                 if (item && item.length > 0) {
@@ -84,3 +84,6 @@
     });
 </script>
 
+<style type="text/css">
+  .el-menu-item a { display: block;}
+</style>

@@ -1,12 +1,12 @@
-<#define __ROOT__="{{LAM.ROOT}}" />
-<#define __INCLUDE__="{{LAM.VIEWS}}/include" />
-<#define __PLUGINS__="{{LAM.PLUGINS}}" />
-<#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
-<#define __JS__="{{LAM.JS}}" />
-<#define __CSS__="{{LAM.CSS}}" />
-<#define __LESS__="{{LAM.LESS}}" />
+<#define __ROOT__="{#LAM.ROOT#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __GPLUGINS__="{#LAM.GPLUGINS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __JS__="{#LAM.JS#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __LESS__="{#LAM.LESS#}" />
 
-
+<#import path="/vue/vue.js" root="__GPLUGINS__" write="1" befor="1" />
 
 <#import type="css" path="
 /bootstrap,
@@ -29,76 +29,43 @@
 /jquery.sparkline/jquery.sparkline.min,
 /jquery.sparkline/sparkline-script,
 /jquery.easypiechart.min,
-/jquery.animateNumbers
+/jquery.animateNumbers" root="__JS__" />
 
-" root="__JS__" />
-
-
-<#Block:begin type="override" id="breadcrumb-li" data="{'show':true,'list':[{'name':'首页'}]}">
-<%if(show){%>
-<ul class="breadcrumb pull-left">
-<%LAM.each(list,function(){%>
-<%if(this.href){%>
-<li><a href="<%=this.href%>"><%=this.name%></a></li>
-<%}else {%>
-<li class="active"><%=this.name%></li>
-<%}%>
-<%});%>
-</ul>
-<%}%>
-<#Block:end>
-
-<#Block:begin id="breadcrumb">
-<div class="row _lhh_breadcrumb MB10 visible-lg">
-    <#=block id="breadcrumb-li" />
-    <div class="p-rel">
-        <div class="_lhh_breadcrumb-more MR15"><#=block id="clock" /></div>
-    </div>
-</div>
-<#Block:end>
-<#Block:begin type="override" id="head" data="{'title':'光伏运维生成管理系统'}">
-    <meta charset="utf-8">
+<#Block:begin override="1:0" id="head" data="{'title':'光伏运维生成管理系统'}">
     <title><%=title%></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="images/favicon.ico">
 <#Block:end>
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<#=block id="head" />
+    <meta charset="utf-8">
+    <#=block id="head" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico">
 
 </head>
 <body class="M0">
-<div class="site-holder">
-
-
-    <!-- this is a dummy text -->
-    <!-- .navbar -->
-    <#include file="__INCLUDE__/header.html" />
-
-
-    <!-- .box-holder -->
-    <div class="box-holder">
-
-        <!-- .left-sidebar -->
-        <#include file="__INCLUDE__/side.html" /> <!-- /.left-sidebar -->
-
-        <!-- .content -->
-        <div class="content">
-            <div class="row MB10 hidden-lg">
-                <div class="col-md-12">
-                    <div class="_lhh_header xs">
-                        <div class="_lhh_header-middle center-block">
-                            <div class="_lhh_powerPanel">
-                                <div class="powerCounts">
-                                    <div class="none">
-                                        <div class="odometer pull-left"></div>
-                                        <div class="text height pull-left p-rel">
-                                            <div class="_lhh_powerPanel-switch">
-                                                <div class="switch switch-mini"  data-on="info" data-off="success" data-on-label="今年" data-off-label="累计">
-                                                    <input type="checkbox" checked />
+<div id="app">
+    <div class="site-holder">
+        <header-component></header-component>
+        <div class="box-holder">
+            <menu-component></menu-component>
+            <!-- .content -->
+            <div class="content">
+                <div class="row MB10 hidden-lg">
+                    <div class="col-md-12">
+                        <div class="_lhh_header xs">
+                            <div class="_lhh_header-middle center-block">
+                                <div class="_lhh_powerPanel">
+                                    <div class="powerCounts">
+                                        <div class="none">
+                                            <div class="odometer pull-left"></div>
+                                            <div class="text height pull-left p-rel">
+                                                <div class="_lhh_powerPanel-switch">
+                                                    <div class="switch switch-mini"  data-on="info" data-off="success" data-on-label="今年" data-off-label="累计">
+                                                        <input type="checkbox" checked />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -108,36 +75,67 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <#=block id="breadcrumb" />
-
-
-
-            <div class="row">
-                <div class="col-mod-12">
-                    <h3 class="page-header"><i class="fa fa fa-dashboard"></i> Dashboard <i class="fa fa-info-circle animated bounceInDown show-info"></i> </h3>
+                <crumb-component :list="crumbData"></crumb-component>
+                <div class="row">
+                    <div class="col-mod-12">
+                        <h3 class="page-header"><i class="fa fa fa-dashboard"></i> Dashboard <i class="fa fa-info-circle animated bounceInDown show-info"></i> </h3>
+                    </div>
                 </div>
-            </div>
-            {{content}}
+                <content-component></content-component>
+                <footer-component></footer-component>
+    
+            </div> <!-- /.content -->
+    
+        </div>  <!-- /.right-sidebar -->
+    
+    
+    </div><!-- /.site-holder -->
+    
+</div>
 
-            <#include file="__INCLUDE__/footer.html" />
-
-        </div> <!-- /.content -->
-
-    </div>  <!-- /.right-sidebar -->
 
 
-</div> <!-- /.box-holder -->
-</div><!-- /.site-holder -->
+<#include file="__COMPONENTS__/CrumbComponent.html" />
+<#include file="__COMPONENTS__/HeaderComponent.html" />
+<#include file="__COMPONENTS__/MenuComponent.html" />
+<#include file="__COMPONENTS__/FooterComponent.html" />
+{#content#}
+<script type="text/javascript">
+    var vm = LAM.run(function(){
+        'use strict';
+        var System = this;
 
-</body>
+        var vm = new Vue({
+              data: function(){
+                return {
+                    title: "",
+                    crumbData: {#D.list#}
+                };
+              },
+              components: {
+                'menu-component': System.require('MenuComponent'),
+                'header-component': System.require('HeaderComponent'),
+                'footer-component': System.require('FooterComponent'),
+                'crumb-component': System.require('CrumbComponent'),
+                'content-component': System.require('ContentComponent')
+              },
+              computed: {
+              },
+              methods: {
+              },
+              watch: {
+              }
+            }).$mount("#app");
+
+            return vm;
+
+    });
+
+</script>
 <script type="text/javascript">
     LAM.run(function(){
         'use strict';
         var System=this;
-        System.use();
 
         
 
@@ -155,5 +153,5 @@
 
     });
 </script>
-<#include file="__COMPONENTS__/clock.html" />
+</body>
 </html>

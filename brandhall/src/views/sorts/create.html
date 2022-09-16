@@ -1,23 +1,20 @@
 <#define __SERVER__="{#LAM.SERVER#}" />
 <#define __MODELS__="{#LAM.MODELS#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 #define# __COOKIE__ {#cookie#} #end#
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
 
 <#define _TITLE_="添加类别" />
 
 <#extends title="_TITLE_" data="{'list':[
-{'name':'类别','href':'###','title':''},
-{'name':'类别','href':'###','title':''},
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'类别','href':'__INDEX__sorts/index','title':''},
 {'name':'_TITLE_'}
 ]}" />
 
-<#Block:begin id="crumb" data="{'list':[
-{'name':'类别','href':'###','title':''},
-{'name':'类别','href':'###','title':''},
-{'name':'_TITLE_'}
-]}">
-<#Block:end>
+
 
 <#Block:begin id="content">
 <form class="form-horizontal">
@@ -27,7 +24,7 @@
                 <ul>
                     <li class="clear mb5">
                         <label class="L">类别：<span class="warning">*</span></label>
-                        <select-box-component :cookie="cookie" v-on:setSid="setSid" :list="list" name="sid"></select-box-component>
+                        <select-box-component :sid="sid" v-on:setSid="setSid" v-on:setSortName="setSortName" :sortName="sortName" :list="list"></select-box-component>
                         <span data-error="pid" class="help-block none"></span>
                     </li>
                     <li class="clear mb5">
@@ -54,6 +51,8 @@
     LAM.run(function(){
         'use strict';
         var System = this;
+
+        const Api = System.require("Api");
         const cookie = __COOKIE__;
 
         var ContentComponent = {
@@ -68,6 +67,7 @@
                 list: __DATA__,
                 cookie,
                 sid: cookie.sid || -1,
+                sortName: cookie.sort_name || "",
                 name: ""
             }
           },
@@ -76,6 +76,9 @@
           methods: {
             setSid(sid){
                 this.sid = sid;
+            },
+            setSortName(name) {
+                this.sortName = name;
             },
             submit(){
                 var wait = layer.load();
