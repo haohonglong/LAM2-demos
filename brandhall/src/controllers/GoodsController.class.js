@@ -37,13 +37,13 @@
             return this.render('success',null,E);
         },
         'indexAction':function(){
-            return this.render('index',null,E);
+            return this.render('/list/index',null,E);
         },
         'createAction':function(id){
             // if (id) {
             //     return this.render('create.vue',null,E);
             // }
-            return this.render('create', null, E);
+            return this.render('/add/index', null, E);
         },
 
 

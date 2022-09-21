@@ -18,8 +18,8 @@
 ]}" />
 
 <#Block:begin id="content">
-<div>
-	<div v-for="v in list" class="L mr5 mb30 sectionButton-B1 sectionButton-B1-big">
+<div class="clearfix">
+	<div v-for="v in list" :key="v.id" class="L mr5 mb30 sectionButton-B1 sectionButton-B1-big" style="border: 3px solid rgba(127, 199, 251, 0.341); padding: 10px;">
 		<div class="btn">
 	        <span @click="modify(v.id, v.pid)">{{ v.name }}</span>
 	        <a @click="remove(v.id)">删除</a>

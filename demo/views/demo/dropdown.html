@@ -1,34 +1,15 @@
+<#define __PLUGINS__="{{LAM.PLUGINS}}" />
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+<#define __COMMON__="{{LAM.COMMON}}" />
+
+<#import type="css" path="/bootstrap/bootstrap,/jstree/dist/themes/default/style.min" root="__PLUGINS__" befor="1" />
+<#import path="/bootstrap/bootstrap" root="__PLUGINS__" write="1" befor="1" />
+<#import path="/Dropdown.class" root="__CLASSPATH__" write="1" befor="1" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>城市分配</title>
-    <script type="text/javascript">
-        LAMJS.run(function() {
-            'use strict';
-            var System = this;
-            var PLUGINS = System.Config.Public.PLUGINS;
-            System.use();
-            System.Loader
-                    .load({
-                        'baseUrl':System.COMMON,
-                        'suffix':'.css',
-                        'rel':'stylesheet',
-                        'css':[
-                            '/plugins/bootstrap/bootstrap'
-                            ,'/plugins/jstree/dist/themes/default/style.min.css'
-                        ]
-                    })
-                    .print();
-
-            System
-                    .import(['/artTemplate/artTemplate','/bootstrap/bootstrap'],PLUGINS)
-                    .import(['/Dropdown.class'],System.classPath);
-
-
-        });
-
-    </script>
     <style>
         html { margin:0; padding:0; font-size:62.5%; }
         body { max-width:800px; min-width:300px; margin:0 auto; padding:20px 10px; font-size:14px; font-size:1.4em; }
@@ -50,7 +31,7 @@
 </div>
 
 <!--模板-->
-<script id="citySelect" type="text/html">
+<#Block:begin id="citySelect">
     <div class="jstree jstree-1 jstree-default">
         <ul class="jstree-container-ul jstree-children" role="group">
             <% for(var i=1;i<=5;i++){%>
@@ -89,13 +70,15 @@
             <% }%>
         </ul>
     </div>
-</script>
+<#Block:end>
+
 <script type="text/javascript">
     LAMJS.run([jQuery],function($) {
         'use strict';
         var System = this;
+        var Dropdown = System.require("System.Dropdown");
 
-        var COMMON = System.Config.Public.COMMON;
+        
 
         var citySelect = {
             'run':function(){
@@ -110,14 +93,14 @@
                 var city;
                 var objs=[];
                 for(var i=1;i<=len;i++){
-                    city = new System.Dropdown({
+                    city = new Dropdown({
                         'select' : parent+' [boot-dropdown-tag="select_'+i+'"]'
                     });
                     objs.push(city);
                 }
 
                 System.each(objs,function(){
-                    (function(city){
+                    System.run([this],function(city){
                         city.run(function(){
                             city.add();
                             city.delOption(city.ID);
@@ -131,7 +114,7 @@
 
                             });
                         });
-                    })(this);
+                    });
 
                 });
             }
@@ -143,7 +126,7 @@
 
 
 
-            $.getJSON( COMMON+"/data/cities.json", function( data ) {
+            $.getJSON( "__COMMON__/data/cities.json", function( data ) {
 
                 System.each(data.cities,function(){
                     if(index > 6) return true;
@@ -156,12 +139,12 @@
                     data.cities,
                     data.cities
                 ];
-                $('#citySelectWarp').html(template('citySelect',{'data':arr,'city':cities.join(',')}));
+                $('#citySelectWarp').html(System.Template.getBlock('citySelect',{'data':arr,'city':cities.join(',')}));
                 main();
 
             });
 
-            $.getJSON( COMMON+"/data/cities_2.json", function( data ) {
+            $.getJSON( "__COMMON__/data/cities_2.json", function( data ) {
 
                 System.search(data,function(k,v){
                     if('code' == k && '1302' == v){
