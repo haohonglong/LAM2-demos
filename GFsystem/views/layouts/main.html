@@ -99,7 +99,7 @@
 <#include file="__COMPONENTS__/HeaderComponent.html" />
 <#include file="__COMPONENTS__/MenuComponent.html" />
 <#include file="__COMPONENTS__/FooterComponent.html" />
-{#content#}
+{#-content-#}
 <script type="text/javascript">
     var vm = LAM.run(function(){
         'use strict';
@@ -109,7 +109,7 @@
               data: function(){
                 return {
                     title: "",
-                    crumbData: {#D.list#}
+                    crumbData: {#-D.list-#}
                 };
               },
               components: {

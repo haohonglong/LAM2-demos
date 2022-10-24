@@ -1,3 +1,4 @@
+<#define __CSRF_TOKEN__="{#LAM.require("this").csrfToken#}" />
 <#define __API__="{#LAM.API#}" />
 <#define __IMAGE__="{#LAM.IMAGE#}" />
 <#define __MYCOMMON__="{#LAM.MYCOMMON#}" />
@@ -38,13 +39,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="keywords" content="{#title#}" />
-  <meta name="description" content="{#title#}" />
+  <meta name="keywords" content="{#-title-#}" />
+  <meta name="description" content="{#-title-#}" />
+  <meta name="csrf-token" content="__CSRF_TOKEN__">
   <!#HEAD/>
   <!#CSS/>
   <!#JS/>
 
-<#Block:begin override="1:0" id="title" data="{'title':'{#title#}'}">
+<#Block:begin override="1:0" id="title" data="{'title':'{#-title-#}'}">
   <title><%=title%></title>
 <#Block:end>
 
@@ -81,11 +83,13 @@
 <#include file="@COMPONENTS/MobileMenuComponent.html" />
 <#include file="@COMPONENTS/HeaderComponent.html" />
 <#include file="@COMPONENTS/CrumbComponent.html" />
-{#content#}
+{#-content-#}
 <script type="text/javascript">
     var vm = LAM.run(function(){
         'use strict';
         var System = this;
+
+        var D = System.require("this").content;
 
 
         // var DATE={
@@ -151,11 +155,8 @@
                 return {
                     menu: __MENU__,
                     title: "喜鹊筑家旗舰店",
-                    user: {
-                        "name":"{#D.user.name#}",
-                        "age": {#D.user.age#}
-                    },
-                    crumbData: {#D.list#}
+                    user: D.user,
+                    crumbData: {#-D.list-#}
                 };
               },
               components: {

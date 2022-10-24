@@ -1,12 +1,15 @@
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
-<#import path="/vue/vue.js" root="__PLUGINS__" write="1" befor="1" /> 
+<#define __CLASS_PATH__="{#LAM.classPath#}" />
+
+<#import path="/Tab.class.js" root="__CLASS_PATH__" write="1" befor="1" />
+<#import path="/vue/vue.js" root="__PLUGINS__" write="1" befor="1" />
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{#title#}</title>
+    <title>{#-title-#}</title>
     <script type="text/javascript">
         
         LAM.run(function(){
@@ -45,8 +48,7 @@
 
                 .print();
 
-            System
-                    .import(['/Tab.class'],System.classPath);
+            
 
 
         });
@@ -63,7 +65,7 @@
     <div class="row">
         <div class="col-md-12">
             <ol class="breadcrumb">
-                <li><a data-var="tpl" id="title" href="{#VIEWS#}/index.html">首页</a></li>
+                <li><a data-var="tpl" id="title" href="{#-VIEWS-#}/index.html">首页</a></li>
             </ol>
         </div>
     </div>
@@ -72,7 +74,7 @@
             <#include file="{#LAM.VIEWS#}/inc_menu.html" />
         </div>
         <div id="content" class="col-md-9">
-            {#content#}
+            {#-content-#}
         </div>
     </div>
 

@@ -117,6 +117,7 @@
                 var PLUGINS = System.PLUGINS;
                 return {
                     files: [
+                        { 'name': 'Router', 'path': System.classPath + '/base/Router.class.js' },
                         {'name': 'vue', 'path': PLUGINS+'/vue/vue.js'}
                     ]
                 };

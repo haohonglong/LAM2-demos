@@ -18,7 +18,7 @@
     if(window.GRN_LHH && window[window.GRN_LHH] != undefined){
         return;
     }else{
-        window.GRN_LHH='System';
+        window.GRN_LHH='System2';
     }
     namespace = window.GRN_LHH;
     //js获取项目根路径，如： http://localhost:8083/uimcardprj
@@ -63,6 +63,7 @@
                     ,'ERROR_404':ROOT+'/views/404.html'
                     ,'CSS':ROOT+'/css'
                     ,'JS':ROOT+'/js'
+                    ,'SERVER': 'http://yaf.local'
                     ,'CONFIGURATION_PATH': ROOT+'/common/config/config.js',
                 };
             },
@@ -95,7 +96,7 @@
                 var PLUGINS = System.PLUGINS;
                 return {
                     files: [
-                        {'name': 'vue', 'path': PLUGINS+'/vue/vue.js'}
+                        { 'name': 'Router', 'path': System.classPath + '/base/Router.class.js' }
                     ]
                 };
             },

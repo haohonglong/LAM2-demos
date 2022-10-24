@@ -97,7 +97,9 @@
                 ROOT = System.ROOT;
                 var PLUGINS = System.PLUGINS;
                 return {
-                    files: []
+                    files: [
+                        { 'name': 'Router', 'path': System.classPath + '/base/Router.class.js' }
+                    ]
                 };
             },
             //标签的渲染方式

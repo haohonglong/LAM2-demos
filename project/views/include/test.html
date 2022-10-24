@@ -1,10 +1,12 @@
-<#import path="/Tab.class" root="{{LAM.classPath}}" />
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+
+<#import path="/Tab.class" root="__CLASSPATH__" />
 <ul class="list sectionFloat clearfix">
 	<li class="cur">111</li>
 	<li>222</li>
 	<li>333</li>
 </ul>
-<div class="block">{{content}}</div>
+<div class="block">{{-content-}}</div>
 <div class="block hide">22222</div>
 <div class="block hide">33333</div>
 
@@ -12,20 +14,25 @@
 <script type="text/javascript">
 
 
-	LAMJS.run(function() {
+	LAM.run([jQuery],function($) {
 		'use strict';
 		var System=this;
+		var Tab = System.require("lam.Tab");
 
-		new System.Tab({
-			'list':'.list li',
-			'event':{'hover':'cur'},
-			'block':$('.block'),
-			'fn':function(obj){
-				var index=obj.this_index;
-				obj.current.block.hide();
-				obj.current.block.eq(index).show();
+		$(function(){
+				new Tab({
+				'list':'.list li',
+				'event':{'hover':'cur'},
+				'block':$('.block'),
+				'fn':function(obj){
+					var index=obj.this_index;
+					obj.current.block.hide();
+					obj.current.block.eq(index).show();
 
-			}
-		}).run();
-	},50);
+				}
+			}).run();
+		})
+
+		
+	});
 </script>

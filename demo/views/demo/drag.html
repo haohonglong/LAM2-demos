@@ -5,25 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>拖拽实例</title>
 
-
-
-	<script type="text/javascript">
-		LAMJS.run(function() {
-			'use strict';
-			var System = this;
-			System.use();
-
-
-
-		});
-
-	</script>
-
-
-
-
-
-
 <style type="text/css">
 .abs{position:absolute;top:0;left:0;}
 .box{width:50px;height:50px;background:red;}
@@ -54,19 +35,20 @@
 	LAMJS.run(function(){
 		'use strict';
 		var System=this;
+		var Drag = System.require("lam.base.Drag");
 		var dbox1,dbox2,dbox, p1, D,arc1,arc2,arc3,arc4,arc5,sector_1,sector_2,sector_3,sector_4;
 
 		function triangle(){
 			var canvas=new System.Html5.Shape(document.getElementById("box6"));
 			canvas.triangle().closePath().stroke().fill('red');
-			new System.Drag(canvas.theCanvas,{'noText':true});
+			new Drag(canvas.theCanvas,{'noText':true});
 
 		}
 
 		function polygon(){
 			var canvas=new System.Html5.Shape(document.getElementById("box7"));
 			canvas.polygon({'position':{'x':60,'y':70},'n':6,'r':60,'width':0,'callback':null}).closePath().fill('green');
-			new System.Drag(canvas.theCanvas,{'noText':true});
+			new Drag(canvas.theCanvas,{'noText':true});
 		}
 
 		function case1(){
@@ -107,7 +89,7 @@
 //			.fill()
 
 			;
-			new System.Drag(canvas.theCanvas,{'noText':true});
+			new Drag(canvas.theCanvas,{'noText':true});
 		}
 
 		function case2(){
@@ -144,13 +126,13 @@
 						'r':50,
 						'counterclockwise':false
 					}).stroke().closePath();
-			new System.Drag(canvas.theCanvas,{'noText':true});
+			new Drag(canvas.theCanvas,{'noText':true});
 		}
 
 		function bezier(){
 			var canvas=new System.Html5.Shape(document.getElementById("box8"));
 			canvas.beginPath().moveTo(150,0).bezierCurveTo(0,125,300,175,150,300).strokeStyle('#000').stroke();
-			new System.Drag(canvas.theCanvas,{'noText':true});
+			new Drag(canvas.theCanvas,{'noText':true});
 		}
 
 		function fivestar(){
@@ -163,7 +145,7 @@
 				'r':30,
 				'rot':0
 			}).lineWidth(1).stroke().fill();
-			new System.Drag(canvas.theCanvas,{'noText':true});
+			new Drag(canvas.theCanvas,{'noText':true});
 		}
 
 		function run(){
@@ -209,10 +191,10 @@
 			sector_4.eAngle=190;
 			sector_4.eAngle=240;
 
-			new System.Drag(document.getElementById("box5"),{'noText':true});
-			dbox1=new System.Drag(document.getElementById("box1"),{'noText':true, 'coord':'x'});
-			dbox2=new System.Drag(document.getElementById("box2"),{'noText':true,'coord':'y'});
-			dbox=new System.Drag(document.getElementById("box"),{'noText':true});
+			new Drag(document.getElementById("box5"),{'noText':true});
+			dbox1=new Drag(document.getElementById("box1"),{'noText':true, 'coord':'x'});
+			dbox2=new Drag(document.getElementById("box2"),{'noText':true,'coord':'y'});
+			dbox=new Drag(document.getElementById("box"),{'noText':true});
 		}
 		$(function(){
 

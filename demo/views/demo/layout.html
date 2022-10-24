@@ -1,38 +1,23 @@
+
+<#define __VIEWS__="{{LAM.VIEWS}}" />
+<#define __COMMON__="{{LAM.COMMON}}" />
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+
+<#import type="css" path="
+/plugins/bootstrap/bootstrap
+,/css/lib/global
+" root="__COMMON__" befor="1" />
+
+<#import path="
+/Sport.class
+,/AutoLayout.class
+" root="__CLASSPATH__" write="1" befor="1" />
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-Type" content="text/html" charset="utf-8">
 <title>背景半透明覆盖整个可视区域</title>
-
-    <script type="text/javascript">
-
-        LAMJS.run(function() {
-            'use strict';
-            var System = this;
-            System.use();
-            System.Loader
-                    .load({
-                        'baseUrl':System.COMMON,
-                        'suffix':'.css',
-                        'rel':'stylesheet',
-                        'css':[
-                             '/plugins/bootstrap/bootstrap'
-                            ,'/css/lib/global'
-                        ]
-                    })
-                    .print();
-
-            System
-                .import(['/Layout.class'],System.classPath+'/base')
-                .import([
-                '/Sport.class',
-                '/AutoLayout.class'
-            ],System.classPath);
-
-
-        });
-
-    </script>
 
 
     <style type="text/css">
@@ -51,7 +36,7 @@
 </head>
 <body>
 <div id="container" class="">
-    <div class="sidbar"><#include file="{{LAM.VIEWS}}/test.html" dataType="html" /></div>
+    <div class="sidbar"><#include file="__VIEWS__/test.html" /></div>
 
     <div class="content" id="content">
         <ul id="ul1" class="ul sectionFloat clearfix">
@@ -78,14 +63,15 @@
 
 
 <script type="text/javascript">
-    LAMJS.run(function(){
+    LAM.run(function(){
         var System=this;
         var content,ul1,ul2;
+        var AutoLayout = System.require("lam.AutoLayout");
         function layout(){
             $('#content').width($(window).width()-($('.sidbar').width()+$('.sidbar2').width()+30));
-            content=new System.AutoLayout({'$view':$('#content'),'minWidth':0,'position':'left'}).run();
-            ul1=new System.AutoLayout({'$ul':$('#ul1'),'$view':$('#ul1'),'minWidth':0,'$li':$('#ul1 > li'),'vcount':$('#ul1 > li').length,'margin':10,'position':'left'}).run();
-            ul2=new System.AutoLayout({'parent':ul1,'$ul':$('#ul2'),'$view':$('#ul2'),'minWidth':0,'$li':$('#ul2 li'),'vcount':$('#ul2 li').length,'margin':10,'position':'left'}).run();
+            content=new AutoLayout({'$view':$('#content'),'minWidth':0,'position':'left'}).run();
+            ul1=new AutoLayout({'$ul':$('#ul1'),'$view':$('#ul1'),'minWidth':0,'$li':$('#ul1 > li'),'vcount':$('#ul1 > li').length,'margin':10,'position':'left'}).run();
+            ul2=new AutoLayout({'parent':ul1,'$ul':$('#ul2'),'$view':$('#ul2'),'minWidth':0,'$li':$('#ul2 li'),'vcount':$('#ul2 li').length,'margin':10,'position':'left'}).run();
 
         }
         $(function(){

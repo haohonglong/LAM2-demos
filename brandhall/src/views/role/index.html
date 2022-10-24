@@ -35,15 +35,15 @@
   
 <#Block:end>
 
-<#Block:begin id="contentComponent">
+
 <script type="text/javascript">
 
-    var contentComponent = LAM.run([jQuery],function($) {
+    LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
 
-        var contentComponent = {
-          name: "contentComponent",
+        var ContentComponent = {
+          name: "ContentComponent",
           props: {},
           components: {},
           data: function () {
@@ -56,10 +56,10 @@
         };
 
 
-        return contentComponent;
+        
+        System.export('ContentComponent', ContentComponent);
     });
 </script>
 <style type="text/css">
 	label{width: 119px;}
 </style>
-<#Block:end>

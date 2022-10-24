@@ -1,55 +1,64 @@
-<#import path="/Chess.class" root="{{LAM.classPath}}" />
+<#define __ROOT__="{{LAM.ROOT}}" />
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+<#define __PLUGINS__="{{LAM.PLUGINS}}" />
+<#define __TITLE__="{{- title -}}" />
+<#import path="/Chess.class" root="__CLASSPATH__" />
+<#import type="css" path="/css/lib,/css/chess" root="__ROOT__" befor="1" />
+<#import path="/vue/vue.js" root="__PLUGINS__" write="1" befor="1" />
+
+
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>{{title}}</title>
-	<script type="text/javascript">
-		LAMJS.run(function() {
-			'use strict';
-			var System=this;
-			System.use();
-			System.Loadcommon
-					.load({
-						'baseUrl':System.ROOT,
-						'css':[
-								 '/css/lib.css'
-								,'/css/chess'
-						]
-					}).print();
+	<title>__TITLE__</title>
+	<style type="text/css">
+		h1{font-size: 54px; text-align: center;}
 
-
-		});
-	</script>
+	</style>
 </head>
 
 <body>
-<canvas id="chess" width="450" height="450"></canvas>
+	<h1 class="MT20">__TITLE__</h1>
+	<div id="app">
+		<canvas ref="chess" width="450" height="450"></canvas>
+		<button></button>
+	</div>
 
+	
 </body>
 </html>
 
 
 <script type="text/javascript">
 
-	LAMJS.run(function() {
+	LAM.run(function() {
 		var System=this;
-		var chess;
+		var n = System.get("n");
+		var Chess = System.require("lam.Chess");
 
-		$(function(){
-			chess=new System.Html5.Chess($('#chess')[0],19);
-			chess
-					.add_watermark(System.ROOT+'/images/11.jpg',function(){
-						chess
-								.draw()
-								.click();
-					});
+		var vm = new Vue({
+              data: function(){
+                return {
+                };
+              },
+              components: {},
+              computed: {},
+							mounted(){
+								var chess=new Chess(this.$refs.chess, n, n);
+								chess
+										.add_watermark('__ROOT__/images/11.jpg',function(){
+											chess
+													.draw()
+													.click();
+										});
+							},
+              methods: {
+              },
+              watch: {
+              }
+            }).$mount("#app");
 
-
-
-
-
-		});
 
 	});
 </script>

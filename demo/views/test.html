@@ -1,3 +1,8 @@
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+
+<#import path="
+/Tab.class
+" root="__CLASSPATH__" write="1" befor="1" />
 
 <ul class="list sectionFloat clearfix">
 	<li class="cur">111</li>
@@ -8,32 +13,18 @@
 <div class="block hide">22222</div>
 <div class="block hide">33333</div>
 
-<script type="text/javascript">
-
-	window[GRN_LHH].run(function(){
-		'use strict';
-		var System=this;
-
-		System.import([
-			'/Tab.class'
-		],System.classPath);
-
-	});
-
-
-
-</script>
 
 <script type="text/javascript">
 
-	window[GRN_LHH].run(function(){
+	LAM.run(function(){
 		'use strict';
 		var System=this;
+		var Tab = System.require("lam.Tab");
 
 
 		$(function(){
 			System.wait(function(){
-				new System.Tab({
+				new Tab({
 					'list':$('.list li'),
 					'event':'click',
 					'hover':false,

@@ -1,28 +1,23 @@
-<#import path="/Sport.class,/Thumbnail.class" root="{{LAM.classPath}}" />
-<#import path="/artTemplate/artTemplate" root="{{LAM.PLUGINS}}" />
+<#define __ROOT__="{{LAM._ROOT_}}" />
+<#define __VIEWS__="{{LAM.VIEWS}}" />
+<#define __CLASSPATH__="{{LAM.classPath}}" />
+<#define __SERVER__="{{LAM.SERVER}}" />
+
+
+<#import path="/Sport.class,/Thumbnail.class" root="__CLASSPATH__" />
+
+#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+
+<#import type="css" path="
+/common/plugins/bootstrap/bootstrap
+,/common/css/lib/global
+" root="__ROOT__" befor="1" />
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{{title}}</title>
-    <script type="text/javascript">
-        LAMJS.run(function() {
-            'use strict';
-            var System=this;
-            System.use();
-            System.Loader
-                    .load({
-                        'baseUrl':System._ROOT_,
-                        'css':[
-                             '/common/plugins/bootstrap/bootstrap'
-                            ,'/common/css/lib/global'
-                        ]
-                    }).print();
-
-
-
-        });
-    </script>
+    <title>{{-title-}}</title>
     <style type="text/css">
         .w-page{}
         html,body,#container,.sidbar,.content{height:100%;}
@@ -35,22 +30,23 @@
             left: 200px;
             background:green;
         }
-        ul li{min-height:250px;overflow: hidden;}
+        #ul1 > li{min-height:250px;overflow: auto; background: #fff; margin: 0 5px 10px 0;}
 
     </style>
 
 </head>
 
 <body>
+    
 <!--嵌套三层 每一层是一个对象-->
 <div id="container" class="">
     <div class="sidbar">
-        <#include tp-data="{'content':'this is include'}" file="{{LAM.VIEWS}}/include/test.html" dataType="html" />
+        <#include tp-data="{'content':'this is include'}" file="__VIEWS__/include/test.html" />
     </div>
 
-    <div class="content over-h" id="content">
+    <div class="" id="content">
         <ul id="ul1" class="sectionFloat clearfix P10">
-
+            <#=block id="content" data="{'data':__DATA__}" />
         </ul>
 
 
@@ -61,41 +57,58 @@
 
 </body>
 </html>
-<script type="text/html" id="list_tml">
-    <% for(var i=0;i<10;i++){%>
-    <li><div class="H100 M10 P10" style="background: #fff;"><%=content%></div></li>
-    <% }%>
-</script>
+<#Block:begin id="content" data="{'data':''}">
+    <% LAM.each(data,function(i, item){%>
+    <li><div class="H100 M10 P10" style="background: #fff;"><%=LAM.Template.getBlock("list", {'item': item})%></div></li>
+    <% });%>
+<#Block:end>
+
+<#Block:begin id="list" data="{'item': {'id':0, 'name': '', 'pid':0, child:[]} }">
+<div class="btn">
+    <span>
+        <%if(LAM.isArray(item.child) && !LAM.empty(item.child)){%>--<%}%>
+        <%=item.name%>
+    </span>
+</div>
+<%if(LAM.isArray(item.child) && !LAM.empty(item.child)){%>
+    <ul class="ml15">
+        <%LAM.each(item.child,function(i, item){%>
+            <li><%=LAM.Template.getBlock("list", {'item': item})%></li>
+        <%});%>
+    </ul>
+<%}%>
+
+<#Block:end>
+
+
+
 
 
 
 <script type="text/javascript">
-    LAMJS.run(function(){
+    LAM.run(function(){
         'use strict';
         var System=this;
+        var Thumbnail = System.require("lam.Thumbnail");
+        var Template = System.require("lam.base.Template");
 
-        var ul1;
+
+        var thumbnail;
         function layout(){
-            ul1=new System.Thumbnail({'$view':$('#ul1'),'baseWidth':200,'baseHeight':150,'$li':$('#ul1 > li')}).run();
+            thumbnail=new Thumbnail({'$view':$('#ul1'),'baseWidth':200,'baseHeight':150,'$li':$('#ul1 > li')}).run();
+            System.export("thumbnail", thumbnail);
         }
         $(function(){
-            var renderPartial = template.compile($('#list_tml').html());
-            var html = renderPartial({
-                'content':'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.'
-            });
-            $('#ul1').html(html);
-
-
             layout();
 
         });
 
         $(window).resize(function(){
-            ul1.resize();
+            thumbnail.resize();
 
 
         });
-
+        
 
 
     });

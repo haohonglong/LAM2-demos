@@ -198,6 +198,12 @@
                             data.sid = sid;
                             data.sort_name = title;
                             this.update(index,data);
+                        } else {
+                            var data = {
+                                sid,
+                                "sort_name": title
+                            };
+                            this.add(data);
                         }
                     });
                     

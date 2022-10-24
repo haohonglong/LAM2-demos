@@ -10,17 +10,24 @@
             // console.log(view);
             var System = this;
             var r = System.get('r');
-            System.COOKIE.find('id',"1",function (index,id) {
+            System.COOKIE_GUEST.find('auth_key', System.token,function (index,id) {
                 var _this = this;
-                if(-1 === index && (r !== 'site/login' && r !== 'site/reg')){
-                    System.redirect(System.INDEX+"site/login");
+                if(-1 === index){
+                    if(!(r === 'site/login' || r === 'site/reg'))
+                        System.redirect(System.INDEX+"site/login");
                 }else{
-                    System.listen(function () {
-                        if(_this.had_expired(index)){
-                            _this.remove(index);
+                    
+                    System.listen(() => {
+                        if(this.had_expired(index)){
+                            this.remove(index);
                             System.redirect(System.INDEX+"site/login");
                         }
                     },1);
+
+                    let data = this.get(index);
+                    if(System.token === data.auth_key && (r === 'site/login' || r === 'site/reg')){
+                        System.redirect(System.INDEX+System.routeRules.index);
+                    }
                 }
             });
             let ROOT = System.ROOT;

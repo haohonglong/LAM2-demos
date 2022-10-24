@@ -1,62 +1,31 @@
-(function(IT,factory){
+LAM.run([LAM], function(LAM){
     'use strict';
-    var System = IT['LAM_20150910123700_'];
-
-    if(!System){
-        return;
-    }else{
-        typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(System) :
-            typeof define === 'function' && define.amd ? define(factory(System)) :
-                (System['SiteController'] = factory(System));
-    }
-
-})(this,function(System){
-    'use strict';
+    var System = this;
     var __this__=null;
-    System.is(System,'Controller','SiteController',System.classPath+'/base');
+    System.is(System,'BaseController','SiteController',System.CONTROLLERS);
+    var BaseController = System.require("src.controllers.BaseController");
+    
+
     var ROOT  = System.BACKEND;
     var E = {file_404:System.ERROR_404};
-    var SiteController = System.Controller.extend({
+    var SiteController = BaseController.extend({
         constructor: function (init){
             this.base(init || {});
             __this__=this;
             this.viewpath = System.VIEWS+'/site';
-            this.defaultRoute = System.routeRules.list;
 
 
         },
         '_className':'SiteController',
         'loginAction':function(){
             this.title = "登录";
-            var pwd = System.get('pwd');
-
-            var _this = this;
-            var data = null;
-            System.COOKIE.find('id',"1",function (index,id) {
-                if(-1 === index){
-                    if(System.isset(pwd) && "123456" === pwd) {
-                        data = {
-                            "userid":id,
-                            "name":"long",
-                            "pwd":"123456"
-                        };
-                        this.add(data);
-                        System.redirect(System.INDEX+_this.defaultRoute);
-                    }
-                }else {
-                    data = this.get(index);
-                    if("123456" === data.pwd){
-                        System.redirect(System.INDEX+_this.defaultRoute);
-                    }
-                }
-            });
-
+            
             return this.renderPartial('login',{
                 'COMMON':System.COMMON,
                 'ROOT':ROOT,
                 'D':{
-                    'title':'你好，世界！',
-                    'content':'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.'
+                    'title':'',
+                    'content':''
                 }
 
             });
@@ -65,7 +34,7 @@
         },
         'logoutAction':function(){
             this.title = "";
-            System.COOKIE.find('id',"1",function (index) {
+            System.COOKIE_GUEST.find('auth_key', System.token,function (index) {
                 if(index > -1){
                     this.remove(index);
                     System.redirect(System.INDEX+"site/login");
@@ -78,11 +47,11 @@
         'regAction':function(){
             this.title = "注册";
             var _this = this;
-            System.COOKIE.find('id',"1",function (index,id) {
+            System.COOKIE_GUEST.find('auth_key', System.token, function (index,id) {
                 if(-1 !== index){
                     var data = this.get(index);
-                    if("123456" === data.pwd){
-                        System.redirect(System.INDEX+_this.defaultRoute);
+                    if(System.token === data.auth_key){
+                        System.redirect(System.INDEX+System.routeRules.index);
                     }
                 }
 
@@ -131,7 +100,13 @@
          */
         'destructor':function(){}
     });
-    return SiteController;
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = SiteController :
+	typeof define === 'function' && define.amd ? define(SiteController) : LAM.SiteController = SiteController;
+    System.export("src.controllers.SiteController", SiteController);
 });
+
+
+
+
 
 

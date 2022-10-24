@@ -80,6 +80,7 @@
                     , 'SERVER': 'http://yaf.local'
                     , 'CONFIGURATION_PATH': CONF + '/config.js'
                     , 'BASE64ENCODE': true
+                    , 'token': "G94F9AyvNiuHCRVLY8kw9-HE6Jjw9qIU"
                     , 'LAMPATH': System.classPath
 
                 };
@@ -110,7 +111,8 @@
                     // return System.md5(System.timestamp());
                 },
                 'runtime': function (System) {
-                    System.COOKIE = new System.Storage('guest', localStorage);
+                    System.COOKIE_GUEST = new System.Storage('guest', localStorage, System.timestamp() + 1000*60*60*3);
+                    System.COOKIE = new System.Storage('content', localStorage);
 
                 }
 
@@ -136,7 +138,10 @@
             'autoLoadFile': function (System) {
                 var PLUGINS = System.PLUGINS;
                 return {
-                    files: []
+                    files: [
+                        {"name": "BaseController", "path": System.CONTROLLERS+"/BaseController.class.js"},
+                        { 'name': 'Router', 'path': System.classPath + '/base/Router.class.js' }
+                    ]
                 };
             },
 

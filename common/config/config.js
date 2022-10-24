@@ -80,6 +80,7 @@
                 var classPath=this.getClassPath();
                 return {
                     files: [
+                        { 'name': 'Router', 'path': System.classPath + '/base/Router.class.js' },
                         {'name': 'Css', 'path': classPath+'/base/Css.class.js'}
                     ]
                 };

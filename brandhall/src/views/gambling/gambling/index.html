@@ -3,18 +3,15 @@
 
 <#define _TITLE_="博彩" />
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
-<#extends title="商品列表" data="{'list':[
-{'name':'喜鹊筑家旗舰店','href':'###','title':''},
-{'name':'商品管理','href':'###','title':''},
+
+
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'网页地址','href':'__INDEX__url/index','title':''},
 {'name':'_TITLE_'}
 ]}" />
 
-<#Block:begin id="crumb" data="{'list':[
-{'name':'喜鹊筑家旗舰店','href':'###','title':''},
-{'name':'商品管理','href':'###','title':''},
-{'name':'_TITLE_'}
-]}">
-<#Block:end>
 
 <#import path="/vue-seamless-scroll.min.js" root="https://cdn.jsdelivr.net/npm/vue-seamless-scroll@latest/dist" write="1" befor="1" />
 
@@ -36,24 +33,26 @@
 </div>
 <#Block:end>
 
-<#Block:begin id="contentComponent">
+
 <script type="text/javascript">
 
-    var contentComponent = LAM.run([jQuery],function($) {
+    LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
 
-        var contentComponent = {
-	         name: "contentComponent",
+        var ContentComponent = {
+	         name: "ContentComponent",
 	         props: {},
 	         components: {
-				vueSeamlessScroll: vueSeamlessScroll
-			 },
-			 data: {
-				n: 0,
-				timer: 1,
-				data: []
-			 },
+							vueSeamlessScroll: vueSeamlessScroll
+						},
+						data: function(){
+							return {
+								n: 0,
+								timer: 1,
+								data: []
+							};
+						},
 	         methods: {
 	        	'exist':function(id){
 	        		return this.data.in_array(id);
@@ -62,6 +61,7 @@
 	        		this.data.remove(id);
 	        	},
 	        	'left':function(){
+							var vue = this;
 	        		System.listen(function(id){
 	        			if(!vue.exist(id)) {
 	        				vue.data.push(id);
@@ -80,8 +80,9 @@
 
 	        	},
 	        	'right':function(){
-					System.listen(function(id){
-						if(!vue.exist(id)) {
+							var vue = this;
+							System.listen(function(id){
+								if(!vue.exist(id)) {
 	        				vue.data.push(id);
 	        			}
 	        			if(vue.n > 1150) {
@@ -106,7 +107,7 @@
 
 
 
-        return contentComponent;
+        System.export("ContentComponent", ContentComponent);
     });
 </script>
 <style type="text/css">
@@ -140,7 +141,6 @@
     }
   }
 </style>
-<#Block:end>
 
 
 

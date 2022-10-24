@@ -62,6 +62,9 @@
         'cubeAction':function(){
             return this.renderPartial('cube');
         },
+        'formAction':function(){
+            return this.renderPartial('form');
+        },
 
 
 

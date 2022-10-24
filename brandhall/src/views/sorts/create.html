@@ -3,7 +3,7 @@
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define __INDEX__="{#LAM.INDEX#}" />
 <#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
-#define# __COOKIE__ {#cookie#} #end#
+#define# __COOKIE__ {#-cookie-#} #end#
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
 
 <#define _TITLE_="添加类别" />

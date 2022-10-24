@@ -1,23 +1,14 @@
-(function(IT,factory){
+LAM.run([LAM], function(LAM){
     'use strict';
-    var System = IT['LAM_20150910123700_'];
-
-    if(!System){
-        return;
-    }else{
-        typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(System) :
-            typeof define === 'function' && define.amd ? define(factory(System)) :
-                (System['RoomController'] = factory(System));
-    }
-
-})(this,function(System){
-    'use strict';
+    var System = this;
     var __this__=null;
-    System.is(System,'Controller','RoomController',System.classPath+'/base');
+    System.is(System,'BaseController','RoomController',System.CONTROLLERS);
+    var BaseController = System.require("src.controllers.BaseController");
+
     var ROOT  = System.BACKEND;
     var views = System.VIEWS+'/room';
     var E = {file_404:System.ERROR_404};
-    var RoomController = System.Controller.extend({
+    var RoomController = BaseController.extend({
         constructor: function (init){
             this.base(init || {});
             __this__=this;
@@ -34,7 +25,8 @@
         },
         '_className':'RoomController',
         'listAction':function(){
-            return this.render('list/index',{
+            this.viewpath+='/list';
+            this.data = {
                 'VIEWS':System.VIEWS,
                 'IMAGE':System.IMAGE,
                 'ROOT':ROOT,
@@ -43,7 +35,8 @@
                     'content':'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.'
                 }
 
-            },E);
+            };
+            return this.render('index', this.data, E);
         },
         'detailAction':function(){
             return this.render('detail/index',{
@@ -87,7 +80,10 @@
          */
         'destructor':function(){}
     });
-    return RoomController;
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = RoomController :
+	typeof define === 'function' && define.amd ? define(RoomController) : LAM.RoomController = RoomController;
+    System.export("src.controllers.RoomController", RoomController);
 });
+
 
 

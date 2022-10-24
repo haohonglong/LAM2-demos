@@ -1,18 +1,25 @@
-<#define __CLASSPATH__="{{LAM.classPath}}" />
-<#define __COMMON__="{{LAM.COMMON}}" />
-<#define __CSS__="{{LAM.CSS}}" />
+<#define __API__="{#LAM.API#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMMON__="{#LAM.COMMON#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __TITLE__="{#-title-#}" />
 <#import path="/Tab.class,/PopupLayer.class,/Validation.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
 <#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
+
+<#import path="/api.js" root="__API__" />
+<#import path="/vue/vue.js" root="__PLUGINS__" write="1" befor="1" />
+
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{title}}</title>
-<meta name="keywords" content="{{title}}" />
-<meta name="description" content="{{title}}" />
+<title>__TITLE__</title>
+<meta name="keywords" content="__TITLE__" />
+<meta name="description" content="__TITLE__" />
 </head>
 
 <body class="sectionContainer-A1">

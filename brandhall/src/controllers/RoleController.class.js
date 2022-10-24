@@ -40,7 +40,7 @@
             },E);
         },
         'reactAction':function(){
-            return this.render('react',{
+            return this.renderPartial('react',{
                 'ROOT':ROOT
 
             },E);
