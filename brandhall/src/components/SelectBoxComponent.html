@@ -3,8 +3,8 @@
 <#Block:begin id="selectBox">
 <div>
     <select id="select" class="L" v-on:click="arrowDown">
-        <option v-if="0 == sid" value="0" class="none">请选择</option>
-        <option v-else :value="sid" class="none"> {{ sortName }} </option>
+        <option v-if="0 == data.sid" value="0" class="none">请选择</option>
+        <option v-else :value="data.sid" class="none"> {{ data.sortName }} </option>
     </select>
     <div id="selectBox" v-show="isShow" @mouseleave="mouseleave">
       <div class="mCustomScrollbar">
@@ -28,15 +28,9 @@
               type: Array,
               require: true,
             }, 
-            "sid": {
-              type: String,
-            },
-            "sortName": {
-              type: String
-            },
-            "id": {
-              type: String,
-              default: null
+            "data": {
+              type: Object,
+              require: true
             }
           },
           components: { },
@@ -57,12 +51,6 @@
           },
 
           methods: {
-            setSid(id){
-              this.$emit('setSid', id);
-            },
-            setSortName(name) {
-              this.$emit('setSortName', name);
-            },
             hideSelectBox() {
               this.isShow = false;
             },
@@ -76,12 +64,12 @@
               alert(item.id);
             },
             handleNodeClick(data) {
-              if (this.id && data.id == this.id) {
+              if (this.data.id && data.id == this.data.id) {
                 alert("当前的类名称不能选择自己为父类");
                 return;
               }
-              this.setSid(data.id);
-              this.setSortName(data.name);
+              this.data.sid = data.id;
+              this.data.sortName = data.name;
               this.hideSelectBox();
             }
 

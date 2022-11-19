@@ -33,8 +33,7 @@
     "icon":"a-2",
     "title":"网页地址",
     "ul":[
-      {  "index": "a5-b1", "title":"列表","href":"__INDEX__url/index"},
-      {  "index": "a5-b2", "title":"添加","href":"__INDEX__url/create"}
+      {  "index": "a5-b1", "title":"列表","href":"__INDEX__url/index"}
     ]
   },
   {
@@ -42,8 +41,7 @@
     "icon":"a-2",
     "title":"类别",
     "ul":[
-      {  "index": "a6-b1", "title":"列表","href":"__INDEX__sorts/index"},
-      {  "index": "a6-b2", "title":"添加","href":"__INDEX__sorts/create"}
+      {  "index": "a6-b1", "title":"列表","href":"__INDEX__sorts/index"}
     ]
   },
 

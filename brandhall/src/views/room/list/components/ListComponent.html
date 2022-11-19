@@ -1,5 +1,5 @@
 <#define __INDEX__="{#LAM.INDEX#}" />
-<#Block:begin id="roomList">
+<#Block:begin id="room.list.components.ListComponent">
 <div>
     <div v-for="(item, index) in data" class="sectionBox-A10 sectionBox-A10-2 sectionFloat-A1">
         <ul class="p10 clear">
@@ -69,24 +69,24 @@
           methods: {
             swap(a, b) {
                 this.$emit('swap', this.data, a, b);
-              },
-              first(cur) {
-                  this.swap(0, cur);
-              },
-              next(cur) {
+            },
+            first(cur) {
+                this.swap(0, cur);
+            },
+            next(cur) {
                 if(cur+1 < this.data.length) this.swap(cur, cur+1);
-              },
-              previous(cur) {
+            },
+            previous(cur) {
                 if (cur > 0) this.swap(cur, cur-1);
-              },
-              last(cur) {
+            },
+            last(cur) {
                 this.swap(cur, this.data.length-1);
-              },
-              remove(index) {
+            },
+            remove(index) {
                 this.data = this.data.filter((item, i) => index != i)
-              }
+            }
           },
-          template: System.Template.getBlock('roomList')
+          template: System.Template.getBlock('room.list.components.ListComponent')
         };
 
         System.export('roomListComponent', roomListComponent);

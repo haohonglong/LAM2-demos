@@ -1,0 +1,69 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __MODELS__="{#LAM.MODELS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+
+
+
+<#Block:begin id="url.form">
+<form class="form-horizontal">
+    <div class="sectionWrap-A5">
+        <div class="p15">
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+                <ul>
+                    <li class="clear mb5">
+                        <label class="L">类别：<span class="warning">*</span></label>
+                        <select-box-component :data="data" :list="list"></select-box-component>
+                        <span class="help-block">{{error.sid}}</span>
+                    </li>
+                    <li class="clear mb5">
+                        <label class="L">名称：<span class="warning">*</span></label>
+                        <input type="text" v-model="data.name"  class="text name L">
+                        <span class="help-block">{{error.name}}</span>
+                    </li>
+
+                    <li class="clear mb5">
+                        <label class="L">url：<span class="warning">*</span></label>
+                        <input type="text" v-model="data.url" class="text name L">
+                        <span class="help-block">{{error.url}}</span>
+                    </li>
+                    <li class="textarea clear">
+                        <label class="L">简介：<span class="warning">*</span></label>
+                        <textarea class="L" v-model="data.info"></textarea>
+                        <span class="help-block">{{error.info}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</form>
+
+<#Block:end>
+
+
+<#include repeat="0" file="__COMPONENTS__/SelectBoxComponent.html" />
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        var FormComponent = {
+          name: "FormComponent",
+          props: {
+            list: Array,
+            data: Object,
+            error: Object,
+          },
+          components: {
+            "select-box-component": System.require('SelectBoxComponent')
+          },
+          data() {
+            return {}
+          },
+          methods: {},
+          template: System.Template.getBlock('url.form')
+        };
+
+        System.export('FormComponent', FormComponent);
+    });
+</script>

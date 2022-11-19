@@ -5,7 +5,7 @@
 <#define __CSS__="{#LAM.CSS#}" />
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
-<#define ~@="{#LAM.VIEWS#}/sorts" />
+<#define ~/="{#LAM.require('this').viewpath#}/" />
 
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
 <#define _TITLE_="类别列表" />
@@ -19,19 +19,34 @@
 
 <#Block:begin id="content">
 <div class="clearfix">
+    <li class="R sectionButton-B1">
+        <button type="button"  @click="action(1)" class="btn">新增</button>
+    </li>
 	<div v-for="v in list" :key="v.id" class="L mr5 mb30 sectionButton-B1 sectionButton-B1-big" style="border: 3px solid rgba(127, 199, 251, 0.341); padding: 10px;">
 		<div class="btn">
-	        <span @click="modify(v.id, v.pid)">{{ v.name }}</span>
-	        <a @click="remove(v.id)">删除</a>
+	        <span @click="action(2, v)">{{ v.name }}</span>
+	        <span @click="action(1, v)">添加</span>
+	        <a @click="action(3, v)">删除</a>
 	    </div>
-		<ul v-if="isArray(v.child)" class="ml10"><child-component v-on:remove="remove" v-on:modify="modify" :list="v.child"></child-component></ul>
+		<ul v-if="isArray(v.child)" class="ml10"><child-component v-on:action="action" :list="v.child"></child-component></ul>
 	</div>
+    <el-dialog
+    :title="dialogTitle"
+    :visible.sync="dialogVisible"
+    width="">
+    <form-component :list="list" :data="form" :error="formError"></form-component>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
 </div>
 <#Block:end>
 
 
 
-<#include file="~@/components/ChildComponent.html" />
+<#include file="~/components/ChildComponent.html" />
+<#include file="~/components/FormComponent.html" />
 <script type="text/javascript">
 
     LAM.run(function() {
@@ -44,29 +59,161 @@
             'name': 'ContentComponent',
             data(){
                 return {
-                	list: __DATA__
+                    'dialogVisible': false,
+                    'dialogTitle': "提示",
+                	list: __DATA__,
+                    'form':{
+                        'active':"",
+                        'sid': "-1",
+                        'id': "-1",
+                        'sortName': "",
+                        'name': ""
+                    },
+                    'formError':{
+                        'sid': "",
+                        'name': ""
+                    },
                 };
             },
             'components': {
-                'child-component': System.require('ChildComponent')
+                'child-component': System.require('ChildComponent'),
+                'form-component': System.require('FormComponent')
             },
             'methods': {
-                modify(id, pid) {
-                    System.redirect(`__INDEX__sorts/edit&id=${id}&pid=${pid}`);
+                ok() {
+                    this.dialogVisible = false
+                },
+                submit() {
+                    this.initError();
+                    
+                    switch(this.form.active) {
+                        case 1:
+                            this.add();
+                        break;
+                        case 2:
+                            this.modify(this.form.id);
+                        break;
+                    }
+
+                },
+                initError() {
+                    this.formError.sid = "";
+                    this.formError.name = "";
+                },
+                init() {
+                    this.form.sid = 0;
+                    this.form.sortName = '';
+                    this.form.name = '';
+                },
+                action(active, item) {
+                    this.init();
+                    this.initError();
+                    this.form.active = active;
+                    console.log(item)
+
+                    switch(active) {
+                        case 1:
+                            this.dialogTitle = "新增";
+                            if(item) {
+                                this.form.sid = item.id;
+                                this.form.sortName = item.name;
+                            }
+                            break;
+                        case 2:
+                            this.dialogTitle = "修改";
+                            if(item.pid > 0) {
+                                Api.sorts.detail(item.pid, ({ data, status, message = 'error'}) => {
+                                    if(status){
+                                        this.form.sortName = data.name;
+                                    }else{
+                                        alert(message);
+                                    }
+                                },'json');
+                            }
+                            this.form.id = item.id;
+                            this.form.name = item.name;
+                            this.form.sid = item.pid;
+                            break;
+                        case 3:
+                            this.remove(item.id);
+                            return;
+                    }
+
+
+                    this.dialogVisible = true
+                    
+                },
+                getContent(){
+                    Api.sorts.get(data => {
+                        this.list = data;
+                    });
+                    
+                },
+                add() {
+                    var v = this;
+                    var wait = layer.load();
+                    const pid = this.form.sid;
+                    const name = this.form.name;
+                    const sortName = this.form.sortName;
+
+                    var data = { 
+                        pid,
+                        name
+                    };
+                    Api.sorts.add(data, D => {
+                        layer.close(wait);
+                        if(D.status){
+                            alert(D.message);
+                            this.getContent();
+                            this.ok();
+
+                        }else{
+                            // alert(D.message);
+                            System.each(D.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+
+                    });
+                },
+                modify(id){
+                    var wait = layer.load();
+                    const pid  = this.form.sid;
+                    const name = this.form.name;
+                    const sortName = this.form.sortName;
+
+                    Api.sorts.edit({
+                        id,
+                        pid,
+                        name
+                    }, data => {
+                        layer.close(wait);
+                        if(data.status){
+                            alert(data.message);
+                            this.getContent();
+                            this.ok();
+                        }else{
+                            // alert(data.message);
+                            System.each(data.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+                    },'json');
                 },
                 remove(id) {
                     layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
                     
                         Api.sorts.delete(id, data => {
                             if(data.status){
-                                window.location.reload();
+                                this.getContent();
                             }else{
                                 alert(data.message);
                                 System.each(data.errors,function (key,value) {
                                     alert(value)
                                 });
-                                layer.close(index);
+                                
                             }
+                            layer.close(index);
                         })
                     });
                 },

@@ -8,6 +8,7 @@
 <#define __CLASSPATH__="{#LAM.classPath#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="{#LAM.require('this').viewpath#}/" />
 
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
 <#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
@@ -55,17 +56,19 @@
                         <input type="text" v-model="keyword" class="text w-160 L" value="" placeholder="请输入关键字">
                     </li>
                     <li class="R sectionButton-B1">
-                        <a href="__INDEX__url/create"><button type="button" class="btn">添加</button></a>
+                        <button type="button"  @click="action(1)" class="btn">添加</button>
                     </li>
                 </ul>
                 <div class="sectionFloat sectionWrap-A17 mb10">
                     <ul class="clear">
                         <li v-for="(item, index) in contents" class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big">
-                            <div class="btn">
-                                <a :href="item.url" target="_blank">{{ item.name }}</a>
-                                <a v-on:click="modify(item.id)">修改</a>
-                                <a v-on:click="remove(item.id)" href="javascript:void(0)">删除</a>
-                            </div>
+                            <el-tooltip class="item" effect="dark" :content="item.info" placement="bottom-start">
+                                <el-button>
+                                    <a :href="item.url" target="_blank">{{ item.name }}</a>
+                                    <a v-on:click="action(2, item)">修改</a>
+                                    <a v-on:click="action(3, item)">删除</a>
+                                </el-button>
+                            </el-tooltip>
                         </li>
                     </ul>
                 </div>
@@ -88,12 +91,26 @@
             </div>
         </div>
     </div>
+
+    <el-dialog
+    :title="dialogTitle"
+    :visible.sync="dialogVisible"
+    width="">
+    <form-component :list="data" :data="form" :error="formError"></form-component>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
 </div>
+
+
 <#Block:end>
 
 
 
 <#include file="__COMPONENTS__/PagingComponent.html" />
+<#include file="~/components/FormComponent.html" />
 <script type="text/javascript">
 
     LAM.run([jQuery],function($) {
@@ -114,11 +131,28 @@
             'name': "ContentComponent",
             data(){
                 return {
+                    'dialogTitle': "提示",
+                    'dialogVisible': false,
                     'contents': [],
                     'currentNodeKey': '',
                     'keyword': "",
                     'title': "",
-                    'sid': 0,
+                    'sid': "-1",
+                    'form':{
+                        'active':"",
+                        'sid': "-1",
+                        'id': "-1",
+                        'sortName': "",
+                        'name': "",
+                        'url': "",
+                        'info': ""
+                    },
+                    'formError':{
+                        'sid': "",
+                        'name': "",
+                        'url': "",
+                        'info': ""
+                    },
                     cache,
                     filterText: '',
                     data: __DATA__,
@@ -130,7 +164,8 @@
                 };
             },
             'components': {
-                'paging-component': System.require('PagingComponent')
+                'paging-component': System.require('PagingComponent'),
+                'form-component': System.require('FormComponent')
             },
             beforeCreate() { },
             created() {
@@ -151,6 +186,92 @@
                 });
             },
             'methods': {
+                ok() {
+                    this.dialogVisible = false
+                },
+                submit() {
+                    this.initError();
+                    
+                    switch(this.form.active) {
+                        case 1:
+                            this.add();
+                        break;
+                        case 2:
+                            this.modify(this.form.id);
+                        break;
+                    }
+
+                },
+                initError() {
+                    this.formError.sid = "";
+                    this.formError.name = "";
+                    this.formError.url = "";
+                    this.formError.info = "";
+                },
+                init() {
+                    this.form.name = '';
+                    this.form.url = '';
+                    this.form.info = '';
+                },
+                action(active, item) {
+                    this.init();
+                    this.initError();
+                    this.form.active = active;
+
+                    switch(active) {
+                        case 1:
+                            this.dialogTitle = "新增";
+                            break;
+                        case 2:
+                            this.dialogTitle = "修改";
+                            break;
+                        case 3:
+                            this.remove(item.id);
+                            return;
+                    }
+                    
+                    this.dialogVisible = true
+
+                    if(item) {
+                        this.form.id = item.id;
+                        this.form.name = item.name;
+                        this.form.url = item.url;
+                        this.form.info = item.info;
+                        this.form.sid = this.sid;
+                        this.form.sortName = this.title;
+                    }
+                },
+                add() {
+                    var v = this;
+                    var wait = layer.load();
+                    const sid = this.form.sid;
+                    const name = this.form.name;
+                    const url = this.form.url;
+                    const info = this.form.info;
+                    const sortName = this.form.sortName;
+
+                    const data = { 
+                        sid,
+                        name,
+                        url,
+                        info
+                    };
+                    Api.url.add(data, D => {
+                        layer.close(wait);
+                        if(D.status){
+                            alert(D.message);
+                            this.getContent(sid, sortName);
+                            this.ok();
+
+                        }else{
+                            // alert(D.message);
+                            System.each(D.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+
+                    });
+                },
                 search() {
                     let sid = this.sid;
                     let name = this.keyword;
@@ -168,28 +289,24 @@
 
                 },
                 getContent(sid, title){
-                    this.sid = sid;
                     var vue = this;
+                    this.sid = sid;
                     this.title = title;
-                    this.cache.find('id',sid,function (index,sid) {
-                        var list=null;
-                        if(-1 === index){
-                            var wait = layer.load();
-                            Api.url.get(sid, D =>{
-                                layer.close(wait);
-                                if(D.status){
-                                    list = D.data;
-                                    vue.contents = list;
-                                    this.add({list:list});
-                                }else{
-                                    list = "没有数据";
-                                }
-                            });
-                            
+                    this.form.sortName = title;
+                    this.form.sid = sid;
+
+                    
+
+                    var wait = layer.load();
+                    Api.url.get(sid, D =>{
+                        layer.close(wait);
+                        if(D.status){
+                            vue.contents = D.data;
                         }else{
-                            vue.contents = this.get(index).list;
+                            vue.contents = "没有数据";
                         }
                     });
+                    
 
                     $("#crumb strong").text(this.title);
                     System.COOKIE.find('id',"1",function (index) {
@@ -209,7 +326,7 @@
                     
                 },
                 remove(id){
-                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
+                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
                       //do something
                         Api.url.delete(id, data => {
                             alert(data.message);
@@ -218,7 +335,7 @@
                                     alert(value)
                                 });
                             } else {
-                                window.location.reload();
+                                this.getContent(this.sid, this.title);
                             }
                             layer.close(index);
                         });
@@ -226,7 +343,32 @@
                     });
                 },
                 modify(id){
-                    System.redirect('__INDEX__url/edit&id=' + id);
+                    var wait = layer.load();
+                    const sid  = this.form.sid;
+                    const name = this.form.name;
+                    const url  = this.form.url;
+                    const info = this.form.info;
+                    const sortName = this.form.sortName;
+
+                    Api.url.edit({
+                        id,
+                        sid,
+                        name,
+                        url,
+                        info
+                    }, data => {
+                        layer.close(wait);
+                        if(data.status){
+                            alert(data.message);
+                            this.getContent(sid, sortName);
+                            this.ok();
+                        }else{
+                            // alert(data.message);
+                            System.each(data.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+                    },'json');
                 },
                 filterNode(value, data) {
                     if (!value) return true;

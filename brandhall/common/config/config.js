@@ -81,7 +81,7 @@
                     , 'CONFIGURATION_PATH': CONF + '/config.js'
                     , 'BASE64ENCODE': true
                     , 'token': "G94F9AyvNiuHCRVLY8kw9-HE6Jjw9qIU"
-                    , 'LAMPATH': System.classPath
+                    , 'LAMPATH': System.LAMPATH
 
                 };
             },
