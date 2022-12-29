@@ -1,4 +1,5 @@
 <#define __SERVER__="{#LAM.SERVER#}" />
+<#define ~/="{#LAM.require('this').viewpath#}/" />
 <#define __INDEX__="{#LAM.INDEX#}" />
 #define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/shop/index" /> #end#
 <#define __BILLID__="{#LAM.md5(LAM.hash())#}" />
@@ -10,29 +11,6 @@
 {'name':'_TITLE_'}
 ]}" />
 
-
-<#Block:begin id="goodsInput">
-<li class="L ml10">
-    <span v-if="warning" class="warning">*</span> <label> {{ label }} : </label>
-    <input :type="type" :name="name" :style="input_style" :class="'text name ' + input_class" v-bind:value="value"
-      v-on:input="$emit('input', $event.target.value)">
-      <span class="font-14 font-bold" v-text="unit"></span>
-    <span class="warning" v-text="error"></span>
-</li>
-<#Block:end>
-
-
-<#Block:begin id="goods">
-<div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
-    <ul class="clear mb5 row">
-        <input-component v-model="list.name" :name="list.name" label="商店名称" input_style="width:120px;"></input-component>
-        <input-component v-model="list.number" :name="list.number" label="数量" input_style="width:45px;" value="" input_class="number"></input-component>
-        <input-component v-model="list.weight" :name="list.weight" label="重量" input_style="width:45px;" value="1" input_class="weight"></input-component>
-        <input-component v-model="list.single_price" :name="list.single_price" label="单价" input_style="width:45px;" value="1" input_class="single_price"></input-component>
-        <input-component v-model="list.final_price" :name="list.final_price" label="结算价格" input_style="width:45px;" value="1" input_class="final_price"></input-component>
-    </ul>
-</div>
-<#Block:end>
 
 <#Block:begin id="content">
 <div>
@@ -80,11 +58,12 @@
                             <span class="font-16 font-bold" v-text="item.final_price"></span>
                             <span class="warning" v-text="item.error.final_price"></span>
                         </li>
+                        <!-- <goods-component :list="item" :index="i"></goods-component> -->
                         <li class="R sectionButton-B1">
                             <button type="button" @click="handelCopy(i)" class="btn save L mr15">复制</button>
                             <button type="button" @click="handelRemove(i)" class="btn save L mr15">删除</button>
                         </li>
-                        <!-- <goods-component :list="item" :index="i"></goods-component> -->
+                        
                     </ul>
                 </div>
             </div>
@@ -103,6 +82,9 @@
 <#Block:end>
 
 
+<#include file="~/components/InputComponent.html" />
+<#include file="~/components/GoodsComponent.html" />
+
 <script type="text/javascript">
     LAM.run([jQuery],function($) {
         'use strict';
@@ -110,82 +92,20 @@
 
         const Api = System.require("Api");
 
-            var inputComponent = {
-              props: {
-                'name': String,
-                'error': {
-                    type: String,
-                    default: ""
-                },
-                'unit': {
-                    type: String,
-                    default: ""
-                },
-                'type': {
-                    type: String,
-                    default: "text"
-                },
-                'label': String, 
-                'warning': {
-                    type: Boolean,
-                    default: true
-                }, 
-                'value': [String, Number], 
-                'input_style': {
-                    type: String,
-                    default: ''
-                }, 
-                'input_class': {
-                    type: String,
-                    default: ''
-                }
-              },
-              data: function () {
-                return {
-                }
-              },
-              methods: {
-              },
-              template: System.Template.getBlock('goodsInput')
-            };
-
-            var goodsComponent = {
-              props: {
-                index: Number,
-                list: {
-                    type: Object
-                }
-              },
-              data: function () {
-                return {
-                    'picked': '',
-                    'n': 0
-
-                }
-              },
-              methods: {
-                handelClick: function (i) {
-                    n = i;
-                }
-              },
-              template: System.Template.getBlock('goods')
-            };
-
-
-
+            
             var n = 0;
 
             const NAMES = {
-                        'shop_id':"店铺",
-                        'bill_id':"账单号",
-                        'discount': "折扣价",
-                        'create_by': "创建日期",
-                        'name': "名称",
-                        'number':"数量",
-                        'weight':"重量",
-                        'single_price': "单价",
-                        'final_price': "结算价格"
-                    };
+                'shop_id':"店铺",
+                'bill_id':"账单号",
+                'discount': "折扣价",
+                'create_by': "创建日期",
+                'name': "名称",
+                'number':"数量",
+                'weight':"重量",
+                'single_price': "单价",
+                'final_price': "结算价格"
+            };
 
             var goods = System.createDict();
             goods.name = "",
@@ -223,8 +143,8 @@
                 };
               },
               components: {
-                'input-component': inputComponent,
-                'goods-component': goodsComponent
+                'input-component': System.require('goods.components.input'),
+                'goods-component': System.require('goods.components.goods')
               },
               computed: {
                 total(){

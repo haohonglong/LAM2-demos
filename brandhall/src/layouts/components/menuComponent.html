@@ -2,7 +2,7 @@
 <div>
     <div class="sectionBox sectionTitle-A2"><h2>{{ title }}</h2></div>
     
-    <el-container style="height: 500px; border: 1px solid #eee" class="mCustomScrollbar _mCS_1 mCS_no_scrollbar">
+    <el-container class="">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
           <el-menu :unique-opened="true" :default-openeds="defaultOpeneds" :default-active="defaultActive" active-text-color="#ffd04b" class="el-menu-vertical-demo">
             <el-submenu v-for="(v1, i) in list" :key="i" :index="v1.index">

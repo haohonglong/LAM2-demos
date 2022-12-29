@@ -59,6 +59,8 @@
         'use strict';
         var System = this;
 
+        const Api = System.require("Api");
+
         var ContentComponent = {
           name: "ContentComponent",
           props: {},
@@ -69,6 +71,13 @@
             }
           },
           methods: {
+            getData() {
+                Api.shop.getList(res  => {
+                    if(res.status) {
+                        this.tableData = res.data;
+                    }
+                });
+            },
             deleteRow(index, rows) {
                 console.log(rows[index].id)
                 // rows.splice(index, 1);

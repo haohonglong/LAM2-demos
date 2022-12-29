@@ -111,7 +111,7 @@
                     // return System.md5(System.timestamp());
                 },
                 'runtime': function (System) {
-                    System.COOKIE_GUEST = new System.Storage('guest', localStorage, System.timestamp() + 1000*60*60*3);
+                    System.COOKIE_GUEST = new System.Storage('guest', localStorage, System.timestamp() + 1000*60*60*60*3);
                     System.COOKIE = new System.Storage('content', localStorage);
 
                 }

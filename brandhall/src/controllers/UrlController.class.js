@@ -36,28 +36,6 @@ LAM.run([LAM], function(LAM){
 
             },E);
         },
-        'createAction':function(){
-            return this.render('create',{
-                'VIEWS':System.VIEWS,
-                'IMAGE':System.IMAGE,
-                'ROOT':ROOT,
-                'cookie':this.cookie
-
-            },E);
-        },
-        'editAction':function(){
-            return this.render('edit',{
-                'VIEWS':System.VIEWS,
-                'IMAGE':System.IMAGE,
-                'ROOT':ROOT,
-                'cookie':this.cookie
-
-            },E);
-        },
-
-
-
-
 
 
         /**

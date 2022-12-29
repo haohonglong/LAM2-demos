@@ -5,6 +5,20 @@ LAM.run([jQuery], function($){
 	const SERVER = System.SERVER;
 
 	const API = {
+		"video2":{
+			"list": "/video2/index",
+			"add": "/video2/add",
+			"edit": "/video2/edit",
+			"search": "/video2/search",
+			"delete": "/video2/delete"
+		},
+		"video":{
+			"list": "/video/index",
+			"add": "/video/add",
+			"edit": "/video/edit",
+			"search": "/video/search",
+			"delete": "/video/delete"
+		},
 		"url":{
 			"add": "/url/add",
 			"edit": "/url/edit",
@@ -43,6 +57,64 @@ LAM.run([jQuery], function($){
 	}
 
 	const Api = {
+		"video2": {
+			getList(func){
+				request({
+					url: API.video2.list,
+					method: 'get'
+				}, func);
+			},
+			add({ src }, func){
+				request({
+					url: API.video2.add,
+					method: 'post',
+					params: { src }
+				}, func);
+			},
+			edit({ id, src }, func){
+				request({
+					url: API.video2.edit,
+					method: 'post',
+					params: { id, src }
+				}, func);
+			},
+			delete(id, func){
+				request({
+					url: API.video2.delete,
+					method: 'get',
+					params: { id }
+				}, func);
+			}
+		},
+		"video": {
+			getList(func){
+				request({
+					url: API.video.list,
+					method: 'get'
+				}, func);
+			},
+			add({ title, source }, func){
+				request({
+					url: API.video.add,
+					method: 'post',
+					params: { title, source }
+				}, func);
+			},
+			edit({ id, title, source }, func){
+				request({
+					url: API.video.edit,
+					method: 'post',
+					params: { id, title, source }
+				}, func);
+			},
+			delete(id, func){
+				request({
+					url: API.video.delete,
+					method: 'get',
+					params: { id }
+				}, func);
+			}
+		},
 		"sorts": {
 			get(func){
 				request({
@@ -150,6 +222,12 @@ LAM.run([jQuery], function($){
 					url: API.shop.add,
 					method: 'post',
 					params: { name }
+				}, func);
+			},
+			getList(func) {
+				request({
+					url: API.shop.list,
+					method: 'get'
 				}, func);
 			}
 		},

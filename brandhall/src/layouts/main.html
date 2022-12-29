@@ -9,7 +9,7 @@
 <#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
 <#define @COMPONENTS="_LAYOUTS_/components" />
 <#define __DATAPATH__="{#LAM.DATA#}" />
-#define# __MENU__ <#include repeat="0" tp-data="" file="__DATAPATH__/menu.json" /> #end#
+#define# __MENU__ <#include file="__DATAPATH__/menu.json" /> #end#
 
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import path="/api.js" root="__API__" />
@@ -57,23 +57,73 @@
 <body>
 
 <div id="app">
+  
     <el-container>
+      <el-drawer
+      title=""
+      size="200px"
+      direction="ltr"
+      :visible.sync="drawer"
+      :with-header="false">
       <el-aside width="200px"><menu-component :list="menu" :title="title"></menu-component></el-aside>
+    </el-drawer>
+      
       <el-container>
-        <el-header><header-component :name="user.name" :age="user.age"></header-component></el-header>
-        <div class="ml20 mb30"><crumb-component :list="crumbData"></crumb-component></div>
-        <el-main>
-          <content-component ref="content"></content-component>
-          <el-backtop></el-backtop>
-        </el-main>
+        <div id="header" class="clearfix clear">
+          <el-row>
+            <el-col :span="23">
+              <el-header><header-component :name="user.name" :age="user.age"></header-component></el-header>
+            </el-col>
+            <el-col :span="1">
+              <el-tooltip content="点我显示侧边栏" placement="right">
+                <div class="sectionBtn-A2" @click="drawer = true">
+                    <span class="mb3"></span>
+                    <span class="mb3"></span>
+                    <span></span>
+                </div>
+              </el-tooltip>
+            </el-col>
+          </el-row>
+          
+        </div>
+        
+        <div id="content">
+          <div class="ml20 mb30"><crumb-component :list="crumbData"></crumb-component></div>
+          <el-main>
+            <content-component ref="content"></content-component>
+            <el-backtop></el-backtop>
+          </el-main>
+        </div>
+        
       </el-container>
     </el-container>
 </div>
 
 <style type="text/css">
-  .mCustomScrollbar{height: 1000px;overflow: auto;}
-  .mCSB_inside > .mCSB_container{margin:0;}
-  .mCSB_scrollTools .mCSB_draggerContainer{left:17px;}
+  
+  #header {
+    position: fixed;
+    z-index: 999999;
+    top: 0; 
+    left: 0;
+    background-color: #4a759f;
+    padding: 5px 20px;
+    width: 100%;
+    height: 50px;
+  }
+  #content {
+    margin-top: 70px;
+    width: 100%;
+  }
+  .sectionBtn-A2{
+    background-color: transparent;
+  }
+  .sectionBtn-A2 span {
+    /* width: 29px; 
+    height: 5px; */
+    background-color: #e3e5eb;
+    
+  }
 </style>
 
 
@@ -91,70 +141,18 @@
 
         var D = System.require("this").content;
 
-
-        // var DATE={
-        //     'b_width':0,
-        //     'b_height':0,
-        //     '$hidden_bnt':null
-        // };
-
-        // var setSize=function(n){
-        //     n=n || 0;
-        //     var height=$(window).height();
-        //     var width=$(window).width();
-        //     DATE.b_width=width;
-        //     DATE.b_height=height;
-        //     $('.sectionSidebar-A1').height(height);
-        //     $('.sectionList-A2').height($(window).height()-116);
-
-
-        // };
-
-
-
         $(function(){
-
             
             $(".mCustomScrollbar").mCustomScrollbar({
               advanced:{ updateOnContentResize: false }
             });
 
-
-
-        //     $('.sectionList-A2 dd').on('click',function(){
-        //         $(this).find('.sectionList-A1').toggle();
-        //     });
-
-        //     setSize();
-        //     $(window).resize(function() {
-        //         setSize();
-        //     });
-        //     $(window).scroll(function() {
-        //         setSize($(window).scrollTop());
-        //     });
-        //     var $sectionWrapA4=$('.sectionWrap-A4');
-        //     var $hidden_bnt=$('#hidden_bnt');
-
-        //     $('#hidden_bnt').on('click',function(){
-        //         if(!this.flag){
-        //             $sectionWrapA4.animate({"left":"47px"});
-        //             $hidden_bnt.animate({"left":"20px"});
-
-        //             this.flag = true;
-        //         }else{
-
-        //             $sectionWrapA4.animate({"left":"220px"});
-        //             $hidden_bnt.animate({"left":"192px"});
-        //             this.flag = false;
-        //         }
-
-
-        //     });
         });
 
         var vm = new Vue({
               data: function(){
                 return {
+                    drawer: false,
                     menu: __MENU__,
                     title: "喜鹊筑家旗舰店",
                     user: D.user,

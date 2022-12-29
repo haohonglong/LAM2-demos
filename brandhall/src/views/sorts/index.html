@@ -22,14 +22,40 @@
     <li class="R sectionButton-B1">
         <button type="button"  @click="action(1)" class="btn">新增</button>
     </li>
-	<div v-for="v in list" :key="v.id" class="L mr5 mb30 sectionButton-B1 sectionButton-B1-big" style="border: 3px solid rgba(127, 199, 251, 0.341); padding: 10px;">
-		<div class="btn">
-	        <span @click="action(2, v)">{{ v.name }}</span>
-	        <span @click="action(1, v)">添加</span>
-	        <a @click="action(3, v)">删除</a>
-	    </div>
-		<ul v-if="isArray(v.child)" class="ml10"><child-component v-on:action="action" :list="v.child"></child-component></ul>
-	</div>
+    <el-input
+        placeholder="输入关键字进行过滤"
+        v-model="filterText">
+    </el-input>
+    
+    <el-tree
+      :data="list"
+      :props="defaultProps"
+      :filter-node-method="filterNode"
+      ref="tree"
+      node-key="id"
+      :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span class="mr30" @click="() => action(2, data)">
+            {{ node.label }}
+        </span>
+        <span>
+          <el-button
+            type="text"
+            size="mini"
+            @click="() => action(1, data)">
+            添加
+          </el-button>
+          <el-button
+            type="text"
+            size="mini"
+            @click="() => action(3, data)">
+            删除
+          </el-button>
+        </span>
+      </span>
+    </el-tree>
+
+
     <el-dialog
     :title="dialogTitle"
     :visible.sync="dialogVisible"
@@ -44,8 +70,6 @@
 <#Block:end>
 
 
-
-<#include file="~/components/ChildComponent.html" />
 <#include file="~/components/FormComponent.html" />
 <script type="text/javascript">
 
@@ -61,7 +85,12 @@
                 return {
                     'dialogVisible': false,
                     'dialogTitle': "提示",
-                	list: __DATA__,
+                    'filterText': '',
+                	'list': __DATA__,
+                    'defaultProps': {
+                        'children': 'child',
+                        'label': 'name'
+                    },
                     'form':{
                         'active':"",
                         'sid': "-1",
@@ -76,10 +105,14 @@
                 };
             },
             'components': {
-                'child-component': System.require('ChildComponent'),
                 'form-component': System.require('FormComponent')
             },
             'methods': {
+                filterNode(value, data, node) {
+                    if (!value) return true;
+                    // return data.name.indexOf(value) !== -1;
+                    return node.data.name.indexOf(value) !== -1 || (node.parent.data.name && node.parent.data.name.indexOf(value) !== -1)
+                },
                 ok() {
                     this.dialogVisible = false
                 },
@@ -221,7 +254,11 @@
 	                return System.isArray(value);
 	            }
             },
-            'watch': { },
+            'watch': { 
+                filterText(val) {
+                    this.$refs.tree.filter(val);
+                }
+            },
             template: System.Template.getBlock('content')
         };
 

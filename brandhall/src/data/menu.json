@@ -50,7 +50,8 @@
     "icon":"a-2",
     "title":"视频",
     "ul":[
-      {  "index": "a7-b1", "title":"视频","href":"__INDEX__video/index"}
+      {  "index": "a7-b1", "title":"视频","href":"__INDEX__video/index"},
+      {  "index": "a7-b1", "title":"sexual","href":"__INDEX__video/video2"}
     ]
   },
   {

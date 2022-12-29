@@ -10,7 +10,7 @@
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define ~/="{#LAM.require('this').viewpath#}/" />
 
-#define# __DATA__ <#include repeat="0" tp-data="{}"  file="__SERVER__/sorts/index" /> #end#
+#define# __DATA__ <#include file="__SERVER__/sorts/index" /> #end#
 <#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
 
@@ -37,7 +37,7 @@
             :expand-on-click-node="false"
             :current-node-key="currentNodeKey"
             @node-click="handleNodeClick"
-            class="filter-tree mCustomScrollbar _mCS_1 mCS_no_scrollbar"
+            class="filter-tree"
             :data="data"
             :props="defaultProps"
             :filter-node-method="filterNode"
@@ -56,8 +56,12 @@
                         <input type="text" v-model="keyword" class="text w-160 L" value="" placeholder="请输入关键字">
                     </li>
                     <li class="R sectionButton-B1">
+                        <button type="button"  @click="location('__INDEX__sorts/index')" class="btn">添加类别</button>
+                    </li>
+                    <li class="R sectionButton-B1 mr20">
                         <button type="button"  @click="action(1)" class="btn">添加</button>
                     </li>
+                    
                 </ul>
                 <div class="sectionFloat sectionWrap-A17 mb10">
                     <ul class="clear">
@@ -186,6 +190,9 @@
                 });
             },
             'methods': {
+                location(url) {
+                    window.location = url;
+                },
                 ok() {
                     this.dialogVisible = false
                 },
@@ -259,7 +266,7 @@
                     Api.url.add(data, D => {
                         layer.close(wait);
                         if(D.status){
-                            alert(D.message);
+                            // alert(D.message);
                             this.getContent(sid, sortName);
                             this.ok();
 
@@ -370,9 +377,9 @@
                         }
                     },'json');
                 },
-                filterNode(value, data) {
+                filterNode(value, data, node) {
                     if (!value) return true;
-                    return data.name.indexOf(value) !== -1;
+                    return node.data.name.indexOf(value) !== -1 || (node.parent.data.name && node.parent.data.name.indexOf(value) !== -1)
                 },
                 handleNodeClick(data) {
                     this.getContent(data.id, data.name);

@@ -21,7 +21,6 @@
             this.base(init || {});
             __this__=this;
             this.viewpath = System.VIEWS+'/video';
-            this.layout = 'auth';
             this.content = {
                 'user':{
                     'name':'name',
@@ -36,6 +35,12 @@
         '_className':'VideoController',
         'indexAction':function(){
             return this.render('index',{
+                'ROOT':ROOT
+
+            },E);
+        },
+        'video2Action':function(){
+            return this.render('video2',{
                 'ROOT':ROOT
 
             },E);
