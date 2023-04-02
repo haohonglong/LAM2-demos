@@ -1,0 +1,249 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define _TITLE_="视频列表" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/video/" />
+
+<! #extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'_TITLE_'}
+]}" --/>
+
+<#Block:begin id="views.video.index">
+<div>
+    <el-button v-on:click="action(1)" type="primary">添加</el-button>
+    <el-row v-for="(items, index) in list" :key="index">
+        <el-col v-for="item in items" :key="item.id">
+            <div class="grid-content bg-purple">
+                <el-card class="box-card" >
+                    <div slot="header" class="clearfix">
+                        <span style="font-size: 16px;font-weight:bold;">{{ item.title }}</span>
+                        <el-button style="float: right; padding: 3px 0" v-on:click="action(3, item)" type="text">删除</el-button>
+                        <el-button style="float: right; padding: 3px 0" v-on:click="action(2, item)" type="text">修改</el-button>
+                    </div>
+                    <div class="text item" v-html="decode(item.source)"></div>
+                </el-card>
+            </div>
+        </el-col>
+    </el-row>
+
+    <el-dialog
+    :title="dialogTitle"
+    :visible.sync="dialogVisible"
+    width="">
+    <form-component :data="form" :error="formError"></form-component>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
+    
+</div>
+
+<#Block:end>
+
+<#include file="~/components/FormComponent.html" />
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+        var Html = System.require("lam.base.Html");
+
+        const Api = System.require("Api");
+
+        var ContentComponent = {
+          name: "VideoIndexComponent",
+          components: {
+            'form-component': System.require('video.components.FormComponent')
+          },
+          data() {
+            return {
+                'dialogTitle': "提示",
+                'dialogVisible': false,
+                'form':{
+                    'active':"",
+                    'id': "-1",
+                    'title': "",
+                    'source': ""
+                },
+                'formError':{
+                    'title': "",
+                    'id': "",
+                    'source': ""
+                },
+                list: []
+            }
+          },
+          created(){
+            this.getData();
+          },
+          methods: {
+            ok() {
+                this.dialogVisible = false
+            },
+            submit() {
+                this.initError();
+                
+                switch(this.form.active) {
+                    case 1:
+                        this.add();
+                    break;
+                    case 2:
+                        this.modify(this.form.id);
+                    break;
+                }
+
+            },
+            initError() {
+                this.formError.title = "";
+                this.formError.source = "";
+            },
+            init() {
+                this.form.title = '';
+                this.form.source = '';
+            },
+            action(active, item) {
+                this.init();
+                this.initError();
+                this.form.active = active;
+
+                switch(active) {
+                    case 1:
+                        this.dialogTitle = "新增";
+                        break;
+                    case 2:
+                        this.dialogTitle = "修改";
+                        break;
+                    case 3:
+                        this.remove(item.id);
+                        return;
+                }
+                
+                this.dialogVisible = true
+
+                if(item) {
+                    this.form.id = item.id;
+                    this.form.title = item.title;
+                    this.form.source = Html.decode(item.source);
+                }
+            },
+            add() {
+                var v = this;
+                var wait = layer.load();
+                const title = this.form.title;
+                const source = Html.encode(this.form.source);
+
+                const data = {
+                    title,
+                    source
+                };
+                Api.video.add(data, D => {
+                    layer.close(wait);
+                    if(D.status){
+                        // alert(D.message);
+                        this.getData();
+                        this.ok();
+
+                    }else{
+                        // alert(D.message);
+                        System.each(D.errors, (key,value) => {
+                            this.formError[key] = value;
+                        });
+                    }
+
+                });
+            },
+            remove(id){
+                layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
+                    //do something
+                    Api.video.delete(id, data => {
+                        alert(data.message);
+                        if(data.status){
+                            this.getData();
+                        } else {
+                            System.each(data.errors,function (key,value) {
+                                alert(value)
+                            });
+                        }
+                        layer.close(index);
+                    });
+                    
+                });
+            },
+            modify(id){
+                var wait = layer.load();
+                const title = this.form.title;
+                const source = Html.encode(this.form.source);
+
+                const data = {
+                    id,
+                    title,
+                    source
+                };
+
+                Api.video.edit(data, data => {
+                    layer.close(wait);
+                    if(data.status){
+                        // alert(data.message);
+                        this.getData();
+                        this.ok();
+                    }else{
+                        // alert(data.message);
+                        System.each(data.errors, (key,value) => {
+                            this.formError[key] = value;
+                        });
+                    }
+                },'json');
+            },
+            decode(str) {
+                return Html.decode(str);
+            },
+            encode(str) {
+                return Html.encode(str);
+            },
+            getData() {
+                Api.video.getList(res  => {
+                    if(res.status) {
+                        this.list = res.data;
+                        this.list = this.list.array_chunk(2);
+                    }
+                });
+            }
+          },
+          template: System.Template.getBlock('views.video.index')
+        };
+
+        System.export("views.video.index", ContentComponent);
+    });
+</script>
+
+<style>
+    .el-row {
+      margin-bottom: 20px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .el-col {
+      border-radius: 4px;
+    }
+    .bg-purple-dark {
+      background: #99a9bf;
+    }
+    .bg-purple {
+      background: #d3dce6;
+    }
+    .bg-purple-light {
+      background: #e5e9f2;
+    }
+    .grid-content {
+      border-radius: 4px;
+      min-height: 36px;
+    }
+    .row-bg {
+      padding: 10px 0;
+      background-color: #f9fafc;
+    }
+  </style>

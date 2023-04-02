@@ -1,0 +1,11 @@
+<#define __IMAGE__="{#LAM.IMAGE#}/imgs_LHH/pics" />
+{
+  "room":[
+    {"id":1,"name":"李晨","style":"新古典,其他,简约","img":"__IMAGE__/img_03.jpg", "date": "2014-07-21 12:06"},
+    {"id":2,"name":"刘军","style":"地中海-田园,北欧,其他,简约","img":"__IMAGE__/img_04.jpg", "date": "2014-07-21 15:07"},
+    {"id":3,"name":"王磊","style":"新古典,地中海-田园","img":"__IMAGE__/img_05.jpg", "date": "2014-07-21 15:08"},
+    {"id":4,"name":"萧红","style":"新古典,地中海-田园,其他,简约","img":"__IMAGE__/img_06.jpg", "date": "2014-07-21 15:10"},
+    {"id":5,"name":"马良","style":"新古典,地中海-田园,北欧,简约","img":"__IMAGE__/img_07.jpg", "date": "2014-07-21 15:11"},
+    {"id":6,"name":"赵明","style":"新古典,地中海-田园,北欧,其他","img":"__IMAGE__/img_08.jpg", "date": "2014-07-21 15:12"}
+  ]
+}

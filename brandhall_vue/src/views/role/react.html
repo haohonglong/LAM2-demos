@@ -1,0 +1,25 @@
+
+<#define _@="{#LAM.VIEWS#}" />
+<#define __COMPONENTS__="_@/role/components" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __COMMON__="{#LAM.COMMON#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+
+
+<#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
+<#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
+<#import path="
+/babel/babel.js,
+/react/react.js,
+/react/react-dom.js
+" root="__PLUGINS__" write="1" befor="1" />
+
+<style>
+label{width: 119px;}
+</style>
+
+<div id="root"></div>
+<#include tp-data="{
+	'head':['用户管理','角色管理','单据管理','系统管理'],
+	'list':['查询','编辑','删除']
+}" delimiters="['{#','#}']" file="__COMPONENTS__/react.html" />

@@ -1,0 +1,147 @@
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+
+<#define _TITLE_="博彩" />
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'网页地址','href':'__INDEX__url/index','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+
+<#import path="/vue-seamless-scroll.min.js" root="https://cdn.jsdelivr.net/npm/vue-seamless-scroll@latest/dist" write="1" befor="1" />
+
+
+<#Block:begin id="content">
+<div>
+	<button v-on:click="left" class="left">left</button>
+	<button v-on:click="right" class="right">right</button>
+	<div class="box"><span :style="'left:' + n +'px;'"></span></div>
+	<div class="content">
+		<vue-seamless-scroll :data="data" class="warp" ref="seamlessScroll">
+		    <ul class="item">
+		      <li v-for="(id, index) in data" :key="index">
+		        <span class="title" v-text="id"></span>
+		      </li>
+		    </ul>
+		</vue-seamless-scroll>
+	</div>
+</div>
+<#Block:end>
+
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        var ContentComponent = {
+	         name: "ContentComponent",
+	         props: {},
+	         components: {
+							vueSeamlessScroll: vueSeamlessScroll
+						},
+						data: function(){
+							return {
+								n: 0,
+								timer: 1,
+								data: []
+							};
+						},
+	         methods: {
+	        	'exist':function(id){
+	        		return this.data.in_array(id);
+	        	},
+	        	'remove':function(id){
+	        		this.data.remove(id);
+	        	},
+	        	'left':function(){
+							var vue = this;
+	        		System.listen(function(id){
+	        			if(!vue.exist(id)) {
+	        				vue.data.push(id);
+	        			}
+	        			
+	        			if(vue.n < 1) {
+	        				vue.remove(id);
+	        				return true;
+	        			}
+
+	        			vue.n--
+	        			console.log('the n of left:', vue.n);
+
+	        		},vue.timer++);
+	        		console.log('the timer of left function:', this.timer);
+
+	        	},
+	        	'right':function(){
+							var vue = this;
+							System.listen(function(id){
+								if(!vue.exist(id)) {
+	        				vue.data.push(id);
+	        			}
+	        			if(vue.n > 1150) {
+	        				vue.remove(id);
+	        				return true;
+	        			}
+	        			vue.n++
+	        			console.log('the n of right:', vue.n);
+	        		},vue.timer++);
+	        		console.log('the timer of right function:', this.timer);
+	        	}
+	        },
+	        watch: {
+	        	data:function(){
+	        		this.$refs.seamlessScroll.reset()
+	        		console.log('watch', '============================');
+	        	}
+	        },
+            template: System.Template.getBlock('content')
+        };
+
+
+
+
+        System.export("ContentComponent", ContentComponent);
+    });
+</script>
+<style type="text/css">
+	#test button {width: 50px; height: 30px;}
+	#test button.right {float: right;}
+	#test .box {height: 1px;background: red;position: relative;top: 100px;}
+	#test .box span{display: inline-block;height: 20px;width: 20px;background: blue;position: absolute;left: 0;top: -10px;z-index: 9999;}
+	#test .content{margin-top: 120px;height: 450px; border: 1px solid #ccc;}
+
+</style>
+
+<style lang="scss" scoped>
+  .warp {
+    height: 450px;
+    width: 360px;
+    margin: 0 auto;
+    overflow: hidden;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      li,
+      a {
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+      }
+    }
+  }
+</style>
+
+
+
+

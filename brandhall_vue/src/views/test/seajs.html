@@ -1,0 +1,14 @@
+<#extends title="seajs" />
+<#define __ROOT__="{#LAM.VIEWS#}/test" />
+<#include file="__ROOT__/html5Element.html" />
+<link rel="isolated-import" href="__ROOT__/html5Element.html">
+<my-html5-element></my-html5-element>
+<script type="module">
+    import { HTML5Element } from "__ROOT__/html5Element.html";
+    window.customElements.define("my-html5-element", HTML5Element);
+</script>
+
+
+<navigation-link url="/profile">
+  Your Profile
+</navigation-link>

@@ -1,0 +1,176 @@
+<#define __CSRF_TOKEN__="{#LAM.require("this").csrfToken#}" />
+<#define __SRC__="{#LAM.SRC#}" />
+<#define __ROUTES__="{#LAM.ROUTES#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __API__="{#LAM.API#}" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
+<#define __MYCOMMON__="{#LAM.MYCOMMON#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMMON__="{#LAM.COMMON#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
+<#define @COMPONENTS="_LAYOUTS_/components" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
+#define# __MENU__ <#include file="__DATAPATH__/menu.json" /> #end#
+
+<#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
+<#import path="/api.js" root="__API__" />
+
+<#import path="/vue/vue.js" root="__PLUGINS__" write="1" befor="1" />
+
+
+<#import path="
+/vue-router@2.0.0/dist/vue-router.js
+,/vuex@2.0.0/dist/vuex.js
+" root="https://unpkg.com" write="1" befor="1" />
+
+
+<#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="https://unpkg.com" befor="1" />
+<#import path="/elementui/index.js" root="__PLUGINS__" write="1" befor="1" />
+
+<#import path="/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
+<#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
+<#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{#-title-#}</title>
+<meta name="keywords" content="{#-title-#}" />
+<meta name="description" content="{#-title-#}" />
+<style type="text/css">
+  
+	#header {
+	  position: fixed;
+	  z-index: 1;
+	  top: 0; 
+	  left: 0;
+	  background-color: #4a759f;
+	  padding: 5px 20px;
+	  width: 100%;
+	  height: 50px;
+	}
+	#content {
+	  margin-top: 70px;
+	  width: 100%;
+	}
+	.sectionBtn-A2{
+	  background-color: transparent;
+	}
+	.sectionBtn-A2 span {
+	  /* width: 29px; 
+	  height: 5px; */
+	  background-color: #e3e5eb;
+	  
+	}
+  </style>
+</head>
+
+<body>
+    <div id="app">
+		<el-container>
+		  <el-drawer
+		  title=""
+		  size="200px"
+		  direction="ltr"
+		  :visible.sync="drawer"
+		  ref="navDrawer"
+		  :with-header="false">
+		  <el-aside width="200px"><menu-component v-on:drawer="handleClose" :list="menu" :title="title"></menu-component></el-aside>
+		</el-drawer>
+		  
+		  <el-container>
+			<div id="header" class="clearfix clear">
+			  <el-row>
+				<el-col :span="23">
+				  <el-header><header-component :name="user.name" :age="user.age"></header-component></el-header>
+				</el-col>
+				<el-col :span="1">
+				  <el-tooltip content="点我显示侧边栏" placement="right">
+					<div class="sectionBtn-A2" @click="drawer = true">
+						<span class="mb3"></span>
+						<span class="mb3"></span>
+						<span></span>
+					</div>
+				  </el-tooltip>
+				</el-col>
+			  </el-row>
+			  
+			</div>
+			
+			<div id="content">
+			  <div class="ml20 mb30"><crumb-component :list="crumbData"></crumb-component></div>
+			  <el-main style="overflow: hidden">
+				<!-- <div style="padding: 20px"> -->
+					<router-view></router-view>
+					<el-backtop></el-backtop>
+				<!-- </div> -->
+				
+			  </el-main>
+			</div>
+			
+		  </el-container>
+		</el-container>
+	</div>
+
+<#include file="@COMPONENTS/MenuComponent.html" />
+<#include file="@COMPONENTS/MobileMenuComponent.html" />
+<#include file="@COMPONENTS/HeaderComponent.html" />
+<#include file="@COMPONENTS/CrumbComponent.html" />
+
+<#include file="__ROUTES__/index.html" />
+
+
+<script type="text/javascript">
+	var vm = LAM.run(function(){
+		'use strict';
+		var System = this;
+
+		var D = System.require("this").content;
+
+
+		
+
+		const router = System.require('VueRouter');
+
+		var vm = new Vue({
+				router,
+				data: function(){
+				return {
+					drawer: false,
+					menu: __MENU__,
+					title: "喜鹊筑家旗舰店",
+					user: {#-user-#},
+					crumbData: {}
+				};
+				},
+				components: {
+					'menu-component': System.require('MenuComponent'),
+					'mobile-menu-component': System.require('MobileMenuComponent'),
+					'header-component': System.require('HeaderComponent'),
+					'crumb-component': System.require('CrumbComponent')
+				},
+				computed: {
+				},
+				methods: {
+					handleClose() {
+						this.$refs.navDrawer.closeDrawer();
+					}
+				},
+				watch: {
+				}
+			}).$mount("#app");
+
+			return vm;
+
+	});
+
+</script>
+</body>
+
+</html>

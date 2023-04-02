@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="添加类别" />
+    <meta name="description" content="添加类别" />
+    <script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../brandhall/common/config/config.js" _hashCode="42fd3b37a9eb58e7d7483fff506ecbd9"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/System.js" _hashCode="fb9dea26dd266c4e7fd933e0333c4118"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/jQuery/jquery.js" _hashCode="598d2dbdd81097d96274b360bc7d8f07"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Base.class.js" _hashCode="7435127af1cae9f444821e4d4fb92b71"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Object.class.js" _hashCode="8629c684f3aabd1a676ea82726555971"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Component.class.js" _hashCode="6b4b82c80916b8e5eab28d8cc06f8475"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Error.class.js" _hashCode="8473f724522b8936d077d240b5fd2006"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Md5.class.js" _hashCode="c93d6a1f7ff72e4dff72721f0084b2a1"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Base64.class.js" _hashCode="738a61d2e474d728de0ebe3ac48c02ce"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Compiler.class.js" _hashCode="30c0de1bf0b16867386cd6d292302fdf"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Cache.class.js" _hashCode="4dadbd2dd771aadb77f43cec9aed0f98"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/PowerCookie.class.js" _hashCode="495833c88e96ecd000e85696e704f778"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Storage.class.js" _hashCode="308ae7b6995fc3abd3e1dec71e528e03"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/HttpRequest.class.js" _hashCode="5e90d26334bd021bf22863f0b5c86109"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Helper.class.js" _hashCode="9b8ba9201b73897bd3edd78dff5b90cb"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Browser.class.js" _hashCode="bac0617f9fb403429d866892339f7cb7"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Event.class.js" _hashCode="a6c0ca3259de481c16ad583c8b211aa3"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Dom.class.js" _hashCode="d472bf38685c5dc46f37a6e1f0618dad"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/View.class.js" _hashCode="58a347288c0a9e37a0f21459a370743c"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Template.class.js" _hashCode="4a0ed9f9ef0243067e7ac1bbcd1eff3d"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Html.class.js" _hashCode="430d4123ab68500400cd06a5945048f4"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Loader.class.js" _hashCode="eb75fade4d862a02269d05204793ea6b"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/base/Model.class.js" _hashCode="dba442854c5d76a9334e1f53693fc97c"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../brandhall/models/CookieModel.class.js" _hashCode="b1ac001848448486cd51ea21f9dfd2c1"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../common/plugins/vue/vue.js" _hashCode="370590780f34c7188325dfcf886b373c"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/Tab.class.js" _hashCode="2f501c5cda9f5385f424f4a1610185f5"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../LAM2/lamborghiniJS/Tools.class.js" _hashCode="61f08f1bf5b3cf249bc9d74f0bf35db1"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../common/plugins/layer-v3.1.1/layer/layer.js" _hashCode="a89758eb6f9def5c725457d32b97c92a"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../common/css/lib/bootstrap.css" _hashCode="7b976f42d360ae3837a06a9142e71411"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../brandhall/public/css/global.css" _hashCode="8e006a19fc26c5faf396a5bab59087fa"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../brandhall/public/css/lib.css" _hashCode="68379cdf4c8e2060119a050a3f0e996d"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" _hashCode="b544b4f19269e169c82b146b640ad9f4"></script>
+<script type="text/javascript" charset="utf-8" sn="1661228537559" src="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js" _hashCode="c89d589da936ac37d0823b6416e835bb"></script>
+    <link type="text/css" rel="stylesheet" sn="1661228537559" _hashCode="9294ba291e402d6dee90b9b9ec3f0f34" href="../../../common/css/lib/bootstrap.css" />
+<link type="text/css" rel="stylesheet" sn="1661228537559" _hashCode="4ce1e7898dc1874fc07a2ec4bb8652f0" href="../../../brandhall/public/css/global.css" />
+<link type="text/css" rel="stylesheet" sn="1661228537559" _hashCode="bca1317191c9331fe1f44c07c8f3b6e5" href="../../../brandhall/public/css/lib.css" />
+<link type="text/css" rel="stylesheet" sn="1661228537559" _hashCode="38e2033de27b59f29c8df331bb4e6087" href="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" />
+    
+    
+         <title>添加类别</title>     
+
+</head>
+
+<body class="h-percent-of100">
+<div id="hidden_bnt" class="sectionBtn-A2 sectionFixed-A1">
+    <span class="mb3"></span>
+    <span class="mb3"></span>
+    <span></span>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sectionSidebar-A1">
+            <div class="sectionBox sectionTitle-A2"><h2>喜鹊筑家旗舰店</h2></div>
+<div class="sectionScroll sectionList-A2 sectionIcon-B1 sectionFont-A1 mCustomScrollbar">
+    <dl id="vue-menu">
+        <dd v-for="menu in list">
+            <div class="title">
+                <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{#menu.title#}</a>
+            </div>
+            <div v-if="menu.ul" class="sectionList-A1 sectionList-A1-3 none">
+                <ul>
+                    <li v-for="v in menu.ul"><a :href="v.href">{#v.title#}</a></li>
+                </ul>
+            </div>
+
+        </dd>
+    </dl>
+</div>
+
+<script type="text/javascript">
+    //menu
+    LAM.run([LAM,jQuery],function(LAM,$) {
+        'use strict';
+        var System = this;
+
+        System.setMenuSelectedStatus=function(href){
+            $('.sectionList-A1-3 li a[href*="'+href+'"]')
+                .closest('li').addClass('cur')
+                .closest('.sectionList-A1-3').show()
+                .closest('dd').addClass('hover');
+        };
+
+        $(function(){
+
+            new Vue({
+                delimiters: ['{#', '#}'],
+                el: '#vue-menu',
+                data: {
+                    list: [{"icon":"a-1","title":"我购买的服务","ul":null},{"icon":"a-4","title":"博彩","ul":[{"title":"博彩","href":"index.html?r=gambling/index&m=gambling"}]},{"icon":"a-2","title":"demos","ul":[{"title":"验证码","href":"index.html?r=test/code"},{"title":"react","href":"index.html?r=test/react"},{"title":"阿里巴巴报关","href":"index.html?r=test/alibabaBaoGuan"},{"title":"seajs","href":"index.html?r=test/seajs"}]},{"icon":"a-10","title":"角色管理","ul":[{"title":"创建","href":"index.html?r=role/index"},{"title":"react","href":"index.html?r=role/react"}]},{"icon":"a-2","title":"网页地址","ul":[{"title":"列表","href":"index.html?r=url/index"},{"title":"添加","href":"index.html?r=url/create"}]},{"icon":"a-2","title":"类别","ul":[{"title":"列表","href":"index.html?r=sorts/index"},{"title":"添加","href":"index.html?r=sorts/create"}]},{"icon":"a-2","title":"视频","ul":[{"title":"视频","href":"index.html?r=video/index"}]},{"icon":"a-2","title":"博客","ul":[{"title":"网页地址","href":"index.html?r=blog/index"}]},{"icon":"a-3","title":"宝贝管理","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-4","title":"样板间管理","ul":[{"title":"案例列表","href":"index.html?r=room/list"},{"title":"楼盘户型管理","href":"index.html?r=room/detail"},{"title":"发布","href":"index.html?r=room/release"},{"title":"aa","href":"index.html?r=room/aa"}]},{"icon":"a-5","title":"店铺管理","ul":[{"title":"店铺","href":"index.html?r=shop/index"},{"title":"添加店铺","href":"index.html?r=shop/create"},{"title":"选择模版","href":"index.html?r=shop/choiceTemplate"},{"title":"商品授权","href":"index.html?r=shop/empower"},{"title":"新建房间","href":"index.html?r=shop/newRoom"},{"title":"商品列表","href":"index.html?r=shop/list"},{"title":"楼盘","href":"index.html?r=shop/loft"}]},{"icon":"a-5","title":"商品管理","ul":[{"title":"商品列表","href":"index.html?r=goods/index"},{"title":"添加商品","href":"index.html?r=goods/create"}]},{"icon":"a-6","title":"消息中心","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-7","title":"品牌经销商","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-8","title":"营销中心","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-9","title":"软件服务","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-10","title":"客户服务","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-11","title":"友情链接","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]}]
+                }
+            });
+            System.setMenuSelectedStatus(System.defaultRoute);
+        });
+
+
+
+
+    });
+</script>
+
+        </div>
+        
+<div class="col-md-10 sectionWrap-A4">
+    <div class="p20">
+        
+<div id="mobile" class="sectionPhoneTop-A1 clear none mb20">
+    <img class="L logo" src="../../../brandhall/public/images/imgs_LHH/logo.png" width="130" height="54" alt="">
+    <div id="mobile-button" class="sectionBtn-A2 R mt20 mr15">
+        <span class="mb3"></span>
+        <span class="mb3"></span>
+        <span></span>
+    </div>
+    <div id="mobile-content">
+        <dl id="vue-menu-mobile">
+            <dd v-for="menu in list">
+                <div class="title">
+                    <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{#menu.title#}</a>
+                </div>
+                <div v-if="menu.ul" class="">
+                    <ul>
+                        <li v-for="v in menu.ul"><a :href="v.href">{#v.title#}</a></li>
+                    </ul>
+                </div>
+
+            </dd>
+        </dl>
+    </div>
+    <img class="R img" data-var="tpl" src="../../../brandhall/public/images/imgs_LHH/pics/img_01.gif" width="20" height="20" alt="">
+</div>
+
+<style type="text/css">
+    #mobile{position: relative;z-index: 99999;}
+    #mobile-content{position: absolute;width:100%;top:80px;left:0;background: #fff;}
+    #mobile-content dd{margin-bottom: 15px;}
+</style>
+<script type="text/javascript">
+    //menu
+    LAM.run([LAM,jQuery],function(LAM,$) {
+        'use strict';
+        var System = this;
+
+
+
+        $(function(){
+
+            System.run(function () {
+                'use strict';
+                var System = this;
+                var $mobile = $("#mobile-button");
+                var $content = $("#mobile-content");
+                var flag = true;
+                $content.hide();
+
+                $mobile.on("click",function () {
+                    if(flag){
+                        $content.show();
+                        flag = false;
+                    }else{
+                        $content.hide();
+                        flag = true;
+                    }
+                });
+            });
+
+            new Vue({
+                delimiters: ['{#', '#}'],
+                el: '#vue-menu-mobile',
+                data: {
+                    list: [{"icon":"a-1","title":"我购买的服务","ul":null},{"icon":"a-4","title":"博彩","ul":[{"title":"博彩","href":"index.html?r=gambling/index&m=gambling"}]},{"icon":"a-2","title":"demos","ul":[{"title":"验证码","href":"index.html?r=test/code"},{"title":"react","href":"index.html?r=test/react"},{"title":"阿里巴巴报关","href":"index.html?r=test/alibabaBaoGuan"},{"title":"seajs","href":"index.html?r=test/seajs"}]},{"icon":"a-10","title":"角色管理","ul":[{"title":"创建","href":"index.html?r=role/index"},{"title":"react","href":"index.html?r=role/react"}]},{"icon":"a-2","title":"网页地址","ul":[{"title":"列表","href":"index.html?r=url/index"},{"title":"添加","href":"index.html?r=url/create"}]},{"icon":"a-2","title":"类别","ul":[{"title":"列表","href":"index.html?r=sorts/index"},{"title":"添加","href":"index.html?r=sorts/create"}]},{"icon":"a-2","title":"视频","ul":[{"title":"视频","href":"index.html?r=video/index"}]},{"icon":"a-2","title":"博客","ul":[{"title":"网页地址","href":"index.html?r=blog/index"}]},{"icon":"a-3","title":"宝贝管理","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-4","title":"样板间管理","ul":[{"title":"案例列表","href":"index.html?r=room/list"},{"title":"楼盘户型管理","href":"index.html?r=room/detail"},{"title":"发布","href":"index.html?r=room/release"},{"title":"aa","href":"index.html?r=room/aa"}]},{"icon":"a-5","title":"店铺管理","ul":[{"title":"店铺","href":"index.html?r=shop/index"},{"title":"添加店铺","href":"index.html?r=shop/create"},{"title":"选择模版","href":"index.html?r=shop/choiceTemplate"},{"title":"商品授权","href":"index.html?r=shop/empower"},{"title":"新建房间","href":"index.html?r=shop/newRoom"},{"title":"商品列表","href":"index.html?r=shop/list"},{"title":"楼盘","href":"index.html?r=shop/loft"}]},{"icon":"a-5","title":"商品管理","ul":[{"title":"商品列表","href":"index.html?r=goods/index"},{"title":"添加商品","href":"index.html?r=goods/create"}]},{"icon":"a-6","title":"消息中心","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-7","title":"品牌经销商","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-8","title":"营销中心","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-9","title":"软件服务","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-10","title":"客户服务","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-11","title":"友情链接","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]}]
+                }
+            });
+        });
+
+
+
+
+    });
+</script>
+
+
+
+        
+
+
+
+
+         <div class="sectionTop-A2 clear mb10 p-rel">     <div class="L">         <div class="sectionNav-A1 sectionFloat-A1 top8 pl5 sectionFont-A2">             <ul class="clear">                 <li class="A I1 b-1 mr20">                     <i>3</i>                 </li>                 <li class="B I1 b-2 mr20">                     <div class="sectionShowBox-A1 none">                         <div class="sectionArrow-A1 sectionArrow-double-A1 sectionArrow-double-A1-1"><i class="A"></i><i class="B"></i></div>                         <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-1 sectionTitle-A1-5">                             <span class="mr10 ml10 cur myli">收件箱</span>                             <span class="myli">其他（2）</span>                             <div class="more">                                 <a href="###" class="linkBlue">发送新信息</a>                              </div>                         </div>                         <div class="js_Block_A1">                                                               <div class="sectionBorder-A1 sectionBorder-pb0">         <div class="sectionBox-A3 sectionBox-A3-1">             <div class="p10 clear">                 <div class="L mr12"><img src="../../../brandhall/public/images/imgs_LHH/li1.png" width="15" height="15" alt=""></div>                 <div class="sectionBox-A2">                     <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">                         <h2>乌鸦-lucian</h2>                         <div class="more sectionIcon-A1 sectionIcon-A2">                             <i></i>                         </div>                         <div class="sectionMessage-A2 none">                             <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>                             <p>标记为未读</p>                         </div>                     </div>                     <p>恭喜你获得免费洗20张照片的机会...</p>                     <p class="date">2014-06-20 17:25</p>                 </div>             </div>         </div>     </div>                                                                <div class="sectionBorder-A1 sectionBorder-pb0">         <div class="sectionBox-A3 sectionBox-A3-1">             <div class="p10 clear">                 <div class="L mr12"><img src="../../../brandhall/public/images/imgs_LHH/li1.png" width="15" height="15" alt=""></div>                 <div class="sectionBox-A2">                     <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">                         <h2>乌鸦-lucian</h2>                         <div class="more sectionIcon-A1 sectionIcon-A2">                             <i></i>                         </div>                         <div class="sectionMessage-A2 none">                             <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>                             <p>标记为未读</p>                         </div>                     </div>                     <p>恭喜你获得免费洗20张照片的机会...</p>                     <p class="date">2014-06-20 17:25</p>                 </div>             </div>         </div>     </div>                                                                <div class="sectionBorder-A1 sectionBorder-pb0">         <div class="sectionBox-A3 sectionBox-A3-1">             <div class="p10 clear">                 <div class="L mr12"><img src="../../../brandhall/public/images/imgs_LHH/li1.png" width="15" height="15" alt=""></div>                 <div class="sectionBox-A2">                     <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">                         <h2>乌鸦-lucian</h2>                         <div class="more sectionIcon-A1 sectionIcon-A2">                             <i></i>                         </div>                         <div class="sectionMessage-A2 none">                             <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>                             <p>标记为未读</p>                         </div>                     </div>                     <p>恭喜你获得免费洗20张照片的机会...</p>                     <p class="date">2014-06-20 17:25</p>                 </div>             </div>         </div>     </div>                                                        </div>                         <div class="js_Block_A1 none">                             <div class="sectionBorder-A1 sectionBorder-pb0">                                 <div class="sectionBox-A3 sectionBox-A3-1">                                     <div class="p10 clear">                                         <div class="L mr12"><img src="../../../brandhall/public/images/imgs_LHH/li1.png" width="15" height="15" alt=""></div>                                         <div class="sectionBox-A2">                                             <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">                                                 <h2>乌鸦-lucian</h2>                                                 <div class="more sectionIcon-A1 sectionIcon-A2">                                                     <i></i>                                                 </div>                                                 <div class="sectionMessage-A2 none">                                                     <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>                                                     <p>标记为未读</p>                                                 </div>                                             </div>                                             <p>恭喜你获得免费洗20张照片的机会...</p>                                             <p class="date">2014-06-20 17:25</p>                                         </div>                                     </div>                                 </div>                             </div>                         </div>                               <div class="sectionBorder-A1 sectionBorder-A1-1 sectionText-A2 sectionText-A2-1">                             <a href="###" class="linkGrey">没有新信息</a>                         </div>                         <div class="sectionText-A2 bg-grey">                             <a href="###" class="linkBlue">查看全部信息</a>                         </div>                      </div>                 </li>                 <li class="C I1 b-3">                     <div class="sectionShowBox-A1 none">                         <div class="sectionArrow-A1 sectionArrow-double-A1 sectionArrow-double-A1-1"><i class="A"></i><i class="B"></i></div>                         <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-1">                             <h2>通知</h2>                             <div class="more">                                 <a href="###" class="linkBlue mr10">设置</a>                                 <a href="###" class="linkBlue">清除全部通知</a>                              </div>                         </div>                         <div class="sectionBorder-A1">                             <div class="p10">                                 <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-2">                                     <h2>店铺公告</h2>                                     <div class="more sectionIcon-A1 sectionIcon-A1-4">                                         <a href="###" class="icon"></a>                                     </div>                                 </div>                                 <div class="sectionCms sectionCms-0 sectionCms-A2">                                     新旺铺新功能，店铺实验室上线通知！ 通过A/B测试、定投的功能帮助卖家进行旺铺装修展示，帮助卖家决策、提升转化率。 只要你是旺铺专业版并且你使用了新模板，                                     那么亲，还等什么，快来研究一下吧。                                     2014-06-20 17:25                                 </div>                             </div>                          </div>                         <div class="sectionBorder-A1 sectionBorder-A1-1 sectionText-A2 sectionText-A2-1">                             <a href="###" class="linkGrey">没有新信息</a>                         </div>                         <div class="sectionText-A2 bg-grey">                             <a href="###" class="linkBlue">所有通知</a>                         </div>                      </div>                 </li>             </ul>         </div>     </div>     <div class="R">         <div class="sectionSearch-A1 sectionForm-A2">             <input type="text" class="text bg none pl35" placeholder="">             <i title="click here"></i>         </div>         <div class="L sectionBox-A1 mr10 p-rel z1 js_showBoxA1">             <div class="p5">                 <img class="mr5" data-var="tpl" src="../../../brandhall/public/images/imgs_LHH/pics/img_01.gif" width="20" height="20" alt=""><span>name&nbsp; 28</span>             </div>             <div class="sectionShowBox-A1 sectionShowBox-A1-1 none">                 <div class="sectionArrow-A1 sectionArrow-double-A1 sectionArrow-double-A1-1 sectionArrow-double-A1-1-1"><i class="A"></i><i class="B"></i></div>                 <div class="sectionBox sectionTitle-A sectionTitle-A3">                     <h2>更改登录帐号：</h2>                 </div>                 <div class="sectionBox-A4 clear mb2">                     <div class="L mr12"><img src="" width="18" height="18" alt=""></div>                     <div class="sectionBox-A2 over-h">                         <p>喜鹊筑家旗舰店</p>                     </div>                 </div>                 <div class="sectionBox-A4 clear mb2">                     <div class="L mr12"><img src="" width="18" height="18" alt=""></div>                     <div class="sectionBox-A2 over-h">                         <p>喜鹊筑家旗舰店</p>                     </div>                 </div>                 <div class="sectionBox-A4 clear mb2">                     <div class="L mr12"><img src="" width="18" height="18" alt=""></div>                     <div class="sectionBox-A2 over-h">                         <p>喜鹊筑家旗舰店</p>                     </div>                 </div>                  <div class="sectionList-A1 sectionList-A1-1">                     <div class="p10">                         <ul class="mb5">                             <li><a href="###">创建新店铺</a></li>                             <li><a href="###">管理店铺</a></li>                         </ul>                         <ul class="mb5">                             <li><a href="###">个人中心</a></li>                             <li><a href="###">设置</a></li>                             <li><a href="index.html?r=site/logout">退出</a></li>                         </ul>                         <ul class="mb5">                             <li><a href="###">帮助中心</a></li>                             <li><a href="###">报告问题</a></li>                         </ul>                      </div>                 </div>                </div>         </div>         <div class="L sectionText-A1 sectionText-A1-1">             <a href="###">浏览我的店铺</a>         </div>      </div> </div> 
+<script type="text/javascript">
+    //header
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+        var tools=new System.Tools();
+
+        /**
+         *头部分区域
+         *
+         */
+        new System.Tab({
+            'list':$('.sectionTitle-A1-5 .myli'),
+            'event':'click',
+            'class':'cur',
+            'block':$('.js_Block_A1'),
+            'fn':function(obj){
+                obj.current.block.each(function(i){
+                    if(obj.this_index==i){
+                        $(this).show();
+                    }else{
+                        $(this).hide();
+                    }
+                });
+
+            }
+        }).run();
+
+        $('.sectionTitle-A1-3 .sectionIcon-A2 i').hover(function(){
+            $(this).addClass('hover');
+            $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2').show();
+        },function(){
+            $(this).removeClass('hover');
+            $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2').hide();
+        }).toggle(function(){
+            $(this).addClass('cur');
+            $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2 p').text('标记为已读');
+        },function(){
+            $(this).removeClass('cur');
+            $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2 p').text('标记为未读');
+        });
+
+
+
+
+        /**
+         *头部分搜索框的滑动交互效果
+         *
+         */
+
+        $('.sectionSearch-A1 i').on('click',function(){
+            var $this = $(this);
+            if(!this.flag){
+                $this.parent().find('.bg').animate({"width":"200px"}).show();
+                $this.addClass('B').animate({"right":"170px"});
+                this.flag = true;
+            }else{
+                $this.removeClass('B').animate({"right":"12px"});
+                $this.parent().find('.bg').animate({"width":0}).hide();
+                this.flag = false;
+
+            }
+        });
+
+        /**
+         *   鼠标hover时下面的隐藏模块显示,鼠标移除隐藏模块时模块恢复隐藏
+         *
+         */
+        tools.hover_next_box_show('.js_showBoxA1','.sectionShowBox-A1');
+
+
+        tools.set_whole_screen_size({
+            '$div':$('.js_mapWrap'),
+            'h':true,
+            'w':true,
+            'wSize':$('.sectionTitle-A12').length,
+            'hSize':200
+        });
+    });
+</script>
+ 
+
+        
+          <div id="crumb" class="sectionCrumb-A1 mb20">     <ul class="clear">                  <li>                  <a title="" href="###" class="linkBlue">类别</a>&nbsp;&gt;&nbsp;                  </li>                  <li>                  <a title="" href="###" class="linkBlue">类别</a>&nbsp;&gt;&nbsp;                  </li>                  <li>                  <strong>添加类别</strong>                  </li>              </ul> </div>  
+        <!#include repeat="0" tp-data="{}" file="../../../brandhall/views/layouts/default/test.html" />
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+	LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+        $(function(){
+            $(document).on('click', '#select',function(e){
+                    $('#selectBox').show();
+                    e.preventDefault();  //阻止自身的事件，并不能阻止冒泡
+                    e.stopPropagation();  //阻止事件冒泡
+                    
+                });
+            $(document).on('click', '#selectBox li',function(e){
+                    $('#selectBox li').removeClass("selected");
+                    $(this).addClass("selected");
+                    $('#select').find('option').val($(this).attr("value"));
+                    $('#select').find('option').text($(this).text());
+                    $('#selectBox').hide();
+                    e.preventDefault();  //阻止自身的事件，并不能阻止冒泡
+                    e.stopPropagation();  //阻止事件冒泡
+                    
+                });
+
+            $(document).on('click',function(e) {
+                $('#selectBox').hide();
+                
+            });
+        });
+        
+    });
+</script>
+
+<style type="text/css">
+    #selectBox{width: 165px; padding: 10px; border: 1px solid #ccc; position: absolute;top:0; left:85px; background: #fff; z-index: 9999;}
+    #selectBox li{padding: 2px; cursor: pointer;}
+    .selected{font-weight: bold;color:red;}
+</style>
+
+<form class="form-horizontal" action="http://yaf.local/sorts/add" method="post">
+    <div class="sectionWrap-A5">
+        <div class="p15">
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+                <ul>
+                    <li class="clear mb5">
+                        <label class="L">类别：<span class="warning">*</span></label>
+                         <select id="select" class="L" name="pid">     <option value="7" class="none">娱乐</option>   </select> <div id="selectBox" class="none">     <div class="mCustomScrollbar">      <ul>  <li value="0">请选择</li>    <li value="1" >无分类</li>   <li value="2" >前端</li>      <li class="ml10"> <ul>   <li value="38" >vue</li>      <li class="ml10"> <ul>   <li value="100" >ant design </li>   </ul> </li>   </ul> </li>   <li value="3" >程序语言</li>      <li class="ml10"> <ul>   <li value="19" >PHP</li>      <li class="ml10"> <ul>   <li value="15" >yii2</li>   <li value="84" >ecshop</li>   </ul> </li>   <li value="22" >C</li>   <li value="23" >nodejs</li>   <li value="32" >python</li>   <li value="36" >java</li>      <li class="ml10"> <ul>   <li value="85" >spring-boot</li>   </ul> </li>   <li value="71" >golang</li>   <li value="90" >ruby</li>   <li value="120" >javascript</li>   <li value="142" >Ada</li>   </ul> </li>   <li value="4" >新闻</li>      <li class="ml10"> <ul>   <li value="7" class="selected">娱乐</li>   <li value="143" >aaaa</li>   </ul> </li>   <li value="5" >视频</li>   <li value="6" >体育</li>   <li value="10" >js 插件</li>   <li value="11" >博客</li>   <li value="12" >手册</li>   <li value="13" >UI</li>   <li value="14" >参考的网页demo</li>   <li value="16" >电视剧</li>   <li value="17" >素材</li>   <li value="18" >工具箱</li>   <li value="20" >学习</li>   <li value="21" >github</li>   <li value="25" >gulp</li>   <li value="26" >books</li>   <li value="27" >meteor</li>   <li value="28" >数据库</li>      <li class="ml10"> <ul>   <li value="29" >mysql</li>   </ul> </li>   <li value="30" >vim</li>   <li value="31" >npm</li>   <li value="33" >自然语言</li>      <li class="ml10"> <ul>   <li value="24" >英语</li>   <li value="91" >德语</li>   </ul> </li>   <li value="35" >tools</li>   <li value="37" >react</li>   <li value="39" >mongodb</li>   <li value="67" >直播</li>   <li value="68" >brew</li>   <li value="69" >网站模版</li>   <li value="74" >vagrant</li>   <li value="76" >软件</li>   <li value="77" >wordpress</li>   <li value="78" >杂谈</li>   <li value="79" >个人信息</li>   <li value="80" >效果图工具</li>   <li value="81" >图片处理工具</li>   <li value="82" >docker</li>   <li value="83" >servers</li>   <li value="86" >web</li>   <li value="87" >networks</li>   <li value="88" >RESTful</li>   <li value="89" >Framework</li>   <li value="92" >面试</li>   <li value="93" >图书馆</li>   <li value="94" >资源</li>   <li value="95" >外包</li>   <li value="96" >天文</li>   <li value="98" >beyond</li>   <li value="99" >文件编码转码</li>   <li value="101" >大会</li>   <li value="102" >excel</li>   <li value="103" >抓包工具</li>   <li value="104" >博大海关（外包）</li>   <li value="106" >my</li>   <li value="107" >军事</li>   <li value="108" >人力资源</li>   <li value="109" >心理学</li>   <li value="110" >mac</li>   <li value="111" >哲理</li>   <li value="112" >我的服务器</li>   <li value="113" >yaml</li>   <li value="114" >nestjs</li>   <li value="115" >windows</li>   <li value="116" >education</li>   <li value="117" >摄影</li>   <li value="118" >冯川-英伯利项目</li>   <li value="119" >sexual</li>   <li value="127" >房产</li>   <li value="129" >冯川-拾趣项目</li>   <li value="130" >社保</li>   <li value="131" >服务器</li>      <li class="ml10"> <ul>   <li value="65" >nginx</li>   <li value="66" >apache</li>   </ul> </li>   <li value="132" >操作系统</li>      <li class="ml10"> <ul>   <li value="34" >linux</li>   </ul> </li>   <li value="133" >音乐</li>      <li class="ml10"> <ul>   <li value="97" >小号</li>   </ul> </li>   <li value="134" >公司</li>      <li class="ml10"> <ul>   <li value="8" >有客</li>   <li value="9" >乐居</li>   <li value="105" >二码科技</li>   </ul> </li>   <li value="135" >理财</li>   <li value="136" >网络安全</li>   <li value="137" >历史</li>      <li class="ml10"> <ul>   <li value="138" >中国</li>      <li class="ml10"> <ul>   <li value="139" >近代历史</li>   </ul> </li>   </ul> </li>   <li value="140" >学校</li>      <li class="ml10"> <ul>   <li value="141" >赣榆高级中学</li>   </ul> </li>   </ul>      </div> </div> 
+                        <span data-error="pid" class="help-block none"></span>
+                    </li>
+                    <li class="clear mb5">
+                        <label class="L">名称：<span class="warning">*</span></label>
+                        <input type="text" name="name" class="text name L" value="">
+                        <span data-error="name" class="help-block none"></span>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
+                <button type="submit" class="btn save L mr15">添加</button>
+                <button type="reset" class="btn btn-cancel L">恢复</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        function getByName(name) {
+            return document.getElementsByName(name)[0].value;
+        }
+
+        $(function(){
+            $('form').submit(function () {
+                $('[data-error]').hide();
+                var pid  = getByName("pid");
+                var name = getByName("name");
+
+                $[this.method](this.action,{
+                    'pid':pid,
+                    'name':name
+                },function(data){
+                    if(data.status){
+                        alert(data.message);
+                        System.redirect(System.INDEX+"sorts/index");
+                    }else{
+                        alert(data.message);
+                        System.each(data.errors,function (key,value) {
+                            $('[data-error="'+key+'"]').text(value).show();
+                        });
+                    }
+                },'json');
+
+                return false;
+            });
+
+
+
+        });
+    });
+</script>
+
+    </div>
+</div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    
+    // 自定义滚动条
+    LAM.mCustomScrollbar = function() {
+        $('.mCustomScrollbar').mCustomScrollbar();
+    };
+    LAM.run([LAM,jQuery],function(LAM,$){
+        'use strict';
+        var System = this;
+        System.use();
+
+
+        var DATE={
+            'b_width':0,
+            'b_height':0,
+            '$hidden_bnt':null
+        };
+
+        var setSize=function(n){
+            n=n || 0;
+            var height=$(window).height();
+            var width=$(window).width();
+            DATE.b_width=width;
+            DATE.b_height=height;
+            $('.sectionSidebar-A1').height(height);
+            $('.sectionList-A2').height($(window).height()-116);
+
+
+        };
+
+
+
+        $(function(){
+
+            
+            LAM.mCustomScrollbar();
+
+
+
+            $('.sectionList-A2 dd').on('click',function(){
+                $(this).find('.sectionList-A1').toggle();
+            });
+
+            setSize();
+            $(window).resize(function() {
+                setSize();
+            });
+            $(window).scroll(function() {
+                setSize($(window).scrollTop());
+            });
+            var $sectionWrapA4=$('.sectionWrap-A4');
+            var $hidden_bnt=$('#hidden_bnt');
+
+            $('#hidden_bnt').on('click',function(){
+                if(!this.flag){
+                    $sectionWrapA4.animate({"left":"47px"});
+                    $hidden_bnt.animate({"left":"20px"});
+
+                    this.flag = true;
+                }else{
+
+                    $sectionWrapA4.animate({"left":"220px"});
+                    $hidden_bnt.animate({"left":"192px"});
+                    this.flag = false;
+                }
+
+
+            });
+        });
+
+
+
+    });
+</script>
+<style type="text/css">
+    .mCustomScrollbar{height: 500px;overflow: auto;}
+    .mCSB_inside > .mCSB_container{margin:0;}
+    .mCSB_scrollTools .mCSB_draggerContainer{left:17px;}
+</style>
+</body>
+</html>

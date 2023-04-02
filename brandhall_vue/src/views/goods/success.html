@@ -1,0 +1,48 @@
+<#define __INDEX__="{{LAM.INDEX}}" />
+<#define __CUR__="{{LAM.VIEWS}}/goods" />
+<#define __IMAGE__="{{LAM.IMAGE}}" />
+<#define __CSS__="{{LAM.CSS}}" />
+<#layout title="商品发布成功" data="{'list':[
+{'name':'喜鹊筑家旗舰店','href':'###','title':''},
+{'name':'店铺管理','href':'###','title':''},
+{'name':'店铺职责'}
+]}" />
+
+
+<#beginBlock id="crumb" data="{'list':[
+{'name':'喜鹊筑家旗舰店','href':'###','title':''},
+{'name':'店铺管理','href':'###','title':''},
+{'name':'店铺职责'}
+]}">
+
+<#endBlock>
+
+<form class="form-horizontal">
+
+    <div class="sectionWrap-A5">
+        <div class="p15">
+            <div class="sectionBox sectionTitle-A sectionTitle-A7 mb50 mt50">
+                <i class="icon"></i>
+                <h2>商品发布成功</h2>
+            </div>
+            <div class="pl35">
+                <p class="mb25">
+                    <a href="###" class="linkBlue mr30">查看发布成功的商品详情</a>
+                    <a href="###" class="linkBlue">重新编辑刚发布的商品</a>
+
+                </p>
+                <div class="clear">
+                    <div class="L">您还可以：</div>
+                    <div class="L">
+                        <p class="mb10">1.继续“<a href="__INDEX__room/release" class="linkBlue">发布产品</a>”</p>
+                        <p>2.进入“<a href="__INDEX__room/list" class="linkBlue">商品列表</a>”</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</form>

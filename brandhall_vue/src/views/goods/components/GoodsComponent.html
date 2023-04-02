@@ -1,0 +1,49 @@
+<#define ~/="{#LAM.VIEWS#}/goods/" />
+
+
+<#Block:begin id="goods.components.goods">
+<div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+    <ul class="clear mb5 row">
+        <input-component v-model="list.name" :name="list.name" label="商店名称" input_style="width:120px;"></input-component>
+        <input-component v-model.number="list.number" :name="list.number.toString()" label="数量" input_style="width:45px;" value="" input_class="number"></input-component>
+        <input-component v-model.number="list.weight" :name="list.weight.toString()" label="重量" input_style="width:45px;" value="1" input_class="weight"></input-component>
+        <input-component v-model.number="list.single_price" :name="list.single_price.toString()" label="单价" input_style="width:45px;" value="1" input_class="single_price"></input-component>
+        <input-component v-model.number="list.final_price" :name="list.final_price.toString()" label="结算价格" input_style="width:45px;" value="1" input_class="final_price"></input-component>
+    </ul>
+</div>
+<#Block:end>
+
+<#include file="~/components/InputComponent.html" />
+<script type="text/javascript">
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+		var GoodsComponent = {
+			props: {
+			index: Number,
+			list: {
+				type: Object
+			}
+			},
+			components:{
+			'input-component': System.require('goods.components.input')
+			},
+			data: function () {
+			return {
+				'picked': '',
+				'n': 0
+
+			}
+			},
+			methods: {
+			handelClick: function (i) {
+				n = i;
+			}
+			},
+			template: System.Template.getBlock('goods.components.goods')
+		};
+
+		System.export('goods.components.goods', GoodsComponent);
+    });
+</script>

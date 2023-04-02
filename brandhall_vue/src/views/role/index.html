@@ -1,0 +1,65 @@
+
+
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+
+
+<#define _TITLE_="角色管理" />
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'喜鹊筑家旗舰店','href':'###','title':''},
+{'name':'商品管理','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<#Block:begin id="content">
+<div>
+	权限分配：
+	<label class="checkbox-inline">
+		<input type="checkbox" value=""> 所有权限
+	</label>
+  <div style="margin-left:196px">
+    <div v-for="item in list.head">
+      <label class="checkbox-inline" :data-key="item">
+        <input type="checkbox" value=""> {{ item }}
+      </label>
+      <label v-for="v in list.list" class="checkbox-inline">
+        <input type="checkbox" :data-key="v" value=""> {{ v }}
+      </label>
+    </div>
+  </div>
+  
+</div>
+  
+<#Block:end>
+
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          props: {},
+          components: {},
+          data: function () {
+            return {
+            	list: {'head':['用户管理','角色管理','单据管理','系统管理'],'list':['查询','编辑','删除']}
+            }
+          },
+          methods: {},
+          template: System.Template.getBlock('content')
+        };
+
+
+        
+        System.export('ContentComponent', ContentComponent);
+    });
+</script>
+<style type="text/css">
+	label{width: 119px;}
+</style>

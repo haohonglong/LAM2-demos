@@ -1,0 +1,79 @@
+<#define __SERVER__="{#LAM.SERVER#}" />
+
+
+<#define _TITLE_="添加店铺" />
+
+<! #extends title="_TITLE_" data="{'list':[
+{'name':'店铺管理','href':'###','title':''},
+{'name':'店铺管理','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" --/>
+
+
+<#Block:begin id="views.shop.create.content">
+<form class="form-horizontal">
+    <div class="sectionWrap-A5">
+        <div class="p15">
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+                <ul>
+                    <li class="clear mb5">
+                        <label class="L">名称：<span class="warning">*</span></label>
+                        <input type="text" v-model="username" class="text name L">
+                        <span class="help-block">{{ errors.name }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-1 sectionForm-A2 ml50">
+                <button type="button" v-on:click="submit()" class="btn save L mr15">提交</button>
+            </div>
+        </div>
+    </div>
+</form>
+<#Block:end>
+
+
+
+<script type="text/javascript">
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          props: {},
+          components: {},
+          data: function () {
+            return {
+                username: "",
+                errors: {
+                    name: ""
+                }
+            }
+          },
+          methods: {
+            submit: function(){
+                const name = this.username;
+
+                Api.shop.add({
+                    name
+                },data =>{
+                    if(data.status){
+                        this.$router.push("/shop/index");
+                        
+                    }else{
+                        System.each(data.errors, (key, value) => {
+                            this.errors.name = value;
+                        });
+                    }
+                },'json');
+            }
+          },
+          template: System.Template.getBlock('views.shop.create.content')
+        };
+
+        System.export("views.shop.create", ContentComponent);
+    });
+</script>

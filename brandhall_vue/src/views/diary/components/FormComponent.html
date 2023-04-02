@@ -1,0 +1,53 @@
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/diary/" />
+
+
+
+<#Block:begin id="diary.form">
+<div>
+    <el-form :model="data" :rules="rules" ref="data" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="标题：" prop="title">
+            <el-input v-model="data.title"></el-input>
+        </el-form-item>
+        <el-form-item label="内容：" prop="content">
+            <el-input type="textarea" v-model="data.content"></el-input>
+        </el-form-item>
+        
+    </el-form>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        var FormComponent = {
+          name: "FormComponent",
+          props: {
+            list: Array,
+            data: Object,
+            error: Object,
+          },
+          components: { },
+          data() {
+            return {
+                rules: {
+                    title: [
+                        { required: true, message: '请输入标题', trigger: 'blur' }
+                    ],
+                    content: [
+                        { required: true, message: '请输入内容', trigger: 'blur' }
+                    ]
+                }
+            }
+          },
+          methods: {},
+          template: System.Template.getBlock('diary.form')
+        };
+
+        System.export('diary.FormComponent', FormComponent);
+    });
+</script>

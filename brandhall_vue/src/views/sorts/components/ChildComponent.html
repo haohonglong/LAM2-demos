@@ -1,0 +1,41 @@
+<#Block:begin id="sorts.childComponent">
+<div class="clearfix">
+	<li class="mt5" v-for="v in list" :key="v.id">
+		<div class="btn">
+				<span class="ml5" @click="action(2, v)">{{ v.name }}</span>
+				<span class="" @click="action(1, v)">添加</span>
+				<span class="ml20" @click="action(3, v)">删除</span>
+		</div>
+		<ul v-if="isArray(v.child)" class="ml15"><child-component v-on:action="action" :list="v.child"></child-component></ul>
+	</li>
+</div>
+<#Block:end>
+
+
+<script type="text/javascript">
+	LAM.run(function() {
+			'use strict';
+			var System = this;
+
+			var ChildComponent = {
+				name: 'sorts_ChildComponent',
+				props: {
+					'list': Array
+				},
+				data: function () {
+					return {}
+				},
+				methods: {
+					action(active, v) {
+						this.$emit('action',active, v);
+					},
+					isArray(value) {
+						return System.isArray(value);
+					}
+				},
+				template: System.Template.getBlock('sorts.childComponent')
+			};
+
+			System.export('sorts.ChildComponent', ChildComponent);
+	});
+</script>

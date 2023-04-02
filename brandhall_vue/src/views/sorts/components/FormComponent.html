@@ -1,0 +1,52 @@
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+
+<#Block:begin id="sort.form">
+<form class="form-horizontal">
+    <div class="sectionWrap-A5">
+        <div class="p15">
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
+                <ul>
+                    <li class="clear mb5">
+                        <label class="L">类别：<span class="warning">*</span></label>
+                        <select-box-component :data="data" :list="list"></select-box-component>
+                        <span class="help-block">{{error.sid}}</span>
+                    </li>
+                    <li class="clear mb5">
+                        <label class="L">名称：<span class="warning">*</span></label>
+                        <input type="text" v-model="data.name"  class="text name L">
+                        <span class="help-block">{{error.name}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</form>
+
+<#Block:end>
+
+
+<#include repeat="0" file="__COMPONENTS__/SelectBoxComponent.html" />
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        var FormComponent = {
+          name: "sorts_FormComponent",
+          props: {
+            list: Array,
+            data: Object,
+            error: Object,
+          },
+          components: {
+            "select-box-component": System.require('components.SelectBoxComponent')
+          },
+          data() {
+            return {}
+          },
+          methods: {},
+          template: System.Template.getBlock('sort.form')
+        };
+
+        System.export('sorts.FormComponent', FormComponent);
+    });
+</script>

@@ -1,0 +1,416 @@
+<#define _TITLE_="网页地址" />
+<#define __LAMPATH__="{#LAM.classPath#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/url/" />
+
+
+<#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
+<#import type="css" path="/tree" root="__CSS__" befor="1" />
+
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<! #extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'网页地址','href':'__INDEX__url/index','title':''},
+{'name':'_TITLE_'}
+]}" --/>
+
+<#Block:begin id="views.url.content">
+<div class="sectionWrap-A7 p-rel">
+    <div class="sectionMenu-A1">
+        <el-input
+            placeholder="输入关键字进行过滤"
+            v-model="filterText">
+        </el-input>
+
+        <el-tree
+            :expand-on-click-node="false"
+            :current-node-key="currentNodeKey"
+            @node-click="handleNodeClick"
+            class="filter-tree"
+            :data="data"
+            :props="defaultProps"
+            :filter-node-method="filterNode"
+            ref="tree">
+        </el-tree>
+    </div>
+
+    <div class="sectionWrap-A6">
+        <div class="j_sectionBlock p-rel sectionBorder-A4 ">
+            <div class="p25">
+
+                <ul class="sectionTitle-A5 sectionTitle-A5-p0 clear mb10 sectionForm-A1 sectionForm-A1-1 sectionForm-A1-2 sectionFloat">
+                    
+                    <li class="mr20">
+                        <label class="L w-auto">筛选：</label>
+                        <input type="text" v-model="keyword" class="text w-160 L" value="" placeholder="请输入关键字">
+                    </li>
+                    <li class="R sectionButton-B1">
+                        <router-link class="btn save"  to="/sorts/index">添加类别</router-link>
+                    </li>
+                    <li class="R sectionButton-B1 mr20">
+                        <button type="button"  @click="action(1)" class="btn">添加</button>
+                    </li>
+                    
+                </ul>
+                <div class="sectionFloat sectionWrap-A17 mb10">
+                    <ul class="clear">
+                        <li v-for="(item, index) in contents" class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big">
+                            <el-tooltip class="item" effect="dark" :content="item.info" placement="bottom-start">
+                                <el-button>
+                                    <a :href="item.url" target="_blank">{{ item.name }}</a>
+                                    <a v-on:click="action(2, item)">修改</a>
+                                    <a v-on:click="action(3, item)">删除</a>
+                                </el-button>
+                            </el-tooltip>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="sectionPageing-A2 clear mb20">
+                    <div class="R">
+                        
+                        <paging-component></paging-component>
+                    </div>
+                </div>
+
+                <div class="sectionTitle-A5 sectionTitle-A5-p0 clear">
+                    <div class="L">
+                        <span class="mr5"><input class="v-negative3 js_allcheckbok" type="checkbox"></span>
+                        <span>全选当前商品</span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <el-dialog
+    :title="dialogTitle"
+    :visible.sync="dialogVisible"
+    width="">
+    <form-component :list="data" :data="form" :error="formError"></form-component>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+
+
+<#include file="__COMPONENTS__/PagingComponent.html" />
+<#include file="~/components/FormComponent.html" />
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+        var cache = new System.Cache('url');
+        var tools =new System.Tools();
+
+        LAM.index = {
+            'cache': cache
+        };
+
+
+        var ContentComponent = {
+            'name': "urlIndex",
+            data(){
+                return {
+                    'dialogTitle': "提示",
+                    'dialogVisible': false,
+                    'contents': [],
+                    'currentNodeKey': '',
+                    'keyword': "",
+                    'title': "",
+                    'sid': "-1",
+                    'form':{
+                        'active':"",
+                        'sid': "-1",
+                        'id': "-1",
+                        'sortName': "",
+                        'name': "",
+                        'url': "",
+                        'info': ""
+                    },
+                    'formError':{
+                        'sid': "",
+                        'name': "",
+                        'url': "",
+                        'info': ""
+                    },
+                    cache,
+                    filterText: '',
+                    data: [],
+                    defaultProps: {
+                        children: 'child',
+                        label: 'name'
+                    }
+
+                };
+            },
+            'components': {
+                'paging-component': System.require('components.PagingComponent'),
+                'form-component': System.require('url.FormComponent')
+            },
+            beforeCreate() { },
+            created() {
+                Api.sorts.get(res => {
+                    this.data = res
+                })
+                let v = this;
+                System.COOKIE.find('id',"1",function (index) {
+                    if(-1 !== index){
+                        const { sid, sort_name: name } = this.get(index);
+                        if(sid > 0){
+                            System.wait(function () {
+                                // v.currentNodeKey = sid+'';
+                                v.filterText = name;
+                                v.getContent(sid, name);
+                                
+                            },1);
+                        }
+
+                    }
+                });
+            },
+            'methods': {
+                location(url) {
+                    window.location = url;
+                },
+                ok() {
+                    this.dialogVisible = false
+                },
+                submit() {
+                    this.initError();
+                    
+                    switch(this.form.active) {
+                        case 1:
+                            this.add();
+                        break;
+                        case 2:
+                            this.modify(this.form.id);
+                        break;
+                    }
+
+                },
+                initError() {
+                    this.formError.sid = "";
+                    this.formError.name = "";
+                    this.formError.url = "";
+                    this.formError.info = "";
+                },
+                init() {
+                    this.form.name = '';
+                    this.form.url = '';
+                    this.form.info = '';
+                },
+                action(active, item) {
+                    this.init();
+                    this.initError();
+                    this.form.active = active;
+
+                    switch(active) {
+                        case 1:
+                            this.dialogTitle = "新增";
+                            break;
+                        case 2:
+                            this.dialogTitle = "修改";
+                            break;
+                        case 3:
+                            this.remove(item.id);
+                            return;
+                    }
+                    
+                    this.dialogVisible = true
+
+                    if(item) {
+                        this.form.id = item.id;
+                        this.form.name = item.name;
+                        this.form.url = item.url;
+                        this.form.info = item.info;
+                        this.form.sid = this.sid;
+                        this.form.sortName = this.title;
+                    }
+                },
+                add() {
+                    var v = this;
+                    var wait = layer.load();
+                    const sid = this.form.sid;
+                    const name = this.form.name;
+                    const url = this.form.url;
+                    const info = this.form.info;
+                    const sortName = this.form.sortName;
+
+                    const data = { 
+                        sid,
+                        name,
+                        url,
+                        info
+                    };
+                    Api.url.add(data, D => {
+                        layer.close(wait);
+                        if(D.status){
+                            // alert(D.message);
+                            this.getContent(sid, sortName);
+                            this.ok();
+
+                        }else{
+                            // alert(D.message);
+                            System.each(D.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+
+                    });
+                },
+                search() {
+                    let sid = this.sid;
+                    let name = this.keyword;
+                    
+                    if(sid > 0) {
+                        let wait = layer.load();
+                        Api.url.search({ sid, name }, D => {
+                            layer.close(wait);
+                            if(D.status){
+                                this.contents = D.data;
+                            }
+                        });
+                        
+                    }
+
+                },
+                getContent(sid, title){
+                    var vue = this;
+                    this.sid = sid;
+                    this.title = title;
+                    this.form.sortName = title;
+                    this.form.sid = sid;
+
+                    console.log(sid, title)
+
+                    
+
+                    var wait = layer.load();
+                    Api.url.get(sid, D =>{
+                        layer.close(wait);
+                        if(D.status){
+                            vue.contents = D.data;
+                        }else{
+                            vue.contents = "没有数据";
+                        }
+                    });
+                    
+
+                    // $("#crumb strong").text(this.title);
+                    System.COOKIE.find('id',"1",function (index) {
+                        if(-1 !== index){
+                            var data = this.get(index);
+                            data.sid = sid;
+                            data.sort_name = title;
+                            this.update(index,data);
+                        } else {
+                            var data = {
+                                sid,
+                                "sort_name": title
+                            };
+                            this.add(data);
+                        }
+                    });
+                    
+                },
+                remove(id){
+                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
+                      //do something
+                        Api.url.delete(id, data => {
+                            alert(data.message);
+                            if(!data.status){
+                                System.each(data.errors,function (key,value) {
+                                    alert(value)
+                                });
+                            } else {
+                                this.getContent(this.sid, this.title);
+                            }
+                            layer.close(index);
+                        });
+                      
+                    });
+                },
+                modify(id){
+                    var wait = layer.load();
+                    const sid  = this.form.sid;
+                    const name = this.form.name;
+                    const url  = this.form.url;
+                    const info = this.form.info;
+                    const sortName = this.form.sortName;
+
+                    Api.url.edit({
+                        id,
+                        sid,
+                        name,
+                        url,
+                        info
+                    }, data => {
+                        layer.close(wait);
+                        if(data.status){
+                            alert(data.message);
+                            this.getContent(sid, sortName);
+                            this.ok();
+                        }else{
+                            // alert(data.message);
+                            System.each(data.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+                    },'json');
+                },
+                filterNode(value, data, node) {
+                    if (!value) return true;
+                    return node.data.name.indexOf(value) !== -1 || (node.parent.data.name && node.parent.data.name.indexOf(value) !== -1)
+                },
+                handleNodeClick(data) {
+                    this.getContent(data.id, data.name);
+                }
+            },
+            'watch': {
+                'keyword': function() { this.search();},
+                filterText(val) {
+                    this.$refs.tree.filter(val);
+                }
+            },
+            template: System.Template.getBlock('views.url.content')
+        };
+
+        System.export('views.url.index', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+    .sectionButton-B1 .btn a{color:#fff;}
+    .sectionMenu-A1 { position: relative; float: left; }
+    .sectionWrap-A6 { margin-left: 180px; }
+    .el-input { width: auto; }
+
+</style>
+
+
+
+

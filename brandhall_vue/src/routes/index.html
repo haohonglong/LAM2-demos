@@ -1,0 +1,44 @@
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+
+<#include file="__VIEWS__/room/list/index.html" />
+<#include file="__VIEWS__/goods/index.html" />
+<#include file="__VIEWS__/goods/add/index.html" />
+<#include file="__VIEWS__/url/index.html" />
+<#include file="__VIEWS__/sorts/index.html" />
+<#include file="__VIEWS__/video/index.html" />
+<#include file="__VIEWS__/video/video2.html" />
+<#include file="__VIEWS__/shop/index.html" />
+<#include file="__VIEWS__/shop/create.html" />
+<#include file="__VIEWS__/diary/index.html" />
+<#include file="__VIEWS__/mindline/index/index.html" />
+<#include file="__VIEWS__/mindline/detail/index.html" />
+
+<script type="text/javascript">
+LAM.run(function(){
+		'use strict';
+		var System = this;
+
+		const INDEX = System.require('views.room.index');
+
+		const routes = [
+			{ path: '/', component: INDEX }
+			,{ path: '/room/list', component: INDEX }
+			,{ path: '/video/index', component: System.require('views.video.index') }
+			,{ path: '/video/sex', component: System.require('views.video.sex') }
+			,{ path: '/sorts/index', component: System.require('views.sorts.index') }
+			,{ path: '/goods/index', component: System.require('views.goods.index') }
+			,{ path: '/goods/add', component: System.require('views.goods.add') }
+			,{ path: '/url/index', component: System.require('views.url.index') }
+			,{ path: '/shop/index', component: System.require('views.shop.index') }
+			,{ path: '/shop/create', component: System.require('views.shop.create') }
+			,{ path: '/diary/index', component: System.require('views.diary.index') }
+			,{ path: '/mindline/index', component: System.require('views.mindline.index') }
+			,{ path: '/mindline/detail/:key', component: System.require('views.mindline.detail') }
+		]
+		const router = new VueRouter({ routes })
+
+
+		System.export('VueRouter', router);
+
+});
+</script>

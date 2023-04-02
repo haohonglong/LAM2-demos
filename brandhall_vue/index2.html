@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript">window._ROOT_ = "..";</script>
+    <script type="text/javascript" src="../brandhall/common/config/config.js"></script>
+    <script type="text/javascript" src="../LAM2/lamborghiniJS/base/System.js"></script>
+    <script type="text/javascript">
+        LAM.main=function (view) {
+            // console.log(view);
+            var System = this;
+            var r = System.get('r');
+            System.COOKIE.find('id',"1",function (index,id) {
+                var _this = this;
+                if(-1 === index && (r !== 'site/login' && r !== 'site/reg')){
+                    System.redirect(System.INDEX+"site/login");
+                }else{
+                    System.listen(function () {
+                        if(_this.had_expired(index)){
+                            _this.remove(index);
+                            System.redirect(System.INDEX+"site/login");
+                        }
+                    },1);
+                }
+            });
+            $.post(System.SERVER+"/index/build",{
+                'content':System._content,
+                'replace':[{'../':'../../../'}],
+                'path':System.get('r'),
+                'suffix':'.html'
+            },function(view){
+
+            },'json');
+            return view;
+        };
+        System.Config.Public.INDEX="index2.html?r=";
+        System.Config.Public.SERVER="http://v.yaf.local";
+        LAM.bootstrap();
+    </script>
+</head>
+</html>
+
+

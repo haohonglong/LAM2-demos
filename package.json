@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "systemjs": "^6.13.0",
+    "@hellowuxin/mindmap": "^2.1.4"
+  }
+}

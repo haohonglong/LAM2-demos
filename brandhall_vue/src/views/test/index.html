@@ -1,0 +1,71 @@
+<#define __SERVER__="{#LAM.SERVER#}" />
+#define# __DATA__ <#include repeat="0" tp-data="{}" file="__SERVER__/sorts/index" /> #end#
+
+<#define _TITLE_="tesst" />
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'网页地址','href':'###','title':''},
+{'name':'网页地址','href':'###','title':''},
+{'name':'_TITLE_'}
+]}" />
+
+<#Block:begin id="content">
+<div>
+  <el-menu class="el-menu-demo" mode="horizontal" @select="handleSelect">
+    <el-menu-item index="1">处理中心</el-menu-item>
+    <el-submenu index="2">
+      <template slot="title">我的工作台</template>
+      <el-menu-item index="2-1">选项1</el-menu-item>
+      <el-menu-item index="2-2">选项2</el-menu-item>
+      <el-menu-item index="2-3">选项3</el-menu-item>
+      <el-submenu index="2-4">
+        <template slot="title">选项4</template>
+        <el-menu-item index="2-4-1">选项1</el-menu-item>
+        <el-menu-item index="2-4-2">选项2</el-menu-item>
+        <el-menu-item index="2-4-3">选项3</el-menu-item>
+      </el-submenu>
+    </el-submenu>
+    <el-menu-item index="3" disabled>消息中心</el-menu-item>
+    <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+  </el-menu>
+  <div class="line"></div>
+  
+</div>
+
+<#Block:end>
+
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+
+        var ContentComponent = {
+            'name': "ContentComponent",
+            data() {
+              return {
+                list: __DATA__
+              };
+            },
+            'methods': {
+              handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+              }
+            },
+
+            template: System.Template.getBlock('content')
+        };
+
+        System.export('ContentComponent', ContentComponent);
+    });
+</script>
+
+
+<style>
+  
+</style>

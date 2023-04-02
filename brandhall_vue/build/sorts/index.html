@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="类别" />
+    <meta name="description" content="类别" />
+    <script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../brandhall/common/config/config.js" _hashCode="b1a820bac759ec5c03980657c2269122"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/System.js" _hashCode="808c59ef7e1e3cec4ed32a9c97667cdd"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/jQuery/jquery.js" _hashCode="885cf0f02dfdde8d57d7db750de796a2"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Base.class.js" _hashCode="a387d92811ae4bb416e6dc91f6447226"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Object.class.js" _hashCode="ff5ca240698ca942c297215d1a9d6bf0"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Component.class.js" _hashCode="3e640fe2f43db3eea5be3f86a9c90597"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Error.class.js" _hashCode="b7a097040ae4a66a4e558b53ff4931f0"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Md5.class.js" _hashCode="b4a4cca1387eb4e4bc39bc402a40b502"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Base64.class.js" _hashCode="59c625de20e98f4b498de63bded5a573"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Compiler.class.js" _hashCode="5cfbc1d70520cbe76b4ca659c3c2ef76"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Cache.class.js" _hashCode="2f76d86aa482776b94140627bfba8af3"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/PowerCookie.class.js" _hashCode="0104e211f758634ae8450baee3a982f2"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Storage.class.js" _hashCode="26d087c5ab7fabcd11d52d7b1858a2a6"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/HttpRequest.class.js" _hashCode="b2e486e7eb95eda0dd7eff395f450653"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Helper.class.js" _hashCode="804eac73f8817d035294b79b7aea90af"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Browser.class.js" _hashCode="924f827840e0e953df5f638dfe185920"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Event.class.js" _hashCode="43fb2c210119dbcc4444e72f13820af8"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Dom.class.js" _hashCode="a2685d255c638b67555c6e4b21b1f295"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/View.class.js" _hashCode="fb0929e23027ee30a15754388856fabb"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Template.class.js" _hashCode="0a9d284f4aa35f9c1ef9ed79c007a3a0"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Html.class.js" _hashCode="3c7b07b2fc3f2bd48356541c445aaaa3"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Loader.class.js" _hashCode="de5782290d9e3f0ee3da6285cfe779a0"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/base/Model.class.js" _hashCode="3c83b28bfe0b4d346daaec3febdcdeb8"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../brandhall/src/models/CookieModel.class.js" _hashCode="ad16e69aa5cab0be5f7db3e3f9ce7ec9"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../common/plugins/vue/vue.js" _hashCode="1f73128f27503a4f9d3ddf7a5d2d99f0"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/Tab.class.js" _hashCode="642e0322497fe0f41f213a85e2762616"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../LAM2/lamborghiniJS/Tools.class.js" _hashCode="d26092deb35ff92c02c99e1ae45bd0e2"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../common/plugins/layer-v3.1.1/layer/layer.js" _hashCode="c4bff789f2f9cb56b1243381f40899f0"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../common/css/lib/bootstrap.css" _hashCode="aba48de193b204ff07a9ad823c4203b5"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../brandhall/src/assets/css/global.css" _hashCode="f696c80ae162deb10ae52e83c9adf5d5"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../brandhall/src/assets/css/lib.css" _hashCode="63dadbf094c909d8d2b9cb171b470de4"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" _hashCode="9bf48dc8dc40e8da9bb806eeaba20733"></script>
+<script type="text/javascript" charset="utf-8" sn="1661231419684" src="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js" _hashCode="c9e6a9b13aa72d50bd4e8a8991454a98"></script>
+    <link type="text/css" rel="stylesheet" sn="1661231419684" _hashCode="0f436b68be6fda46ca2ab22bb630f5a0" href="../../../common/css/lib/bootstrap.css" />
+<link type="text/css" rel="stylesheet" sn="1661231419684" _hashCode="1db9f8906de0ac5f1ac9acd20ff7d15e" href="../../../brandhall/src/assets/css/global.css" />
+<link type="text/css" rel="stylesheet" sn="1661231419684" _hashCode="6e7d0c8e50277089c42bc4ec7bad24eb" href="../../../brandhall/src/assets/css/lib.css" />
+<link type="text/css" rel="stylesheet" sn="1661231419684" _hashCode="91a03729c4f3692562fd2beaf6d5ea40" href="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" />
+    
+    
+    <title>类别</title>
+
+</head>
+
+<body class="h-percent-of100">
+<div id="hidden_bnt" class="sectionBtn-A2 sectionFixed-A1">
+    <span class="mb3"></span>
+    <span class="mb3"></span>
+    <span></span>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sectionSidebar-A1">
+            <div class="sectionBox sectionTitle-A2"><h2>喜鹊筑家旗舰店</h2></div>
+<div class="sectionScroll sectionList-A2 sectionIcon-B1 sectionFont-A1 mCustomScrollbar">
+    <dl id="vue-menu">
+        <dd v-for="menu in list">
+            <div class="title">
+                <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{#menu.title#}</a>
+            </div>
+            <div v-if="menu.ul" class="sectionList-A1 sectionList-A1-3 none">
+                <ul>
+                    <li v-for="v in menu.ul"><a :href="v.href">{#v.title#}</a></li>
+                </ul>
+            </div>
+
+        </dd>
+    </dl>
+</div>
+
+<script type="text/javascript">
+    //menu
+    LAM.run([LAM,jQuery],function(LAM,$) {
+        'use strict';
+        var System = this;
+
+        System.setMenuSelectedStatus=function(href){
+            $('.sectionList-A1-3 li a[href*="'+href+'"]')
+                .closest('li').addClass('cur')
+                .closest('.sectionList-A1-3').show()
+                .closest('dd').addClass('hover');
+        };
+
+        $(function(){
+
+            new Vue({
+                delimiters: ['{#', '#}'],
+                el: '#vue-menu',
+                data: {
+                    list: [{"icon":"a-1","title":"我购买的服务","ul":null},{"icon":"a-4","title":"博彩","ul":[{"title":"博彩","href":"index.html?r=gambling/index&m=gambling"}]},{"icon":"a-2","title":"demos","ul":[{"title":"验证码","href":"index.html?r=test/code"},{"title":"react","href":"index.html?r=test/react"},{"title":"阿里巴巴报关","href":"index.html?r=test/alibabaBaoGuan"},{"title":"seajs","href":"index.html?r=test/seajs"}]},{"icon":"a-10","title":"角色管理","ul":[{"title":"创建","href":"index.html?r=role/index"},{"title":"react","href":"index.html?r=role/react"}]},{"icon":"a-2","title":"网页地址","ul":[{"title":"列表","href":"index.html?r=url/index"},{"title":"添加","href":"index.html?r=url/create"}]},{"icon":"a-2","title":"类别","ul":[{"title":"列表","href":"index.html?r=sorts/index"},{"title":"添加","href":"index.html?r=sorts/create"}]},{"icon":"a-2","title":"视频","ul":[{"title":"视频","href":"index.html?r=video/index"}]},{"icon":"a-2","title":"博客","ul":[{"title":"网页地址","href":"index.html?r=blog/index"}]},{"icon":"a-3","title":"宝贝管理","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-4","title":"样板间管理","ul":[{"title":"案例列表","href":"index.html?r=room/list"},{"title":"楼盘户型管理","href":"index.html?r=room/detail"},{"title":"发布","href":"index.html?r=room/release"},{"title":"aa","href":"index.html?r=room/aa"}]},{"icon":"a-5","title":"店铺管理","ul":[{"title":"店铺","href":"index.html?r=shop/index"},{"title":"添加店铺","href":"index.html?r=shop/create"},{"title":"选择模版","href":"index.html?r=shop/choiceTemplate"},{"title":"商品授权","href":"index.html?r=shop/empower"},{"title":"新建房间","href":"index.html?r=shop/newRoom"},{"title":"商品列表","href":"index.html?r=shop/list"},{"title":"楼盘","href":"index.html?r=shop/loft"}]},{"icon":"a-5","title":"商品管理","ul":[{"title":"商品列表","href":"index.html?r=goods/index"},{"title":"添加商品","href":"index.html?r=goods/create"}]},{"icon":"a-6","title":"消息中心","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-7","title":"品牌经销商","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-8","title":"营销中心","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-9","title":"软件服务","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-10","title":"客户服务","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-11","title":"友情链接","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]}]
+                }
+            });
+            System.setMenuSelectedStatus(System.defaultRoute);
+        });
+
+
+
+
+    });
+</script>
+        </div>
+        <div class="col-md-10 sectionWrap-A4">
+    <div class="p20">
+        <div id="mobile" class="sectionPhoneTop-A1 clear none mb20">
+    <img class="L logo" src="../../../brandhall/src/assets/images/imgs_LHH/logo.png" width="130" height="54" alt="">
+    <div id="mobile-button" class="sectionBtn-A2 R mt20 mr15">
+        <span class="mb3"></span>
+        <span class="mb3"></span>
+        <span></span>
+    </div>
+    <div id="mobile-content">
+        <dl id="vue-menu-mobile">
+            <dd v-for="menu in list">
+                <div class="title">
+                    <i :class="'I1 '+menu.icon"></i><a href="javascript:void(0);">{#menu.title#}</a>
+                </div>
+                <div v-if="menu.ul" class="">
+                    <ul>
+                        <li v-for="v in menu.ul"><a :href="v.href">{#v.title#}</a></li>
+                    </ul>
+                </div>
+
+            </dd>
+        </dl>
+    </div>
+    <img class="R img" data-var="tpl" src="../../../brandhall/src/assets/images/imgs_LHH/pics/img_01.gif" width="20" height="20" alt="">
+</div>
+
+<style type="text/css">
+    #mobile{position: relative;z-index: 99999;}
+    #mobile-content{position: absolute;width:100%;top:80px;left:0;background: #fff;}
+    #mobile-content dd{margin-bottom: 15px;}
+</style>
+<script type="text/javascript">
+    //menu
+    LAM.run([LAM,jQuery],function(LAM,$) {
+        'use strict';
+        var System = this;
+
+
+
+        $(function(){
+
+            System.run(function () {
+                'use strict';
+                var System = this;
+                var $mobile = $("#mobile-button");
+                var $content = $("#mobile-content");
+                var flag = true;
+                $content.hide();
+
+                $mobile.on("click",function () {
+                    if(flag){
+                        $content.show();
+                        flag = false;
+                    }else{
+                        $content.hide();
+                        flag = true;
+                    }
+                });
+            });
+
+            new Vue({
+                delimiters: ['{#', '#}'],
+                el: '#vue-menu-mobile',
+                data: {
+                    list: [{"icon":"a-1","title":"我购买的服务","ul":null},{"icon":"a-4","title":"博彩","ul":[{"title":"博彩","href":"index.html?r=gambling/index&m=gambling"}]},{"icon":"a-2","title":"demos","ul":[{"title":"验证码","href":"index.html?r=test/code"},{"title":"react","href":"index.html?r=test/react"},{"title":"阿里巴巴报关","href":"index.html?r=test/alibabaBaoGuan"},{"title":"seajs","href":"index.html?r=test/seajs"}]},{"icon":"a-10","title":"角色管理","ul":[{"title":"创建","href":"index.html?r=role/index"},{"title":"react","href":"index.html?r=role/react"}]},{"icon":"a-2","title":"网页地址","ul":[{"title":"列表","href":"index.html?r=url/index"},{"title":"添加","href":"index.html?r=url/create"}]},{"icon":"a-2","title":"类别","ul":[{"title":"列表","href":"index.html?r=sorts/index"},{"title":"添加","href":"index.html?r=sorts/create"}]},{"icon":"a-2","title":"视频","ul":[{"title":"视频","href":"index.html?r=video/index"}]},{"icon":"a-2","title":"博客","ul":[{"title":"网页地址","href":"index.html?r=blog/index"}]},{"icon":"a-3","title":"宝贝管理","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-4","title":"样板间管理","ul":[{"title":"案例列表","href":"index.html?r=room/list"},{"title":"楼盘户型管理","href":"index.html?r=room/detail"},{"title":"发布","href":"index.html?r=room/release"},{"title":"aa","href":"index.html?r=room/aa"}]},{"icon":"a-5","title":"店铺管理","ul":[{"title":"店铺","href":"index.html?r=shop/index"},{"title":"添加店铺","href":"index.html?r=shop/create"},{"title":"选择模版","href":"index.html?r=shop/choiceTemplate"},{"title":"商品授权","href":"index.html?r=shop/empower"},{"title":"新建房间","href":"index.html?r=shop/newRoom"},{"title":"商品列表","href":"index.html?r=shop/list"},{"title":"楼盘","href":"index.html?r=shop/loft"}]},{"icon":"a-5","title":"商品管理","ul":[{"title":"商品列表","href":"index.html?r=goods/index"},{"title":"添加商品","href":"index.html?r=goods/create"}]},{"icon":"a-6","title":"消息中心","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-7","title":"品牌经销商","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-8","title":"营销中心","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-9","title":"软件服务","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-10","title":"客户服务","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]},{"icon":"a-11","title":"友情链接","ul":[{"title":"卖家地图","href":"###"},{"title":"我家要装修","href":"###"},{"title":"格致商城","href":"###"},{"title":"格致社区","href":"###"}]}]
+                }
+            });
+        });
+
+
+
+
+    });
+</script>
+
+
+        
+        <div class="sectionTop-A2 clear mb10 p-rel">     <div class="L">         <div class="sectionNav-A1 sectionFloat-A1 top8 pl5 sectionFont-A2">             <ul class="clear">                 <li class="A I1 b-1 mr20">                     <i>3</i>                 </li>                 <li class="B I1 b-2 mr20">                     <div class="sectionShowBox-A1 none">                         <div class="sectionArrow-A1 sectionArrow-double-A1 sectionArrow-double-A1-1"><i class="A"></i><i class="B"></i></div>                         <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-1 sectionTitle-A1-5">                             <span class="mr10 ml10 cur myli">收件箱</span>                             <span class="myli">其他（2）</span>                             <div class="more">                                 <a href="###" class="linkBlue">发送新信息</a>                              </div>                         </div>                         <div class="js_Block_A1">                                                          <div class="sectionBorder-A1 sectionBorder-pb0">         <div class="sectionBox-A3 sectionBox-A3-1">             <div class="p10 clear">                 <div class="L mr12"><img src="../../../brandhall/src/assets/images/imgs_LHH/li1.png" width="15" height="15" alt=""></div>                 <div class="sectionBox-A2">                     <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">                         <h2>乌鸦-lucian</h2>                         <div class="more sectionIcon-A1 sectionIcon-A2">                             <i></i>                         </div>                         <div class="sectionMessage-A2 none">                             <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>                             <p>标记为未读</p>                         </div>                     </div>                     <p>恭喜你获得免费洗20张照片的机会...</p>                     <p class="date">2014-06-20 17:25</p>                 </div>             </div>         </div>     </div>                                                          <div class="sectionBorder-A1 sectionBorder-pb0">         <div class="sectionBox-A3 sectionBox-A3-1">             <div class="p10 clear">                 <div class="L mr12"><img src="../../../brandhall/src/assets/images/imgs_LHH/li1.png" width="15" height="15" alt=""></div>                 <div class="sectionBox-A2">                     <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">                         <h2>乌鸦-lucian</h2>                         <div class="more sectionIcon-A1 sectionIcon-A2">                             <i></i>                         </div>                         <div class="sectionMessage-A2 none">                             <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>                             <p>标记为未读</p>                         </div>                     </div>                     <p>恭喜你获得免费洗20张照片的机会...</p>                     <p class="date">2014-06-20 17:25</p>                 </div>             </div>         </div>     </div>                                                          <div class="sectionBorder-A1 sectionBorder-pb0">         <div class="sectionBox-A3 sectionBox-A3-1">             <div class="p10 clear">                 <div class="L mr12"><img src="../../../brandhall/src/assets/images/imgs_LHH/li1.png" width="15" height="15" alt=""></div>                 <div class="sectionBox-A2">                     <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">                         <h2>乌鸦-lucian</h2>                         <div class="more sectionIcon-A1 sectionIcon-A2">                             <i></i>                         </div>                         <div class="sectionMessage-A2 none">                             <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>                             <p>标记为未读</p>                         </div>                     </div>                     <p>恭喜你获得免费洗20张照片的机会...</p>                     <p class="date">2014-06-20 17:25</p>                 </div>             </div>         </div>     </div>                                                       </div>                         <div class="js_Block_A1 none">                             <div class="sectionBorder-A1 sectionBorder-pb0">                                 <div class="sectionBox-A3 sectionBox-A3-1">                                     <div class="p10 clear">                                         <div class="L mr12"><img src="../../../brandhall/src/assets/images/imgs_LHH/li1.png" width="15" height="15" alt=""></div>                                         <div class="sectionBox-A2">                                             <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-3">                                                 <h2>乌鸦-lucian</h2>                                                 <div class="more sectionIcon-A1 sectionIcon-A2">                                                     <i></i>                                                 </div>                                                 <div class="sectionMessage-A2 none">                                                     <div class="sectionArrow-A1 sectionArrow-A1-2"><i class="down"></i></div>                                                     <p>标记为未读</p>                                                 </div>                                             </div>                                             <p>恭喜你获得免费洗20张照片的机会...</p>                                             <p class="date">2014-06-20 17:25</p>                                         </div>                                     </div>                                 </div>                             </div>                         </div>                               <div class="sectionBorder-A1 sectionBorder-A1-1 sectionText-A2 sectionText-A2-1">                             <a href="###" class="linkGrey">没有新信息</a>                         </div>                         <div class="sectionText-A2 bg-grey">                             <a href="###" class="linkBlue">查看全部信息</a>                         </div>                      </div>                 </li>                 <li class="C I1 b-3">                     <div class="sectionShowBox-A1 none">                         <div class="sectionArrow-A1 sectionArrow-double-A1 sectionArrow-double-A1-1"><i class="A"></i><i class="B"></i></div>                         <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-1">                             <h2>通知</h2>                             <div class="more">                                 <a href="###" class="linkBlue mr10">设置</a>                                 <a href="###" class="linkBlue">清除全部通知</a>                              </div>                         </div>                         <div class="sectionBorder-A1">                             <div class="p10">                                 <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-2">                                     <h2>店铺公告</h2>                                     <div class="more sectionIcon-A1 sectionIcon-A1-4">                                         <a href="###" class="icon"></a>                                     </div>                                 </div>                                 <div class="sectionCms sectionCms-0 sectionCms-A2">                                     新旺铺新功能，店铺实验室上线通知！ 通过A/B测试、定投的功能帮助卖家进行旺铺装修展示，帮助卖家决策、提升转化率。 只要你是旺铺专业版并且你使用了新模板，                                     那么亲，还等什么，快来研究一下吧。                                     2014-06-20 17:25                                 </div>                             </div>                          </div>                         <div class="sectionBorder-A1 sectionBorder-A1-1 sectionText-A2 sectionText-A2-1">                             <a href="###" class="linkGrey">没有新信息</a>                         </div>                         <div class="sectionText-A2 bg-grey">                             <a href="###" class="linkBlue">所有通知</a>                         </div>                      </div>                 </li>             </ul>         </div>     </div>     <div class="R">         <div class="sectionSearch-A1 sectionForm-A2">             <input type="text" class="text bg none pl35" placeholder="">             <i title="click here"></i>         </div>         <div class="L sectionBox-A1 mr10 p-rel z1 js_showBoxA1">             <div class="p5">                 <img class="mr5" data-var="tpl" src="../../../brandhall/src/assets/images/imgs_LHH/pics/img_01.gif" width="20" height="20" alt=""><span>name&nbsp; 28</span>             </div>             <div class="sectionShowBox-A1 sectionShowBox-A1-1 none">                 <div class="sectionArrow-A1 sectionArrow-double-A1 sectionArrow-double-A1-1 sectionArrow-double-A1-1-1"><i class="A"></i><i class="B"></i></div>                 <div class="sectionBox sectionTitle-A sectionTitle-A3">                     <h2>更改登录帐号：</h2>                 </div>                 <div class="sectionBox-A4 clear mb2">                     <div class="L mr12"><img src="" width="18" height="18" alt=""></div>                     <div class="sectionBox-A2 over-h">                         <p>喜鹊筑家旗舰店</p>                     </div>                 </div>                 <div class="sectionBox-A4 clear mb2">                     <div class="L mr12"><img src="" width="18" height="18" alt=""></div>                     <div class="sectionBox-A2 over-h">                         <p>喜鹊筑家旗舰店</p>                     </div>                 </div>                 <div class="sectionBox-A4 clear mb2">                     <div class="L mr12"><img src="" width="18" height="18" alt=""></div>                     <div class="sectionBox-A2 over-h">                         <p>喜鹊筑家旗舰店</p>                     </div>                 </div>                  <div class="sectionList-A1 sectionList-A1-1">                     <div class="p10">                         <ul class="mb5">                             <li><a href="###">创建新店铺</a></li>                             <li><a href="###">管理店铺</a></li>                         </ul>                         <ul class="mb5">                             <li><a href="###">个人中心</a></li>                             <li><a href="###">设置</a></li>                             <li><a href="index.html?r=site/logout">退出</a></li>                         </ul>                         <ul class="mb5">                             <li><a href="###">帮助中心</a></li>                             <li><a href="###">报告问题</a></li>                         </ul>                      </div>                 </div>                </div>         </div>         <div class="L sectionText-A1 sectionText-A1-1">             <a href="###">浏览我的店铺</a>         </div>      </div> </div> 
+<script type="text/javascript">
+    //header
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+        var tools=new System.Tools();
+
+        /**
+         *头部分区域
+         *
+         */
+        new System.Tab({
+            'list':$('.sectionTitle-A1-5 .myli'),
+            'event':'click',
+            'class':'cur',
+            'block':$('.js_Block_A1'),
+            'fn':function(obj){
+                obj.current.block.each(function(i){
+                    if(obj.this_index==i){
+                        $(this).show();
+                    }else{
+                        $(this).hide();
+                    }
+                });
+
+            }
+        }).run();
+
+        $('.sectionTitle-A1-3 .sectionIcon-A2 i').hover(function(){
+            $(this).addClass('hover');
+            $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2').show();
+        },function(){
+            $(this).removeClass('hover');
+            $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2').hide();
+        }).toggle(function(){
+            $(this).addClass('cur');
+            $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2 p').text('标记为已读');
+        },function(){
+            $(this).removeClass('cur');
+            $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2 p').text('标记为未读');
+        });
+
+
+
+
+        /**
+         *头部分搜索框的滑动交互效果
+         *
+         */
+
+        $('.sectionSearch-A1 i').on('click',function(){
+            var $this = $(this);
+            if(!this.flag){
+                $this.parent().find('.bg').animate({"width":"200px"}).show();
+                $this.addClass('B').animate({"right":"170px"});
+                this.flag = true;
+            }else{
+                $this.removeClass('B').animate({"right":"12px"});
+                $this.parent().find('.bg').animate({"width":0}).hide();
+                this.flag = false;
+
+            }
+        });
+
+        /**
+         *   鼠标hover时下面的隐藏模块显示,鼠标移除隐藏模块时模块恢复隐藏
+         *
+         */
+        tools.hover_next_box_show('.js_showBoxA1','.sectionShowBox-A1');
+
+
+        tools.set_whole_screen_size({
+            '$div':$('.js_mapWrap'),
+            'h':true,
+            'w':true,
+            'wSize':$('.sectionTitle-A12').length,
+            'hSize':200
+        });
+    });
+</script>
+
+
+        
+         <div id="crumb" class="sectionCrumb-A1 mb20">     <ul class="clear">                  <li>                  <a title="" href="###" class="linkBlue">类别</a>&nbsp;&gt;&nbsp;                  </li>                  <li>                  <a title="" href="###" class="linkBlue">类别列表</a>&nbsp;&gt;&nbsp;                  </li>                  <li>                  <strong>类别列表</strong>                  </li>              </ul> </div> 
+        <!#include repeat="0" tp-data="{}" file="../../../brandhall/src/layouts/default/test.html" />
+        
+
+
+
+
+
+
+
+
+
+ <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="1">  <div class="btn">         <span>无分类</span>         <a href="index.html?r=sorts/edit&id=1&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=1">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="2">  <div class="btn">         <span>前端</span>         <a href="index.html?r=sorts/edit&id=2&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=2">删除</a>     </div>     <ul class="ml10">       <li>     <div class="btn mt5">            <span>vue</span>            <a href="index.html?r=sorts/edit&id=38&pid=2" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=38">删除</a>        </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>ant design </span>            <a href="index.html?r=sorts/edit&id=100&pid=38" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=100">删除</a>        </div>       </li>       </ul>    </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="3">  <div class="btn">         <span>程序语言</span>         <a href="index.html?r=sorts/edit&id=3&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=3">删除</a>     </div>     <ul class="ml10">       <li>     <div class="btn mt5">            <span>PHP</span>            <a href="index.html?r=sorts/edit&id=19&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=19">删除</a>        </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>yii2</span>            <a href="index.html?r=sorts/edit&id=15&pid=19" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=15">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>ecshop</span>            <a href="index.html?r=sorts/edit&id=84&pid=19" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=84">删除</a>        </div>       </li>       </ul>    </li>                 <li class="mt5">        <div class="btn">            <span>C</span>            <a href="index.html?r=sorts/edit&id=22&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=22">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>nodejs</span>            <a href="index.html?r=sorts/edit&id=23&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=23">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>python</span>            <a href="index.html?r=sorts/edit&id=32&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=32">删除</a>        </div>       </li>              <li>     <div class="btn mt5">            <span>java</span>            <a href="index.html?r=sorts/edit&id=36&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=36">删除</a>        </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>spring-boot</span>            <a href="index.html?r=sorts/edit&id=85&pid=36" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=85">删除</a>        </div>       </li>       </ul>    </li>                 <li class="mt5">        <div class="btn">            <span>golang</span>            <a href="index.html?r=sorts/edit&id=71&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=71">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>ruby</span>            <a href="index.html?r=sorts/edit&id=90&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=90">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>javascript</span>            <a href="index.html?r=sorts/edit&id=120&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=120">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>Ada</span>            <a href="index.html?r=sorts/edit&id=142&pid=3" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=142">删除</a>        </div>       </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="4">  <div class="btn">         <span>新闻</span>         <a href="index.html?r=sorts/edit&id=4&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=4">删除</a>     </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>娱乐</span>            <a href="index.html?r=sorts/edit&id=7&pid=4" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=7">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>aaaa</span>            <a href="index.html?r=sorts/edit&id=143&pid=4" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=143">删除</a>        </div>       </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="5">  <div class="btn">         <span>视频</span>         <a href="index.html?r=sorts/edit&id=5&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=5">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="6">  <div class="btn">         <span>体育</span>         <a href="index.html?r=sorts/edit&id=6&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=6">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="10">  <div class="btn">         <span>js 插件</span>         <a href="index.html?r=sorts/edit&id=10&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=10">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="11">  <div class="btn">         <span>博客</span>         <a href="index.html?r=sorts/edit&id=11&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=11">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="12">  <div class="btn">         <span>手册</span>         <a href="index.html?r=sorts/edit&id=12&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=12">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="13">  <div class="btn">         <span>UI</span>         <a href="index.html?r=sorts/edit&id=13&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=13">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="14">  <div class="btn">         <span>参考的网页demo</span>         <a href="index.html?r=sorts/edit&id=14&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=14">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="16">  <div class="btn">         <span>电视剧</span>         <a href="index.html?r=sorts/edit&id=16&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=16">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="17">  <div class="btn">         <span>素材</span>         <a href="index.html?r=sorts/edit&id=17&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=17">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="18">  <div class="btn">         <span>工具箱</span>         <a href="index.html?r=sorts/edit&id=18&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=18">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="20">  <div class="btn">         <span>学习</span>         <a href="index.html?r=sorts/edit&id=20&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=20">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="21">  <div class="btn">         <span>github</span>         <a href="index.html?r=sorts/edit&id=21&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=21">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="25">  <div class="btn">         <span>gulp</span>         <a href="index.html?r=sorts/edit&id=25&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=25">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="26">  <div class="btn">         <span>books</span>         <a href="index.html?r=sorts/edit&id=26&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=26">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="27">  <div class="btn">         <span>meteor</span>         <a href="index.html?r=sorts/edit&id=27&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=27">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="28">  <div class="btn">         <span>数据库</span>         <a href="index.html?r=sorts/edit&id=28&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=28">删除</a>     </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>mysql</span>            <a href="index.html?r=sorts/edit&id=29&pid=28" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=29">删除</a>        </div>       </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="30">  <div class="btn">         <span>vim</span>         <a href="index.html?r=sorts/edit&id=30&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=30">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="31">  <div class="btn">         <span>npm</span>         <a href="index.html?r=sorts/edit&id=31&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=31">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="33">  <div class="btn">         <span>自然语言</span>         <a href="index.html?r=sorts/edit&id=33&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=33">删除</a>     </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>英语</span>            <a href="index.html?r=sorts/edit&id=24&pid=33" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=24">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>德语</span>            <a href="index.html?r=sorts/edit&id=91&pid=33" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=91">删除</a>        </div>       </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="35">  <div class="btn">         <span>tools</span>         <a href="index.html?r=sorts/edit&id=35&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=35">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="37">  <div class="btn">         <span>react</span>         <a href="index.html?r=sorts/edit&id=37&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=37">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="39">  <div class="btn">         <span>mongodb</span>         <a href="index.html?r=sorts/edit&id=39&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=39">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="67">  <div class="btn">         <span>直播</span>         <a href="index.html?r=sorts/edit&id=67&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=67">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="68">  <div class="btn">         <span>brew</span>         <a href="index.html?r=sorts/edit&id=68&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=68">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="69">  <div class="btn">         <span>网站模版</span>         <a href="index.html?r=sorts/edit&id=69&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=69">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="74">  <div class="btn">         <span>vagrant</span>         <a href="index.html?r=sorts/edit&id=74&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=74">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="76">  <div class="btn">         <span>软件</span>         <a href="index.html?r=sorts/edit&id=76&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=76">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="77">  <div class="btn">         <span>wordpress</span>         <a href="index.html?r=sorts/edit&id=77&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=77">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="78">  <div class="btn">         <span>杂谈</span>         <a href="index.html?r=sorts/edit&id=78&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=78">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="79">  <div class="btn">         <span>个人信息</span>         <a href="index.html?r=sorts/edit&id=79&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=79">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="80">  <div class="btn">         <span>效果图工具</span>         <a href="index.html?r=sorts/edit&id=80&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=80">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="81">  <div class="btn">         <span>图片处理工具</span>         <a href="index.html?r=sorts/edit&id=81&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=81">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="82">  <div class="btn">         <span>docker</span>         <a href="index.html?r=sorts/edit&id=82&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=82">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="83">  <div class="btn">         <span>servers</span>         <a href="index.html?r=sorts/edit&id=83&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=83">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="86">  <div class="btn">         <span>web</span>         <a href="index.html?r=sorts/edit&id=86&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=86">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="87">  <div class="btn">         <span>networks</span>         <a href="index.html?r=sorts/edit&id=87&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=87">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="88">  <div class="btn">         <span>RESTful</span>         <a href="index.html?r=sorts/edit&id=88&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=88">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="89">  <div class="btn">         <span>Framework</span>         <a href="index.html?r=sorts/edit&id=89&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=89">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="92">  <div class="btn">         <span>面试</span>         <a href="index.html?r=sorts/edit&id=92&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=92">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="93">  <div class="btn">         <span>图书馆</span>         <a href="index.html?r=sorts/edit&id=93&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=93">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="94">  <div class="btn">         <span>资源</span>         <a href="index.html?r=sorts/edit&id=94&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=94">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="95">  <div class="btn">         <span>外包</span>         <a href="index.html?r=sorts/edit&id=95&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=95">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="96">  <div class="btn">         <span>天文</span>         <a href="index.html?r=sorts/edit&id=96&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=96">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="98">  <div class="btn">         <span>beyond</span>         <a href="index.html?r=sorts/edit&id=98&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=98">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="99">  <div class="btn">         <span>文件编码转码</span>         <a href="index.html?r=sorts/edit&id=99&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=99">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="101">  <div class="btn">         <span>大会</span>         <a href="index.html?r=sorts/edit&id=101&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=101">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="102">  <div class="btn">         <span>excel</span>         <a href="index.html?r=sorts/edit&id=102&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=102">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="103">  <div class="btn">         <span>抓包工具</span>         <a href="index.html?r=sorts/edit&id=103&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=103">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="104">  <div class="btn">         <span>博大海关（外包）</span>         <a href="index.html?r=sorts/edit&id=104&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=104">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="106">  <div class="btn">         <span>my</span>         <a href="index.html?r=sorts/edit&id=106&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=106">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="107">  <div class="btn">         <span>军事</span>         <a href="index.html?r=sorts/edit&id=107&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=107">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="108">  <div class="btn">         <span>人力资源</span>         <a href="index.html?r=sorts/edit&id=108&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=108">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="109">  <div class="btn">         <span>心理学</span>         <a href="index.html?r=sorts/edit&id=109&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=109">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="110">  <div class="btn">         <span>mac</span>         <a href="index.html?r=sorts/edit&id=110&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=110">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="111">  <div class="btn">         <span>哲理</span>         <a href="index.html?r=sorts/edit&id=111&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=111">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="112">  <div class="btn">         <span>我的服务器</span>         <a href="index.html?r=sorts/edit&id=112&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=112">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="113">  <div class="btn">         <span>yaml</span>         <a href="index.html?r=sorts/edit&id=113&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=113">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="114">  <div class="btn">         <span>nestjs</span>         <a href="index.html?r=sorts/edit&id=114&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=114">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="115">  <div class="btn">         <span>windows</span>         <a href="index.html?r=sorts/edit&id=115&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=115">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="116">  <div class="btn">         <span>education</span>         <a href="index.html?r=sorts/edit&id=116&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=116">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="117">  <div class="btn">         <span>摄影</span>         <a href="index.html?r=sorts/edit&id=117&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=117">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="118">  <div class="btn">         <span>冯川-英伯利项目</span>         <a href="index.html?r=sorts/edit&id=118&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=118">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="119">  <div class="btn">         <span>sexual</span>         <a href="index.html?r=sorts/edit&id=119&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=119">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="127">  <div class="btn">         <span>房产</span>         <a href="index.html?r=sorts/edit&id=127&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=127">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="129">  <div class="btn">         <span>冯川-拾趣项目</span>         <a href="index.html?r=sorts/edit&id=129&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=129">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="130">  <div class="btn">         <span>社保</span>         <a href="index.html?r=sorts/edit&id=130&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=130">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="131">  <div class="btn">         <span>服务器</span>         <a href="index.html?r=sorts/edit&id=131&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=131">删除</a>     </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>nginx</span>            <a href="index.html?r=sorts/edit&id=65&pid=131" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=65">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>apache</span>            <a href="index.html?r=sorts/edit&id=66&pid=131" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=66">删除</a>        </div>       </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="132">  <div class="btn">         <span>操作系统</span>         <a href="index.html?r=sorts/edit&id=132&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=132">删除</a>     </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>linux</span>            <a href="index.html?r=sorts/edit&id=34&pid=132" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=34">删除</a>        </div>       </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="133">  <div class="btn">         <span>音乐</span>         <a href="index.html?r=sorts/edit&id=133&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=133">删除</a>     </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>小号</span>            <a href="index.html?r=sorts/edit&id=97&pid=133" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=97">删除</a>        </div>       </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="134">  <div class="btn">         <span>公司</span>         <a href="index.html?r=sorts/edit&id=134&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=134">删除</a>     </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>有客</span>            <a href="index.html?r=sorts/edit&id=8&pid=134" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=8">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>乐居</span>            <a href="index.html?r=sorts/edit&id=9&pid=134" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=9">删除</a>        </div>       </li>                 <li class="mt5">        <div class="btn">            <span>二码科技</span>            <a href="index.html?r=sorts/edit&id=105&pid=134" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=105">删除</a>        </div>       </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="135">  <div class="btn">         <span>理财</span>         <a href="index.html?r=sorts/edit&id=135&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=135">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="136">  <div class="btn">         <span>网络安全</span>         <a href="index.html?r=sorts/edit&id=136&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=136">删除</a>     </div>   </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="137">  <div class="btn">         <span>历史</span>         <a href="index.html?r=sorts/edit&id=137&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=137">删除</a>     </div>     <ul class="ml10">       <li>     <div class="btn mt5">            <span>中国</span>            <a href="index.html?r=sorts/edit&id=138&pid=137" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=138">删除</a>        </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>近代历史</span>            <a href="index.html?r=sorts/edit&id=139&pid=138" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=139">删除</a>        </div>       </li>       </ul>    </li>       </ul>      </div>  <div class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big" data-id="140">  <div class="btn">         <span>学校</span>         <a href="index.html?r=sorts/edit&id=140&pid=0 target="_blank">修改</a>         <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=140">删除</a>     </div>     <ul class="ml10">          <li class="mt5">        <div class="btn">            <span>赣榆高级中学</span>            <a href="index.html?r=sorts/edit&id=141&pid=140" target="_blank">修改</a>            <a data-type="delete" href="javascript:void(0)" data-url="index.html?r=sorts/delete&id=141">删除</a>        </div>       </li>       </ul>      </div> 
+<script type="text/javascript">
+	LAM.run([jQuery],function($){
+		$(function(){
+			$(document).on('click', '[data-type="delete"]', function () {
+                var $this = $(this);
+                layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, function(index){
+                  //do something
+                  System.redirect($this.data('url'));
+                  layer.close(index);
+                });
+
+            });
+		});
+	});
+</script>
+<style type="text/css">
+    .sectionButton-B1 .btn{}
+    .sectionButton-B1 .btn a{color:#fff;}
+
+</style>
+
+    </div>
+</div>
+    </div>
+</div>
+<script type="text/javascript">
+    
+    // 自定义滚动条
+    LAM.mCustomScrollbar = function() {
+        $('.mCustomScrollbar').mCustomScrollbar();
+    };
+    LAM.run([LAM,jQuery],function(LAM,$){
+        'use strict';
+        var System = this;
+        System.use();
+
+
+        var DATE={
+            'b_width':0,
+            'b_height':0,
+            '$hidden_bnt':null
+        };
+
+        var setSize=function(n){
+            n=n || 0;
+            var height=$(window).height();
+            var width=$(window).width();
+            DATE.b_width=width;
+            DATE.b_height=height;
+            $('.sectionSidebar-A1').height(height);
+            $('.sectionList-A2').height($(window).height()-116);
+
+
+        };
+
+
+
+        $(function(){
+
+            
+            LAM.mCustomScrollbar();
+
+
+
+            $('.sectionList-A2 dd').on('click',function(){
+                $(this).find('.sectionList-A1').toggle();
+            });
+
+            setSize();
+            $(window).resize(function() {
+                setSize();
+            });
+            $(window).scroll(function() {
+                setSize($(window).scrollTop());
+            });
+            var $sectionWrapA4=$('.sectionWrap-A4');
+            var $hidden_bnt=$('#hidden_bnt');
+
+            $('#hidden_bnt').on('click',function(){
+                if(!this.flag){
+                    $sectionWrapA4.animate({"left":"47px"});
+                    $hidden_bnt.animate({"left":"20px"});
+
+                    this.flag = true;
+                }else{
+
+                    $sectionWrapA4.animate({"left":"220px"});
+                    $hidden_bnt.animate({"left":"192px"});
+                    this.flag = false;
+                }
+
+
+            });
+        });
+
+
+
+    });
+</script>
+<style type="text/css">
+    .mCustomScrollbar{height: 500px;overflow: auto;}
+    .mCSB_inside > .mCSB_container{margin:0;}
+    .mCSB_scrollTools .mCSB_draggerContainer{left:17px;}
+</style>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+[
+  {
+    "index": "a2",
+    "icon":"a-4",
+    "title":"博彩",
+    "ul":[
+      { "index": "a2-b1", "title":"博彩", "href":"__INDEX__gambling/index&m=gambling"}
+    ]
+  },
+  {
+    "index": "a3",
+    "icon":"a-2",
+    "title":"demos",
+    "ul":[
+      { "index": "a3-b1", "title":"验证码", "href":"__INDEX__test/code"},
+      {  "index": "a3-b2", "title":"react","href":"__INDEX__test/react"},
+      {  "index": "a3-b3", "title":"阿里巴巴报关","href":"__INDEX__test/alibabaBaoGuan"},
+      {  "index": "a3-b4", "title":"seajs","href":"__INDEX__test/seajs"}
+    ]
+  },
+  {
+    "index": "a4",
+    "icon":"a-10",
+    "title":"角色管理",
+    "ul":[
+      {  "index": "a4-b1", "title":"创建","href":"__INDEX__role/index"},
+      {  "index": "a4-b2", "title":"react","href":"__INDEX__role/react"}
+    ]
+  },
+  {
+    "index": "a13",
+    "icon":"a-2",
+    "title":"记事簿",
+    "ul":[
+      {  "index": "a13-b1", "title":"列表","href":"/diary/index"}
+    ]
+  },
+  {
+    "index": "a14",
+    "icon":"a-2",
+    "title":"思维导图",
+    "ul":[
+      {  "index": "a14-b1", "title":"首页","href":"/mindline/index"}
+    ]
+  },
+  {
+    "index": "a5",
+    "icon":"a-2",
+    "title":"网页地址",
+    "ul":[
+      {  "index": "a5-b1", "title":"列表","href":"/url/index"}
+    ]
+  },
+  {
+    "index": "a6",
+    "icon":"a-2",
+    "title":"类别",
+    "ul":[
+      {  "index": "a6-b1", "title":"列表","href":"/sorts/index"}
+    ]
+  },
+  {
+    "index": "a7",
+    "icon":"a-2",
+    "title":"视频",
+    "ul":[
+      {  "index": "a7-b1", "title":"视频","href":"/video/index"},
+      {  "index": "a7-b1", "title":"sexual","href":"/video/sex"}
+    ]
+  },
+  {
+    "index": "a8",
+    "icon":"a-2",
+    "title":"博客",
+    "ul":[
+      {  "index": "a8-b1", "title":"网页地址","href":"__INDEX__blog/index"}
+    ]
+  },
+  {
+    "index": "a10",
+    "icon":"a-4",
+    "title":"样板间管理",
+    "ul":[
+      {  "index": "a10-b1", "title":"案例列表","href":"/room/list"},
+      {  "index": "a10-b2", "title":"楼盘户型管理","href":"__INDEX__room/detail"},
+      {  "index": "a10-b3", "title":"发布","href":"__INDEX__room/release"},
+      {  "index": "a10-b4", "title":"aa","href":"__INDEX__room/aa"}
+    ]
+  },
+  {
+    "index": "a11",
+    "icon":"a-5",
+    "title":"店铺管理",
+    "ul":[
+      { "index": "a11-b1", "title":"店铺","href":"/shop/index"},
+      { "index": "a11-b2", "title":"添加店铺","href":"/shop/create"},
+      { "index": "a11-b3", "title":"选择模版","href":"__INDEX__shop/choiceTemplate"},
+      { "index": "a11-b4", "title":"商品授权","href":"__INDEX__shop/empower"},
+      { "index": "a11-b5", "title":"新建房间","href":"__INDEX__shop/newRoom"},
+      { "index": "a11-b6", "title":"商品列表","href":"__INDEX__shop/list"},
+      { "index": "a11-b7", "title":"楼盘","href":"__INDEX__shop/loft"}
+    ]
+  },
+  {
+    "index": "a12",
+    "icon":"a-5",
+    "title":"商品管理",
+    "ul":[
+      { "index": "a12-b1", "title":"商品列表","href":"/goods/index"}
+    ]
+  }
+
+
+]

@@ -1,0 +1,14 @@
+<#define ~/="{#LAM.require('this').viewpath#}/" />
+<#include tp-data="" file="~/a.html" />
+b.html============================
+<#include tp-data="" file="{#LAM.DATA#}/list.json" />
+<#Block:begin id="bbbb" data="{data:{} }">
+<h1>b.html</h1>
+
+
+<%=LAM.Template.getBlock("dddd")%>
+<%=LAM.Template.getBlock("dddd")%>
+<#Block:end>
+
+
+

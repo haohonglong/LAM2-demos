@@ -1,0 +1,281 @@
+<#define __LAMPATH__="{#LAM.classPath#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+
+
+<#define _TITLE_="类别列表" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/sorts/" />
+
+
+<! #extends title="类别" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'类别列表','href':'__INDEX__sorts/index','title':''},
+{'name':'_TITLE_'}
+]}" --/>
+
+<#Block:begin id="views.sorts.content">
+<div class="clearfix">
+    <li class="R sectionButton-B1">
+        <button type="button"  @click="action(1)" class="btn">新增</button>
+    </li>
+    <el-input
+        placeholder="输入关键字进行过滤"
+        v-model="filterText">
+    </el-input>
+    
+    <el-tree
+      :data="list"
+      :props="defaultProps"
+      :filter-node-method="filterNode"
+      ref="tree"
+      node-key="id"
+      :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span class="mr30" @click="() => action(2, data)">
+            {{ node.label }}
+        </span>
+        <span>
+          <el-button
+            type="text"
+            size="mini"
+            @click="() => action(1, data)">
+            添加
+          </el-button>
+          <el-button
+            type="text"
+            size="mini"
+            @click="() => action(3, data)">
+            删除
+          </el-button>
+        </span>
+      </span>
+    </el-tree>
+
+
+    <el-dialog
+    :title="dialogTitle"
+    :visible.sync="dialogVisible"
+    width="">
+    <form-component :list="list" :data="form" :error="formError"></form-component>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
+</div>
+<#Block:end>
+
+
+<#include file="~/components/FormComponent.html" />
+<script type="text/javascript">
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+        var ContentComponent = {
+            'name': 'sortsIndex',
+            data(){
+                return {
+                    'dialogVisible': false,
+                    'dialogTitle': "提示",
+                    'filterText': '',
+                	'list': [],
+                    'defaultProps': {
+                        'children': 'child',
+                        'label': 'name'
+                    },
+                    'form':{
+                        'active':"",
+                        'sid': "-1",
+                        'id': "-1",
+                        'sortName': "",
+                        'name': ""
+                    },
+                    'formError':{
+                        'sid': "",
+                        'name': ""
+                    },
+                };
+            },
+            'components': {
+                'form-component': System.require('sorts.FormComponent')
+            },
+            created() {
+                Api.sorts.get(res => {
+                    this.list = res
+                })
+            },
+            'methods': {
+                filterNode(value, data, node) {
+                    if (!value) return true;
+                    // return data.name.indexOf(value) !== -1;
+                    return node.data.name.indexOf(value) !== -1 || (node.parent.data.name && node.parent.data.name.indexOf(value) !== -1)
+                },
+                ok() {
+                    this.dialogVisible = false
+                },
+                submit() {
+                    this.initError();
+                    
+                    switch(this.form.active) {
+                        case 1:
+                            this.add();
+                        break;
+                        case 2:
+                            this.modify(this.form.id);
+                        break;
+                    }
+
+                },
+                initError() {
+                    this.formError.sid = "";
+                    this.formError.name = "";
+                },
+                init() {
+                    this.form.sid = 0;
+                    this.form.sortName = '';
+                    this.form.name = '';
+                },
+                action(active, item) {
+                    this.init();
+                    this.initError();
+                    this.form.active = active;
+                    console.log(item)
+
+                    switch(active) {
+                        case 1:
+                            this.dialogTitle = "新增";
+                            if(item) {
+                                this.form.sid = item.id;
+                                this.form.sortName = item.name;
+                            }
+                            break;
+                        case 2:
+                            this.dialogTitle = "修改";
+                            if(item.pid > 0) {
+                                Api.sorts.detail(item.pid, ({ data, status, message = 'error'}) => {
+                                    if(status){
+                                        this.form.sortName = data.name;
+                                    }else{
+                                        alert(message);
+                                    }
+                                },'json');
+                            }
+                            this.form.id = item.id;
+                            this.form.name = item.name;
+                            this.form.sid = item.pid;
+                            break;
+                        case 3:
+                            this.remove(item.id);
+                            return;
+                    }
+
+
+                    this.dialogVisible = true
+                    
+                },
+                getContent(){
+                    Api.sorts.get(data => {
+                        this.list = data;
+                    });
+                    
+                },
+                add() {
+                    var v = this;
+                    var wait = layer.load();
+                    const pid = this.form.sid;
+                    const name = this.form.name;
+                    const sortName = this.form.sortName;
+
+                    var data = { 
+                        pid,
+                        name
+                    };
+                    Api.sorts.add(data, D => {
+                        layer.close(wait);
+                        if(D.status){
+                            alert(D.message);
+                            this.getContent();
+                            this.ok();
+
+                        }else{
+                            // alert(D.message);
+                            System.each(D.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+
+                    });
+                },
+                modify(id){
+                    var wait = layer.load();
+                    const pid  = this.form.sid;
+                    const name = this.form.name;
+                    const sortName = this.form.sortName;
+
+                    Api.sorts.edit({
+                        id,
+                        pid,
+                        name
+                    }, data => {
+                        layer.close(wait);
+                        if(data.status){
+                            alert(data.message);
+                            this.getContent();
+                            this.ok();
+                        }else{
+                            // alert(data.message);
+                            System.each(data.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+                    },'json');
+                },
+                remove(id) {
+                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
+                    
+                        Api.sorts.delete(id, data => {
+                            if(data.status){
+                                this.getContent();
+                            }else{
+                                alert(data.message);
+                                System.each(data.errors,function (key,value) {
+                                    alert(value)
+                                });
+                                
+                            }
+                            layer.close(index);
+                        })
+                    });
+                },
+            	isArray(value) {
+	                return System.isArray(value);
+	            }
+            },
+            'watch': { 
+                filterText(val) {
+                    this.$refs.tree.filter(val);
+                }
+            },
+            template: System.Template.getBlock('views.sorts.content')
+        };
+
+
+        System.export('views.sorts.index', ContentComponent);
+    });
+</script>
+
+
+<style type="text/css">
+    .sectionButton-B1 .btn{}
+    .sectionButton-B1 .btn a{color:#fff;}
+
+</style>

@@ -1,0 +1,618 @@
+<script type="text/javascript">window._ROOT_ = "..";</script><!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="商品列表" />
+  <meta name="description" content="商品列表" />
+  <script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../brandhall/common/config/config.js" _hashCode="7d7ffd9e5739ebf3d9f09bf668180472"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/System.js" _hashCode="49f99373fabe472cafd5735ce2bc8f2a"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/jQuery/jquery.js" _hashCode="fdba0859f29e97e262550b7cf7ef2c0d"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Base.class.js" _hashCode="2d5f6f2afda4f8776040d6444cf6d79a"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Object.class.js" _hashCode="e357d75631f8827d2f1ca7850d37ab5c"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Component.class.js" _hashCode="50bb4f7605ed54bc2be75b93423a9cb3"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Error.class.js" _hashCode="236af751b767c8d7da896ae026bedaea"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Md5.class.js" _hashCode="3892b82215c1c99cb9b75a02abf35557"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Base64.class.js" _hashCode="29153ab0d5d2d3cc4d467de53d759091"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Compiler.class.js" _hashCode="b96a3161731657b409734ad590dceb58"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Cache.class.js" _hashCode="fbe5cb4c32922f0d360ad5a9e4f5d8b8"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/PowerCookie.class.js" _hashCode="09c45b697490bb24f93ba8cd734ffd54"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Storage.class.js" _hashCode="cfa02ee3cbd9cca477eae44118eb2080"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/HttpRequest.class.js" _hashCode="81db5c10c81966922f9a52ce33c6f86e"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Helper.class.js" _hashCode="b9dbdabf066a792caca58d8cba21be20"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Browser.class.js" _hashCode="4f2f0ff57c40e490135b65288f76ae57"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Event.class.js" _hashCode="b1e43d45cee180c4a36a2ee52fb0afca"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Dom.class.js" _hashCode="8edbe6712d686d2feadec3ddae67ba63"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/View.class.js" _hashCode="37515950def18118ede9ff8a7a0de114"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Template.class.js" _hashCode="4c11ecd733fe2575ab3bb8a22099ce4c"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Html.class.js" _hashCode="83a12d1496da4e38dc64e70aaef52ee3"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Loader.class.js" _hashCode="2b9557ecf7025d2d1df9d5a17ab14070"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/base/Model.class.js" _hashCode="292f8b5db4c79a7164abeee7cdff8e1b"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/Tab.class.js" _hashCode="c518fc01934e5226d18abf291f926f9e"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../LAM2/lamborghiniJS/Tools.class.js" _hashCode="d97b566f1c4558ce54f9001f20e47910"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../brandhall/src/api/api.js" _hashCode="0a948779491150e95ac04e6aee770f42"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../common/plugins/vue/vue.js" _hashCode="60479e9df1d399404baab342be916920"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="https://unpkg.com/vuex@4.0.2/dist/vuex.global.js" _hashCode="4a1551068f8b664e0f2cc43a5d34e716"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="https://unpkg.com/element-ui/lib/theme-chalk/index.css" _hashCode="46c5d8fe24710d92a172ce737a8e362a"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../common/plugins/elementui/index.js" _hashCode="efa07b9df02e00750aa6ffd99109a9e4"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../common/plugins/layer-v3.1.1/layer/layer.js" _hashCode="2bf3a86408b31c3aaedc35f6b3ddbfa7"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../common/css/lib/bootstrap.css" _hashCode="705b69380c1d08c5df9612100574003d"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../brandhall/src/assets/css/global.css" _hashCode="0120294f97245504829052e4c4887715"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../brandhall/src/assets/css/lib.css" _hashCode="21d0393c2e82033fa450ab258a77d6ea"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" _hashCode="b4a347a3d3a29331fb878846b198850d"></script>
+<script type="text/javascript" charset="utf-8" sn="1660475308048" src="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js" _hashCode="445e511511e7312a72813d27bb5a8276"></script>
+  <link type="text/css" rel="stylesheet" sn="1660475308048" _hashCode="6b1cfaf70854bc1bca6746d3b78cfcea" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+<link type="text/css" rel="stylesheet" sn="1660475308048" _hashCode="cd20188757d9d4085afb8b074cb8ae79" href="../../../common/css/lib/bootstrap.css" />
+<link type="text/css" rel="stylesheet" sn="1660475308048" _hashCode="89218c7baa4a2470a1b2f3caaaf2120d" href="../../../brandhall/src/assets/css/global.css" />
+<link type="text/css" rel="stylesheet" sn="1660475308048" _hashCode="776a05b94c67e7e68d4ed70f7ab36d73" href="../../../brandhall/src/assets/css/lib.css" />
+<link type="text/css" rel="stylesheet" sn="1660475308048" _hashCode="bdcbd0899d064fb50ef384cf37164c19" href="../../../common/plugins/jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" />
+  
+  
+  <title>商品列表</title>
+
+</head>
+
+<body>
+
+<div id="app">
+      <el-container>
+        <el-header>Header</el-header>
+        <el-container>
+          <el-aside width="200px">
+            <menu-component :list="menu" :title="title"></menu-component>
+          </el-aside>
+          <el-container>
+            <el-main>
+                <content-component ref="content"></content-component>
+            </el-main>
+            <el-footer>Footer</el-footer>
+          </el-container>
+        </el-container>
+      </el-container>
+</div>
+
+<style type="text/css">
+  .mCustomScrollbar{height: 500px;overflow: auto;}
+  .mCSB_inside > .mCSB_container{margin:0;}
+  .mCSB_scrollTools .mCSB_draggerContainer{left:17px;}
+</style>
+<script type="text/javascript">
+    //menu
+    LAM.run([LAM,jQuery],function(LAM,$) {
+        'use strict';
+        var System = this;
+
+        var MenuComponent = {
+          name: "MenuComponent",
+          props: {
+            "title": String,
+            "list": Array
+          },
+          data: function () {
+            return {
+              isCollapse: true
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('menu')
+        };
+
+        System.export('MenuComponent', MenuComponent);
+
+    });
+</script>
+<style type="text/css">
+    #mobile{position: relative;z-index: 99999;}
+    #mobile-content{position: absolute;width:100%;top:80px;left:0;background: #fff;}
+    #mobile-content dd{margin-bottom: 15px;}
+</style>
+<script type="text/javascript">
+    //menu
+    LAM.run([LAM,jQuery],function(LAM,$) {
+        'use strict';
+        var System = this;
+
+        $(function(){
+
+            var $mobile = $("#mobile-button");
+            var $content = $("#mobile-content");
+            var flag = true;
+            // $content.hide();
+
+            $mobile.on("click",function () {
+                if(flag){
+                    $content.show();
+                    flag = false;
+                }else{
+                    $content.hide();
+                    flag = true;
+                }
+            });
+
+            
+        });
+
+        var MobileMenuComponent = {
+          name: "MobileMenuComponent",
+          props: {
+            "title": String,
+            "list": Array
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('mobilelMenu')
+        };
+
+        System.export('MobileMenuComponent', MobileMenuComponent);
+
+    });
+</script>
+<script type="text/javascript">
+    //header
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        var tools=new System.Tools();
+
+        
+
+        $(function(){
+            /**
+             *头部分区域
+             *
+             */
+            new System.Tab({
+                'list':$('.sectionTitle-A1-5 .myli'),
+                'event':'click',
+                'class':'cur',
+                'block':$('.js_Block_A1'),
+                'fn':function(obj){
+                    obj.current.block.each(function(i){
+                        if(obj.this_index==i){
+                            $(this).show();
+                        }else{
+                            $(this).hide();
+                        }
+                    });
+
+                }
+            }).run();
+
+            $('.sectionTitle-A1-3 .sectionIcon-A2 i').hover(function(){
+                $(this).addClass('hover');
+                $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2').show();
+            },function(){
+                $(this).removeClass('hover');
+                $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2').hide();
+            }).toggle(function(){
+                $(this).addClass('cur');
+                $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2 p').text('标记为已读');
+            },function(){
+                $(this).removeClass('cur');
+                $(this).parents('.sectionTitle-A1-3').find('.sectionMessage-A2 p').text('标记为未读');
+            });
+
+
+
+
+            /**
+             *头部分搜索框的滑动交互效果
+             *
+             */
+
+            $('.sectionSearch-A1 i').on('click',function(){
+                var $this = $(this);
+                if(!this.flag){
+                    $this.parent().find('.bg').animate({"width":"200px"}).show();
+                    $this.addClass('B').animate({"right":"170px"});
+                    this.flag = true;
+                }else{
+                    $this.removeClass('B').animate({"right":"12px"});
+                    $this.parent().find('.bg').animate({"width":0}).hide();
+                    this.flag = false;
+
+                }
+            });
+
+            /**
+             *   鼠标hover时下面的隐藏模块显示,鼠标移除隐藏模块时模块恢复隐藏
+             *
+             */
+            tools.hover_next_box_show('.js_showBoxA1','.sectionShowBox-A1');
+
+
+            tools.set_whole_screen_size({
+                '$div':$('.js_mapWrap'),
+                'h':true,
+                'w':true,
+                'wSize':$('.sectionTitle-A12').length,
+                'hSize':200
+            });
+        });
+
+        var HeaderComponent =  {
+          name: "HeaderComponent",
+          props: {
+            "name": String,
+            "age": Number
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('header')
+        };
+
+        System.export('HeaderComponent', HeaderComponent);
+    });
+</script>
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+
+
+        var CrumbComponent = {
+          name: "CrumbComponent",
+          props: {
+            "list": Object
+          },
+          data: function () {
+            return {
+            }
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('crumb')
+        };
+
+        System.export('CrumbComponent', CrumbComponent);
+    });
+</script>
+<script type="text/javascript">
+    LAM.run([jQuery],function ($) {
+        'use strict';
+        var System = this;
+
+        var billComponent = {
+              name: 'billComponent',
+              props: ["item"],
+              data: function () {
+                return {
+                }
+              },
+              methods: {
+              },
+              template: System.Template.getBlock('goodsBill')
+            };
+
+
+        var tableComponent = {
+              name: 'tableComponent',
+              props: ["list"],
+              data: function () {
+                return {
+                }
+              },
+              'components': {
+                 'bill-component': billComponent
+              },
+              methods: {
+                'isset': function(value) {
+                    return System.isset(value);
+                },
+                'getBill': function(bill_id, shop_name, total_price, discount, create_at) {
+                    return [
+                            {"name":"订单号","value": bill_id, "style": ""},
+                            {"name":"店名","value": shop_name, "style": ""},
+                            {"name":"合计","value": total_price,"style":"color-red"},
+                            {"name":"折扣","value": discount,"style":"color-green"},
+                            {"name":"日期","value": create_at, "style": ""}
+                            ];
+                }
+              },
+              template: System.Template.getBlock('goodsTable')
+            };
+
+        var ContentComponent = {
+              name: "ContentComponent",
+              props: [],
+              components: {
+                'table-component': tableComponent
+              },
+              data: function () {
+                return {
+                    list: [{"bill_id":"1638283431","shop_name":"吴映霄","total_price":"600.00","discount":"0.00","create_at":"2021-06-27","childs":[{"id":"354","name":"洗车修理费","shop_name":"吴映霄","single_price":"600.00","create_at":"2021-06-27"}]},{"bill_id":"1638282839","shop_name":"吴映霄","total_price":"148.00","discount":"0.00","create_at":"2021-11-28","childs":[{"id":"353","name":"莲藕养生汤","shop_name":"吴映霄","single_price":"148.00","create_at":"2021-11-28"}]},{"bill_id":"1638282231","shop_name":"吴映霄","total_price":"148.00","discount":"0.00","create_at":"2021-11-30","childs":[{"id":"352","name":"串串吃饭","shop_name":"吴映霄","single_price":"148.00","create_at":"2021-11-30"}]},{"bill_id":"1638281221","shop_name":"吴映霄","total_price":"339.00","discount":"0.00","create_at":"2021-11-30","childs":[{"id":"351","name":"加油费用","shop_name":"吴映霄","single_price":"339.97","create_at":"2021-11-30"}]},{"bill_id":"1618562438","shop_name":"赣榆正骨馆","total_price":"999.99","discount":"0.00","create_at":"2020-03-25","childs":[{"id":"350","name":"复合益生菌粉","shop_name":"赣榆正骨馆","single_price":"288.00","create_at":"2020-03-25"},{"id":"349","name":"伯尼胶囊","shop_name":"赣榆正骨馆","single_price":"330.00","create_at":"2020-03-25"},{"id":"348","name":"角鲨烯软胶囊","shop_name":"赣榆正骨馆","single_price":"460.00","create_at":"2020-03-25"},{"id":"347","name":"航风胶囊","shop_name":"赣榆正骨馆","single_price":"300.00","create_at":"2020-03-25"},{"id":"346","name":"蛋白质粉","shop_name":"赣榆正骨馆","single_price":"318.00","create_at":"2020-03-25"},{"id":"345","name":"黄芪玛咖饮","shop_name":"赣榆正骨馆","single_price":"248.00","create_at":"2020-03-25"},{"id":"344","name":"玉枣阿胶饮","shop_name":"赣榆正骨馆","single_price":"248.00","create_at":"2020-03-25"},{"id":"343","name":"钙钛粉","shop_name":"赣榆正骨馆","single_price":"298.00","create_at":"2020-03-25"},{"id":"342","name":"治疗费","shop_name":"赣榆正骨馆","single_price":"1680.00","create_at":"2020-03-25"}]},{"bill_id":"1617792219","shop_name":"赣榆正骨馆","total_price":"170.00","discount":"0.00","create_at":"2021-04-06","childs":[{"id":"327","name":"跃莱-舒痛贴布","shop_name":"赣榆正骨馆","single_price":"170.00","create_at":"2021-04-06"}]},{"bill_id":"1601463019","shop_name":"eeee","total_price":"2.00","discount":"0.00","create_at":"2020-09-30","childs":[{"id":"326","name":"西虹市","shop_name":"eeee","single_price":"2.40","create_at":"2020-09-30"},{"id":"325","name":"茄子","shop_name":"eeee","single_price":"0.50","create_at":"2020-09-30"}]},{"bill_id":"1601457796","shop_name":"eeee","total_price":"80.00","discount":"0.00","create_at":"2020-09-30","childs":[{"id":"324","name":"rrr23333666","shop_name":"eeee","single_price":"12.00","create_at":"2020-09-30"},{"id":"323","name":"rrr23333666","shop_name":"eeee","single_price":"12.00","create_at":"2020-09-30"},{"id":"322","name":"rrr2","shop_name":"eeee","single_price":"12.00","create_at":"2020-09-30"},{"id":"321","name":"rrr23333","shop_name":"eeee","single_price":"12.00","create_at":"2020-09-30"},{"id":"320","name":"rrr","shop_name":"eeee","single_price":"12.00","create_at":"2020-09-30"},{"id":"319","name":"xxxx","shop_name":"eeee","single_price":"10.00","create_at":"2020-09-30"},{"id":"318","name":"22222","shop_name":"eeee","single_price":"10.00","create_at":"2020-09-30"}]},{"bill_id":"3333333333","shop_name":"eeee","total_price":"2.00","discount":"0.00","create_at":"2020-04-17","childs":[{"id":"317","name":"aa2","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"},{"id":"316","name":"aa1","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"}]},{"bill_id":"99999999922","shop_name":"eeee","total_price":"3.00","discount":"0.00","create_at":"2020-04-17","childs":[{"id":"315","name":"rrrr","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"},{"id":"314","name":"ww1","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"},{"id":"313","name":"ww","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"}]},{"bill_id":"9999997777","shop_name":"eeee","total_price":"2.00","discount":"0.00","create_at":"2020-04-17","childs":[{"id":"312","name":"aa","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"},{"id":"311","name":"aaaa","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"}]},{"bill_id":"1591157269","shop_name":"eeee","total_price":"2.00","discount":"0.00","create_at":"2020-04-17","childs":[{"id":"310","name":"栗子","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"},{"id":"309","name":"桃子","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"}]},{"bill_id":"1590845517","shop_name":"eeee","total_price":"3.00","discount":"0.00","create_at":"2020-04-17","childs":[{"id":"308","name":"dfadsfad","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"},{"id":"307","name":"ghlhhjk","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"},{"id":"306","name":"jkldfghjkl","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"}]},{"bill_id":"1590622782","shop_name":"eeee","total_price":"1.00","discount":"0.00","create_at":"2020-04-17","childs":[{"id":"305","name":"shoptest","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"}]},{"bill_id":"1589857555","shop_name":"eeee","total_price":"1.00","discount":"0.00","create_at":"2020-04-17","childs":[{"id":"303","name":"dddddd","shop_name":"eeee","single_price":"1.00","create_at":"2020-04-17"}]},{"bill_id":"999999999","shop_name":"好又多超市","total_price":"7.16","discount":"0.00","create_at":"2020-05-05","childs":[{"id":"302","name":"大葱","shop_name":"好又多超市","single_price":"5.16","create_at":"2020-05-05"},{"id":"301","name":"啤酒","shop_name":"好又多超市","single_price":"2.00","create_at":"2020-05-05"}]},{"bill_id":"88888888888888","shop_name":"重庆熙街自助餐烧烤店","total_price":"9.16","discount":"0.00","create_at":"2020-05-05","childs":[{"id":"300","name":"大葱","shop_name":"重庆熙街自助餐烧烤店","single_price":"2.00","create_at":"2020-05-05"},{"id":"299","name":"油麦菜","shop_name":"重庆熙街自助餐烧烤店","single_price":"5.16","create_at":"2020-05-05"},{"id":"298","name":"啤酒","shop_name":"重庆熙街自助餐烧烤店","single_price":"2.00","create_at":"2020-05-05"}]},{"bill_id":"213530728209","shop_name":"新世纪大学城店","total_price":"22.02","discount":"2.50","create_at":"2020-03-21","childs":[{"id":"297","name":"青椒","shop_name":"新世纪大学城店","single_price":"1.50","create_at":"2020-03-21"},{"id":"296","name":"大米","shop_name":"新世纪大学城店","single_price":"11.22","create_at":"2020-03-21"},{"id":"295","name":"捷氏原位豆浆","shop_name":"新世纪大学城店","single_price":"11.80","create_at":"2020-03-21"}]},{"bill_id":"222168134209","shop_name":"新世纪大学城店","total_price":"28.97","discount":"0.00","create_at":"2020-04-25","childs":[{"id":"294","name":"桃酥","shop_name":"新世纪大学城店","single_price":"4.20","create_at":"2020-04-25"},{"id":"293","name":"肉馅","shop_name":"新世纪大学城店","single_price":"24.77","create_at":"2020-04-25"}]},{"bill_id":"1587964012","shop_name":"重庆富力春天里店","total_price":"10.00","discount":"0.00","create_at":"2020-04-25","childs":[{"id":"292","name":"中南海香烟","shop_name":"重庆富力春天里店","single_price":"10.00","create_at":"2020-04-25"}]},{"bill_id":"1587963955","shop_name":"重庆熙街自助餐烧烤店","total_price":"51.00","discount":"0.00","create_at":"2020-04-25","childs":[{"id":"291","name":"自助餐烧烤","shop_name":"重庆熙街自助餐烧烤店","single_price":"51.00","create_at":"2020-04-25"}]},{"bill_id":"00015197","shop_name":"益家鲜生","total_price":"2.50","discount":"0.00","create_at":"2020-04-25","childs":[{"id":"290","name":"板姜","shop_name":"益家鲜生","single_price":"13.96","create_at":"2020-04-25"}]},{"bill_id":"947522401367501817","shop_name":"淘宝-shenyu旗舰店","total_price":"17.21","discount":"2.59","create_at":"2020-04-15","childs":[{"id":"289","name":"神鱼手电筒强光充电","shop_name":"淘宝-shenyu旗舰店","single_price":"19.80","create_at":"2020-04-15"}]},{"bill_id":"948458467915501817","shop_name":"淘宝-志高志美专卖店","total_price":"69.00","discount":"0.00","create_at":"2020-04-16","childs":[{"id":"288","name":"志高落地电风扇(机械)","shop_name":"淘宝-志高志美专卖店","single_price":"69.00","create_at":"2020-04-16"}]},{"bill_id":"949515969704501817","shop_name":"淘宝-香客食品专营店","total_price":"9.61","discount":"0.00","create_at":"2020-04-16","childs":[{"id":"287","name":"手撕面包","shop_name":"淘宝-香客食品专营店","single_price":"9.61","create_at":"2020-04-16"}]},{"bill_id":"950052960087501817","shop_name":"淘宝-志高志美专卖店","total_price":"84.00","discount":"0.00","create_at":"2020-04-17","childs":[{"id":"286","name":"志高落地电风扇(遥控)","shop_name":"淘宝-志高志美专卖店","single_price":"84.00","create_at":"2020-04-17"}]},{"bill_id":"00289402","shop_name":"重庆富力春天里店","total_price":"1.59","discount":"0.00","create_at":"2020-04-20","childs":[{"id":"285","name":"大葱","shop_name":"重庆富力春天里店","single_price":"9.94","create_at":"2020-04-20"}]},{"bill_id":"00012534","shop_name":"益家鲜生","total_price":"15.80","discount":"0.00","create_at":"2020-04-20","childs":[{"id":"284","name":"思念宁波黑芝麻汤圆","shop_name":"益家鲜生","single_price":"7.90","create_at":"2020-04-20"}]},{"bill_id":"00006139","shop_name":"益家鲜生","total_price":"16.90","discount":"0.00","create_at":"2020-04-06","childs":[{"id":"283","name":"白壳蛋","shop_name":"益家鲜生","single_price":"6.78","create_at":"2020-04-06"}]},{"bill_id":"1586161794","shop_name":"益家鲜生","total_price":"30.00","discount":"0.00","create_at":"2020-04-05","childs":[{"id":"282","name":"白壳蛋","shop_name":"益家鲜生","single_price":"6.78","create_at":"2020-04-05"},{"id":"281","name":"保宁9度白醋","shop_name":"益家鲜生","single_price":"5.50","create_at":"2020-04-05"},{"id":"280","name":"雨润切片年糕","shop_name":"益家鲜生","single_price":"6.60","create_at":"2020-04-05"},{"id":"279","name":"保宁醋一级","shop_name":"益家鲜生","single_price":"6.50","create_at":"2020-04-05"}]},{"bill_id":"00001887","shop_name":"益家鲜生","total_price":"53.20","discount":"0.00","create_at":"2020-03-28","childs":[{"id":"278","name":"巨龙16度料酒","shop_name":"益家鲜生","single_price":"8.90","create_at":"2020-03-28"},{"id":"277","name":"海天味极鲜酱油","shop_name":"益家鲜生","single_price":"9.90","create_at":"2020-03-28"},{"id":"276","name":"珍珠米","shop_name":"益家鲜生","single_price":"3.76","create_at":"2020-03-28"},{"id":"275","name":"珍珠米","shop_name":"益家鲜生","single_price":"3.76","create_at":"2020-03-28"}]},{"bill_id":0,"shop_name":"益家鲜生","total_price":null,"discount":null,"create_at":"2020-03-26","childs":[{"id":"245","name":"宁波思念汤圆","shop_name":"益家鲜生","single_price":"7.90","create_at":"2020-03-26"},{"id":"244","name":"雨润香辣肠","shop_name":"益家鲜生","single_price":"1.50","create_at":"2020-03-26"},{"id":"243","name":"雨润玉米肠","shop_name":"益家鲜生","single_price":"1.50","create_at":"2020-03-26"},{"id":"242","name":"燕麦片","shop_name":"益家鲜生","single_price":"9.60","create_at":"2020-03-26"},{"id":"241","name":"铁山药","shop_name":"益家鲜生","single_price":"3.96","create_at":"2020-03-26"},{"id":"240","name":"手撕面包","shop_name":"益家鲜生","single_price":"29.60","create_at":"2020-03-26"},{"id":"239","name":"手撕面包","shop_name":"益家鲜生","single_price":"29.60","create_at":"2020-03-26"},{"id":"238","name":"手撕面包","shop_name":"益家鲜生","single_price":"29.60","create_at":"2020-03-26"},{"id":"237","name":"本地胡萝卜","shop_name":"益家鲜生","single_price":"7.16","create_at":"2020-03-26"},{"id":"236","name":"白壳蛋","shop_name":"益家鲜生","single_price":"11.96","create_at":"2020-03-26"},{"id":"235","name":"马水桔","shop_name":"益家鲜生","single_price":"6.56","create_at":"2020-03-26"},{"id":"234","name":"珍珠米","shop_name":"益家鲜生","single_price":"3.98","create_at":"2020-03-26"},{"id":"233","name":"晶心低钠盐","shop_name":"益家鲜生","single_price":"2.80","create_at":"2020-03-26"},{"id":"232","name":"手撕面包","shop_name":"益家鲜生","single_price":"29.60","create_at":"2020-03-26"},{"id":"231","name":"白壳蛋","shop_name":"益家鲜生","single_price":"11.96","create_at":"2020-03-26"},{"id":"230","name":"新土豆","shop_name":"益家鲜生","single_price":"3.96","create_at":"2020-03-26"},{"id":"229","name":"大蒜","shop_name":"益家鲜生","single_price":"13.96","create_at":"2020-03-26"},{"id":"228","name":"宁波思念汤圆","shop_name":"益家鲜生","single_price":"7.90","create_at":"2020-03-26"},{"id":"227","name":"洋葱","shop_name":"益家鲜生","single_price":"5.16","create_at":"2020-03-26"},{"id":"226","name":"蒙牛纯牛奶250ml*20","shop_name":"重庆富力春天里店","single_price":"42.90","create_at":"2020-03-19"},{"id":"225","name":"保宁醋二级430ml","shop_name":"重庆富力春天里店","single_price":"4.90","create_at":"2020-03-19"},{"id":"224","name":"小土豆","shop_name":"重庆富力春天里店","single_price":"3.96","create_at":"2020-03-19"},{"id":"223","name":"油麦菜","shop_name":"重庆富力春天里店","single_price":"2.56","create_at":"2020-03-19"},{"id":"222","name":"蒙牛纯牛奶250ml*20","shop_name":"重庆富力春天里店","single_price":"42.90","create_at":"2020-03-19"},{"id":"221","name":"保宁醋二级430ml","shop_name":"重庆富力春天里店","single_price":"4.90","create_at":"2020-03-19"},{"id":"220","name":"小土豆","shop_name":"重庆富力春天里店","single_price":"3.96","create_at":"2020-03-19"},{"id":"219","name":"油麦菜","shop_name":"重庆富力春天里店","single_price":"2.56","create_at":"2020-03-19"},{"id":"214","name":"青椒称重","shop_name":"新世纪大学城店","single_price":"2.62","create_at":"2020-01-18"},{"id":"213","name":"新土豆称重","shop_name":"新世纪大学城店","single_price":"7.06","create_at":"2020-01-18"},{"id":"212","name":"口口沙琪玛散装","shop_name":"新世纪大学城店","single_price":"3.38","create_at":"2020-01-18"},{"id":"211","name":"散珍珠米称重","shop_name":"新世纪大学城店","single_price":"7.17","create_at":"2020-01-18"},{"id":"210","name":"丝丝入口散装糕点","shop_name":"新世纪大学城店","single_price":"17.06","create_at":"2020-01-18"},{"id":"209","name":"青椒称重","shop_name":"新世纪大学城店","single_price":"2.62","create_at":"2020-01-18"},{"id":"208","name":"新土豆称重","shop_name":"新世纪大学城店","single_price":"7.06","create_at":"2020-01-18"},{"id":"207","name":"口口沙琪玛散装","shop_name":"新世纪大学城店","single_price":"3.38","create_at":"2020-01-18"},{"id":"206","name":"散珍珠米称重","shop_name":"新世纪大学城店","single_price":"7.17","create_at":"2020-01-18"},{"id":"205","name":"丝丝入口散装糕点","shop_name":"新世纪大学城店","single_price":"17.06","create_at":"2020-01-18"},{"id":"204","name":"青椒称重","shop_name":"新世纪大学城店","single_price":"2.62","create_at":"2020-01-18"},{"id":"203","name":"新土豆称重","shop_name":"新世纪大学城店","single_price":"7.06","create_at":"2020-01-18"},{"id":"202","name":"口口沙琪玛散装","shop_name":"新世纪大学城店","single_price":"3.38","create_at":"2020-01-18"},{"id":"201","name":"散珍珠米称重","shop_name":"新世纪大学城店","single_price":"7.17","create_at":"2020-01-18"},{"id":"200","name":"丝丝入口散装糕点","shop_name":"新世纪大学城店","single_price":"17.06","create_at":"2020-01-18"},{"id":"199","name":"青椒称重","shop_name":"新世纪大学城店","single_price":"2.62","create_at":"2020-01-18"},{"id":"198","name":"新土豆称重","shop_name":"新世纪大学城店","single_price":"7.06","create_at":"2020-01-18"},{"id":"197","name":"口口沙琪玛散装","shop_name":"新世纪大学城店","single_price":"3.38","create_at":"2020-01-18"},{"id":"196","name":"散珍珠米称重","shop_name":"新世纪大学城店","single_price":"7.17","create_at":"2020-01-18"},{"id":"195","name":"丝丝入口散装糕点","shop_name":"新世纪大学城店","single_price":"17.06","create_at":"2020-01-18"},{"id":"194","name":"青椒称重","shop_name":"新世纪大学城店","single_price":"2.62","create_at":"2020-01-18"},{"id":"193","name":"新土豆称重","shop_name":"新世纪大学城店","single_price":"7.06","create_at":"2020-01-18"},{"id":"192","name":"口口沙琪玛散装","shop_name":"新世纪大学城店","single_price":"3.38","create_at":"2020-01-18"},{"id":"191","name":"散珍珠米称重","shop_name":"新世纪大学城店","single_price":"7.17","create_at":"2020-01-18"},{"id":"190","name":"丝丝入口散装糕点","shop_name":"新世纪大学城店","single_price":"17.06","create_at":"2020-01-18"},{"id":"189","name":"散珍珠米称重","shop_name":"新世纪大学城店","single_price":"9.91","create_at":"2020-01-19"},{"id":"188","name":"口口沙琪玛散装","shop_name":"新世纪大学城店","single_price":"12.39","create_at":"2020-01-19"},{"id":"187","name":"焦糖瓜子称重","shop_name":"新世纪大学城店","single_price":"4.63","create_at":"2020-01-19"},{"id":"186","name":"毛毛虫散装","shop_name":"新世纪大学城店","single_price":"5.50","create_at":"2020-01-19"},{"id":"176","name":"丝丝入口散装糕点","shop_name":"新世纪大学城店","single_price":"13.25","create_at":"2020-01-14"},{"id":"175","name":"散装珍珠米","shop_name":"新世纪大学城店","single_price":"1.83","create_at":"2020-01-14"},{"id":"174","name":"青椒","shop_name":"新世纪大学城店","single_price":"1.20","create_at":"2020-01-14"},{"id":"173","name":"晶心深井盐350g","shop_name":"重庆富力春天里店","single_price":"2.00","create_at":"2020-01-22"},{"id":"172","name":"鲜鸡蛋","shop_name":"重庆富力春天里店","single_price":"9.98","create_at":"2020-01-22"},{"id":"141","name":"老家乡汤圆400g","shop_name":"重庆富力春天里店","single_price":"3.33","create_at":"2020-02-18"},{"id":"140","name":"散称9.9系列","shop_name":"重庆富力春天里店","single_price":"19.80","create_at":"2020-02-18"},{"id":"137","name":"红塔山烟","shop_name":"好又多超市","single_price":"7.50","create_at":"2020-03-08"},{"id":"136","name":"散称9.9系列","shop_name":"重庆富力春天里店","single_price":"10.01","create_at":"2020-02-07"},{"id":"135","name":"鲜鸡蛋","shop_name":"重庆富力春天里店","single_price":"9.98","create_at":"2020-02-07"},{"id":"134","name":"瓢儿白","shop_name":"重庆富力春天里店","single_price":"1.58","create_at":"2020-01-18"},{"id":"133","name":"瓢儿白","shop_name":"重庆富力春天里店","single_price":"1.57","create_at":"2020-01-18"},{"id":"132","name":"瓢儿白","shop_name":"重庆富力春天里店","single_price":"1.58","create_at":"2020-01-18"},{"id":"131","name":"土豆","shop_name":"重庆富力春天里店","single_price":"3.36","create_at":"2020-01-18"},{"id":"130","name":"洋鸡蛋","shop_name":"重庆富力春天里店","single_price":"12.76","create_at":"2020-01-18"},{"id":"129","name":"江津老白干","shop_name":"好又多超市","single_price":"7.00","create_at":"2020-01-11"},{"id":"128","name":"碗碗香米","shop_name":"好又多超市","single_price":"3.78","create_at":"2020-01-11"},{"id":"127","name":"青椒","shop_name":"重庆富力春天里店","single_price":"5.95","create_at":"2020-01-09"},{"id":"126","name":"东北大米","shop_name":"重庆富力春天里店","single_price":"4.95","create_at":"2020-01-09"},{"id":"125","name":"小米椒","shop_name":"重庆富力春天里店","single_price":"59.62","create_at":"2020-01-09"},{"id":"124","name":"瓢儿白","shop_name":"重庆富力春天里店","single_price":"1.98","create_at":"2020-01-03"},{"id":"123","name":"青椒","shop_name":"重庆富力春天里店","single_price":"5.96","create_at":"2020-01-03"},{"id":"122","name":"香菜","shop_name":"重庆富力春天里店","single_price":"18.13","create_at":"2020-01-03"},{"id":"121","name":"小平菇","shop_name":"重庆富力春天里店","single_price":"9.17","create_at":"2020-01-03"},{"id":"42","name":"手工黄豆芽","shop_name":"重庆富力春天里店","single_price":"7.97","create_at":"2020-01-21"},{"id":"41","name":"藕","shop_name":"重庆富力春天里店","single_price":"11.95","create_at":"2020-01-21"},{"id":"40","name":"嫩豆腐","shop_name":"重庆富力春天里店","single_price":"1.98","create_at":"2020-01-21"},{"id":"39","name":"明虾(二级)","shop_name":"重庆富力春天里店","single_price":"79.61","create_at":"2020-01-21"},{"id":"38","name":"洋葱","shop_name":"重庆富力春天里店","single_price":"5.96","create_at":"2020-01-21"},{"id":"37","name":"土豆","shop_name":"重庆富力春天里店","single_price":"3.76","create_at":"2020-01-21"},{"id":"34","name":"千禾料酒680ml","shop_name":"重庆富力春天里店","single_price":"8.50","create_at":"2020-01-14"},{"id":"33","name":"瓢儿白","shop_name":"重庆富力春天里店","single_price":"1.99","create_at":"2020-01-14"},{"id":"32","name":"生姜","shop_name":"重庆富力春天里店","single_price":"13.25","create_at":"2020-01-14"},{"id":"31","name":"东北大米","shop_name":"重庆富力春天里店","single_price":"4.96","create_at":"2020-01-14"},{"id":"30","name":"擀面杖","shop_name":"重庆富力春天里店","single_price":"6.90","create_at":"2019-12-17"},{"id":"29","name":"藕","shop_name":"重庆富力春天里店","single_price":"13.17","create_at":"2020-02-26"},{"id":"28","name":"大葱","shop_name":"重庆富力春天里店","single_price":"9.95","create_at":"2020-02-26"},{"id":"27","name":"胡萝卜","shop_name":"重庆富力春天里店","single_price":"7.97","create_at":"2020-02-26"},{"id":"26","name":"土豆","shop_name":"重庆富力春天里店","single_price":"5.96","create_at":"2020-02-26"},{"id":"25","name":"鲜鸡蛋","shop_name":"好又多超市","single_price":"7.16","create_at":"2020-03-13"},{"id":"24","name":"老面馒头","shop_name":"好又多超市","single_price":"1.00","create_at":"2020-03-13"},{"id":"23","name":"白馒头","shop_name":"好又多超市","single_price":"0.80","create_at":"2020-03-13"},{"id":"22","name":"大葱","shop_name":"重庆富力春天里店","single_price":"10.00","create_at":"2020-03-12"},{"id":"21","name":"油麦菜","shop_name":"重庆富力春天里店","single_price":"2.56","create_at":"2020-03-12"},{"id":"20","name":"东北大米","shop_name":"重庆富力春天里店","single_price":"4.96","create_at":"2020-03-12"},{"id":"19","name":"鲜鸡蛋","shop_name":"重庆富力春天里店","single_price":"9.97","create_at":"2020-03-08"},{"id":"18","name":"油麦菜","shop_name":"重庆富力春天里店","single_price":"3.16","create_at":"2020-03-08"},{"id":"17","name":"东北大米","shop_name":"重庆富力春天里店","single_price":"4.96","create_at":"2020-03-08"},{"id":"16","name":"金典纯牛奶","shop_name":"好又多超市","single_price":"56.00","create_at":"2020-03-18"},{"id":"15","name":"500G威猛先生洁厕液","shop_name":"好又多超市","single_price":"6.50","create_at":"2020-03-18"},{"id":"14","name":"白酒60度(重庆江津)","shop_name":"好又多超市","single_price":"16.50","create_at":"2020-03-18"},{"id":"12","name":"油麦菜","shop_name":"重庆富力春天里店","single_price":"5.15","create_at":"2020-02-18"},{"id":"11","name":"洋鸡蛋","shop_name":"重庆富力春天里店","single_price":"9.96","create_at":"2020-02-18"},{"id":"10","name":"康必利酒精消毒剂","shop_name":"桐君阁大药房","single_price":"12.00","create_at":"2020-02-18"},{"id":"5","name":"油麦菜","shop_name":"重庆富力春天里店","single_price":"5.16","create_at":"2020-02-28"},{"id":"4","name":"菠菜","shop_name":"重庆富力春天里店","single_price":"5.16","create_at":"2020-02-26"},{"id":"3","name":"生菜","shop_name":"重庆富力春天里店","single_price":"5.96","create_at":"2020-02-26"}]},{"bill_id":"5e8221fc7bb961","shop_name":"匠子烤鱼重庆龙湖店","total_price":"230.00","discount":"0.00","create_at":"2020-01-21","childs":[{"id":"185","name":"撒油那拉水果沙拉","shop_name":"匠子烤鱼重庆龙湖店","single_price":"12.00","create_at":"2020-01-21"},{"id":"184","name":"茶位费","shop_name":"匠子烤鱼重庆龙湖店","single_price":"15.00","create_at":"2020-01-21"},{"id":"183","name":"凉凉杂果冰粉","shop_name":"匠子烤鱼重庆龙湖店","single_price":"9.00","create_at":"2020-01-21"},{"id":"182","name":"奔跑吧！小皮蛋","shop_name":"匠子烤鱼重庆龙湖店","single_price":"16.00","create_at":"2020-01-21"},{"id":"181","name":"红薯宽粉","shop_name":"匠子烤鱼重庆龙湖店","single_price":"6.00","create_at":"2020-01-21"},{"id":"180","name":"千叶豆腐","shop_name":"匠子烤鱼重庆龙湖店","single_price":"6.00","create_at":"2020-01-21"},{"id":"179","name":"手指年糕","shop_name":"匠子烤鱼重庆龙湖店","single_price":"6.00","create_at":"2020-01-21"},{"id":"178","name":"海带结","shop_name":"匠子烤鱼重庆龙湖店","single_price":"6.00","create_at":"2020-01-21"},{"id":"177","name":"魔芋","shop_name":"匠子烤鱼重庆龙湖店","single_price":"6.00","create_at":"2020-01-21"},{"id":"2","name":"双拼口味","shop_name":"匠子烤鱼重庆龙湖店","single_price":"10.00","create_at":"2020-01-21"},{"id":"1","name":"湄公鱼","shop_name":"匠子烤鱼重庆龙湖店","single_price":"69.00","create_at":"2020-01-21"}]}]
+                }
+              },
+              methods: {
+                'isset': function(value) {
+                        return System.isset(value);
+                    }
+              },
+              template: System.Template.getBlock('content')
+            };
+
+        System.export('ContentComponent', ContentComponent);
+
+    });
+</script>
+<script type="text/javascript">
+    Vue.use(Vuex);
+    var vm = LAM.run([jQuery],function($){
+        'use strict';
+        var System = this;
+        System.use();
+
+
+        // var DATE={
+        //     'b_width':0,
+        //     'b_height':0,
+        //     '$hidden_bnt':null
+        // };
+
+        // var setSize=function(n){
+        //     n=n || 0;
+        //     var height=$(window).height();
+        //     var width=$(window).width();
+        //     DATE.b_width=width;
+        //     DATE.b_height=height;
+        //     $('.sectionSidebar-A1').height(height);
+        //     $('.sectionList-A2').height($(window).height()-116);
+
+
+        // };
+
+
+
+        // $(function(){
+
+            
+        //     LAM.mCustomScrollbar();
+
+
+
+        //     $('.sectionList-A2 dd').on('click',function(){
+        //         $(this).find('.sectionList-A1').toggle();
+        //     });
+
+        //     setSize();
+        //     $(window).resize(function() {
+        //         setSize();
+        //     });
+        //     $(window).scroll(function() {
+        //         setSize($(window).scrollTop());
+        //     });
+        //     var $sectionWrapA4=$('.sectionWrap-A4');
+        //     var $hidden_bnt=$('#hidden_bnt');
+
+        //     $('#hidden_bnt').on('click',function(){
+        //         if(!this.flag){
+        //             $sectionWrapA4.animate({"left":"47px"});
+        //             $hidden_bnt.animate({"left":"20px"});
+
+        //             this.flag = true;
+        //         }else{
+
+        //             $sectionWrapA4.animate({"left":"220px"});
+        //             $hidden_bnt.animate({"left":"192px"});
+        //             this.flag = false;
+        //         }
+
+
+        //     });
+        // });
+
+        var vm = new Vue({
+              el: '#app',
+              data: function(){
+                return {
+                    menu: [
+  {
+    "icon":"a-1",
+    "title":"我购买的服务",
+    "ul":null
+  },
+  {
+    "icon":"a-4",
+    "title":"博彩",
+    "ul":[
+      {"title":"博彩","href":"index.html?r=gambling/index&m=gambling"}
+    ]
+  },
+  {
+    "icon":"a-2",
+    "title":"demos",
+    "ul":[
+      {"title":"验证码","href":"index.html?r=test/code"},
+      {"title":"react","href":"index.html?r=test/react"},
+      {"title":"阿里巴巴报关","href":"index.html?r=test/alibabaBaoGuan"},
+      {"title":"seajs","href":"index.html?r=test/seajs"}
+    ]
+  },
+  {
+    "icon":"a-10",
+    "title":"角色管理",
+    "ul":[
+      {"title":"创建","href":"index.html?r=role/index"},
+      {"title":"react","href":"index.html?r=role/react"}
+    ]
+  },
+  {
+    "icon":"a-2",
+    "title":"网页地址",
+    "ul":[
+      {"title":"列表","href":"index.html?r=url/index"},
+      {"title":"添加","href":"index.html?r=url/create"}
+    ]
+  },
+  {
+    "icon":"a-2",
+    "title":"类别",
+    "ul":[
+      {"title":"列表","href":"index.html?r=sorts/index"},
+      {"title":"添加","href":"index.html?r=sorts/create"}
+    ]
+  },
+
+  {
+    "icon":"a-2",
+    "title":"视频",
+    "ul":[
+      {"title":"视频","href":"index.html?r=video/index"}
+    ]
+  },
+  {
+    "icon":"a-2",
+    "title":"博客",
+    "ul":[
+      {"title":"网页地址","href":"index.html?r=blog/index"}
+    ]
+  },
+  {
+    "icon":"a-3",
+    "title":"宝贝管理",
+    "ul":[
+      {"title":"卖家地图","href":"###"},
+      {"title":"我家要装修","href":"###"},
+      {"title":"格致商城","href":"###"},
+      {"title":"格致社区","href":"###"}
+    ]
+  },
+  {
+    "icon":"a-4",
+    "title":"样板间管理",
+    "ul":[
+      {"title":"案例列表","href":"index.html?r=room/list"},
+      {"title":"楼盘户型管理","href":"index.html?r=room/detail"},
+      {"title":"发布","href":"index.html?r=room/release"},
+      {"title":"aa","href":"index.html?r=room/aa"}
+    ]
+  },
+  {
+    "icon":"a-5",
+    "title":"店铺管理",
+    "ul":[
+      {"title":"店铺","href":"index.html?r=shop/index"},
+      {"title":"添加店铺","href":"index.html?r=shop/create"},
+      {"title":"选择模版","href":"index.html?r=shop/choiceTemplate"},
+      {"title":"商品授权","href":"index.html?r=shop/empower"},
+      {"title":"新建房间","href":"index.html?r=shop/newRoom"},
+      {"title":"商品列表","href":"index.html?r=shop/list"},
+      {"title":"楼盘","href":"index.html?r=shop/loft"}
+    ]
+  },
+  {
+    "icon":"a-5",
+    "title":"商品管理",
+    "ul":[
+      {"title":"商品列表","href":"index.html?r=goods/index"},
+      {"title":"添加商品","href":"index.html?r=goods/create"}
+    ]
+  },
+  {
+    "icon":"a-6",
+    "title":"消息中心",
+    "ul":[
+      {"title":"卖家地图","href":"###"},
+      {"title":"我家要装修","href":"###"},
+      {"title":"格致商城","href":"###"},
+      {"title":"格致社区","href":"###"}
+    ]
+  },
+  {
+    "icon":"a-7",
+    "title":"品牌经销商",
+    "ul":[
+      {"title":"卖家地图","href":"###"},
+      {"title":"我家要装修","href":"###"},
+      {"title":"格致商城","href":"###"},
+      {"title":"格致社区","href":"###"}
+    ]
+  },
+  {
+    "icon":"a-8",
+    "title":"营销中心",
+    "ul":[
+      {"title":"卖家地图","href":"###"},
+      {"title":"我家要装修","href":"###"},
+      {"title":"格致商城","href":"###"},
+      {"title":"格致社区","href":"###"}
+    ]
+  },
+  {
+    "icon":"a-9",
+    "title":"软件服务",
+    "ul":[
+      {"title":"卖家地图","href":"###"},
+      {"title":"我家要装修","href":"###"},
+      {"title":"格致商城","href":"###"},
+      {"title":"格致社区","href":"###"}
+    ]
+  },
+  {
+    "icon":"a-10",
+    "title":"客户服务",
+    "ul":[
+      {"title":"卖家地图","href":"###"},
+      {"title":"我家要装修","href":"###"},
+      {"title":"格致商城","href":"###"},
+      {"title":"格致社区","href":"###"}
+    ]
+  },
+  {
+    "icon":"a-11",
+    "title":"友情链接",
+    "ul":[
+      {"title":"卖家地图","href":"###"},
+      {"title":"我家要装修","href":"###"},
+      {"title":"格致商城","href":"###"},
+      {"title":"格致社区","href":"###"}
+    ]
+  }
+
+
+],
+                    title: "喜鹊筑家旗舰店",
+                    user: {
+                        "name":"name",
+                        "age": 28
+                    },
+                    crumbData: {"0":{"name":"喜鹊筑家旗舰店","href":"###","title":""},"1":{"name":"商品管理","href":"###","title":""},"2":{"name":"商品列表"}}
+                };
+              },
+              components: {
+                'menu-component': System.require('MenuComponent'),
+                'mobile-menu-component': System.require('MobileMenuComponent'),
+                'header-component': System.require('HeaderComponent'),
+                'crumb-component': System.require('CrumbComponent'),
+                'content-component': System.require('ContentComponent')
+              },
+              computed: {
+              },
+              methods: {
+              },
+              watch: {
+              }
+            });
+
+            return vm;
+
+
+
+
+    });
+
+</script>
+
+</body>
+</html>

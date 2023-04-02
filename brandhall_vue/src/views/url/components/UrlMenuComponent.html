@@ -1,0 +1,56 @@
+<#Block:begin id="urlMenu">
+    <div>
+        <template v-for="(item, key) in list">
+            <dl v-if="0 == level" class="border dl-1">
+                <dd class="dd-1" v-bind:class="{ cur: (0 === key) }">
+                    <div class="title" :data-id="item.id" v-on:click="getContent(item.id, item.name)">{{ item.name }}</div>
+                    <div v-if="isArray(item.child)" class="sectionIcon-A1 sectionIcon-A1-5 sectionIcon-A1-5-1"><i></i></div>
+                </dd>
+                <url-menu-component v-on:getContent="getContent" v-if="isArray(item.child)" :list="item.child" level="1"></url-menu-component>
+            </dl>
+            <dd v-else class="dd-1" style="border-left: 1px solid #ccc;">
+                <div class="title" :data-id="item.id" v-on:click="getContent(item.id, item.name)">{{ item.name }}</div>
+                <dl v-if="isArray(item.child)" class="ml5">
+                    <url-menu-component v-on:getContent="getContent" :list="item.child" level="1"></url-menu-component>
+                </dl>
+            </dd>
+        </template>
+        
+    </div>
+<#Block:end>
+
+<script type="text/javascript">
+
+	LAM.run([jQuery],function($) {
+			'use strict';
+			var System = this;
+
+
+
+			var UrlMenuComponent = {
+				name: 'UrlMenuComponent',
+				props: {
+					'list': Array,
+					'level': {
+							type: [String, Number],
+							default: 0
+					}
+				},
+				data: function () {
+					return {
+					}
+				},
+				methods: {
+					'isArray': function(value) {
+							return System.isArray(value);
+					},
+					'getContent': function(id, title){
+							this.$emit('getContent', id, title);
+					}
+				},
+				template: System.Template.getBlock('urlMenu')
+			};
+
+			System.export('UrlMenuComponent', UrlMenuComponent);
+	});
+</script>

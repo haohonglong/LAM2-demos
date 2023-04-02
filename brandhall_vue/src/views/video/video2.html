@@ -1,0 +1,239 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define _TITLE_="视频列表" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/video/" />
+
+<! #extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'_TITLE_'}
+]}" --/>
+
+<#Block:begin id="video.content">
+<div>
+    <el-button v-on:click="action(1)" type="primary">添加</el-button>
+    <template>
+    <el-row :gutter="10">
+        <el-col :span="6" v-for="(item, index) in list" :class="{ line: (index + 1) % 4 != 0 }" style="margin:5px 0px;" :key="index">
+            <div class="grid-content bg-purple">
+                <el-card class="box-card" >
+                    <div slot="header" class="clearfix">
+                        <span>{{ item.src }}</span>
+                        <el-button style="float: right; padding: 3px 0" v-on:click="action(3, item)" type="text">删除</el-button>
+                        <el-button style="float: right; padding: 3px 0" v-on:click="action(2, item)" type="text">修改</el-button>
+                    </div>
+                    <iframe width="100%" height="100%" :src="item.src"></iframe>
+                </el-card>
+            </div>
+        </el-col>
+    </el-row>
+    </template>
+
+    <el-dialog
+    :title="dialogTitle"
+    :visible.sync="dialogVisible"
+    width="">
+    <form-component :data="form" :error="formError"></form-component>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
+    
+</div>
+
+<#Block:end>
+
+<#include file="~/components/Form2Component.html" />
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+        var ContentComponent = {
+          name: "videoSex",
+          props: {},
+          components: {
+            'form-component': System.require('video.conponents.Form2Component')
+          },
+          data: function () {
+            return {
+                'dialogTitle': "提示",
+                'dialogVisible': false,
+                'form':{
+                    'active':"",
+                    'id': "-1",
+                    'src': ""
+                },
+                'formError':{
+                    'id': "",
+                    'src': ""
+                },
+                list: []
+            }
+          },
+          created(){
+            this.getData();
+          },
+          methods: {
+            ok() {
+                this.dialogVisible = false
+            },
+            submit() {
+                this.initError();
+                
+                switch(this.form.active) {
+                    case 1:
+                        this.add();
+                    break;
+                    case 2:
+                        this.modify(this.form.id);
+                    break;
+                }
+
+            },
+            initError() {
+                this.formError.src = "";
+            },
+            init() {
+                this.form.src = '';
+            },
+            action(active, item) {
+                this.init();
+                this.initError();
+                this.form.active = active;
+
+                switch(active) {
+                    case 1:
+                        this.dialogTitle = "新增";
+                        break;
+                    case 2:
+                        this.dialogTitle = "修改";
+                        break;
+                    case 3:
+                        this.remove(item.id);
+                        return;
+                }
+                
+                this.dialogVisible = true
+
+                if(item) {
+                    this.form.id = item.id;
+                    this.form.src = item.src;
+                }
+            },
+            add() {
+                var v = this;
+                var wait = layer.load();
+                const src = this.form.src;
+
+                const data = {
+                    src
+                };
+                Api.video2.add(data, D => {
+                    layer.close(wait);
+                    if(D.status){
+                        // alert(D.message);
+                        this.getData();
+                        this.ok();
+
+                    }else{
+                        alert(D.message);
+                        System.each(D.errors, (key,value) => {
+                            this.formError[key] = value;
+                        });
+                    }
+
+                });
+            },
+            remove(id){
+                layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
+                    //do something
+                    Api.video2.delete(id, data => {
+                        // alert(data.message);
+                        if(data.status){
+                            this.getData();
+                        } else {
+                            System.each(data.errors,function (key,value) {
+                                alert(value)
+                            });
+                        }
+                        layer.close(index);
+                    });
+                    
+                });
+            },
+            modify(id){
+                var wait = layer.load();
+                const src = this.form.src;
+
+                const data = {
+                    id,
+                    src
+                };
+
+                Api.video2.edit(data, data => {
+                    layer.close(wait);
+                    if(data.status){
+                        // alert(data.message);
+                        this.getData();
+                        this.ok();
+                    }else{
+                        // alert(data.message);
+                        System.each(data.errors, (key,value) => {
+                            this.formError[key] = value;
+                        });
+                    }
+                },'json');
+            },
+            getData() {
+                Api.video2.getList(res  => {
+                    if(res.status) {
+                        this.list = res.data;
+                        // this.list = this.list.array_chunk(4);
+                    }
+                });
+            }
+          },
+          template: System.Template.getBlock('video.content')
+        };
+
+        System.export("views.video.sex", ContentComponent);
+    });
+</script>
+
+<style>
+    .el-card__header{padding: 1px 20px;}
+    .el-card__body{ padding: 0px; }
+    iframe { border: 0px; }
+    .el-row {
+      margin-bottom: 20px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .el-col {
+      border-radius: 4px;
+      
+    }
+    .bg-purple-dark {
+      background: #99a9bf;
+    }
+    .bg-purple {
+      background: #d3dce6;
+    }
+    .bg-purple-light {
+      background: #e5e9f2;
+    }
+    .grid-content {
+      border-radius: 4px;
+      min-height: 36px;
+    }
+    .row-bg {
+      padding: 10px 0;
+      background-color: #f9fafc;
+    }
+  </style>

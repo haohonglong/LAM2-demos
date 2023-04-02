@@ -1,0 +1,93 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+
+<#define _TITLE_="店铺" />
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<! #extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'店铺管理','href':'__INDEX__shop/index','title':''},
+{'name':'_TITLE_'}
+]}" --/>
+
+
+
+
+
+
+<#Block:begin id="views.shop.content">
+<div>
+    <el-row>
+        <el-button><router-link to="/shop/create">添加店铺名称</router-link></el-button>
+    </el-row>
+    <el-table
+        :data="tableData"
+        style="width: 100%"
+        max-height="250">
+        <el-table-column
+        fixed
+        prop="id"
+        label="id"
+        width="150">
+        </el-table-column>
+        <el-table-column
+        prop="name"
+        label="名称"
+        width="120">
+        </el-table-column>
+        
+        <el-table-column
+        fixed="right"
+        label="操作"
+        width="120">
+        <template slot-scope="scope">
+            <el-button
+            @click.native.prevent="deleteRow(scope.$index, tableData)"
+            type="text"
+            size="small">
+            移除
+            </el-button>
+        </template>
+        </el-table-column>
+    </el-table>
+</div>
+<#Block:end>
+
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          props: {},
+          components: {},
+          data: function () {
+            return {
+                tableData: []
+            }
+          },
+          created(){
+                Api.shop.index(res  => {
+                    if(res.status) {
+                        this.tableData = res.data;
+                    }
+                });
+          },
+          methods: {
+            deleteRow(index, rows) {
+                console.log(rows[index].id)
+                // rows.splice(index, 1);
+            }
+          },
+          template: System.Template.getBlock('views.shop.content')
+        };
+
+        System.export("views.shop.index", ContentComponent);
+    });
+</script>

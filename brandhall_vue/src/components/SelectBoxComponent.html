@@ -1,0 +1,92 @@
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+
+<#Block:begin id="components.selectBox">
+<div>
+    <select id="select" class="L" v-on:click="arrowDown">
+        <option v-if="0 == data.sid" value="0" class="none">请选择</option>
+        <option v-else :value="data.sid" class="none"> {{ data.sortName }} </option>
+    </select>
+    <div id="selectBox" v-show="isShow" @mouseleave="mouseleave">
+      <div class="mCustomScrollbar">
+        <el-tree :data="getList" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+      </div>
+    </div>    
+</div>
+
+<#Block:end>
+
+
+
+<script type="text/javascript">
+	LAM.run(function() {
+        'use strict';
+        var System = this;
+
+        var SelectBoxComponent = {
+          name: "components_SelectBoxComponent",
+          props: {
+            "list": {
+              type: Array,
+              require: true,
+            }, 
+            "data": {
+              type: Object,
+              require: true
+            }
+          },
+          components: { },
+          data() {
+            return {
+              isShow: false,
+              defaultProps: {
+                children: 'child',
+                label: 'name'
+              }
+            }
+          },
+          computed:{
+            getList(){
+              const arr = [{id: "-1", name: "请选择", pid : "0"}, ...this.list];
+              return arr;
+            }
+          },
+
+          methods: {
+            hideSelectBox() {
+              this.isShow = false;
+            },
+            mouseleave(){
+              this.hideSelectBox()
+            },
+            arrowDown(){
+              this.isShow = !this.isShow;
+            },
+            select(item) {
+              alert(item.id);
+            },
+            handleNodeClick(data) {
+              if (this.data.id && data.id == this.data.id) {
+                alert("当前的类名称不能选择自己为父类");
+                return;
+              }
+              this.data.sid = data.id;
+              this.data.sortName = data.name;
+              this.hideSelectBox();
+            }
+
+          },
+          template: System.Template.getBlock('components.selectBox')
+        };
+
+        System.export('components.SelectBoxComponent', SelectBoxComponent);
+        
+    });
+</script>
+
+
+
+<style type="text/css">
+  #selectBox{width: 165px; padding: 10px; border: 1px solid #ccc; position: absolute;top:23px; left:85px; background: #fff; z-index: 9999;}
+  #selectBox li{padding: 2px; cursor: pointer;}
+  .selected{font-weight: bold;color:red;}
+</style>

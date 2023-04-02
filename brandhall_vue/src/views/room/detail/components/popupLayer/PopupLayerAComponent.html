@@ -1,0 +1,122 @@
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#import path="/PopupLayer.class" root="__CLASSPATH__" write="1" befor="1" />
+<#import path="/layer-v3.1.1/layer/layer" root="__PLUGINS__" write="1" befor="1" />
+
+<#Block:begin id="popupLayerA">
+<div class="sectionPopupLayer-A1 sectionPopupLayer-A1-1 js_sectionPopupLayerA1 border sectionShadow-A4">
+    <div class="sectionBox sectionTitle-A sectionTitle-A11">
+        <h2>录入改结构后户型</h2>
+        <div class="more sectionIcon-A4">
+            <i class="myclose js_sectionPopupLayerA1Close"></i>
+        </div>
+    </div>
+    <div class="content">
+        <div class="p30 js_sectionPopupLayerA1_content">
+            <div class="sectionWrap-A13 sectionText-A3">
+                <div class="sectionForm-A1 sectionForm-A1-1">
+                    <ul>
+                        <li class="clear mb10">
+                            <label class="L">户型图：<span class="warning">*</span></label>
+                            <div class="sectionBox-A8 sectionBox-A8-2 L">
+                                <div class="border">
+                                    <img src="" width="" height="" alt="">
+                                    <div class="p10">
+                                        上传户型图
+                                    </div>
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="sectionForm-A1-1 mb10">
+                    <ul>
+                        <li class="clear button-A">
+                            <label class="L"></label>
+                            <input class="btn btn-default L mr5 ml5" type="button" value="上传户型图">
+                            <div class="sectionMessage-A1 sectionMessage-A1-1 L">
+                                <p class="border">
+                                    B2户型图  户型：2室2厅1厨1卫  面积：89M2
+                                </p>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="sectionForm-A1 sectionForm-A1-1 mb15">
+                    <ul>
+                        <li class="clear mb5">
+                            <label class="L">户型名称：<span class="warning">*</span></label>
+                            <input type="text" class="text name L" value="">
+                        </li>
+                        <li class="clear mb5">
+                            <label class="L">户型：</label>
+                            <select class="L w-40">
+                                <option value=""></option>
+                            </select>
+                            <label class="L w-auto ml10 grey">室</label>
+                            <select class="L ml5 w-40">
+                                <option value=""></option>
+                            </select>
+                            <label class="L w-auto ml10 grey">厅</label>
+                            <select class="L ml5 w-40">
+                                <option value=""></option>
+                            </select>
+                            <label class="L w-auto ml10 grey">厨</label>
+                            <select class="L ml5 w-40">
+                                <option value=""></option>
+                            </select>
+                            <label class="L w-auto ml10 grey">卫</label>
+                            <select class="L ml5 w-40">
+                                <option value=""></option>
+                            </select>
+                            <label class="L w-auto ml10 grey">阳台</label>
+
+                        </li>
+                        <li class="clear mb5">
+                            <label class="L">户型：<span class="warning">*</span></label>
+                            <input type="text" class="text name L" value="">
+                        </li>
+                        <li class="textarea clear mb10">
+                            <label class="L">改后户型分析：</label>
+                            <textarea class="L"></textarea>
+
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="clear mb10 sectionForm-A1 sectionForm-A2 ml50">
+                    <button type="submit" class="btn save L mr15 js_saveButton">录入户型</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<#Block:end>
+
+<script type="text/javascript">
+  LAM.run(function(){
+      'use strict';
+      var System = this;
+
+      var PopupLayerAComponent = {
+        name: "PopupLayerAComponent",
+        props: {
+        },
+        components: {
+        },
+        data: function () {
+          return {}
+        },
+        methods: {
+            
+        },
+        template: System.Template.getBlock('popupLayerA')
+      };
+
+      System.export('PopupLayerAComponent', PopupLayerAComponent);
+  });
+  </script>

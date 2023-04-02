@@ -1,0 +1,225 @@
+<#Block:begin id="url.component.TreeSelect">
+<div>
+	<el-select :value="data.sortName" :clearable="clearable" @clear="clearHandle">
+	  <el-input
+		class="selectInput"
+		:placeholder="placeholder"
+		v-model="filterText">
+	  </el-input>
+  
+	  <el-option :value="data.sortName" :label="data.sortName" class="options">
+		<el-tree  id="tree-option"
+		  ref="selectTree"
+		  :accordion="accordion"
+		  :data="list"
+		  :props="props"
+		  :node-key="props.value"    
+		  :default-expanded-keys="defaultExpandedKey"
+		  :filter-node-method="filterNode"
+		  @node-click="handleNodeClick">
+		</el-tree>
+	  </el-option>
+	</el-select>
+</div>
+
+<#Block:end>
+
+  
+
+
+<script type="text/javascript">
+
+	LAM.run([jQuery],function($) {
+		'use strict';
+		var System = this;
+
+		var Component = {
+			name: "el-tree-select",
+			props:{
+				'list': Array,
+				"data": {
+					type: Object,
+					require: true
+				},
+				'level': {
+					type: [String, Number],
+					default: 0
+				},
+			
+			/* 配置项 */
+				props:{
+					type: Object,
+					default:()=>{
+						return {
+							value:'id',             // ID字段名
+							label: 'name',         // 显示名称
+							children: 'child'    // 子级字段名
+						}
+					}
+				},
+				/* 初始值 */
+				value:{
+					type: Number,
+					default: ()=>{ return null }
+				},
+				/* 可清空选项 */
+				clearable:{
+					type:Boolean,
+					default:()=>{ return true }
+				},
+				/* 自动收起 */
+				accordion:{
+					type:Boolean,
+					default:()=>{ return false }
+				},
+				placeholder:{
+					type:String,
+					default:()=>{return "检索关键字"}
+				}
+			},
+			data(){
+				const _this = this;
+				return {
+					filterText: '',
+					valueId: _this.data.sid || this.value,    // 初始值
+					valueTitle: _this.data.sortName || '',
+					defaultExpandedKey:[],
+					'defaultProps': {
+						'children': 'child',
+						'label': 'name'
+					}
+				}
+			},
+			mounted(){
+				this.initHandle()
+			},
+			methods: {
+				'isArray': function(value) {
+					return System.isArray(value);
+				},
+				'getContent': function(id, title){
+					this.$emit('getContent', id, title);
+				},
+				'addAdminHandleNodeClick'(e) {
+					console.log(e.label);
+					this.selectTreeName = e.label;
+				},
+				// 初始化值
+				initHandle(){
+					if(this.data.sid){
+						this.data.sortName = this.$refs.selectTree.getNode(this.data.sid).data[this.props.label]     // 初始化显示
+						this.$refs.selectTree.setCurrentKey(this.data.sid)       // 设置默认选中
+						this.defaultExpandedKey = [this.data.sid]      // 设置默认展开
+					} 
+					this.initScroll()
+				},
+				// 初始化滚动条
+				initScroll(){
+					this.$nextTick(()=>{
+						let scrollWrap = document.querySelectorAll('.el-scrollbar .el-select-dropdown__wrap')[0]
+						let scrollBar = document.querySelectorAll('.el-scrollbar .el-scrollbar__bar')
+						scrollWrap.style.cssText = 'margin: 0px; max-height: none; overflow: hidden;'
+						scrollBar.forEach(ele => ele.style.width = 0)
+					})
+				},
+				// 切换选项
+				handleNodeClick(node){
+					console.log("==============================================================");
+					console.log(this.data.sid);
+					this.data.sortName = node[this.props.label]
+					this.data.sid = node[this.props.value]
+					console.log(this.data.sid,"----------------------------------");
+					// if (this.data.sid && this.data.sid == this.data.sid) {
+					// 	alert("当前的类名称不能选择自己为父类");
+					// 	return;
+					// }
+					// this.data.sid = this.data.sid;
+              		// this.data.sortName = this.valueTitle;
+					// this.$emit('getValue',this.data.sid)
+					this.defaultExpandedKey = []
+				},
+				// 清除选中
+				clearHandle(){
+					return;
+					this.data.sortName = ''
+					this.data.sid = null
+					this.defaultExpandedKey = []
+					this.clearSelected()
+					// this.$emit('getValue',null)
+				},
+				/* 清空选中样式 */
+				clearSelected(){
+					let allNode = document.querySelectorAll('#tree-option .el-tree-node')
+					allNode.forEach((element)=>element.classList.remove('is-current'))
+				},
+				filterNode(value, data) {
+					if (!value) return true;
+					return data.name.indexOf(value) !== -1;
+				}
+			},
+			watch: {
+				value(){
+					this.data.sid = this.value
+					console.log("111111111111111111111111")
+					this.initHandle()
+				},
+				filterText(val) {
+					this.$refs.selectTree.filter(val);
+				}
+			},
+			template: System.Template.getBlock('url.component.TreeSelect')
+		};
+
+		System.export('url.component.TreeSelectComponent', Component);
+	});
+</script>
+
+
+  
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+
+
+  <style scoped>
+	.el-scrollbar .el-scrollbar__view .el-select-dropdown__item{
+	  height: auto;
+	  max-height: 274px;
+	  padding: 0;
+	  overflow: hidden;
+	  overflow-y: auto;
+	}
+	.el-select-dropdown__item.selected{
+	  font-weight: normal;
+	}
+	ul li >>>.el-tree .el-tree-node__content{
+	  height:auto;
+	  padding: 0 20px;
+	}
+	.el-tree-node__label{
+	  font-weight: normal;
+	}
+	.el-tree >>>.is-current .el-tree-node__label{
+	  color: #409EFF;
+	  font-weight: 700;
+	}
+	.el-tree >>>.is-current .el-tree-node__children .el-tree-node__label{
+	  color:#606266;
+	  font-weight: normal;
+	}
+	.selectInput{
+	  padding: 0 5px;
+	  box-sizing: border-box;
+	}
+  
+	/* 开发禁用 */
+	/* .el-tree-node:focus>.el-tree-node__content{
+	  background-color:transparent;
+	  background-color: #f5f7fa;
+	  color: #c0c4cc;
+	  cursor: not-allowed;
+	}
+	.el-tree-node__content:hover{
+	  background-color: #f5f7fa;
+	} */
+  </style>
+
+

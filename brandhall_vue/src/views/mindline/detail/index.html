@@ -1,0 +1,53 @@
+<#define _TITLE_="思维导图详细页" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/mindline/detail/" />
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+<#Block:begin id="views.mindline.detail">
+<div>
+    <mindmaps-component :keyword="key"></mindmaps-component>
+</div>
+
+<#Block:end>
+
+<#include file="~/components/MindMapComponent.html" />
+<script type="text/javascript">
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+
+        var ContentComponent = {
+            'name': "mindlineDetail",
+			components: { 
+				MindmapsComponent : System.require("views.mindline.detail.components.MindMapComponent")
+			},
+			data(){
+				return {
+					key: ""
+				};
+			},
+			created(){
+				this.key = this.$route.params.key;
+			},
+            template: System.Template.getBlock('views.mindline.detail')
+        };
+
+        System.export('views.mindline.detail', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+</style>
+
+
+
+

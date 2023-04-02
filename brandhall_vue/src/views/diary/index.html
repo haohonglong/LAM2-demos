@@ -1,0 +1,296 @@
+<#define _TITLE_="记事簿" />
+<#define __LAMPATH__="{#LAM.classPath#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/diary/" />
+
+
+<#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
+<#import type="css" path="/tree" root="__CSS__" befor="1" />
+
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<! #extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'网页地址','href':'__INDEX__url/index','title':''},
+{'name':'_TITLE_'}
+]}" --/>
+
+<#Block:begin id="views.diary.content">
+<div class="">
+    <el-row>
+        <el-col :span="24">
+            <el-form :inline="true" class="demo-form-inline">
+                <el-form-item label="标题">
+                  <el-input v-model="keyword" placeholder="标题"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="action(1)">添加</el-button>
+                </el-form-item>
+            </el-form>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col :span="24">
+            <el-table
+                :data="tableData"
+                style="width: 100%">
+                <el-table-column
+                    prop="title"
+                    label="标题"
+                    width="250">
+                </el-table-column>
+                <el-table-column
+                    prop="content"
+                    label="内容">
+                </el-table-column>
+                <el-table-column
+                    prop="created_at"
+                    label="创建日期"
+                    width="180">
+                </el-table-column>
+                <el-table-column
+                    prop="updated_at"
+                    label="更新日期"
+                    width="180">
+                </el-table-column>
+                <el-table-column label="操作" width="180">
+                    <template slot-scope="scope">
+                      <el-button
+                        size="mini"
+                        @click="action(2, scope.row)">编辑</el-button>
+                      <el-button
+                        size="mini"
+                        type="danger"
+                        @click="action(3, scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-col>
+    </el-row>
+
+    
+
+    <el-dialog
+    :title="dialogTitle"
+    :visible.sync="dialogVisible"
+    width="">
+    <form-component :list="data" :data="form" :error="formError"></form-component>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+
+
+<#include file="__COMPONENTS__/PagingComponent.html" />
+<#include file="~/components/FormComponent.html" />
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+
+        var ContentComponent = {
+            'name': "diaryIndex",
+            data(){
+                return {
+                    'dialogTitle': "提示",
+                    'dialogVisible': false,
+                    'contents': [],
+                    'keyword': "",
+                    'title': "",
+                    'form':{
+                        'active':"",
+                        'title': "",
+                        'id': "-1",
+                        'content': ""
+                    },
+                    'formError':{
+                        'title': "",
+                        'content': ""
+                    },
+                    data: [],
+                    tableData: []
+
+                };
+            },
+            'components': {
+                'paging-component': System.require('components.PagingComponent'),
+                'form-component': System.require('diary.FormComponent')
+            },
+            beforeCreate() { },
+            created() {
+                this.getContent();
+            },
+            'methods': {
+                ok() {
+                    this.dialogVisible = false;
+                    
+                },
+                submit() {
+                    this.initError();
+                    
+                    switch(this.form.active) {
+                        case 1:
+                            this.add();
+                        break;
+                        case 2:
+                            this.modify(this.form.id);
+                        break;
+                    }
+
+                },
+                initError() {
+                    this.formError.title = "";
+                    this.formError.content = "";
+                },
+                init() {
+                    this.form.title = '';
+                    this.form.content = '';
+                },
+                action(active, item) {
+                    this.init();
+                    this.initError();
+                    this.form.active = active;
+
+                    switch(active) {
+                        case 1:
+                            this.dialogTitle = "新增";
+                            break;
+                        case 2:
+                            this.dialogTitle = "修改";
+                            break;
+                        case 3:
+                            this.remove(item.id);
+                            return;
+                    }
+                    
+                    this.dialogVisible = true
+
+                    if(item) {
+                        this.form.id = item.id;
+                        this.form.title = item.title;
+                        this.form.content = item.content;
+                    }
+                },
+                add() {
+                    var v = this;
+                    var wait = layer.load();
+                    const title = this.form.title;
+                    const content = this.form.content;
+
+                    const data = { 
+                        title,
+                        content
+                    };
+                    Api.diary.add(data, D => {
+                        layer.close(wait);
+                        if(D.status){
+                            this.getContent();
+                            this.ok();
+
+                        }else{
+                            // alert(D.message);
+                            System.each(D.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+
+                    });
+                },
+                search() {
+                    let name = this.keyword;
+                    
+                    if(sid > 0) {
+                        let wait = layer.load();
+                        Api.diary.search({ title }, D => {
+                            layer.close(wait);
+                            if(D.status){
+                                this.contents = D.data;
+                            }
+                        });
+                        
+                    }
+
+                },
+                getContent(){
+                    Api.diary.getList(res => {
+                        this.tableData = res.data;
+                    });
+                },
+                remove(id){
+                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
+                      //do something
+                        Api.diary.delete(id, data => {
+                            alert(data.message);
+                            if(!data.status){
+                                System.each(data.errors,function (key,value) {
+                                    alert(value)
+                                });
+                            } else {
+                                this.getContent();
+                            }
+                            layer.close(index);
+                        });
+                      
+                    });
+                },
+                modify(id){
+                    var wait = layer.load();
+                    const title = this.form.title;
+                    const content  = this.form.content;
+
+                    Api.diary.edit({
+                        id,
+                        title,
+                        content
+                    }, data => {
+                        layer.close(wait);
+                        if(data.status){
+                            alert(data.message);
+                            this.getContent();
+                            this.ok();
+                        }else{
+                            // alert(data.message);
+                            System.each(data.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+                    },'json');
+                }
+            },
+            'watch': {
+                'keyword': function() { this.search();}
+            },
+            template: System.Template.getBlock('views.diary.content')
+        };
+
+        System.export('views.diary.index', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+
+</style>
+
+
+
+
