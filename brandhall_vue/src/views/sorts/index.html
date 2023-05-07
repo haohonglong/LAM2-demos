@@ -5,21 +5,24 @@
 <#define __CSS__="{#LAM.CSS#}" />
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 
 
 <#define _TITLE_="类别列表" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define ~/="__VIEWS__/sorts/" />
 
-
-<! #extends title="类别" data="{'list':[
+<!--Del:begin-->
+<#extends title="类别" data="{'list':[
 {'name':'首页','href':'__HOME__','title':'首页'},
 {'name':'类别列表','href':'__INDEX__sorts/index','title':''},
 {'name':'_TITLE_'}
-]}" --/>
+]}" />
 
-<#Block:begin id="views.sorts.content">
-<div class="clearfix">
+<!--Del:end-->
+
+<#Block:begin id="views.sorts.index">
+<div v-loading="loading" class="clearfix">
     <li class="R sectionButton-B1">
         <button type="button"  @click="action(1)" class="btn">新增</button>
     </li>
@@ -33,7 +36,6 @@
       :props="defaultProps"
       :filter-node-method="filterNode"
       ref="tree"
-      node-key="id"
       :expand-on-click-node="false">
       <span class="custom-tree-node" slot-scope="{ node, data }">
         <span class="mr30" @click="() => action(2, data)">
@@ -60,8 +62,17 @@
     <el-dialog
     :title="dialogTitle"
     :visible.sync="dialogVisible"
+    :close-on-click-modal="false"
     width="">
-    <form-component :list="list" :data="form" :error="formError"></form-component>
+    <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="类别：" prop="type">
+            <el-tree-select :data="form" :list="list"></el-tree-select>
+        </el-form-item>
+        <el-form-item :error="formError.name" label="名称：" prop="name">
+            <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        
+    </el-form>
     <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submit()">提 交</el-button>
@@ -71,7 +82,8 @@
 <#Block:end>
 
 
-<#include file="~/components/FormComponent.html" />
+<#include file="__COMPONENTS__/TreeSelectComponen.html" />
+
 <script type="text/javascript">
 
     LAM.run(function() {
@@ -84,6 +96,12 @@
             'name': 'sortsIndex',
             data(){
                 return {
+                    'rules': {
+                        'name': [
+                            { 'required': true, 'message': '请输入名称', 'trigger': 'blur' }
+                        ]
+                    },
+                    'loading': true,
                     'dialogVisible': false,
                     'dialogTitle': "提示",
                     'filterText': '',
@@ -100,17 +118,17 @@
                         'name': ""
                     },
                     'formError':{
-                        'sid': "",
                         'name': ""
-                    },
+                    }
                 };
             },
             'components': {
-                'form-component': System.require('sorts.FormComponent')
+                "el-tree-select": System.require('components.TreeSelectComponen')
             },
             created() {
                 Api.sorts.get(res => {
-                    this.list = res
+                    this.loading = false;
+                    this.list = res;
                 })
             },
             'methods': {
@@ -123,6 +141,11 @@
                     this.dialogVisible = false
                 },
                 submit() {
+                    this.$refs.validateForm.validate((valid) => {
+                        if (!valid) {
+                            return false;
+                        }
+                        });
                     this.initError();
                     
                     switch(this.form.active) {
@@ -179,7 +202,7 @@
                     }
 
 
-                    this.dialogVisible = true
+                    this.dialogVisible = true;
                     
                 },
                 getContent(){
@@ -190,7 +213,7 @@
                 },
                 add() {
                     var v = this;
-                    var wait = layer.load();
+                    this.loading = true;
                     const pid = this.form.sid;
                     const name = this.form.name;
                     const sortName = this.form.sortName;
@@ -200,7 +223,7 @@
                         name
                     };
                     Api.sorts.add(data, D => {
-                        layer.close(wait);
+                        this.loading = false;
                         if(D.status){
                             alert(D.message);
                             this.getContent();
@@ -216,7 +239,7 @@
                     });
                 },
                 modify(id){
-                    var wait = layer.load();
+                    this.loading = true;
                     const pid  = this.form.sid;
                     const name = this.form.name;
                     const sortName = this.form.sortName;
@@ -226,7 +249,7 @@
                         pid,
                         name
                     }, data => {
-                        layer.close(wait);
+                        this.loading = false;
                         if(data.status){
                             alert(data.message);
                             this.getContent();
@@ -239,9 +262,24 @@
                         }
                     },'json');
                 },
+                confirm(func){
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        func()
+                    }).catch(() => {
+                        // this.$message('已取消删除')  
+                    })
+                },
                 remove(id) {
-                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
-                    
+                    this.confirm(()=> {
+                        this.loading = true;
                         Api.sorts.delete(id, data => {
                             if(data.status){
                                 this.getContent();
@@ -252,9 +290,9 @@
                                 });
                                 
                             }
-                            layer.close(index);
+                            this.loading = false;
                         })
-                    });
+                    })
                 },
             	isArray(value) {
 	                return System.isArray(value);
@@ -265,7 +303,7 @@
                     this.$refs.tree.filter(val);
                 }
             },
-            template: System.Template.getBlock('views.sorts.content')
+            template: System.Template.getBlock('views.sorts.index')
         };
 
 

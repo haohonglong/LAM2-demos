@@ -1,11 +1,3 @@
-<#define ~/="{#LAM.require('this').viewpath#}/" />
-#define# __DATA__ <#include once="0" file="{#LAM.DATA#}/list.json" /> #end#
-<#include tp-data="" file="~/b.html" />
-__DATA__
-
-
-
-<#Block:begin id="aaaa">
-<h1>a.html</h1>
-<#Block:end>
-
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/room/list/" />
+2<#include once="0" file="~/a.html" />

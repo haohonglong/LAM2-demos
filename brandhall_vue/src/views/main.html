@@ -7,6 +7,7 @@
 <#define __MYCOMMON__="{#LAM.MYCOMMON#}" />
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
 <#define __COMMON__="{#LAM.COMMON#}" />
 <#define __CSS__="{#LAM.CSS#}" />
 <#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
@@ -17,17 +18,9 @@
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import path="/api.js" root="__API__" />
 
-<#import path="/vue/vue.js" root="__PLUGINS__" write="1" befor="1" />
-
-
-<#import path="
-/vue-router@2.0.0/dist/vue-router.js
-,/vuex@2.0.0/dist/vuex.js
-" root="https://unpkg.com" write="1" befor="1" />
-
-
-<#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="https://unpkg.com" befor="1" />
-<#import path="/elementui/index.js" root="__PLUGINS__" write="1" befor="1" />
+<#import path="vue.js,vue-router.js" root="__PLUGINS__/vue/" write="1" befor="1" />
+<#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="__NODE_MODULES__" befor="1" />
+<#import path="/element-ui/lib/index.js" root="__NODE_MODULES__" write="1" befor="1" />
 
 <#import path="/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
@@ -47,7 +40,7 @@
   
 	#header {
 	  position: fixed;
-	  z-index: 1;
+	  z-index: 999;
 	  top: 0; 
 	  left: 0;
 	  background-color: #4a759f;
@@ -104,6 +97,7 @@
 			</div>
 			
 			<div id="content">
+			  <!-- <nav-menu-component></nav-menu-component> -->
 			  <div class="ml20 mb30"><crumb-component :list="crumbData"></crumb-component></div>
 			  <el-main style="overflow: hidden">
 				<!-- <div style="padding: 20px"> -->
@@ -122,6 +116,7 @@
 <#include file="@COMPONENTS/MobileMenuComponent.html" />
 <#include file="@COMPONENTS/HeaderComponent.html" />
 <#include file="@COMPONENTS/CrumbComponent.html" />
+<#include file="@COMPONENTS/NavMenuComponent.html" />
 
 <#include file="__ROUTES__/index.html" />
 
@@ -144,7 +139,7 @@
 				return {
 					drawer: false,
 					menu: __MENU__,
-					title: "喜鹊筑家旗舰店",
+					title: "blog系统",
 					user: {#-user-#},
 					crumbData: {}
 				};
@@ -153,7 +148,8 @@
 					'menu-component': System.require('MenuComponent'),
 					'mobile-menu-component': System.require('MobileMenuComponent'),
 					'header-component': System.require('HeaderComponent'),
-					'crumb-component': System.require('CrumbComponent')
+					'crumb-component': System.require('CrumbComponent'),
+					'nav-menu-component': System.require("components.NavMenuComponent")
 				},
 				computed: {
 				},

@@ -1,23 +1,15 @@
-<#define _TITLE_="记事簿" />
-<#define __LAMPATH__="{#LAM.classPath#}" />
-<#define __SERVER__="{#LAM.SERVER#}" />
-<#define __DATAPATH__="{#LAM.DATA#}" />
+<#define _TITLE_="文章" />
 <#define __INDEX__="{#LAM.INDEX#}" />
 <#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 <#define __CSS__="{#LAM.CSS#}" />
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
-<#define __CLASSPATH__="{#LAM.classPath#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
-<#define ~/="__VIEWS__/diary/" />
-
-
-<#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
-<#import type="css" path="/tree" root="__CSS__" befor="1" />
-
+<#define ~/="__VIEWS__/article/list/" />
 
 
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
 <!--Del:begin-->
 <#extends title="_TITLE_" data="{'list':[
 {'name':'首页','href':'__HOME__','title':'首页'},
@@ -26,7 +18,9 @@
 ]}" />
 <!--Del:end-->
 
-<#Block:begin id="views.diary.content">
+
+
+<#Block:begin id="views.article.list">
 <div v-loading="loading">
     <el-row>
         <el-col :span="24">
@@ -49,11 +43,10 @@
                 <el-table-column
                     prop="title"
                     label="标题"
-                    width="250">
-                </el-table-column>
-                <el-table-column
-                    prop="content"
-                    label="内容">
+                    >
+                    <template slot-scope="scope">
+                        <router-link :to="'/article/detail/' + scope.row.id">{{ scope.row.title }}</router-link>
+                      </template>
                 </el-table-column>
                 <el-table-column
                     prop="created_at"
@@ -86,14 +79,18 @@
     :title="dialogTitle"
     :visible.sync="dialogVisible"
     :close-on-click-modal="false"
-    width="">
+    width="100%">
     <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="类别：" prop="type">
+            <el-tree-select :data="form" :list="list"></el-tree-select>
+        </el-form-item>
         <el-form-item :error="formError.title" label="标题：" prop="title">
             <el-input v-model="form.title"></el-input>
         </el-form-item>
         <el-form-item :error="formError.content" label="内容：" prop="content">
-            <el-input type="textarea" v-model="form.content"></el-input>
+            <QuillEditorComponent :data="form"></QuillEditorComponent>
         </el-form-item>
+        
         
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -106,18 +103,22 @@
 
 <#Block:end>
 
+<#include file="~/components/QuillEditorComponent.html" />
+<#include file="__COMPONENTS__/TreeSelectComponen.html" />
 
 <script type="text/javascript">
 
-    LAM.run([jQuery],function($) {
+    LAM.run(function() {
         'use strict';
         var System = this;
 
         const Api = System.require("Api");
 
+        const QuillEditorComponent = System.require("views.article.list.components.QuillEditorComponent");
+
 
         var ContentComponent = {
-            'name': "diaryIndex",
+            'name': "articleIndex",
             data(){
                 return {
                     'loading': true,
@@ -126,38 +127,55 @@
                     'contents': [],
                     'keyword': "",
                     'title': "",
+                    'sid': "-1",
                     'form':{
                         'active':"",
-                        'title': "",
+                        'sid': "1",
                         'id': "-1",
+                        'sortName': "",
+                        'title': "",
                         'content': ""
                     },
                     'formError':{
                         'title': "",
                         'content': ""
                     },
-                    data: [],
-                    tableData: [],
-                    rules: {
-                        title: [
-                            { required: true, message: '请输入标题', trigger: 'blur' }
+                    'tableData': [],
+                    'filterText': '',
+                    'list': [],
+                    'rules': {
+                        'title': [
+                            { 'required': true, 'message': '请输入标题', 'trigger': 'blur' }
                         ],
-                        content: [
-                            { required: true, message: '请输入内容', trigger: 'blur' }
+                        'type': [
+                            { 'required': true, 'message': '请选择类别', 'trigger': 'blur' }
+                        ],
+                        'content': [
+                            { 'required': true, 'message': '请输入内容', 'trigger': 'blur' }
                         ]
                     }
 
                 };
             },
             'components': {
+                QuillEditorComponent,
+                'el-tree-select': System.require('components.TreeSelectComponen')
             },
             beforeCreate() { },
             created() {
                 this.getContent();
+                Api.sorts.get(res => {
+                    this.list = res
+                    this.loading = false;
+                })
             },
             'methods': {
+                detail(id){
+                    this.$router.push(`/article/detail/${id}`);
+                },
                 ok() {
                     this.dialogVisible = false;
+                    this.loading = false;
                     
                 },
                 submit() {
@@ -179,12 +197,15 @@
 
                 },
                 initError() {
+                    this.formError.sid = "";
                     this.formError.title = "";
                     this.formError.content = "";
                 },
                 init() {
+                    this.form.sid = 1;
                     this.form.title = '';
                     this.form.content = '';
+                    this.initError();
                 },
                 action(active, item) {
                     this.init();
@@ -194,42 +215,47 @@
                     switch(active) {
                         case 1:
                             this.dialogTitle = "新增";
+                            this.dialogVisible = true;
                             break;
                         case 2:
                             this.dialogTitle = "修改";
+                            this.dialogVisible = true;
+                            this.form.id = item.id;
+                            this.form.sid = item.sid;
+                            this.form.title = item.title;
+                            this.form.content = item.content;
+                            this.form.sortName = item.sortName;
                             break;
                         case 3:
                             this.remove(item.id);
-                            return;
+                            break;
                     }
                     
-                    this.dialogVisible = true
-
-                    if(item) {
-                        this.form.id = item.id;
-                        this.form.title = item.title;
-                        this.form.content = item.content;
-                    }
                 },
                 add() {
                     var v = this;
-                    var wait = layer.load();
+                    this.loading = true;
+                    const sid = this.form.sid;
                     const title = this.form.title;
                     const content = this.form.content;
 
                     const data = { 
+                        sid,
                         title,
                         content
                     };
-                    Api.diary.add(data, D => {
-                        layer.close(wait);
-                        if(D.status){
+                    Api.article.add(data, res => {
+                        this.loading = false;
+                        if(res.status){
                             this.getContent();
                             this.ok();
+                            this.$message({
+                                type: 'success',
+                                message: '添加成功!'
+                            });
 
                         }else{
-                            // alert(D.message);
-                            System.each(D.errors, (key,value) => {
+                            System.each(res.errors, (key,value) => {
                                 this.formError[key] = value;
                             });
                         }
@@ -240,71 +266,94 @@
                     let name = this.keyword;
                     
                     if(sid > 0) {
-                        let wait = layer.load();
-                        Api.diary.search({ title }, D => {
-                            layer.close(wait);
-                            if(D.status){
-                                this.contents = D.data;
+                        this.loading = true;
+                        Api.article.search({ title }, res => {
+                            this.loading = false;
+                            if(res.status){
+                                this.contents = res.data;
                             }
                         });
                         
                     }
 
                 },
+                confirm(func){
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        func()
+                    }).catch(() => {
+                        // this.$message('已取消删除')  
+                    })
+                },
                 getContent(){
-                    Api.diary.getList(res => {
+                    this.loading = true;
+                    Api.article.index(res => {
                         this.loading = false;
                         this.tableData = res.data;
                     });
                 },
                 remove(id){
-                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
-                      //do something
-                        Api.diary.delete(id, data => {
-                            alert(data.message);
-                            if(!data.status){
-                                System.each(data.errors,function (key,value) {
+                    this.confirm(()=> {
+                        this.loading = true;
+                        Api.article.delete(id, res => {
+                            this.loading = false;
+                            if(res.status) {
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                                this.getContent();
+                            }else{
+                                System.each(res.errors,function (key,value) {
                                     alert(value)
                                 });
-                            } else {
-                                this.getContent();
+                                
                             }
-                            layer.close(index);
+                            
                         });
-                      
                     });
                 },
                 modify(id){
-                    var wait = layer.load();
+                    this.loading = true;
+                    const sid = this.form.sid;
                     const title = this.form.title;
                     const content  = this.form.content;
 
-                    Api.diary.edit({
+                    Api.article.edit({
                         id,
+                        sid,
                         title,
                         content
-                    }, data => {
-                        layer.close(wait);
-                        if(data.status){
-                            alert(data.message);
+                    }, res => {
+                        this.loading = false;
+                        if(res.status){
+                            
                             this.getContent();
                             this.ok();
+                            this.$message({
+                                type: 'success',
+                                message: '修改成功!'
+                            });
                         }else{
-                            // alert(data.message);
-                            System.each(data.errors, (key,value) => {
+                            System.each(res.errors, (key,value) => {
                                 this.formError[key] = value;
                             });
                         }
                     },'json');
                 }
             },
-            'watch': {
-                'keyword': function() { this.search();}
+            'watch': { 
+                filterText(val) {
+                    this.$refs.tree.filter(val);
+                }
             },
-            template: System.Template.getBlock('views.diary.content')
+            template: System.Template.getBlock('views.article.list')
         };
 
-        System.export('views.diary.index', ContentComponent);
+        System.export('views.article.list', ContentComponent);
     });
 </script>
 

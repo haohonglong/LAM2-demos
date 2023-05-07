@@ -1,6 +1,6 @@
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 
-<#Block:begin id="components.selectBox">
+<#Block:begin id="components.SelectBoxComponent">
 <div>
     <select id="select" class="L" v-on:click="arrowDown">
         <option v-if="0 == data.sid" value="0" class="none">请选择</option>
@@ -75,7 +75,7 @@
             }
 
           },
-          template: System.Template.getBlock('components.selectBox')
+          template: System.Template.getBlock('components.SelectBoxComponent')
         };
 
         System.export('components.SelectBoxComponent', SelectBoxComponent);

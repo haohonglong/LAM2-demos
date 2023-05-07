@@ -1,4 +1,4 @@
-<#Block:begin id="urlMenu">
+<#Block:begin id="components.UrlMenuComponent">
     <div>
         <template v-for="(item, key) in list">
             <dl v-if="0 == level" class="border dl-1">
@@ -27,7 +27,7 @@
 
 
 
-			var UrlMenuComponent = {
+			var Component = {
 				name: 'UrlMenuComponent',
 				props: {
 					'list': Array,
@@ -48,9 +48,9 @@
 							this.$emit('getContent', id, title);
 					}
 				},
-				template: System.Template.getBlock('urlMenu')
+				template: System.Template.getBlock('components.UrlMenuComponent')
 			};
 
-			System.export('UrlMenuComponent', UrlMenuComponent);
+			System.export('UrlMenuComponent', Component);
 	});
 </script>

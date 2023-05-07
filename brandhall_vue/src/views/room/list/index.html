@@ -3,11 +3,13 @@
 <#define ~/="__VIEWS__/room/list/" />
 #define# __DATA__ <#include file="{#LAM.DATA#}/list.json" /> #end#
 
-<! #extends title="_TITLE_" data="{'list':[
+<!--Del:begin-->
+<#extends title="_TITLE_" data="{'list':[
 {'name':'喜鹊筑家旗舰店','href':'###','title':''},
 {'name':'商品管理','href':'###','title':''},
 {'name':'_TITLE_'}
-]}" --/>
+]}" />
+<!--Del:end-->
 
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
@@ -48,7 +50,8 @@
 </div>
 <#Block:end>
 
-<#include repeat="0" tp-data="{}" file="~/components/ListComponent.html" />
+<#include file="~/components/ListComponent.html" />
+
 <script type="text/javascript">
     LAM.run(function(){
         'use strict';

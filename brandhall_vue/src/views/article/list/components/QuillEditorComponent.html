@@ -1,0 +1,84 @@
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
+
+<#import type="css" path="quill.core.css,quill.snow.css,quill.bubble.css" root="__NODE_MODULES__/quill/dist/" befor="1" />
+<#import path="quill.js" root="__NODE_MODULES__/quill/dist/" befor="1" write="1" />
+<#import path="vue-quill-editor.js" root="__NODE_MODULES__/vue-quill-editor/dist/" befor="1" write="1" />
+
+
+
+<#Block:begin id="views.article.list.components.QuillEditorComponent">
+<div>
+    
+	<quill-editor v-model="data.content"
+		ref="myQuillEditor"
+		:options="editorOption"
+		@blur="onEditorBlur($event)"
+		@focus="onEditorFocus($event)"
+		@ready="onEditorReady($event)">
+	</quill-editor>
+</div>
+
+<#Block:end>
+
+<script type="text/javascript">
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+		Vue.use(window.VueQuillEditor);
+
+        var ContentComponent = {
+            'name': "QuillEditorComponent",
+            components: {
+				VueQuillEditor
+            },
+			props: {
+                data: Object
+            },
+            data(){
+                return {
+					editorOption: {
+					// some quill options
+					}
+                    
+                };
+            },
+            created() {
+            },
+            methods: {
+				onEditorBlur(quill) {
+					console.log('editor blur!', quill)
+				},
+				onEditorFocus(quill) {
+					console.log('editor focus!', quill)
+				},
+				onEditorReady(quill) {
+					console.log('editor ready!', quill)
+				},
+				onEditorChange({ quill, html, text }) {
+					console.log('editor change!', quill, html, text)
+					this.data.content = html
+				}
+			},
+			computed: {
+				editor() {
+					return this.$refs.myQuillEditor.quill
+				}
+			},
+			mounted() {
+				console.log('this is current quill instance object', this.editor)
+			},
+				
+            template: System.Template.getBlock('views.article.list.components.QuillEditorComponent')
+        };
+
+        System.export('views.article.list.components.QuillEditorComponent', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+</style>
+
+
+
+

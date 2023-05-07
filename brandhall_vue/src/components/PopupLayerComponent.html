@@ -1,4 +1,4 @@
-<#Block:begin id="popupLayer">
+<#Block:begin id="components.PopupLayerComponent">
 <div class="sectionPopupLayer-A1 sectionPopupLayer-A1-1 js_sectionPopupLayerA1 border sectionShadow-A4">
   <div class="sectionBox sectionTitle-A sectionTitle-A11">
       <h2>{{title}}</h2>
@@ -21,7 +21,7 @@
         'use strict';
         var System = this;
         
-        var PopupLayerComponent = {
+        var Component = {
               name: "PopupLayerComponent",
               props: ["title"],
               components: {},
@@ -40,10 +40,10 @@
                   pop.create().setCenter();
                 }
               },
-              template: System.Template.getBlock('popupLayer')
+              template: System.Template.getBlock('components.PopupLayerComponent')
         };
 
-        System.export('PopupLayerComponent', PopupLayerComponent);
+        System.export('components.PopupLayerComponent', Component);
         
     });
 </script>

@@ -1,0 +1,89 @@
+<#define _TITLE_="文章详细页" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/article/detail/" />
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+<#Block:begin id="views.article.detail">
+<el-row v-loading="loading">
+	<el-col :span="24">
+		<el-card class="box-card">
+			<div slot="header" class="clearfix">
+			  <h3 class="font-16">{{title}}</h3>
+			  <router-link :to="'/article/index'">
+				<el-button type="text" style="float: right; padding: 3px 0">返回文章列表</el-button>
+			  </router-link>
+			</div>
+			<div class="p15" v-html="content"></div>
+		  </el-card>
+	</el-col>
+</el-row>
+
+<#Block:end>
+
+
+<script type="text/javascript">
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+
+        var ContentComponent = {
+            'name': "mindlineDetail",
+			components: {},
+			data(){
+				return {
+					loading: true,
+					title: "",
+					content: "",
+					created_at: "",
+					updated_at: ""
+				};
+			},
+			created(){
+
+				const id = this.$route.params.id;
+				Api.article.show({ id }, res => {
+					if(res.status){
+						try {
+							this.title   = res.data.title;
+							this.content = res.data.content;
+							this.created_at = res.data.created_at;
+							this.updated_at = res.data.updated_at;
+							this.loading = false;
+							const message = "数据加载成功";
+									this.$message({
+										message,
+										type: 'success'
+										});
+						} catch (err) {
+							this.$message.error('Error: ' + err.message);
+						}
+						
+						
+					} else {
+						this.$message('数据加载失败');
+					}
+					this.loading = false;
+				});
+			},
+            template: System.Template.getBlock('views.article.detail')
+        };
+
+        System.export('views.article.detail', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+</style>
+
+
+
+

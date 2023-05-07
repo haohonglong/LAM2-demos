@@ -7,30 +7,19 @@
 
 
 <#Block:begin id="video.components.FormComponent">
-<form class="form-horizontal">
-    <div class="sectionWrap-A5">
-        <div class="p15">
-            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
-                <ul>
-                    <li class="clear mb5">
-                        <label class="L">title：<span class="warning">*</span></label>
-                        <input type="text" v-model="data.title"  class="text name L">
-                        <span class="help-block">{{error.title}}</span>
-                    </li>
-                    <li class="textarea clear">
-                        <label class="L">source：<span class="warning">*</span></label>
-                        <textarea class="L" v-model="data.source"></textarea>
-                        <span class="help-block">{{error.source}}</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</form>
+<div>
+    <el-form :model="data" :rules="rules" ref="data" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="标题：" prop="title">
+            <el-input v-model="data.title"></el-input>
+        </el-form-item>
+        <el-form-item label="源码：" prop="source">
+            <el-input type="textarea" v-model="data.source"></el-input>
+        </el-form-item>
+        
+    </el-form>
+</div>
 
 <#Block:end>
-
-
 
 <script type="text/javascript">
     LAM.run(function(){
@@ -44,7 +33,16 @@
           },
           components: {},
           data() {
-            return {}
+            return {
+                rules: {
+                    title: [
+                        { required: true, message: '请输入标题', trigger: 'blur' }
+                    ],
+                    source: [
+                        { required: true, message: '请输入源码', trigger: 'blur' }
+                    ]
+                }
+            }
           },
           methods: {},
           template: System.Template.getBlock('video.components.FormComponent')

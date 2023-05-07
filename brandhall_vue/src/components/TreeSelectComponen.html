@@ -1,4 +1,4 @@
-<#Block:begin id="url.component.TreeSelect">
+<#Block:begin id="components.TreeSelectComponen">
 <div>
 	<el-select :value="data.sortName" :clearable="clearable" @clear="clearHandle">
 	  <el-input
@@ -32,6 +32,11 @@
 	LAM.run([jQuery],function($) {
 		'use strict';
 		var System = this;
+
+		
+
+		
+				
 
 		var Component = {
 			name: "el-tree-select",
@@ -167,10 +172,10 @@
 					this.$refs.selectTree.filter(val);
 				}
 			},
-			template: System.Template.getBlock('url.component.TreeSelect')
+			template: System.Template.getBlock('components.TreeSelectComponen')
 		};
 
-		System.export('url.component.TreeSelectComponent', Component);
+		System.export('components.TreeSelectComponen', Component);
 	});
 </script>
 

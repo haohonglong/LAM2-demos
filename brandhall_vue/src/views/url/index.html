@@ -19,14 +19,16 @@
 
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
-<! #extends title="_TITLE_" data="{'list':[
+<!--Del:begin-->
+<#extends title="_TITLE_" data="{'list':[
 {'name':'首页','href':'__HOME__','title':'首页'},
 {'name':'网页地址','href':'__INDEX__url/index','title':''},
 {'name':'_TITLE_'}
-]}" --/>
+]}" />
+<!--Del:end-->
 
 <#Block:begin id="views.url.content">
-<div class="sectionWrap-A7 p-rel">
+<div v-loading="loading" class="sectionWrap-A7 p-rel">
     <div class="sectionMenu-A1">
         <el-input
             placeholder="输入关键字进行过滤"
@@ -77,21 +79,6 @@
                     </ul>
                 </div>
 
-
-                <div class="sectionPageing-A2 clear mb20">
-                    <div class="R">
-                        
-                        <paging-component></paging-component>
-                    </div>
-                </div>
-
-                <div class="sectionTitle-A5 sectionTitle-A5-p0 clear">
-                    <div class="L">
-                        <span class="mr5"><input class="v-negative3 js_allcheckbok" type="checkbox"></span>
-                        <span>全选当前商品</span>
-                    </div>
-                    
-                </div>
             </div>
         </div>
     </div>
@@ -99,8 +86,23 @@
     <el-dialog
     :title="dialogTitle"
     :visible.sync="dialogVisible"
+    :close-on-click-modal="false"
     width="">
-    <form-component :list="data" :data="form" :error="formError"></form-component>
+    <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="类别：" prop="type">
+            <el-tree-select :data="form" :list="data"></el-tree-select>
+        </el-form-item>
+        <el-form-item :error="formError.name" label="名称：" prop="name">
+            <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item :error="formError.url" label="网页地址：" prop="url">
+            <el-input v-model="form.url"></el-input>
+        </el-form-item>
+        <el-form-item :error="formError.info" label="简介：" prop="info">
+            <el-input type="textarea" v-model="form.info"></el-input>
+        </el-form-item>
+        
+    </el-form>
     <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submit()">提 交</el-button>
@@ -113,11 +115,10 @@
 
 
 
-<#include file="__COMPONENTS__/PagingComponent.html" />
-<#include file="~/components/FormComponent.html" />
+<#include file="__COMPONENTS__/TreeSelectComponen.html" />
 <script type="text/javascript">
 
-    LAM.run([jQuery],function($) {
+    LAM.run(function() {
         'use strict';
         var System = this;
 
@@ -135,6 +136,21 @@
             'name': "urlIndex",
             data(){
                 return {
+                    loading: true,
+                    rules: {
+                        name: [
+                            { required: true, message: '请输入名称', trigger: 'blur' }
+                        ],
+                        type: [
+                            { required: true, message: '请选择类别', trigger: 'blur' }
+                        ],
+                        url: [
+                            { required: true, message: '请输入url', trigger: 'blur' }
+                        ],
+                        info: [
+                            { required: true, message: '请输入简介', trigger: 'blur' }
+                        ]
+                    },
                     'dialogTitle': "提示",
                     'dialogVisible': false,
                     'contents': [],
@@ -152,7 +168,6 @@
                         'info': ""
                     },
                     'formError':{
-                        'sid': "",
                         'name': "",
                         'url': "",
                         'info': ""
@@ -168,13 +183,13 @@
                 };
             },
             'components': {
-                'paging-component': System.require('components.PagingComponent'),
-                'form-component': System.require('url.FormComponent')
+                'el-tree-select': System.require('components.TreeSelectComponen')
             },
             beforeCreate() { },
             created() {
                 Api.sorts.get(res => {
                     this.data = res
+                    this.loading = false;
                 })
                 let v = this;
                 System.COOKIE.find('id',"1",function (index) {
@@ -191,15 +206,22 @@
 
                     }
                 });
+                
             },
             'methods': {
                 location(url) {
                     window.location = url;
                 },
                 ok() {
-                    this.dialogVisible = false
+                    this.dialogVisible = false;
+                    this.loading = false;
                 },
                 submit() {
+                    this.$refs.validateForm.validate((valid) => {
+                        if (!valid) {
+                            return false;
+                        }
+                        });
                     this.initError();
                     
                     switch(this.form.active) {
@@ -253,7 +275,7 @@
                 },
                 add() {
                     var v = this;
-                    var wait = layer.load();
+                    this.loading = true;
                     const sid = this.form.sid;
                     const name = this.form.name;
                     const url = this.form.url;
@@ -267,7 +289,7 @@
                         info
                     };
                     Api.url.add(data, D => {
-                        layer.close(wait);
+                        this.loading = false;
                         if(D.status){
                             // alert(D.message);
                             this.getContent(sid, sortName);
@@ -287,9 +309,9 @@
                     let name = this.keyword;
                     
                     if(sid > 0) {
-                        let wait = layer.load();
+                        this.loading = true;
                         Api.url.search({ sid, name }, D => {
-                            layer.close(wait);
+                            this.loading = false;
                             if(D.status){
                                 this.contents = D.data;
                             }
@@ -309,14 +331,15 @@
 
                     
 
-                    var wait = layer.load();
+                    this.loading  = true;
                     Api.url.get(sid, D =>{
-                        layer.close(wait);
+                        this.loading = false;
                         if(D.status){
                             vue.contents = D.data;
                         }else{
                             vue.contents = "没有数据";
                         }
+                        this.loading = false;
                     });
                     
 
@@ -337,8 +360,24 @@
                     });
                     
                 },
+                confirm(func){
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        func()
+                    }).catch(() => {
+                        // this.$message('已取消删除')  
+                    })
+                },
                 remove(id){
-                    layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
+                    this.confirm(()=> {
+                        this.loading = true;
                       //do something
                         Api.url.delete(id, data => {
                             alert(data.message);
@@ -349,13 +388,12 @@
                             } else {
                                 this.getContent(this.sid, this.title);
                             }
-                            layer.close(index);
+                            this.loading = false;
                         });
-                      
-                    });
+                    })
                 },
                 modify(id){
-                    var wait = layer.load();
+                    this.loading = true;
                     const sid  = this.form.sid;
                     const name = this.form.name;
                     const url  = this.form.url;
@@ -369,7 +407,7 @@
                         url,
                         info
                     }, data => {
-                        layer.close(wait);
+                        this.loading = false;
                         if(data.status){
                             alert(data.message);
                             this.getContent(sid, sortName);
@@ -404,9 +442,10 @@
 </script>
 
 <style type="text/css">
+    .sectionMenu-A1 { width: 200px; }
     .sectionButton-B1 .btn a{color:#fff;}
     .sectionMenu-A1 { position: relative; float: left; }
-    .sectionWrap-A6 { margin-left: 180px; }
+    .sectionWrap-A6 { margin-left: 210px; }
     .el-input { width: auto; }
 
 </style>

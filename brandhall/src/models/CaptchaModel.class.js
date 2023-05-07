@@ -157,7 +157,7 @@
         
 	};
 
-
+    System.export("models.CaptchaModel", CaptchaModel);
     return CaptchaModel;
 });
 

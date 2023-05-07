@@ -5,6 +5,14 @@ LAM.run([jQuery], function($){
 	const SERVER = System.SERVER;
 
 	const API = {
+		"article":{
+			"index": "/article/index",
+			"search": "/article/search",
+			"show": "/article/show",
+			"add": "/article/add",
+			"edit": "/article/edit",
+			"delete": "/article/delete"
+		},
 		"mindmaps":{
 			"index": "/mindmaps/index",
 			"show": "/mindmaps/show",
@@ -72,12 +80,55 @@ LAM.run([jQuery], function($){
 	}
 
 	const Api = {
+		"article": {
+			index(func){
+				request({
+					url: API.article.index,
+					method: 'get'
+				}, func);
+			},
+			add({ sid, title, content }, func){
+				request({
+					url: API.article.add,
+					method: 'post',
+					params: { sid, title, content }
+				}, func);
+			},
+			search({ title }, func){
+				request({
+					url: API.article.search,
+					method: 'post',
+					params: { title }
+				}, func);
+			},
+			edit({ id, sid, title, content }, func){
+				request({
+					url: API.article.edit,
+					method: 'post',
+					params: { id, sid, title, content }
+				}, func);
+			},
+			delete(id, func){
+				request({
+					url: API.article.delete,
+					method: 'get',
+					params: { id }
+				}, func);
+			},
+			show(id, func){
+				request({
+					url: API.article.show,
+					method: 'get',
+					params: { id }
+				}, func);
+			}
+		},
 		"mindmaps": {
-			add({ key, name, thumbnail, content }, func){
+			add({ key, name, thumbnail, content, remark }, func){
 				request({
 					url: API.mindmaps.add,
 					method: 'post',
-					params: { key, name, thumbnail, content }
+					params: { key, name, thumbnail, content, remark }
 				}, func);
 			},
 			editByKey({ key, content }, func){
@@ -87,11 +138,11 @@ LAM.run([jQuery], function($){
 					params: { key, content }
 				}, func);
 			},
-			edit({ id, key, name, thumbnail }, func){
+			edit({ id, key, name, thumbnail, remark }, func){
 				request({
 					url: API.mindmaps.edit,
 					method: 'post',
-					params: { id, key, name, thumbnail }
+					params: { id, key, name, thumbnail, remark }
 				}, func);
 			},
 			show({ key }, func){

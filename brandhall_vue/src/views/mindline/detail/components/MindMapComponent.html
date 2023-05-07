@@ -1,10 +1,11 @@
 <#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
 
+
 <#import path="/mindmap.umd.js" root="__NODE_MODULES__/@hellowuxin/mindmap/dist" write="1" befor="1" />
 
 <#Block:begin id="views.mindline.detail.components.MindMapComponent">
-<div>
-    <el-button @click="edit()">保存</el-button>
+<div v-loading="loading">
+    <el-button @click="save()">保存</el-button>
     <el-button><router-link to="/mindline/index">返回列表</router-link></el-button>
     <mindmap v-model="data" height="500"></mindmap>
 </div>
@@ -27,12 +28,13 @@
 			},
 			props: {
 				"keyword": {
-				type: String,
-				require: true
+					type: String,
+					require: true
 				}
 			},
 			data(){
 				return {
+					loading: true,
 					data: [{ name: "思维导图" }]
 				};
 			},
@@ -43,6 +45,7 @@
 						try {
 							const content = res.data.content;
 							this.data = JSON.parse(content);
+							this.loading = false;
 							const message = "数据加载成功";
 									this.$message({
 										message,
@@ -59,7 +62,8 @@
 				
 			},
 			methods: {
-				edit() {
+				save() {
+					this.loading = true; 
 					const key = this.keyword;
 					const content = this.data;
 					const data = {
@@ -69,6 +73,7 @@
 
 					Api.mindmaps.editByKey(data, res => {
 						if(res.status){
+							this.loading = false;
 							const message = "保存成功";
 							this.$message({
 								message,

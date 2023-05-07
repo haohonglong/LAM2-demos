@@ -1,19 +1,58 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
 <#define __MODELS__="{#LAM.MODELS#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 <#import path="/CaptchaModel.class.js" write="1" befor="1" root="__MODELS__" />
-<div id="v_container" style="width: 200px;height: 50px;"></div>
-        <input type="text" id="code_input" value="" placeholder="请输入验证码"/><button id="my_button">验证</button>
-<script>
+
+<#define _TITLE_="验证码" />
+
+<#extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'_TITLE_'}
+]}" />
+
+<#Block:begin id="views.test.code">
+<div>
+    <div id="v_container" style="width: 200px;height: 50px;"></div>
+    <input type="text" v-model="code" placeholder="请输入验证码"/><button @click="verify">验证</button>
+</div>
+
+<#Block:end>
+
+
+<script type="text/javascript">
     LAM.run(function(){
         'use strict';
         var System = this;
-        var verifyCode = new System.CaptchaModel("v_container");
-        document.getElementById("my_button").onclick = function(){
-            var res = verifyCode.validate(document.getElementById("code_input").value);
-            if(res){
-                alert("验证正确");
-            }else{
-                alert("验证码错误");
+
+        var CaptchaModel = System.require("models.CaptchaModel");
+
+
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          data() {
+            return {
+                code: "",
+                verifyCode: null
             }
-        }
+          },
+          mounted(){
+            this.verifyCode = new CaptchaModel("v_container");
+          },
+          methods: {
+            verify() {
+                var res = this.verifyCode.validate(this.code);
+                if(res){
+                    alert("验证正确");
+                }else{
+                    alert("验证码错误");
+                }
+            }
+              
+          },
+          template: System.Template.getBlock('views.test.code')
+        };
+
+        System.export('ContentComponent', ContentComponent);
     });
 </script>

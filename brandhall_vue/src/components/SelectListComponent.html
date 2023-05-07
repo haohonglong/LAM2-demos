@@ -1,4 +1,4 @@
-<#Block:begin id="selectBoxList">
+<#Block:begin id="components.SelectListComponent">
 <ul>
     <li v-if="0 == count" value="0">请选择</li>
     <template v-for="item in list">
@@ -16,7 +16,7 @@
         'use strict';
         var System = this;
         
-        var SelectListComponent = {
+        var Component = {
               name: "SelectListComponent",
               props: ["list", "sid", "count"],
               components: { },
@@ -48,10 +48,10 @@
                 },
                 empty(v) { return System.empty(v); }
               },
-              template: System.Template.getBlock('selectBoxList')
+              template: System.Template.getBlock('components.SelectListComponent')
         };
 
-        System.export('SelectListComponent', SelectListComponent);
+        System.export('components.SelectListComponent', Component);
         
     });
 </script>

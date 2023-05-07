@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "@hellowuxin/mindmap": "^2.1.4",
+    "element-ui": "^2.15.13",
     "systemjs": "^6.13.0",
-    "@hellowuxin/mindmap": "^2.1.4"
+    "vue-quill-editor": "^3.0.6"
   }
 }

@@ -4,11 +4,13 @@
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define ~/="__VIEWS__/goods/" />
 
-<! #extends title="_TITLE_" data="{'list':[
+<!--Del:begin-->
+<#extends title="_TITLE_" data="{'list':[
 {'name':'商品','href':'###','title':''},
 {'name':'商品列表','href':'__INDEX__goods/index','title':''},
 {'name':'_TITLE_'}
-]}" --/>
+]}" />
+<!--Del:end-->
 
 
 <#Block:begin id="goods.add.content">
@@ -146,7 +148,7 @@
                 'goods-component': System.require('goods.components.goods')
               },
               created() {
-                Api.shop.getList(res => {
+                Api.shop.index(res => {
                     this.shops = res.data
                 })
               },

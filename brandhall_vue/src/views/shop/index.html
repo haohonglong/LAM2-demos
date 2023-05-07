@@ -5,18 +5,17 @@
 <#define _TITLE_="店铺" />
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
-<! #extends title="_TITLE_" data="{'list':[
+<!--Del:begin-->
+<#extends title="_TITLE_" data="{'list':[
 {'name':'首页','href':'__HOME__','title':'首页'},
 {'name':'店铺管理','href':'__INDEX__shop/index','title':''},
 {'name':'_TITLE_'}
-]}" --/>
+]}" />
+<!--Del:end-->
 
 
 
-
-
-
-<#Block:begin id="views.shop.content">
+<#Block:begin id="views.shop.index">
 <div>
     <el-row>
         <el-button><router-link to="/shop/create">添加店铺名称</router-link></el-button>
@@ -85,7 +84,7 @@
                 // rows.splice(index, 1);
             }
           },
-          template: System.Template.getBlock('views.shop.content')
+          template: System.Template.getBlock('views.shop.index')
         };
 
         System.export("views.shop.index", ContentComponent);

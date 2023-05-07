@@ -4,12 +4,13 @@
 
 <#define __INDEX__="{#LAM.INDEX#}" />
 <#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
-
-<! #extends title="_TITLE_" data="{'list':[
+<!--Del:begin-->
+<#extends title="_TITLE_" data="{'list':[
 {'name':'首页','href':'__HOME__','title':'首页'},
 {'name':'添加商品','href':'__INDEX__goods/create','title':''},
 {'name':'_TITLE_'}
-]}" --/>
+]}" />
+<!--Del:end-->
 
 
 <#Block:begin id="goods.bill">
@@ -83,7 +84,7 @@
 
 
 <#Block:begin id="goods.content">
-<div>
+<div v-loading="loading">
     <div class="sectionButton-B1">
         <router-link class="btn save" to="/goods/add">添加商品</router-link>
     </div>
@@ -156,12 +157,14 @@
               },
               data: function () {
                 return {
-                    list: []
+                    'loading': true,
+                    'list': []
                 }
               },
               created(){
                 Api.goods.get(res => {
                     this.list = res
+                    this.loading = false;
                 })
               },
               methods: {

@@ -1,5 +1,9 @@
 <#define __IMG__="{#LAM.IMAGE#}/imgs_LHH" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __LAYOUTS__="{#LAM.LAYOUTS#}" />
+<#define @COMPONENTS="__LAYOUTS__/components" />
+<#define ~/="@COMPONENTS/" />
+
 <#import path="/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#define __IMG_S_W="15" />
 
@@ -171,7 +175,9 @@
                 </li>
             </ul>
         </div>
+        
     </div>
+    <!-- <div class="L"><nav-menu-component></nav-menu-component></div> -->
     <div class="R">
         <div class="sectionSearch-A1 sectionForm-A2">
             <input type="text" class="text bg none pl35" placeholder="">
@@ -197,6 +203,7 @@
 
 
 
+<#include file="~/NavMenuComponent.html" />
 
 <script type="text/javascript">
     //header
@@ -281,6 +288,9 @@
             "name": String,
             "age": Number,
             "obj": Object
+          },
+          components: {
+            NavMenuComponent: System.require("components.NavMenuComponent")
           },
           data: function () {
             return {

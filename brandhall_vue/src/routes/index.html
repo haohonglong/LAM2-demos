@@ -12,6 +12,9 @@
 <#include file="__VIEWS__/diary/index.html" />
 <#include file="__VIEWS__/mindline/index/index.html" />
 <#include file="__VIEWS__/mindline/detail/index.html" />
+<#include file="__VIEWS__/test/index.html" />
+<#include file="__VIEWS__/article/list/index.html" />
+<#include file="__VIEWS__/article/detail/index.html" />
 
 <script type="text/javascript">
 LAM.run(function(){
@@ -34,6 +37,9 @@ LAM.run(function(){
 			,{ path: '/diary/index', component: System.require('views.diary.index') }
 			,{ path: '/mindline/index', component: System.require('views.mindline.index') }
 			,{ path: '/mindline/detail/:key', component: System.require('views.mindline.detail') }
+			,{ path: '/article/index', component: System.require('views.article.list') }
+			,{ path: '/article/detail/:id', component: System.require('views.article.detail') }
+			,{ path: '/test/index', component: System.require('views.test.index') }
 		]
 		const router = new VueRouter({ routes })
 
