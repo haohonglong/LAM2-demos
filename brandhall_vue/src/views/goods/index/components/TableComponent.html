@@ -1,0 +1,105 @@
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/goods/index/components/" />
+
+<#Block:begin id="goods.index.components.table">
+<div>
+    <div v-for="(v1, item, i) in list" class="sectionBorder-A3 mt1 ml2" v-bind:style="isset(v1.bill_id) ? 'padding:1px;' : ''">
+        <div class="sectionTable-B1 sectionTable-B1-5">
+            <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+                <ul class="clear">
+                    <div v-if="isset(v1.bill_id) && i > 0" style="border-bottom: 3px solid #fff;"></div>
+                    <div v-if="isset(v1.bill_id)">
+                        <li v-if="v1.bill_id != 0" class="first col-7" style="width:21%;">
+                            <bill-component v-for="(item, key) in getBill(
+                                                                    v1.bill_id,
+                                                                    getTotalPrice(v1.childs),
+                                                                    v1.discount,
+                                                                    v1.points,
+                                                                    v1.create_at)" :key="key" :item="item"></bill-component>
+                        </li>
+                        <li v-else class="first col-7" style="width:21%;font-weight: bold;">这些商品没建立订单</li>
+
+                        <li class="first col-1" style="width:79%;">
+                            <div class="sectionBorder-A3 ml2">
+                                <div class="sectionTable-B1 sectionTable-B1-5">
+                                    <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
+                                        <ul class="clear" style="font-weight: bold;">
+                                            <li class="col-8" style="width: 70px;border-left: none;">id</li>
+                                            <li class="col-1 pl10 pr10" style="width: 52%;">商品名称</li>
+                                            <li class="col-10 pl10" style="width: 170px;">商品条形码</li>
+                                            <li class="col-8 color-red pl10">价格</li>
+                                            <li class="col-7" style="width: 80px;">日期</li>
+                                            <li style="width: 120px;text-align: center;">操作</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <table-component :list="v1.childs"></table-component>
+
+                        </li>
+                    </div>
+                    <div v-else>
+                        <li class="col-8" style="width: 70px; border-left: none;">{{ v1.id }}</li>
+                        <li class="col-1 pl10 pr10" style="text-align: left;width: 52%;">{{ v1.name }}</li>
+                        <li class="col-10 pl10" style="text-align: left;width: 170px;"> {{ v1.code }} &nbsp;</li>
+                        <li class="col-8 color-red pl10" style="text-align: left;">{{ v1.final_price }}</li>
+                        <li class="col-7" style="width: 80px;">{{ v1.create_at }}</li>
+                        <li style="width: 120px;text-align: center;">查看 | 修改 | 删除</li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<#Block:end>
+
+<#include file="~/BillComponent.html" />
+
+<script type="text/javascript">
+    LAM.run(function () {
+        'use strict';
+        var System = this;
+
+		var ContentComponent = {
+              name: 'tableComponent',
+              props: ["list"],
+              data: function () {
+                return {
+                }
+              },
+              'components': {
+                 'bill-component': System.require('goods.index.components.bill')
+              },
+              methods: {
+                isset(value) {
+                    return System.isset(value);
+                },
+                getTotalPrice(arr) {
+                    let total_price = 0.00;
+                    arr.forEach((item,index,arr)=>{
+                        total_price += parseFloat(item.final_price);
+                    });
+                    return total_price.toFixed(2);
+
+                },
+                getBill(bill_id, total_price, discount, points, create_at) {
+                    return [
+                            {"name":"订单号","value": bill_id, "style": ""},
+                            {"name":"日期","value": create_at, "style": ""},
+                            {"name":"合计","value": total_price + ' - ' + discount +  ' = ' + parseFloat(total_price - discount).toFixed(2), "style":"color-red"},
+                            {"name":"折扣","value": discount,"style":"color-green"},
+                            {"name":"积分","value": points,"style":"color-green"}
+                            ];
+                }
+              },
+              template: System.Template.getBlock('goods.index.components.table')
+            };
+			System.export('goods.index.components.table', ContentComponent);
+	});
+
+</script>
+
+<style>
+    .sectionTable-B1-5 .col-8{width: 7%;}
+    .sectionTable-B1-5 .col-9{width: 9%;}
+</style>

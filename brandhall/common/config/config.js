@@ -94,7 +94,7 @@
                     'index': 'room/list',
                     'login': 'site/login',
                     'detail': 'room/detail',
-                    'url': 'url/index',
+                    'url': 'url/index'
                 },
                 'routeAutoRun': true,
                 't': function (System) {

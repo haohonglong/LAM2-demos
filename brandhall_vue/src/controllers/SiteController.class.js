@@ -122,7 +122,7 @@ LAM.run([LAM], function(LAM){
     });
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = SiteController :
 	typeof define === 'function' && define.amd ? define(SiteController) : LAM.SiteController = SiteController;
-    System.export("src.controllers.SiteController", SiteController);
+    System.export("web.controllerInstance", new SiteController());
 });
 
 

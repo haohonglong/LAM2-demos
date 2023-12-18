@@ -1,12 +1,20 @@
-<#define __INDEX__="{#LAM.INDEX#}" />
+
 [
   
+  {
+    "index": "a17",
+    "icon":"a-2",
+    "title":"任务",
+    "ul":[
+      {  "index": "a17-b1", "title":"任务","href":"/tesks/index"}
+    ]
+  },
   {
     "index": "a15",
     "icon":"a-2",
     "title":"文章",
     "ul":[
-      {  "index": "a13-b1", "title":"列表","href":"/article/index"}
+      {  "index": "a15-b1", "title":"列表","href":"/article/index"}
     ]
   },
   {
@@ -15,6 +23,14 @@
     "title":"记事簿",
     "ul":[
       {  "index": "a13-b1", "title":"列表","href":"/diary/index"}
+    ]
+  },
+  {
+    "index": "a16",
+    "icon":"a-1",
+    "title":"盲盒",
+    "ul":[
+      {  "index": "a16-a1", "title":"盲盒","href":"/blindBox/index"}
     ]
   },
   {
@@ -63,8 +79,7 @@
     "icon":"a-5",
     "title":"店铺管理",
     "ul":[
-      { "index": "a11-b1", "title":"店铺","href":"/shop/index"},
-      { "index": "a11-b2", "title":"添加店铺","href":"/shop/create"}
+      { "index": "a11-b1", "title":"店铺列表","href":"/shop/index"}
     ]
   },
   {
@@ -72,7 +87,19 @@
     "icon":"a-5",
     "title":"商品管理",
     "ul":[
-      { "index": "a12-b1", "title":"商品列表","href":"/goods/index"}
+      { "index": "a12-b1", "title":"添加商品","href":"/goods/add"},
+      { "index": "a12-b2", "title":"商品图表分析","href":"/goods/chart"},
+      { "index": "a12-b3", "title":"商品列表","href":"/goods/index"},
+      { "index": "a12-b4", "title":"商品名列表","href":"/goodsname/index"}
+
+    ]
+  },
+  {
+    "index": "a18",
+    "icon":"a-5",
+    "title":"计量单位",
+    "ul":[
+      { "index": "a18-b1", "title":"计量单位列表","href":"/unit/index"}
     ]
   }
 

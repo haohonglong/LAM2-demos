@@ -1,0 +1,103 @@
+<#define _TITLE_="test" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/test/" />
+
+<#import type="css" path="quill.core.css,quill.snow.css,quill.bubble.css" root="__NODE_MODULES__/quill/dist/" befor="1" />
+<#import path="quill.js" root="__NODE_MODULES__/quill/dist/" befor="1" write="1" />
+<#import path="vue-quill-editor.js" root="__NODE_MODULES__/vue-quill-editor/dist/" befor="1" write="1" />
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+<#Block:begin id="views.test.components.QuillEditorComponent">
+<div>
+    
+	<quill-editor v-model="content"
+		ref="myQuillEditor"
+		:options="editorOption"
+		@blur="onEditorBlur($event)"
+		@focus="onEditorFocus($event)"
+		@ready="onEditorReady($event)">
+	</quill-editor>
+</div>
+
+<#Block:end>
+
+<script type="text/javascript">
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+		Vue.use(window.VueQuillEditor);
+
+        const Api = System.require("Api");
+
+
+        var ContentComponent = {
+            'name': "testineIndex",
+            components: {
+				VueQuillEditor
+            },
+			props: {
+                data: {
+					type: Object,
+					// Object or array defaults must be returned from
+					// a factory function
+					default: function () {
+						return { content: '<h2>I am Example</h2>' }
+					}
+				}
+            },
+            data(){
+                return {
+					content: '',
+					editorOption: {
+					// some quill options
+					}
+                    
+                };
+            },
+            created() {
+				this.content = this.data.content;
+            },
+            methods: {
+				onEditorBlur(quill) {
+					console.log('editor blur!', quill)
+				},
+				onEditorFocus(quill) {
+					console.log('editor focus!', quill)
+				},
+				onEditorReady(quill) {
+					console.log('editor ready!', quill)
+				},
+				onEditorChange({ quill, html, text }) {
+					console.log('editor change!', quill, html, text)
+					this.content = html
+				}
+			},
+			computed: {
+				editor() {
+					return this.$refs.myQuillEditor.quill
+				}
+			},
+			mounted() {
+				console.log('this is current quill instance object', this.editor)
+			},
+				
+            template: System.Template.getBlock('views.test.components.QuillEditorComponent')
+        };
+
+        System.export('views.test.components.QuillEditorComponent', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+</style>
+
+
+
+

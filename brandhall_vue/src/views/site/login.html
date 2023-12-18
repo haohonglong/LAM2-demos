@@ -40,7 +40,7 @@
                         <div class="mb5 js_helpWrap">
                             <div class="clear">
                                 <input type="password" v-model="password" v-on:keyup.enter="login"name="password" id="e-password" class="form-control w-200 L mr10" placeholder="密码">
-                                <button type="button" v-on:click="login()" class="sectionButton-LoginImg"></button>
+                                <button type="button" v-tap="login" v-on:click="login()" class="sectionButton-LoginImg"></button>
                             </div>
                             <span style="color: #f00;">{{error_msg}}</span>
                             
@@ -108,9 +108,11 @@
                     this.error_msg = "";
                     const username = this.username;
                     const password = this.password;
+                    
                     System.COOKIE_GUEST.find('auth_key', System.token, function (index,id) {
                         if(-1 === index){
                             API.site.login({ username, password } ,res => {
+                                
                                 if(0 === res.status) {
                                     this.add(res.data);
                                     System.redirect(System.INDEX+System.routeRules.index);
@@ -137,6 +139,7 @@
                             }
                         }
                     });
+                    
                     
                 }
               },

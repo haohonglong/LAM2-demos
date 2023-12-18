@@ -4,10 +4,8 @@
 <#import path="/mindmap.umd.js" root="__NODE_MODULES__/@hellowuxin/mindmap/dist" write="1" befor="1" />
 
 <#Block:begin id="views.mindline.detail.components.MindMapComponent">
-<div v-loading="loading">
-    <el-button @click="save()">保存</el-button>
-    <el-button><router-link to="/mindline/index">返回列表</router-link></el-button>
-    <mindmap v-model="data" height="500"></mindmap>
+<div>
+    <mindmap v-model="list.data" height="500"></mindmap>
 </div>
 
 <#Block:end>
@@ -18,71 +16,23 @@
         'use strict';
         var System = this;
 
-        const Api = System.require("Api");
-
-
+        
         var ContentComponent = {
             name: "MindMapComponent",
 			components: { 
 				mindmap: mindmap
 			},
 			props: {
-				"keyword": {
-					type: String,
-					require: true
+				"list": {
+					type: Object
 				}
 			},
 			data(){
-				return {
-					loading: true,
-					data: [{ name: "思维导图" }]
-				};
+				return { };
 			},
 			created(){
-				const key = this.keyword;
-				Api.mindmaps.show({ key }, res => {
-					if(res.status){
-						try {
-							const content = res.data.content;
-							this.data = JSON.parse(content);
-							this.loading = false;
-							const message = "数据加载成功";
-									this.$message({
-										message,
-										type: 'success'
-										});
-						} catch (err) {
-							this.$message.error('Error: ' + err.message);
-						}
-						
-					} else {
-						this.$message('数据加载失败');
-					}
-				});
 				
-			},
-			methods: {
-				save() {
-					this.loading = true; 
-					const key = this.keyword;
-					const content = this.data;
-					const data = {
-						key,
-						"content": JSON.stringify(content)
-					};
-
-					Api.mindmaps.editByKey(data, res => {
-						if(res.status){
-							this.loading = false;
-							const message = "保存成功";
-							this.$message({
-								message,
-								type: 'success'
-								});
-						}
-					});
-					
-				}
+				
 			},
             template: System.Template.getBlock('views.mindline.detail.components.MindMapComponent')
         };

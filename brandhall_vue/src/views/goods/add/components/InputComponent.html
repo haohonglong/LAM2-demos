@@ -1,11 +1,17 @@
-<#Block:begin id="goods.components.input">
+<#Block:begin id="goods.add.components.input">
+<!-- <li class="L ml10">
+    <span v-if="warning" class="warning">*</span><label> {{ label }} : </label>
+    <el-input :style="input_style" v-bind:value="value" v-on:input="$emit('input', $event)" v-bind="$attrs" :placeholder="label" size="mini"></el-input>
+    <span class="warning" v-text="error"></span>
+</li> -->
 <li class="L ml10">
     <span v-if="warning" class="warning">*</span> <label> {{ label }} : </label>
-    <input :type="type" :name="name" :style="input_style" :class="'text name ' + input_class" v-bind:value="value"
+    <input :placeholder="label" :type="type" :name="name" :style="input_style" :class="'text name ' + input_class" v-bind:value="value"
       v-on:input="$emit('input', $event.target.value)">
       <span class="font-14 font-bold" v-text="unit"></span>
     <span class="warning" v-text="error"></span>
 </li>
+
 <#Block:end>
 
 
@@ -14,7 +20,7 @@
         'use strict';
         var System = this;
 
-		var InputComponent = {
+		var ContentComponent = {
 			name: "InputComponent",
 			props: {
 			'name': String,
@@ -49,9 +55,9 @@
 			data(){
 			return {};
 			},
-			template: System.Template.getBlock('goods.components.input')
+			template: System.Template.getBlock('goods.add.components.input')
 		};
-		System.export('goods.components.input', InputComponent);
+		System.export('goods.add.components.input', ContentComponent);
 
     });
 </script>

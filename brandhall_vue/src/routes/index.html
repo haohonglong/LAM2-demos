@@ -1,20 +1,24 @@
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 
+<#include file="__VIEWS__/mindline/index/index.html" />
+<#include file="__VIEWS__/mindline/detail/index.html" />
+<#include file="__VIEWS__/diary/index.html" />
 <#include file="__VIEWS__/room/list/index.html" />
-<#include file="__VIEWS__/goods/index.html" />
-<#include file="__VIEWS__/goods/add/index.html" />
 <#include file="__VIEWS__/url/index.html" />
 <#include file="__VIEWS__/sorts/index.html" />
 <#include file="__VIEWS__/video/index.html" />
 <#include file="__VIEWS__/video/video2.html" />
 <#include file="__VIEWS__/shop/index.html" />
-<#include file="__VIEWS__/shop/create.html" />
-<#include file="__VIEWS__/diary/index.html" />
-<#include file="__VIEWS__/mindline/index/index.html" />
-<#include file="__VIEWS__/mindline/detail/index.html" />
-<#include file="__VIEWS__/test/index.html" />
 <#include file="__VIEWS__/article/list/index.html" />
 <#include file="__VIEWS__/article/detail/index.html" />
+<#include file="__VIEWS__/blindBox/index.html" />
+<#include file="__VIEWS__/tesks/index.html" />
+<#include file="__VIEWS__/goods/index/index.html" />
+<#include file="__VIEWS__/goods/add/index.html" />
+<#include file="__VIEWS__/goods/chart/index.html" />
+<#include file="__VIEWS__/goodsname/index.html" />
+<#include file="__VIEWS__/unit/index.html" />
+<#include file="__VIEWS__/test/index.html" />
 
 <script type="text/javascript">
 LAM.run(function(){
@@ -31,14 +35,18 @@ LAM.run(function(){
 			,{ path: '/sorts/index', component: System.require('views.sorts.index') }
 			,{ path: '/goods/index', component: System.require('views.goods.index') }
 			,{ path: '/goods/add', component: System.require('views.goods.add') }
+			,{ path: '/goods/chart', component: System.require('views.goods.chart') }
+			,{ path: '/goodsname/index', component: System.require('views.goodsname.index') }
 			,{ path: '/url/index', component: System.require('views.url.index') }
 			,{ path: '/shop/index', component: System.require('views.shop.index') }
-			,{ path: '/shop/create', component: System.require('views.shop.create') }
 			,{ path: '/diary/index', component: System.require('views.diary.index') }
 			,{ path: '/mindline/index', component: System.require('views.mindline.index') }
 			,{ path: '/mindline/detail/:key', component: System.require('views.mindline.detail') }
 			,{ path: '/article/index', component: System.require('views.article.list') }
 			,{ path: '/article/detail/:id', component: System.require('views.article.detail') }
+			,{ path: '/blindBox/index', component: System.require('views.blindBox.index') }
+			,{ path: '/unit/index', component: System.require('views.unit.index') }
+			,{ path: '/tesks/index', component: System.require('views.tesks.index') }
 			,{ path: '/test/index', component: System.require('views.test.index') }
 		]
 		const router = new VueRouter({ routes })

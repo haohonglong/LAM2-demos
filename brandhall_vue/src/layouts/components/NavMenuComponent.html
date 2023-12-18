@@ -1,0 +1,54 @@
+<#define __DATAPATH__="{#LAM.DATA#}" />
+#define# __MENU__ <#include once="0" file="__DATAPATH__/menu.json" /> #end#
+<#define __LAYOUTS__="{#LAM.LAYOUTS#}" />
+<#define @COMPONENTS="__LAYOUTS__/components" />
+<#define ~/="@COMPONENTS/" />
+
+<#Block:begin id="components.NavMenuComponent">
+<div>
+	<el-menu class="el-menu-demo" mode="horizontal">
+		<el-submenu v-for="(v1, i) in list" :key="i" :index="v1.index">
+			<template slot="title"><i class="el-icon-message"></i>{{ v1.title }}</template>
+			<el-menu-item-group v-if="v1.ul">
+			<el-menu-item v-for="(v2, j) in v1.ul" :key="j" :index="v2.index">
+				<router-link @click.native="click" :to="v2.href">{{ v2.title }}</router-link>
+			</el-menu-item>
+			</el-menu-item-group>
+		</el-submenu>
+	</el-menu>
+</div>
+
+<#Block:end>
+
+<script type="text/javascript">
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+
+        var ContentComponent = {
+            'name': "NavMenuComponent",
+            components: {},
+            data(){
+                return {
+					list: __MENU__,
+					activeIndex: '1',
+					activeIndex2: '1'
+				};
+            },
+            created() {
+            },
+            methods: {
+                handleSelect(key, keyPath) {
+					console.log(key, keyPath);
+				}
+            },
+            template: System.Template.getBlock('components.NavMenuComponent')
+        };
+
+        System.export('components.NavMenuComponent', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+</style>

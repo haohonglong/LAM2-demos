@@ -1,0 +1,78 @@
+<#define _TITLE_="任务列表" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/tesks/" />
+
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<#Block:begin id="tesks.index.content">
+<div v-loading="loading">
+    
+    <el-row>
+        <el-col :span="24">
+            <el-table
+                
+                :data="tableData"
+                style="width: 100%">
+                <el-table-column
+                    prop="title"
+                    label="标题"
+                    >
+                    
+                </el-table-column>
+                <el-table-column label="操作" width="180">
+                    <template slot-scope="scope">
+						<el-switch
+						v-model="flag"
+						active-color="#13ce66"
+						inactive-color="#ff4949">
+					  </el-switch>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-col>
+    </el-row>
+
+    
+
+
+</div>
+
+<#Block:end>
+
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var ContentComponent = {
+          name: "tesks",
+          props: {
+          },
+          components: {
+          },
+          data() {
+            return {
+				loading: false,
+				tableData: [{
+					title: 'xxxx'
+				}],
+				flag: true
+            }
+          },
+          methods: {
+              
+          },
+          template: System.Template.getBlock('tesks.index.content')
+        };
+
+        System.export('views.tesks.index', ContentComponent);
+    });
+</script>
+
+
+
+
+

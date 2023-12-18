@@ -1,0 +1,244 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define ~/="__VIEWS__/goods/chart/" />
+
+<#import path="/echarts.js,/chart/line.js,/chart/bar.js" root="http://echarts.baidu.com/build/dist" write="1" befor="1" />
+
+<#define _TITLE_="同类商品不同超市的价格" />
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<!--Del:begin-->
+<#extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'店铺管理','href':'__INDEX__chart/index','title':''},
+{'name':'_TITLE_'}
+]}" />
+<!--Del:end-->
+
+
+
+<#Block:begin id="views.goods.chart">
+<div>
+    <div v-loading.fullscreen.lock="loading">
+        <span class="warning">*</span> <label> 商品名 : </label>
+        <el-select class="selected" v-model="goodsname_id" filterable placeholder="选择商品名" size="mini">
+            <el-option
+                v-for="v in goodsnames"
+                :key="v.goodsname_id"
+                :label="v.goodsname"
+                :value="v.goodsname_id">
+            </el-option>
+        </el-select>
+
+        <el-date-picker
+        v-model="date"
+        type="monthrange"
+        align="right"
+        unlink-panels
+        value-format="yyyy-MM"
+        range-separator="To"
+        start-placeholder="Start month"
+        end-placeholder="End month"
+        :picker-options="pickerOptions">
+        </el-date-picker>
+        <el-switch style="margin-left:20px;" v-model="G"></el-switch> 斤
+        <el-button style="margin-left:20px;" @click="query" type="primary">查询</el-button>
+        <div ref="chart" style="height:400px;"></div>
+
+    </div>
+    
+</div>
+<#Block:end>
+
+
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          data: function (_this) {
+            return {
+                loading: false,
+                G: false,
+                goodsname_id: '',
+                goodsnames: [],
+                date: '',
+                pickerOptions: {
+                    shortcuts: [{
+                        text: 'This month',
+                        onClick(picker) {
+                        picker.$emit('pick', [new Date(), new Date()]);
+                        }
+                    }, {
+                        text: 'This year',
+                        onClick(picker) {
+                        const end = new Date();
+                        const start = new Date(new Date().getFullYear(), 0);
+                        picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: 'Last 6 months',
+                        onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setMonth(start.getMonth() - 6);
+                        picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                dataOfChart: {
+                    title : {
+                        text: '同类商品不同超市的价格',
+                        subtext: ''
+                    },
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:[]
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data : []
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value',
+                            interval: 0.10,
+                            axisLabel : {
+                                formatter: '{value} ¥'
+                            }
+                        }
+                    ],
+                    series : []
+                }
+			}
+          },
+          mounted() {
+          },
+          created(){
+            this.loading = true;
+            Api.goodsname.index(res => {
+                this.goodsnames = res.data
+                this.loading = false;
+            })
+          },
+          methods: {
+            query() {
+                this.loading = true;
+
+                this.dataOfChart.series = [];
+                this.dataOfChart.legend.data = [];
+                this.dataOfChart.xAxis[0].data  = [];
+
+                const goodsname_id = this.goodsname_id;
+                const start_date = this.date[0];
+                const end_date = this.date[1];
+                const G = this.G;
+                
+                if(!goodsname_id) {
+                    this.loading  = false;
+                    this.$notify.error({
+                        title: 'Error',
+                        message: "商品名称没选",
+                    });
+                    return;
+                }
+                
+                if(!this.date) {
+                    this.loading = false;
+                    this.$notify.error({
+                        title: 'Error',
+                        message: "日期没选",
+                    });
+                    return;
+                }
+                        
+                Api.goods.statistics({ goodsname_id, start_date, end_date, G }, res => {
+                    this.loading = false
+
+                    if(res.status) {
+                        this.$notify({
+                                    title: 'Success',
+                                    message: "成功获取数据",
+                                    type: 'success'
+                                });
+                        System.each(res.list,(index, item)=>{
+                            let obj = {
+                                name: item.name,
+                                type:'line',
+                                data: item.prices,
+                                markPoint : {
+                                    data : [
+                                        {type : 'max', name: '最大值'},
+                                        {type : 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine : {
+                                    data : [
+                                        {type : 'average', name: '平均值'}
+                                    ]
+                                }
+                            };
+                            
+                            this.dataOfChart.legend.data.push(item.name);
+                            this.dataOfChart.series.push(obj);
+                            
+                        });
+                        this.dataOfChart.xAxis[0].data  = res.dates;
+                        
+                    } else {
+                        this.$notify.error({
+                            title: 'Error',
+                            message: "没有相关数据",
+                        });
+                    }
+                    this.init();
+                })
+            },
+            init() {
+              require(
+                  [
+                      'echarts',
+                      'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
+                      'echarts/chart/bar'
+                  ],
+                  (ec) =>{
+                      var myChart = ec.init(this.$refs.chart);
+                      myChart.setOption(this.dataOfChart);
+                  }
+              );
+            }
+		      },
+          template: System.Template.getBlock('views.goods.chart')
+        };
+
+        System.export("views.goods.chart", ContentComponent);
+    });
+</script>
+

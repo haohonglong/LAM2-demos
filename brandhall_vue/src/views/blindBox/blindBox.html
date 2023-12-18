@@ -1,0 +1,230 @@
+<#define _TITLE_="盲盒" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/blindBox/" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
+
+<#import path="vue.js,vue-router.js" root="__PLUGINS__/vue/" write="1" befor="1" />
+<#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="__NODE_MODULES__" befor="1" />
+<#import path="/element-ui/lib/index.js" root="__NODE_MODULES__" write="1" befor="1" />
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<#Block:begin id="views.blindBox.index">
+<div>
+
+    <ul class="mainmenu">
+        <li @click="get(index)" class="demo-fit" v-for="(item, index) in arr" :key="index">
+            <el-image
+            :src="url"></el-image>
+            <span style="font-size: 14px; font-weight: bold;">{{index+1}}</span>
+            
+        </li>        
+    </ul>
+
+    <div @click="reset()">
+        <div>次数: {{ number }}</div>
+        <div>总额: {{ total }}</div>
+        
+        <div style="text-align: center;">
+            <img style="width: 35%; height: 35%;" src="__IMAGE__/WechatIMG180.jpg" />
+            <img style="width: 35%; height: 35%; position: relative; top: -23px;" src="__IMAGE__/AlipayIMG183.jpg" />
+            
+        </div>
+    </div>
+
+
+    <el-dialog
+      width="80%"
+      :visible.sync="dialogVisible"
+      :show-close="false"
+      :close-on-click-modal="false">
+      <span style="color: #f06; font-size: 24px;">{{ message }}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">ok</el-button>
+      </span>
+    </el-dialog>
+</div>
+
+<#Block:end>
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+<title>{#-title-#}</title>
+<meta name="keywords" content="{#-title-#}" />
+<meta name="description" content="{#-title-#}" />
+
+<style type="text/css">
+
+
+    ul.mainmenu { list-style: none outside none; margin:0; padding: 0; }
+
+    .mainmenu:after { clear: both; content: " "; display: block; }
+ 
+    .mainmenu li{
+        float:left;
+        margin-left: 1.0%;
+        margin-top: 0;
+        width: 31.55555%; 
+        text-align: center;
+        overflow:hidden;
+    }
+    
+    .mainmenu .el-avatar{
+        background-color: #fff;
+    }
+
+    .mainmenu li img{
+        margin: 0;
+    }
+
+    .mainmenu li:nth-child(8n+1) {background-color:#36A1DB}
+    .mainmenu li:nth-child(8n+2) {background-color:#678ce1}
+    .mainmenu li:nth-child(8n+3) {background-color:#8c67df}
+    .mainmenu li:nth-child(8n+4) {background-color:#84d018}
+    .mainmenu li:nth-child(8n+5) {background-color:#14c760}
+    .mainmenu li:nth-child(8n+6) {background-color:#f3b613}
+    .mainmenu li:nth-child(8n+7) {background-color:#ff8a4a}
+    .mainmenu li:nth-child(8n+8) {background-color:#fc5366}
+</style>
+
+<style type="text/css">
+  
+	#header {
+	  position: fixed;
+	  z-index: 999;
+	  top: 0; 
+	  left: 0;
+	  background-color: #4a759f;
+	  padding: 5px 20px;
+	  width: 100%;
+	  height: 50px;
+	}
+	#content {
+	  margin-top: 70px;
+	  width: 100%;
+	}
+	.sectionBtn-A2{
+	  background-color: transparent;
+	}
+	.sectionBtn-A2 span {
+	  /* width: 29px; 
+	  height: 5px; */
+	  background-color: #e3e5eb;
+	  
+	}
+  </style>
+</head>
+
+<body>
+    <div id="app">
+        <blind-box-component></blind-box-component>
+    </div>
+
+
+<script type="text/javascript">
+	
+
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+
+        var ContentComponent = {
+            'name': "BlindBoxComponent",
+			components: {},
+			data(){
+				return {
+					dialogVisible: false,
+                    message: "",
+                    number: 0,
+                    total: 0,
+					arr: [1, 5, 10, 15, 20, 18, 30, 50, 100],
+					url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+				};
+			},
+			created(){
+
+			},
+
+			'methods': {
+				get(i){
+                    this.number++;
+                    this.total += 20;
+					this.arr.sort(()=>Math.random() - 0.5);
+                    var money = this.arr[i];
+
+                    if(
+                        (30 == money && this.total < 35)
+                    || (50 == money && this.total < 65)
+                    || (100 == money && this.total < 105)
+                    ) {
+                        money = 20;
+                    }
+                    this.message = "恭喜您中了" + money +'元';
+
+                    this.total -= money;
+                    this.dialogVisible = true;
+				},
+                reset() {
+                    this.total = 0;
+                }
+			},
+            template: System.Template.getBlock('views.blindBox.index')
+        };
+
+        System.export('views.blindBox.index', ContentComponent);
+    });
+
+    var vm = LAM.run(function(){
+		'use strict';
+		var System = this;
+
+		var D = System.require("this").content;
+
+
+		var vm = new Vue({
+				data: function(){
+				return {
+
+				};
+				},
+				components: {
+                    'blind-box-component': System.require('views.blindBox.index')
+				},
+				computed: {
+				},
+				methods: {
+					handleClose() {
+						this.$refs.navDrawer.closeDrawer();
+					}
+				},
+				watch: {
+				}
+			}).$mount("#app");
+
+			return vm;
+
+	});
+</script>
+
+
+
+
+</body>
+
+</html>

@@ -81,12 +81,13 @@
                     , VIEWS
                     , 'ERROR_404': VIEWS + '/_404.html'
                     , 'INDEX': 'index.html?r='
-                    , 'SERVER': 'http://yaf.local'
+                    , 'SERVER': 'http://yaf.local/'
                     , 'CONFIGURATION_PATH': CONF + '/config.js'
                     , 'BASE64ENCODE': true
                     , 'token': "G94F9AyvNiuHCRVLY8kw9-HE6Jjw9qIU"
                     , 'LAMPATH': System.LAMPATH
-
+                    , 'HOSTIP': "192.168.3.10:9527"
+                    , 'URL': "http://192.168.3.10:9527/brandhall_vue/index.html?r=site/index#"
                 };
             },
             'components': {
@@ -132,7 +133,7 @@
             'XHR': {//配置加载xhr 的公共参数
                 'type': 'GET'
                 , 'async': false
-                , 'cache': false
+                , 'cache': true
                 , 'beforeSend': function () { }
             },
             //配置基础文件

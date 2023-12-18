@@ -18,7 +18,7 @@
             <div class="grid-content bg-purple">
                 <el-card class="box-card" >
                     <div slot="header" class="clearfix">
-                        <span>{{ item.src }}</span>
+                        <span><a :href="item.src" target="_blank">{{ item.src }}</a></span>
                         <el-button style="float: right; padding: 3px 0" v-on:click="action(3, item)" type="text">删除</el-button>
                         <el-button style="float: right; padding: 3px 0" v-on:click="action(2, item)" type="text">修改</el-button>
                     </div>

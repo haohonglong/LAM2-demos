@@ -3,26 +3,27 @@
 <#define __SERVER__="{#LAM.SERVER#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
-<#define ~/="__VIEWS__/shop/" />
+<#define ~/="__VIEWS__/goodsname/" />
 
-<#define _TITLE_="店铺" />
+<#define _TITLE_="商品名列表" />
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
 <!--Del:begin-->
 <#extends title="_TITLE_" data="{'list':[
 {'name':'首页','href':'__HOME__','title':'首页'},
-{'name':'店铺管理','href':'__INDEX__shop/index','title':''},
+{'name':'店铺管理','href':'__INDEX__goodsname/index','title':''},
 {'name':'_TITLE_'}
 ]}" />
 <!--Del:end-->
 
 
 
-<#Block:begin id="views.shop.index">
+<#Block:begin id="views.goodsname.index">
 <div>
     <div v-loading.fullscreen.lock="loading">
+
         <el-row>
-            <el-button v-on:click="action(1)">添加店铺</el-button>
+            <el-button v-on:click="action(1)">添加商品名</el-button>
         </el-row>
         <table-component :data="tableData" :action="action"></table-component>
     
@@ -36,8 +37,8 @@
                 <el-button type="primary" @click="submit()">提 交</el-button>
             </span>
         </el-dialog>
-
     </div>
+    
 
 </div>
 <#Block:end>
@@ -59,7 +60,7 @@
           name: "ContentComponent",
           props: {},
           components: {
-            'form-component': System.require('shop.components.FormComponent'),
+            'form-component': System.require('goodsname.components.FormComponent'),
             'table-component': System.require('components.TableComponent')
           },
           data: function () {
@@ -85,10 +86,18 @@
           methods: {
             getData() {
                 this.loading = true;
-                Api.shop.index(res  => {
+                this.tableData = [];
+                Api.goodsname.index(res  => {
                     this.loading = false;
                     if(res.status) {
-                        this.tableData = res.data;
+                        let data = res.data;
+                        data.forEach(ele => {
+                            this.tableData.push({
+                                id: ele.goodsname_id,
+                                name: ele.goodsname
+                            });
+                        });
+
                     }
                 });
             },
@@ -139,22 +148,30 @@
                 }
             },
             add() {
-                this.loading = true;
                 var v = this;
+                this.loading = true;
                 const name = this.form.name;
 
                 const data = {
                     name
                 };
-                Api.shop.add(data, D => {
+                Api.goodsname.add(data, D => {
                     this.loading = false;
                     if(D.status){
                         // alert(D.message);
                         this.getData();
                         this.ok();
+                        this.$notify({
+                                title: 'Success',
+                                message: '添加成功',
+                                type: 'success'
+                            });
 
                     }else{
-                        alert(D.message);
+                        this.$notify.error({
+                                title: 'Error',
+                                message: D.message,
+                            });
                         System.each(D.errors, (key,value) => {
                             this.formError[key] = value;
                         });
@@ -165,7 +182,7 @@
             remove(id){
                 layer.confirm('真的要删除吗？？？', {icon: 3, title:'提示'}, index => {
                     //do something
-                    Api.shop.delete(id, data => {
+                    Api.goodsname.delete(id, data => {
                         alert(data.message);
                         if(data.status){
                             this.getData();
@@ -188,14 +205,22 @@
                     name
                 };
 
-                Api.shop.edit(data, data => {
+                Api.goodsname.edit(data, data => {
                     this.loading = false;
                     if(data.status){
                         // alert(data.message);
                         this.getData();
                         this.ok();
+                        this.$notify({
+                                title: 'Success',
+                                message: '修改成功',
+                                type: 'success'
+                            });
                     }else{
-                        alert(data.message);
+                        this.$notify.error({
+                                title: 'Error',
+                                message: data.message,
+                            });
                         System.each(data.errors, (key,value) => {
                             this.formError[key] = value;
                         });
@@ -203,10 +228,10 @@
                 },'json');
             }
           },
-          template: System.Template.getBlock('views.shop.index')
+          template: System.Template.getBlock('views.goodsname.index')
         };
 
-        System.export("views.shop.index", ContentComponent);
+        System.export("views.goodsname.index", ContentComponent);
     });
 </script>
 

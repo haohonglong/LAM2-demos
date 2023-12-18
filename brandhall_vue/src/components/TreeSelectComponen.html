@@ -1,6 +1,6 @@
 <#Block:begin id="components.TreeSelectComponen">
 <div>
-	<el-select :value="data.sortName" :clearable="clearable" @clear="clearHandle">
+	<el-select :value="data.sortName" :clearable="clearable" @clear="clearHandle" popper-class="tree-selected">
 	  <el-input
 		class="selectInput"
 		:placeholder="placeholder"
@@ -32,11 +32,6 @@
 	LAM.run([jQuery],function($) {
 		'use strict';
 		var System = this;
-
-		
-
-		
-				
 
 		var Component = {
 			name: "el-tree-select",
@@ -185,32 +180,32 @@
 
 
   <style scoped>
-	.el-scrollbar .el-scrollbar__view .el-select-dropdown__item{
+	.tree-selected .el-scrollbar .el-scrollbar__view .el-select-dropdown__item{
 	  height: auto;
 	  max-height: 274px;
 	  padding: 0;
 	  overflow: hidden;
 	  overflow-y: auto;
 	}
-	.el-select-dropdown__item.selected{
+	.tree-selected .el-select-dropdown__item.selected{
 	  font-weight: normal;
 	}
-	ul li >>>.el-tree .el-tree-node__content{
+	.tree-selected ul li >>>.el-tree .el-tree-node__content{
 	  height:auto;
 	  padding: 0 20px;
 	}
-	.el-tree-node__label{
+	.tree-selected .el-tree-node__label{
 	  font-weight: normal;
 	}
-	.el-tree >>>.is-current .el-tree-node__label{
+	.tree-selected .el-tree >>>.is-current .el-tree-node__label{
 	  color: #409EFF;
 	  font-weight: 700;
 	}
-	.el-tree >>>.is-current .el-tree-node__children .el-tree-node__label{
+	.tree-selected .el-tree >>>.is-current .el-tree-node__children .el-tree-node__label{
 	  color:#606266;
 	  font-weight: normal;
 	}
-	.selectInput{
+	.tree-selected .selectInput{
 	  padding: 0 5px;
 	  box-sizing: border-box;
 	}

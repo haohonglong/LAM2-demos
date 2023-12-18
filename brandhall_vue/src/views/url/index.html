@@ -42,8 +42,12 @@
             class="filter-tree"
             :data="data"
             :props="defaultProps"
+            :highlight-current="true"
             :filter-node-method="filterNode"
             ref="tree">
+            <span class="span-ellipsis" slot-scope="{ node, data }">
+                <span :title="node.label">{{ node.label  }}</span>
+            </span>
         </el-tree>
     </div>
 

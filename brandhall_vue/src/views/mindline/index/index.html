@@ -1,6 +1,6 @@
 <#define _TITLE_="思维导图-列表" />
 <#define __INDEX__="{#LAM.INDEX#}" />
-<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __URL__="{#LAM.URL#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define ~/="__VIEWS__/mindline/index/" />
@@ -24,7 +24,8 @@
                  <el-card class="box-card">
                      <div slot="header" class="clearfix">
                          <el-button type="text" style="font-size: 15px">
-                            <router-link :to="'/mindline/detail/' + item.key">{{ item.name }}</router-link>
+                            <a :href="'__URL__/mindline/detail/' + item.key" target="_blank">{{ item.name }}</a>
+                            
                         </el-button>
                          <el-button style="float: right; padding: 3px 0" v-on:click="action(2, item)" type="text">修改</el-button>
                          <el-button style="float: right; padding: 3px 0" v-on:click="remove(item.id)" type="text">删除</el-button>

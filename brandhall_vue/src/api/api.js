@@ -61,17 +61,33 @@ LAM.run([jQuery], function($){
 		"shop": {
 			"add": "/shop/add",
 			"edit": "/shop/edit",
-			"detail": "/shop/show",
 			"index": "/shop/index",
+			"delete": "/shop/delete"
 		},
 		"goods": {
 			"add": "/goods/add",
 			"edit": "/goods/edit",
 			"detail": "/goods/show",
 			"list": "/goods/index",
+			"statistics": "/goods/statistics",
 		},
 		"site": {
 			"login": "/site/login"
+		},
+		"unit": {
+			"add": "/unit/add",
+			"edit": "/unit/edit",
+			"index": "/unit/index",
+			"delete": "/unit/delete"
+		},
+		"goodsname": {
+			"add": "/goodsname/add",
+			"edit": "/goodsname/edit",
+			"index": "/goodsname/index",
+			"delete": "/goodsname/delete"
+		},
+		"bill": {
+			"getOne": "/bill/getOne"
 		}
 	};
 
@@ -341,21 +357,44 @@ LAM.run([jQuery], function($){
 					method: 'get'
 				}, func);
 			},
+			statistics({ goodsname_id, start_date, end_date, G }, func){
+				request({
+					url: API.goods.statistics,
+					method: 'post',
+					params: { goodsname_id, start_date, end_date, G }
+				}, func);
+			},
 			add({ 
 				shop_id,
 				bill_id,
+				points,
 				discount,
-				create_by,
-				name,
-				number,
-				weight,
-				single_price,
-				final_price 
+				create_at,
+				codes,
+				goodsname_ids,
+				unit_ids,
+				numbers,
+				weights,
+				single_prices,
+				final_prices 
 			}, func) {
 				request({
 					url: API.goods.add,
 					method: 'post',
-					params: { shop_id, bill_id, discount, create_by, name, number, weight, single_price, final_price }
+					params: { 
+						shop_id,
+						bill_id,
+						points,
+						discount,
+						create_at,
+						codes,
+						goodsname_ids,
+						unit_ids,
+						numbers,
+						weights,
+						single_prices,
+						final_prices 
+					 }
 				}, func);
 			}
 		},
@@ -365,6 +404,20 @@ LAM.run([jQuery], function($){
 			}, func) {
 				request({
 					url: API.shop.add,
+					method: 'post',
+					params: { name }
+				}, func);
+			},
+			delete(id, func) {
+				request({
+					url: API.shop.delete,
+					method: 'get',
+					params: { id }
+				}, func);
+			},
+			edit({ id, name }, func) {
+				request({
+					url: `${API.shop.edit}?id=${id}`,
 					method: 'post',
 					params: { name }
 				}, func);
@@ -385,6 +438,77 @@ LAM.run([jQuery], function($){
 					url: API.site.login,
 					method: 'post',
 					params: { username, password }
+				}, func);
+			}
+		},
+		"unit": {
+			add({ 
+				name
+			}, func) {
+				request({
+					url: API.unit.add,
+					method: 'post',
+					params: { name }
+				}, func);
+			},
+			delete(id, func) {
+				request({
+					url: API.unit.delete,
+					method: 'get',
+					params: { id }
+				}, func);
+			},
+			edit({ id, name }, func) {
+				request({
+					url: `${API.unit.edit}?id=${id}`,
+					method: 'post',
+					params: { name }
+				}, func);
+			},
+			index(func) {
+				request({
+					url: API.unit.index,
+					method: 'get'
+				}, func);
+			}
+		},
+		"goodsname": {
+			add({ 
+				name
+			}, func) {
+				request({
+					url: API.goodsname.add,
+					method: 'post',
+					params: { name }
+				}, func);
+			},
+			delete(id, func) {
+				request({
+					url: API.goodsname.delete,
+					method: 'get',
+					params: { id }
+				}, func);
+			},
+			edit({ id, name }, func) {
+				request({
+					url: `${API.goodsname.edit}?id=${id}`,
+					method: 'post',
+					params: { name }
+				}, func);
+			},
+			index(func) {
+				request({
+					url: API.goodsname.index,
+					method: 'get'
+				}, func);
+			}
+		},
+		"bill": {
+			getOne(bill_id, func) {
+				request({
+					url: API.bill.getOne,
+					method: 'get',
+					params: bill_id 
 				}, func);
 			}
 		}

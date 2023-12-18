@@ -9,8 +9,12 @@
 
 
 <#Block:begin id="views.mindline.detail">
-<div>
-    <mindmaps-component :keyword="key"></mindmaps-component>
+<div v-loading="loading">
+	<div class="mb10">
+		<el-button @click="save()">保存</el-button>
+		<el-button @click="goto()">返回列表</el-button>
+	</div>
+    <mindmaps-component :list="D"></mindmaps-component>
 </div>
 
 <#Block:end>
@@ -32,11 +36,74 @@
 			},
 			data(){
 				return {
-					key: ""
+					loading: true,
+					key: "",
+					D: {
+						data: [{ name: "思维导图" }]
+					}
+					
 				};
 			},
 			created(){
+				
 				this.key = this.$route.params.key;
+				const key = this.key;
+				Api.mindmaps.show({ key }, res => {
+					if(res.status){
+						try {
+							const content = res.data.content;
+							this.D.data = JSON.parse(content);
+							this.loading = false;
+							const message = "数据加载成功";
+									this.$message({
+										message,
+										type: 'success'
+										});
+						} catch (err) {
+							this.$message.error('Error: ' + err.message);
+						}
+						
+					} else {
+						this.$message('数据加载失败');
+					}
+				});
+			},
+			methods: {
+				goto() {
+					this.$confirm('保存过了吗？', '提示', {
+                        confirmButtonText: '已保存了',
+                        cancelButtonText: '还没保存',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '正在跳转到列表页。。。'
+                        });
+                        this.$router.push('/mindline/index')
+                    })
+					
+				},
+				save() {
+					this.loading = true; 
+					const key = this.key;
+					const content = this.D.data;
+					const data = {
+						key,
+						"content": JSON.stringify(content)
+					};
+
+					Api.mindmaps.editByKey(data, res => {
+						if(res.status){
+							this.loading = false;
+							const message = "保存成功";
+							this.$message({
+								message,
+								type: 'success'
+								});
+						}
+					});
+					
+				}
 			},
             template: System.Template.getBlock('views.mindline.detail')
         };

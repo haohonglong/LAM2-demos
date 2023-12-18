@@ -2,7 +2,8 @@
 <#define __BILLID__="{#LAM.md5(LAM.hash())#}" />
 <#define _TITLE_="添加商品" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
-<#define ~/="__VIEWS__/goods/" />
+<#define __URL__="{#LAM.URL#}" />
+<#define ~/="__VIEWS__/goods/add/" />
 
 <!--Del:begin-->
 <#extends title="_TITLE_" data="{'list':[
@@ -15,57 +16,117 @@
 
 <#Block:begin id="goods.add.content">
 <div>
-    <form class="form-horizontal">
+    <form class="form-horizontal" 
+    v-loading.fullscreen.lock="loading">
         <div class="sectionWrap-A5">
-            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1" style="margin-bottom: 100px;">
+            <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1" style="margin-bottom: 35px;">
                 <ul class="clear">
                     <li class="L ml5 sectionButton-B1">
-                        <label class="L">店铺：<span class="warning">*</span></label>
-                        <select class="L ml10" v-model="shop_id" style="width:115px;">
-                            <option value="0">请选择</option>
-                            <option v-for="v in shops" :value="v.id" v-text="v.name"></option>
-                        </select>
+                        <span class="warning">*</span><label>店铺：</label>
+                        <el-select class="selected" v-model="shop_id" filterable placeholder="选择店铺名" size="mini">
+                            <el-option
+                              v-for="v in shops"
+                              :key="v.id"
+                              :label="v.name"
+                              :value="v.id">
+                            </el-option>
+                        </el-select>
                         <span class="warning" v-text="shop_id_error"></span>
-                        <a href="__INDEX__shop/create" class="btn save L ml5">添加店铺</a>
+                        <a href="__URL__/shop/index/" target="_blank" class="btn save ml5">添加店铺</a>
                     </li>
                     <li class="R sectionButton-B1">
+                        <button type="button" @click="retrieve" class="btn save L mr15">刷新</button>
                         <button type="button" @click="handelAdd" class="btn save L mr15">添加</button>
                         
                     </li>
-                    <input-component v-model="bill_id" label="账单号" :error="bill_id_error" input_style="width:120px;" input_class="final_price"></input-component>
-                    <input-component v-model="discount" label="折扣价" :error="discount_error" input_style="width:30px;" input_class="discount"></input-component>
                     <li class="L ml10">
-                        <span class="warning">*</span> <label> 创建日期 : </label>
+                        <span class="warning">*</span> <label @click="getBill()"> 账单号 : </label>
+                        <input v-model="bill_id" placeholder="账单号" type="text" style="width:200px;border:none;border-bottom:1px solid #ccc;" class="text name">
+                        <span class="warning" v-text="bill_id_error"></span>
+                    </li>
+                    <input-component v-model="points" label="积分" :warning="false" :error="points_error" input_style="width:50px;"></input-component>
+                    <input-component v-model="discount" label="折扣价" :warning="false" :error="discount_error" input_style="width:50px;" input_class="discount"></input-component>
+                    <li class="L ml10">
+                        <span class="warning">*</span> <label> 创建日期 :</label>
                         <el-date-picker
-                            v-model="create_by"
+                            v-model="create_at"
                             size="mini"
+                            type="date"
+                            format="yyyy-MM-dd"
+                            value-format="yyyy-MM-dd"
                             placeholder="选择日期">
                         </el-date-picker>
+                        <span class="warning" v-text="create_at_error"></span>
                     </li>
                     
                     
                 </ul>
             </div>
-            <div>
+            <div class="clear sectionButton-B1 mb10">
+                <a href="__URL__/goodsname/index/" target="_blank" class="btn save">添加商品名</a>
+                <a href="__URL__/unit/index/" target="_blank" class="btn save ml10">添加计量单位</a>
+            </div>
+            <div class="border p20">
+
+                <div v-if="goodses.length > 0" style="border-bottom: 1px solid #a7a7a7;" class="mb50">
+                    <ul class="clear mb15 row" v-for="(item, i) in goodses">
+                        <li class="L ml15" style="width: 250px">商品名 : {{ item.goodsname }}</li>
+                        <li class="L ml30" style="width: 200px">条形码 :{{ item.code }}</li>
+                        <li class="L ml10" style="width: 80px">数量 : {{ item.number }}</li>
+                        <li class="L ml30" style="width: 8%;">重量 : {{ item.weight }} {{ item.unit_name }}</li>
+                        <li class="L ml30" style="width: 80px;">单价 : {{ item.single_price }}</li>
+                        <li class="L ml30" style="width: 120px;">结算价格 : {{ item.final_price }}</li>
+    
+                        <li class="L" style="color: #f00;" v-if="i == goodses.length-1"> 合计：{{ toFixed(total_price) }}(总价) - {{ discount }}(折扣价) = {{ toFixed(total_price - discount) }}</li>
+                    </ul>
+                </div>
                 
-                <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15" v-for="(item, i) in list" :key="i">
+                <div style="border-bottom: 1px solid #ccc;" class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15 pb10" v-for="(item, i) in list" :key="i">
                     <ul class="clear mb5 row">
-                        <input-component v-model="item.name" :error="item.error.name" label="名称" @input="validate(i)" input_style="width:120px;"></input-component>
-                        <input-component v-model.number="item.number" :error="item.error.number" type="number" @input="result(i)" label="数量" input_style="width:45px;" input_class="number"></input-component>
-                        <input-component v-model.number="item.weight" :error="item.error.weight" @input="result(i)" label="重量" unit="g" input_style="width:65px;" input_class="weight"></input-component>
-                        <input-component v-model.number="item.single_price" :error="item.error.single_price" @input="result(i)" label="单价" input_style="width:45px;" input_class="single_price"></input-component>
                         <li class="L ml10">
-                            <label> 结算价格 ：</label>
+                            <span class="warning">*</span> <label> 商品名 : </label>
+                            <el-select class="selected" v-model="item.goodsname_id" filterable placeholder="选择商品名" size="mini" :error="item.error.goodsname_id">
+                                <el-option
+                                  v-for="v in goodsnames"
+                                  :key="v.goodsname_id"
+                                  :label="v.goodsname"
+                                  :value="v.goodsname_id">
+                                </el-option>
+                            </el-select>
+                            <span class="warning" v-text="item.error.goodsname_id"></span>
+                        </li>
+                        <input-component v-model="item.code" :warning="false" label="条形码" input_style="width:150px;border:none;border-bottom:1px solid #ccc;"></input-component>
+                        <li class="L ml10">
+                            <span class="warning">*</span> <label> 数量 : </label>
+                            <el-input-number style="width:90px;" v-model="item.number" @change="result(i)" :min="1" size="mini"></el-input-number>
+                            <span class="warning" v-text="item.error.number"></span>
+                        </li>
+                        <input-component v-model.number="item.weight" :error="item.error.weight" label="重量" input_style="width:65px;" input_class="weight"></input-component>
+                        <li class="L ml10">
+                            <span class="warning">*</span>
+                            <el-select class="selected" v-model="item.unit_id" filterable placeholder="单位" size="mini" style="width:45px;padding:0;">
+                                <el-option
+                                  v-for="v in units"
+                                  :key="v.unit_id"
+                                  :label="v.unit_name"
+                                  :value="v.unit_id">
+                                </el-option>
+                            </el-select>
+                            <span class="warning" v-text="item.error.unit_id"></span>
+                        </li>
+                        <input-component v-model.number="item.single_price" :error="item.error.single_price" label="单价" input_style="width:67px;" input_class="single_price"></input-component>
+                        <li class="L ml10">
+                            <label @click="result(i)"> 结算价格 ：</label>
                             <span class="font-16 font-bold" v-text="item.final_price"></span>
                             <span class="warning" v-text="item.error.final_price"></span>
                         </li>
-                        <!-- <goods-component :list="item" :index="i"></goods-component> -->
                         <li class="R sectionButton-B1">
                             <button type="button" @click="handelCopy(i)" class="btn save L mr15">复制</button>
                             <button type="button" @click="handelRemove(i)" class="btn save L mr15">删除</button>
                         </li>
                         
                     </ul>
+                    
                 </div>
             </div>
             <div class="row mb10">
@@ -84,7 +145,6 @@
 
 
 <#include file="~/components/InputComponent.html" />
-<#include file="~/components/GoodsComponent.html" />
 
 <script type="text/javascript">
     LAM.run([jQuery],function($) {
@@ -100,23 +160,27 @@
                 'shop_id':"店铺",
                 'bill_id':"账单号",
                 'discount': "折扣价",
-                'create_by': "创建日期",
-                'name': "名称",
+                'create_at': "创建日期",
+                'goodsname_id': "名称",
                 'number':"数量",
                 'weight':"重量",
                 'single_price': "单价",
+                'unit_id': "计量单位",
                 'final_price': "结算价格"
             };
 
             var goods = System.createDict();
-            goods.name = "",
-            goods.number = 1,
-            goods.weight = 0;
-            goods.single_price = parseFloat(0).toFixed(2);
-            goods.final_price = parseFloat(0).toFixed(2);
+            goods.goodsname_id = null;
+            goods.number = 1;
+            goods.weight = 1;
+            goods.code = "";
+            goods.unit_id = null;
+            goods.single_price = 0.00;
+            goods.final_price = 0.00;
 
             goods.error = System.createDict();
-            goods.error.name = "";
+            goods.error.goodsname_id = "";
+            goods.error.unit_id = "";
             goods.error.number = "";
             goods.error.weight = "";
             goods.error.single_price = "";
@@ -129,43 +193,89 @@
               props: [],
               data(){
                 return {
-                    picked: '',
+                    validated: false,
+                    loading: false,
                     n: 0,
-                    shop_id:"",
-                    shop_id_error:"",
-                    create_by: "",
-                    create_by_error: "",
+                    shop_id: null,
+                    shop_id_error: "",
+                    create_at: null,
+                    create_at_error: "",
                     bill_id: "__BILLID__",
                     bill_id_error: "",
-                    discount: 0,
+                    discount: 0.00,
+                    points: 0,
+                    total_price: 0.00,
+                    points_error: "",
                     discount_error: "",
                     shops: [],
-                    list: [System.clone(true, goods)]
+                    goodsnames: [],
+                    units: [],
+                    list: [System.clone(true, goods)],
+                    goodses: []
                 };
               },
               components: {
-                'input-component': System.require('goods.components.input'),
-                'goods-component': System.require('goods.components.goods')
+                'input-component': System.require('goods.add.components.input')
               },
               created() {
-                Api.shop.index(res => {
-                    this.shops = res.data
-                })
+                this.retrieve();
               },
               computed: {
                 total(){
-                    var result = 0.00;
+                    var result = this.total_price;
                     System.each(this.list,function(){
                         result += parseFloat(this.final_price);
                     });
                     result = parseFloat(result).toFixed(2);
                     if (!System.isNumeric(result)) result = parseFloat(0).toFixed(2);
-
-                    return result;
+                    result -= this.discount;
+                    return parseFloat(result).toFixed(2);
 
                 }
               },
               methods: {
+                toFixed(number) {
+                    return number.toFixed(2);
+                },
+                getBill() {
+                    const bill_id = this.bill_id;
+                    this.loading = true;
+                    this.init();
+                    Api.bill.getOne({ bill_id }, res => {
+                        if(1 === res.status) {
+                            this.shop_id = res.shop_id;
+                            this.points = res.points;
+                            this.discount = res.discount;
+                            this.create_at = res.update_at;
+                            this.goodses = res.goodses ||  [];
+                            this.goodses.forEach((item,index,arr)=>{
+                                this.total_price += parseFloat(item.final_price);
+                            });
+                        } else {
+                            this.$notify({
+                            title: 'Warning',
+                            message: "没有此订单号",
+                            type: 'warning'
+                            });
+                        }
+                        this.loading = false;
+                    })
+                },
+                retrieve() {
+                    this.loading = true;
+                    Api.shop.index(res => {
+                        this.shops = res.data
+                        this.loading = false;
+                    })
+                    Api.goodsname.index(res => {
+                        this.goodsnames = res.data
+                        this.loading = false;
+                    })
+                    Api.unit.index(res => {
+                        this.units = res.data
+                        this.loading  = false;
+                    })
+                },
                 handelAdd() {
                     this.handelClick();
                     this.list.push(System.clone(true, goods));
@@ -185,51 +295,73 @@
                     
                 },
                 init(){
+                    this.goodses = [];
+                    this.points = 0;
+                    this.discount = 0.00;
+                    this.total_price = 0.00;
+
+                    
+                    this.list = [System.clone(true, goods)];
+
                     System.each(this.list,function(){
-                        this.error.name = "";
+                        this.error.goodsname_id = "";
                         this.error.number = "";
                         this.error.weight = "";
+                        this.error.unit_id = "";
                         this.error.single_price = "";
                         this.error.final_price = "";
                     });
                     this.shop_id_error = "";
-                    this.create_by_error = "";
+                    this.create_at_error = "";
                     this.bill_id_error = "";
                     this.discount_error = "";
                 },
+                
                 validate(i) {
-                    this.list[i].error.name = "";
-                    this.list[i].error.number = "";
-                    this.list[i].error.weight = "";
-                    this.list[i].error.single_price = "";
-                    this.list[i].error.final_price = "";
-
+                    this.validated = true;
                     const MSG = "必须填写";
-                    let error = this.list[i]["error"];
-                    if ("" == this.list[i].name.trim()) error.name = NAMES.name + MSG;
-                    if (this.list[i].weight <= 0) error.weight = NAMES.weight + MSG;
-                    if (this.list[i].single_price <= 0) error.single_price = NAMES.single_price + MSG;
+                    this.shop_id_error = "";
+                    this.create_at_error = "";
+                    this.bill_id_error = "";
+                    this.discount_error = "";
+
+                    let item = this.list[i];
+                    item.error.goodsname_id = "";
+                    item.error.number = "";
+                    item.error.weight = "";
+                    item.error.unit_id = "";
+                    item.error.single_price = "";
+                    item.error.final_price = "";
+
+                    if (!this.shop_id) { this.shop_id_error = NAMES.shop_id + MSG; this.validated = false; }
+                    if (!this.create_at) { this.create_at_error = NAMES.create_at + MSG; this.validated = false; }
+
+                    let error = item["error"];
+                    if (!item.goodsname_id) { error.goodsname_id = NAMES.goodsname_id + MSG; this.validated = false; }
+                    if (item.weight <= 0) { error.weight = NAMES.weight + MSG; this.validated = false; }
+                    if (item.single_price <= 0) { error.single_price = NAMES.single_price + MSG; this.validated = false; }
+                    if (!item.unit_id) { error.unit_id = NAMES.unit_id + "必须选择"; this.validated = false; }
 
                 },
                 result(i){
                     let single_price = this.list[i].single_price;
                     let weight = this.list[i].weight;
-                    let number = this.list[i].number;
+                    let number =  1;
 
                     single_price = parseFloat(single_price).toFixed(2);
-                    weight = parseInt(weight);
-                    number = parseInt(number);
+                    weight = parseFloat(weight);
 
 
                     if (!System.isNumeric(single_price)) single_price = parseFloat(0).toFixed(2);
                     if (!System.isNumeric(weight)) weight = 0;
-                    if (!System.isNumeric(number)) number = parseFloat(0).toFixed(2);
+                    if (this.list[i].number < 1) this.list[i].number = 1;
+
 
                     this.list[i].single_price = single_price;
                     this.list[i].weight = weight;
-                    this.list[i].number = number;
+                    number =  this.list[i].number;
 
-                    let price = single_price  * number;
+                    let price = single_price  * number * weight;
                     price = parseFloat(price).toFixed(2);
                     if (!System.isNumeric(price)) price = parseFloat(0).toFixed(2);
                     this.list[i].final_price = price;
@@ -238,54 +370,81 @@
 
                 },
                 submit() {
-                    this.init();
+                    if(this.validated) {
+                        this.loading  = true;
+                        let _this = this;
+                        let goodsname_ids = [], 
+                            codes = [], 
+                            unit_ids = [], 
+                            numbers = [], 
+                            weights = [], 
+                            single_prices = [], 
+                            final_prices = [];
 
-                    let _this = this;
-                    let names = [], numbers = [], weights = [], single_prices = [], final_prices = [];
-                    const shop_id = this.shop_id;
-                    const bill_id = this.bill_id;
-                    const discount = this.discount;
-                    const create_by = this.create_by;
-                    System.each(this.list,function(){
-                        names.push(this.name);
-                        single_prices.push(this.single_price);
-                        weights.push(this.weight);
-                        numbers.push(this.number);
-                        final_prices.push(this.final_price);
-                    });
+                        const shop_id = this.shop_id;
+                        const bill_id = this.bill_id;
+                        const points = this.points;
+                        const discount = this.discount;
+                        const create_at = this.create_at;
+                        
+                        System.each(this.list,function(){
+                            goodsname_ids.push(this.goodsname_id);
+                            codes.push(this.code);
+                            single_prices.push(this.single_price);
+                            weights.push(this.weight);
+                            unit_ids.push(this.unit_id);
+                            numbers.push(this.number);
+                            final_prices.push(this.final_price);
+                        });
 
-                    Api.goods.add({
-                        shop_id,
-                        bill_id,
-                        discount,
-                        create_by,
-                        name: names,
-                        number: numbers,
-                        weight: weights,
-                        single_price: single_prices,
-                        final_price: final_prices 
-                    }, data => {
-                        console.log(data)
-                        if(data.status){
-                            alert(data.message);
-                            // System.redirect(System.INDEX+"goods/index");
-                            this.$router.push("/goods/index");
-                        }else{
-                            alert(data.message);
-                            System.each(data.errors,function (key,value) {
-                                if(System.isString(value)) {
-                                    _this[key+'_error'] = NAMES[key] + value;;
+                        
 
-                                }else {
-                                    System.each(value,function (i) {
-                                        _this.list[i]["error"][key] = NAMES[key] + this;
-                                    });
-                                }
+                        Api.goods.add({
+                            shop_id,
+                            bill_id,
+                            points,
+                            discount,
+                            create_at,
+                            codes,
+                            goodsname_ids,
+                            unit_ids,
+                            numbers,
+                            weights,
+                            single_prices,
+                            final_prices 
+                        }, data => {
+                            this.loading = false;
+                            if(data.status){
+                                this.$notify({
+                                    title: 'Success',
+                                    message: data.message,
+                                    type: 'success'
+                                });
+                                // this.init();
+                                // this.bill_id = LAM.md5(LAM.hash());
+                                this.$router.push("/goods/index");
+                            }else{
+                                this.$notify.error({
+                                    title: 'Error',
+                                    message: data.message,
+                                });
 
-                            });
-                        }
+                                System.each(data.errors, function (key, value) {
+                                    if(System.isString(value)) {
+                                        _this[key+'_error'] = NAMES[key] + value;;
 
-                    });
+                                    }else {
+                                        System.each(value, function (i) {
+                                            _this.list[i]["error"][key] = NAMES[key] + this;
+                                        });
+                                    }
+
+                                });
+                            }
+
+                        });
+
+                    }
 
                 }
               },
@@ -314,5 +473,7 @@
     .sectionWrap-A5{width:auto;margin:0 auto;}
     .sectionForm-A1-1-1 label{margin:0; width: auto; text-align: left;}
     .sectionForm-A1-1 .text.name{width: 66px;}
+    .selected .el-input__inner{border:none; padding-right: 0;}
+    .selected .el-icon-arrow-up:before{content: "";}
 </style>
 

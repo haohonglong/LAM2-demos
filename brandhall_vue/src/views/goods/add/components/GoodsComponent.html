@@ -1,7 +1,8 @@
-<#define ~/="{#LAM.VIEWS#}/goods/" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/goods/add/components/" />
 
 
-<#Block:begin id="goods.components.goods">
+<#Block:begin id="goods.add.components.goods">
 <div class="sectionForm-A1 sectionForm-A1-1 sectionForm-A1-1-1 mb15">
     <ul class="clear mb5 row">
         <input-component v-model="list.name" :name="list.name" label="商店名称" input_style="width:120px;"></input-component>
@@ -13,13 +14,13 @@
 </div>
 <#Block:end>
 
-<#include file="~/components/InputComponent.html" />
+<#include file="~/InputComponent.html" />
 <script type="text/javascript">
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
 
-		var GoodsComponent = {
+		var ContentComponent = {
 			props: {
 			index: Number,
 			list: {
@@ -41,9 +42,9 @@
 				n = i;
 			}
 			},
-			template: System.Template.getBlock('goods.components.goods')
+			template: System.Template.getBlock('goods.add.components.goods')
 		};
 
-		System.export('goods.components.goods', GoodsComponent);
+		System.export('goods.add.components.goods', ContentComponent);
     });
 </script>
