@@ -218,6 +218,11 @@
                 'input-component': System.require('goods.add.components.input')
               },
               created() {
+
+                this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
                 this.retrieve();
               },
               computed: {

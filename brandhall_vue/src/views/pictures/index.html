@@ -1,0 +1,122 @@
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define _PICS_="{#LAM.IMAGE#}/imgs_LHH/pics" />
+<#define ~/="__VIEWS__/pictures/" />
+
+<#define _TITLE_="图片库" />
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+<!--Del:begin-->
+<#extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'店铺管理','href':'__INDEX__unit/index','title':''},
+{'name':'_TITLE_'}
+]}" />
+<!--Del:end-->
+
+
+
+<#Block:begin id="views.pictures.index">
+<div v-loading.fullscreen.lock="loading">
+  <div class="sectionBox sectionTitle-A8 mb20">
+    <h2 class="">共有20套模板</h2>
+  </div>
+
+  <form class="form-horizontal">
+    <div class="sectionWrap-A21">
+        <div class="sectionFloat sectionWrap-A17 mb10">
+            <ul class="clear size1of1">
+                <li class="size1of5" v-for="(o, index) in 20" :key="o">
+                    <div class="sectionBox sectionBox-A32 sectionText-A3 mr35">
+                        <div class="p10">
+                            <div class="img mb10">
+                                <a href="###"><img data-var="tpl" src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" width="100%" height="100%" alt=""></a>
+                            </div>
+                            <p class="desc mb10">灰色良品</p>
+                            <div class="sectionBox sectionBox-A15 mb10 sectionForm-A1 sectionForm-A1-1-2 sectionForm-A2">
+                                <button type="submit" class="btn btn-cancel mr15">当前使用的模板</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+  </form>
+
+</div>
+<#Block:end>
+
+
+
+<!#include file="~/components/FormComponent.html" />
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          props: {},
+          components: {
+          },
+          data: function () {
+            return {
+                loading: false
+            }
+          },
+          created(){
+            this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
+          },
+          methods: {
+          },
+          template: System.Template.getBlock('views.pictures.index')
+        };
+
+        System.export("views.pictures.index", ContentComponent);
+    });
+</script>
+
+<style>
+    .time {
+      font-size: 13px;
+      color: #999;
+    }
+    
+    .bottom {
+      margin-top: 13px;
+      line-height: 12px;
+    }
+  
+    .button {
+      padding: 0;
+      float: right;
+    }
+  
+    .image {
+      width: 100%;
+      display: block;
+    }
+  
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+    
+    .clearfix:after {
+        clear: both
+    }
+  </style>

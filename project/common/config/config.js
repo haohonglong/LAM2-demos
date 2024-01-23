@@ -68,6 +68,7 @@
                 };
             },
             'components':{
+                'excluded': ['Model'],
                 'moduleId':'m',
                 'routerId':'r',
                 'defaultRoute':'site/index',

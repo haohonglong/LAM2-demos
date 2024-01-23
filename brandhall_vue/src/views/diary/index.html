@@ -153,6 +153,10 @@
             },
             beforeCreate() { },
             created() {
+                this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
                 this.getContent();
             },
             'methods': {

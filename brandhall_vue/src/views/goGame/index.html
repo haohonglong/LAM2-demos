@@ -1,0 +1,84 @@
+<#define _TITLE_="围棋" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/goGame/" />
+<#define __IMAGE__="{#LAM.IMAGE#}" />
+
+<#import path="/Chess.class" root="__CLASSPATH__" />
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+<#Block:begin id="views.goGame.index">
+<div>
+    <h1 class="MT20">_TITLE_</h1>
+	<canvas ref="chess" width="350" height="350"></canvas>
+    
+</div>
+
+<#Block:end>
+
+
+<script type="text/javascript">
+
+    LAM.run(function() {
+        'use strict';
+        var System = this;
+
+        var n = System.get("n") || 19;
+		var Chess = System.require("lam.Chess");
+
+
+
+
+        var ContentComponent = {
+            'name': "goGameComponent",
+			components: {},
+			data(){
+				return {
+				};
+			},
+			created(){
+                this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
+
+			},
+            mounted(){
+                var chess=new Chess(this.$refs.chess);
+                chess
+                        .add_watermark('__IMAGE__/imgs_LHH/pics/img_09.jpg',function(){
+                            chess
+                                    .draw()
+                                    .click();
+                        });
+            },
+
+			'methods': {
+			},
+            template: System.Template.getBlock('views.goGame.index')
+        };
+
+        System.export('views.goGame.index', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+h1{font-size: 54px; text-align: center;}
+canvas{
+    display: block;
+    margin: 50px auto;
+    box-shadow:
+                -2px -2px 2px #efefef,
+                5px 5px 5px #b9b9b9;
+}
+
+</style>
+
+
+
+

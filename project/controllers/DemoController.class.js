@@ -87,7 +87,7 @@
             return this.renderPartial('chess',{
                 'VIEWS':System.VIEWS,
                 'ROOT':System.ROOT,
-                'title':'五子棋',
+                'title':'围棋',
                 'LAMJS':System.classPath,
                 'D':{}
 

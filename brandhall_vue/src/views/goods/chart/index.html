@@ -5,9 +5,9 @@
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define ~/="__VIEWS__/goods/chart/" />
 
-<#import path="/echarts.js,/chart/line.js,/chart/bar.js" root="http://echarts.baidu.com/build/dist" write="1" befor="1" />
+<#import path="/echarts/5/files/dist/echarts.min.js" root="https://registry.npmmirror.com" write="1" befor="1" />
 
-<#define _TITLE_="同类商品不同超市的价格" />
+<#define _TITLE_="图表" />
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
 <!--Del:begin-->
@@ -46,7 +46,7 @@
         </el-date-picker>
         <el-switch style="margin-left:20px;" v-model="G"></el-switch> 斤
         <el-button style="margin-left:20px;" @click="query" type="primary">查询</el-button>
-        <div ref="chart" style="height:400px;"></div>
+        <div id="chart-container" ref="chart" style="height:400px;"></div>
 
     </div>
     
@@ -63,10 +63,12 @@
 
         const Api = System.require("Api");
 
+        let myChart = null;
+
 
 
         var ContentComponent = {
-          name: "ContentComponent",
+          name: "GoodsChartComponent",
           data: function (_this) {
             return {
                 loading: false,
@@ -108,6 +110,12 @@
                     legend: {
                         data:[]
                     },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
                     toolbox: {
                         show : true,
                         feature : {
@@ -119,22 +127,17 @@
                         }
                     },
                     calculable : true,
-                    xAxis : [
-                        {
-                            type : 'category',
-                            boundaryGap : false,
-                            data : []
+                    xAxis : {
+                        type: 'category',
+                        boundaryGap: false,
+                        data : []
+                    },
+                    yAxis : {
+                        type : 'value',
+                        axisLabel: {
+                            formatter: '{value} ¥'
                         }
-                    ],
-                    yAxis : [
-                        {
-                            type : 'value',
-                            interval: 0.10,
-                            axisLabel : {
-                                formatter: '{value} ¥'
-                            }
-                        }
-                    ],
+                    },
                     series : []
                 }
 			}
@@ -142,10 +145,17 @@
           mounted() {
           },
           created(){
+            this.init();
+
+                this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
             this.loading = true;
             Api.goodsname.index(res => {
                 this.goodsnames = res.data
                 this.loading = false;
+                
             })
           },
           methods: {
@@ -154,7 +164,7 @@
 
                 this.dataOfChart.series = [];
                 this.dataOfChart.legend.data = [];
-                this.dataOfChart.xAxis[0].data  = [];
+                this.dataOfChart.xAxis.data  = [];
 
                 const goodsname_id = this.goodsname_id;
                 const start_date = this.date[0];
@@ -210,7 +220,7 @@
                             this.dataOfChart.series.push(obj);
                             
                         });
-                        this.dataOfChart.xAxis[0].data  = res.dates;
+                        this.dataOfChart.xAxis.data  = res.dates;
                         
                     } else {
                         this.$notify.error({
@@ -218,23 +228,23 @@
                             message: "没有相关数据",
                         });
                     }
-                    this.init();
+                    
+                    myChart.setOption(this.dataOfChart);
                 })
             },
             init() {
-              require(
-                  [
-                      'echarts',
-                      'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
-                      'echarts/chart/bar'
-                  ],
-                  (ec) =>{
-                      var myChart = ec.init(this.$refs.chart);
-                      myChart.setOption(this.dataOfChart);
-                  }
-              );
+                System.listen(()=>{
+                        if(this.$refs.chart)  {
+                             myChart = echarts.init(this.$refs.chart, null, {
+                                renderer: 'canvas',
+                                useDirtyRect: false
+                                });
+                            return true;
+                            
+                        }
+                    }, 1);
             }
-		      },
+		  },
           template: System.Template.getBlock('views.goods.chart')
         };
 
@@ -242,3 +252,5 @@
     });
 </script>
 
+<style>
+</style>

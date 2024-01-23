@@ -52,6 +52,7 @@
             'Public': function (System) {
 
                 ROOT = _ROOT_ + '/brandhall';
+                const BRANDHALL_VUE = _ROOT_ + '/brandhall_vue';
                 const SRC = ROOT + '/src',
                     ASSETS = ROOT + '/src/assets',
                     VIEWS = SRC + '/views',
@@ -72,7 +73,7 @@
                     , 'CONTROLLERS': SRC + '/controllers'
                     , 'MODELS': SRC + '/models'
                     , 'LAYOUTS': SRC + '/layouts'
-                    , 'API': SRC + '/api'
+                    , 'API': BRANDHALL_VUE + '/src/api'
                     , 'COMPONENTS': SRC + '/components'
                     , VIEWS
                     , 'ERROR_404': VIEWS + '/_404.html'

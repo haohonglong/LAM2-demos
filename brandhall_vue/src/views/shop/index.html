@@ -5,7 +5,7 @@
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define ~/="__VIEWS__/shop/" />
 
-<#define _TITLE_="店铺" />
+<#define _TITLE_="店铺列表" />
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
 <!--Del:begin-->
@@ -80,6 +80,10 @@
             }
           },
           created(){
+            this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
                 this.getData();
           },
           methods: {

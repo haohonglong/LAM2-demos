@@ -12,12 +12,14 @@
 <#include file="__VIEWS__/article/list/index.html" />
 <#include file="__VIEWS__/article/detail/index.html" />
 <#include file="__VIEWS__/blindBox/index.html" />
+<#include file="__VIEWS__/goGame/index.html" />
 <#include file="__VIEWS__/tesks/index.html" />
 <#include file="__VIEWS__/goods/index/index.html" />
 <#include file="__VIEWS__/goods/add/index.html" />
 <#include file="__VIEWS__/goods/chart/index.html" />
 <#include file="__VIEWS__/goodsname/index.html" />
 <#include file="__VIEWS__/unit/index.html" />
+<#include file="__VIEWS__/pictures/index.html" />
 <#include file="__VIEWS__/test/index.html" />
 
 <script type="text/javascript">
@@ -45,7 +47,9 @@ LAM.run(function(){
 			,{ path: '/article/index', component: System.require('views.article.list') }
 			,{ path: '/article/detail/:id', component: System.require('views.article.detail') }
 			,{ path: '/blindBox/index', component: System.require('views.blindBox.index') }
+			,{ path: '/goGame/index', component: System.require('views.goGame.index') }
 			,{ path: '/unit/index', component: System.require('views.unit.index') }
+			,{ path: '/pictures/index', component: System.require('views.pictures.index') }
 			,{ path: '/tesks/index', component: System.require('views.tesks.index') }
 			,{ path: '/test/index', component: System.require('views.test.index') }
 		]

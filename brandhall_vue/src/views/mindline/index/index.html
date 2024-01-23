@@ -1,4 +1,4 @@
-<#define _TITLE_="思维导图-列表" />
+<#define _TITLE_="思维导图" />
 <#define __INDEX__="{#LAM.INDEX#}" />
 <#define __URL__="{#LAM.URL#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
@@ -62,7 +62,7 @@
        </span>
      </el-dialog>
    
-   </div>
+</div>
 
 <#Block:end>
 
@@ -108,6 +108,10 @@
                 };
             },
             created() {
+                this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
                 this.loadData();
             },
             methods: {
@@ -129,6 +133,7 @@
                 },
                 loadData() {
                     this.init();
+                    this.loading = true;
                     Api.mindmaps.list(res => {
                         if(res.status){
                             this.loading = false;
@@ -203,7 +208,9 @@
                 },
                 remove(id){
                     this.confirm(()=> {
+                        this.loading = true;
                         Api.mindmaps.delete(id, res => {
+                            this.loading = false;
                             if(res.status){
                                 this.loadData();
                                 this.ok();
@@ -225,7 +232,9 @@
                         thumbnail,
                         remark
                     };
+                    this.loading = true;
                     Api.mindmaps.edit(data, res => {
+                        this.loading = false;
                         if(res.status){
                             this.loadData();
                             this.ok();
@@ -245,8 +254,9 @@
                     const content = [{name}];
                     const data = { key, name, thumbnail, content: JSON.stringify(content), remark };
                     
-                    
+                    this.loading = true;
                     Api.mindmaps.add(data, res => {
+                        this.loading = false;
                         if(res.status){
                             this.loadData();
                             this.ok();

@@ -34,7 +34,7 @@
 
 	LAM.run(function() {
 		var System=this;
-		var n = System.get("n");
+		var n = System.get("n") || 19;
 		var Chess = System.require("lam.Chess");
 
 		var vm = new Vue({
@@ -45,9 +45,9 @@
               components: {},
               computed: {},
 							mounted(){
-								var chess=new Chess(this.$refs.chess, n, n);
+								var chess=new Chess(this.$refs.chess);
 								chess
-										.add_watermark('__ROOT__/images/11.jpg',function(){
+										.add_watermark('__ROOT__/images/xiaomei.jpeg',function(){
 											chess
 													.draw()
 													.click();

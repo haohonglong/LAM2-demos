@@ -126,6 +126,10 @@
                 "el-tree-select": System.require('components.TreeSelectComponen')
             },
             created() {
+                this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
                 Api.sorts.get(res => {
                     this.loading = false;
                     this.list = res;

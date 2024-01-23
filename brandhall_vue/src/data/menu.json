@@ -28,9 +28,10 @@
   {
     "index": "a16",
     "icon":"a-1",
-    "title":"盲盒",
+    "title":"游戏",
     "ul":[
-      {  "index": "a16-a1", "title":"盲盒","href":"/blindBox/index"}
+      {  "index": "a16-b1", "title":"盲盒","href":"/blindBox/index"},
+      {  "index": "a16-b2", "title":"围棋","href":"/goGame/index"}
     ]
   },
   {
@@ -63,7 +64,7 @@
     "title":"视频",
     "ul":[
       {  "index": "a7-b1", "title":"视频","href":"/video/index"},
-      {  "index": "a7-b1", "title":"sexual","href":"/video/sex"}
+      {  "index": "a7-b2", "title":"sexual","href":"/video/sex"}
     ]
   },
   {
@@ -100,6 +101,14 @@
     "title":"计量单位",
     "ul":[
       { "index": "a18-b1", "title":"计量单位列表","href":"/unit/index"}
+    ]
+  },
+  {
+    "index": "a19",
+    "icon":"a-5",
+    "title":"图片库",
+    "ul":[
+      { "index": "a19-b1", "title":"列表","href":"/pictures/index"}
     ]
   }
 

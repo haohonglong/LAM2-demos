@@ -12,8 +12,7 @@
 <#define __CSS__="{#LAM.CSS#}" />
 <#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
 <#define @COMPONENTS="_LAYOUTS_/components" />
-<#define __DATAPATH__="{#LAM.DATA#}" />
-#define# __MENU__ <#include file="__DATAPATH__/menu.json" /> #end#
+
 
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import path="/api.js" root="__API__" />
@@ -74,7 +73,7 @@
 		  :visible.sync="drawer"
 		  ref="navDrawer"
 		  :with-header="false">
-		  <el-aside width="200px"><menu-component v-on:drawer="handleClose" :list="menu" :title="title"></menu-component></el-aside>
+		  <el-aside width="200px"><menu-component v-on:drawer="handleClose" :title="title"></menu-component></el-aside>
 		</el-drawer>
 		  
 		  <el-container>
@@ -101,7 +100,7 @@
 			  <div class="ml20 mb30"><crumb-component :list="crumbData"></crumb-component></div>
 			  <el-main style="overflow: hidden">
 				<!-- <div style="padding: 20px"> -->
-					<router-view></router-view>
+					<router-view @change_crumb_data="change_crumb_data"></router-view>
 					<el-backtop></el-backtop>
 				<!-- </div> -->
 				
@@ -138,10 +137,9 @@
 				data: function(){
 				return {
 					drawer: false,
-					menu: __MENU__,
 					title: "blog系统",
 					user: {#-user-#},
-					crumbData: {}
+					crumbData: []
 				};
 				},
 				components: {
@@ -152,10 +150,16 @@
 					'nav-menu-component': System.require("components.NavMenuComponent")
 				},
 				computed: {
+					
+				},
+				created() {
 				},
 				methods: {
 					handleClose() {
 						this.$refs.navDrawer.closeDrawer();
+					},
+					change_crumb_data(data) {
+						this.crumbData = data;
 					}
 				},
 				watch: {

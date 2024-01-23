@@ -1,7 +1,7 @@
 <#Block:begin id="crumb">
 <el-breadcrumb separator-class="el-icon-arrow-right">
-  <template v-for="item in list">
-    <el-breadcrumb-item v-if="item.href" :to="{ path: item.href }"><a :href="item.href">{{ item.name }}</a></el-breadcrumb-item>
+  <template v-if="list.length" v-for="item in list">
+    <el-breadcrumb-item v-if="item.href" :to="{ path: item.href }">{{ item.name }}</el-breadcrumb-item>
     <el-breadcrumb-item v-else>{{ item.name }}</el-breadcrumb-item>
   </template>
 </el-breadcrumb>
@@ -17,7 +17,7 @@
         var CrumbComponent = {
           name: "CrumbComponent",
           props: {
-            "list": Object
+            "list": Array 
           },
           data: function () {
             return {

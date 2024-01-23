@@ -45,6 +45,10 @@
 				};
 			},
 			created(){
+				this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
 				
 				this.key = this.$route.params.key;
 				const key = this.key;

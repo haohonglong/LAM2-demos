@@ -18,9 +18,11 @@
     <div v-loading.fullscreen.lock="loading">
         <div class="sectionButton-B1">
             <router-link class="btn save" to="/goods/add">添加商品</router-link>
+            <el-button class="R" round>总额：{{ total }}</el-button>
         </div>
+        
         <div v-for="item in list">
-            <p class="mt20 mb5" style="font-size: 20px;">商店名称：{{ item.shop_name }} |  积分：{{ getShopPoints(item.childs) }}</p>
+            <p class="mt20 mb5" style="font-size: 20px;">商店名称：{{ item.shop_name }} |  积分：{{ getShopPoints(item.bills) }}</p>
             <div class="sectionBorder-A3 mtb0">
                 <div class="sectionTable-B1 sectionTable-B1-5">
                     <div class="sectionTitle-A4 sectionTitle-A4-2 sectionTitle-A4-3 sectionFloat-A1 sectionBg-A2">
@@ -32,7 +34,7 @@
                 </div>
             </div>
             <div> 
-                <table-component :list="item.childs"></table-component>
+                <table-component v-on:total-cost="totalCost" :list="item.bills"></table-component>
             </div>
     
         </div>
@@ -49,6 +51,8 @@
         var System = this;
         const Api = System.require("Api");
 
+        let total = 0;
+
 
         var ContentComponent = {
               name: "goodsIndex",
@@ -58,11 +62,16 @@
               },
               data: function () {
                 return {
+                    'total': 0,
                     'loading': false,
                     'list': []
                 }
               },
               created(){
+                this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
                 this.loading = true;
                 Api.goods.get(res => {
                     this.list = res
@@ -70,6 +79,10 @@
                 })
               },
               methods: {
+                totalCost(n) {
+                    total += parseInt(n);
+                    this.total = total;
+                },
                 getShopPoints(arr) {
                     let points = 0;
                     System.each(arr, (i,item)=>{
@@ -79,8 +92,8 @@
 
                 },
                 'isset': function(value) {
-                        return System.isset(value);
-                    }
+                    return System.isset(value);
+                }
               },
               template: System.Template.getBlock('views.goods.index')
             };

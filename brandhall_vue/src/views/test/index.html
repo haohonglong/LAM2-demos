@@ -23,8 +23,76 @@
 
 
 <#Block:begin id="views.test.index">
-<div>
-	<div ref="chart" style="height:400px;"></div>
+<div v-loading.fullscreen.lock="loading">
+	<el-table
+                                :data="list"
+                                height="550"
+                                stripe
+                                border
+                                style="width: 100%">
+                                <el-table-column
+                                fixed
+                                sortable
+                                prop="id"
+                                label="id"
+                                width="80">
+                                </el-table-column>
+                                <el-table-column
+                                prop="name"
+                                label="商品名称"
+                                width="300">
+                                </el-table-column>
+                                <el-table-column
+                                prop="code"
+                                label="商品条形码"
+                                width="130">
+                                </el-table-column>
+                                <el-table-column
+                                prop="single_price"
+                                label="单价($)"
+                                sortable
+                                width="100">
+                                </el-table-column>
+                                <el-table-column
+                                prop="final_price"
+                                label="结果价($)"
+                                width="100">
+                                </el-table-column>
+                                <el-table-column
+                                prop="number"
+                                label="数量"
+                                width="60">
+                                </el-table-column>
+                                <el-table-column
+                                prop="weight"
+                                label="重量"
+                                width="60">
+                                </el-table-column>
+                                <el-table-column
+                                prop="unit"
+                                label="单位"
+                                align="center"
+                                width="60">
+                                </el-table-column>
+                                <el-table-column
+                                prop="create_at"
+                                label="日期"
+                                sortable
+                                align="center"
+                                width="100">
+                                </el-table-column>
+                                <el-table-column
+                                    fixed="right"
+                                    label="操作"
+                                    align="center"
+                                    width="130">
+                                    <template slot-scope="scope">
+                                        <el-button type="text" size="small">查看</el-button>
+                                        <el-button type="text" size="small">修改</el-button>
+                                        <el-button type="text" size="small">删除</el-button>
+                                    </template>
+                                    </el-table-column>
+                            </el-table>
 </div>
 <#Block:end>
 
@@ -39,105 +107,40 @@
         const Api = System.require("Api");
 
         var ContentComponent = {
-          name: "ContentComponent",
+          name: "TestComponent",
           data: function () {
             return {
-              option: {
-                title : {
-                    text: '同类商品不同超市的价格',
-                    subtext: ''
-                },
-                tooltip : {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data:['集合100连锁超市','益家鲜生']
-                },
-                toolbox: {
-                    show : true,
-                    feature : {
-                        mark : {show: true},
-                        dataView : {show: true, readOnly: false},
-                        magicType : {show: true, type: ['line', 'bar']},
-                        restore : {show: true},
-                        saveAsImage : {show: true}
-                    }
-                },
-                calculable : true,
-                xAxis : [
-                    {
-                        type : 'category',
-                        boundaryGap : false,
-                        data : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value',
-                        axisLabel : {
-                            formatter: '{value} ¥'
-                        }
-                    }
-                ],
-                series : [
-                    {
-                        name:'集合100连锁超市',
-                        type:'line',
-                        data:[5.21, 5.10, 4.69, 5.00, 5.55, 5.00, 5.18],
-                        markPoint : {
-                            data : [
-                                {type : 'max', name: '最大值'},
-                                {type : 'min', name: '最小值'}
-                            ]
-                        },
-                        markLine : {
-                            data : [
-                                {type : 'average', name: '平均值'}
-                            ]
-                        }
-                    },
-                    {
-                        name:'益家鲜生',
-                        type:'line',
-                        data:[5.39, 5.28, 4.59, 5.00, 5.68, 5.19, 5.19],
-                        markPoint : {
-                            data : [
-                                {type : 'max', name: '最大值'},
-                                {type : 'min', name: '最小值'}
-                            ]
-                        },
-                        markLine : {
-                            data : [
-                                {type : 'average', name: '平均值'}
-                            ]
-                        }
-                    }
-                ]
-              }
-			      }
+                loading: false,
+                list: []
+			}
           },
           mounted() {
-            this.init();
           },
           created(){
+            this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
+                this.loading = true;
+                Api.goods.get(res => {
+                    this.loading = false;
+                    res.forEach((v1, k1) => {
+                        System.each(v1['bills'], (k2, v2) => {
+                            System.each(v2['childs'], (k3, v3) => {
+                                this.list.push(v3);
+
+                            });
+                        });
+                    });
+                    
+                    this.loading = false;
+                })
             
             
             
           },
           methods: {
-            init() {
-              require(
-                  [
-                      'echarts',
-                      'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
-                      'echarts/chart/bar'
-                  ],
-                  (ec) =>{
-                      var myChart = ec.init(this.$refs.chart);
-                      myChart.setOption(this.option);
-                  }
-              );
-            }
+
 		      },
           template: System.Template.getBlock('views.test.index')
         };

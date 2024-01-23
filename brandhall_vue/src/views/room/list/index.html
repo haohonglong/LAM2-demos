@@ -1,4 +1,4 @@
-<#define _TITLE_="商品列表" />
+<#define _TITLE_="案例列表" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define ~/="__VIEWS__/room/list/" />
 #define# __DATA__ <#include file="{#LAM.DATA#}/list.json" /> #end#
@@ -69,6 +69,12 @@
                 roomList: __DATA__.room
 
             }
+          },
+          created() {
+            this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
           },
           methods: {
             swap(data, a, b) {

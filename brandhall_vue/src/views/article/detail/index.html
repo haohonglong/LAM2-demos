@@ -48,6 +48,10 @@
 				};
 			},
 			created(){
+				this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
 
 				const id = this.$route.params.id;
 				Api.article.show({ id }, res => {

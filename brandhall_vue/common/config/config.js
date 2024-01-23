@@ -91,7 +91,7 @@
                 };
             },
             'components': {
-                'excluded': [],
+                'excluded': ['Model'],
                 'moduleId': 'm',
                 'routerId': 'r',
                 'defaultRoute': 'site/index',
@@ -141,6 +141,7 @@
                 var PLUGINS = System.PLUGINS;
                 return {
                     files: [
+                        
                         {"name": "BaseController", "path": System.CONTROLLERS+"/BaseController.class.js"},
                         {"name": "Router", 'path': System.classPath + '/base/Router.class.js' }
                     ]
