@@ -92,6 +92,7 @@
             },
             'components': {
                 'excluded': ['Model'],
+                'beforeBuildExcluded': ['Controller', 'BaseController', 'Router'],
                 'moduleId': 'm',
                 'routerId': 'r',
                 'defaultRoute': 'site/index',
@@ -142,8 +143,9 @@
                 return {
                     files: [
                         
-                        {"name": "BaseController", "path": System.CONTROLLERS+"/BaseController.class.js"},
-                        {"name": "Router", 'path': System.classPath + '/base/Router.class.js' }
+                         {"name": "BaseController", "path": System.CONTROLLERS+"/BaseController.class.js"}
+                        ,{"name": "API", 'path': System.API + '/api.js' }
+                        ,{"name": "Router", 'path': System.classPath + '/base/Router.class.js' }
                     ]
                 };
             },

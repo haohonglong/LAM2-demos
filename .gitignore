@@ -3,5 +3,5 @@ _mac
 node_modules/*
 .DS_Store
 LAM*
-brandhall/build
-brandhall_vue/build
+brandhall/build/*
+brandhall_vue/build/*

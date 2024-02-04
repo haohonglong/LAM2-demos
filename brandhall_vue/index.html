@@ -31,15 +31,15 @@
             //     }
             // });
             let ROOT = System.ROOT;
-            let script = System.Html.script('window._ROOT_ = "'+ ROOT +'";');
-            // $.post(System.SERVER+"/index/build",{
-            //     'content': script + System._content,
-            //     'replace':[{'../':'../../../'}],
-            //     'path':"/www/lamborghiniJS/LAM2-demos/brandhall/build/" + System.get('r'),
-            //     'suffix':'.html'
-            // },function(view){
+            let script = System.Html.script('window._ROOT_ = "'+ ROOT +'/";');
+            $.post(System.SERVER+"/index/build",{
+                'content': script + System._content,
+                'replace':[{'../':'../../../'}],
+                'path':"/www/lamborghiniJS/LAM2-demos/brandhall_vue/build/" + System.get('r'),
+                'suffix':'.html'
+            },function(view){
 
-            // },'json');
+            },'json');
             return view;
         };
         LAM.bootstrap();

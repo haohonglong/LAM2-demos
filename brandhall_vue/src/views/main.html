@@ -1,8 +1,8 @@
+
 <#define __CSRF_TOKEN__="{#LAM.require("this").csrfToken#}" />
 <#define __SRC__="{#LAM.SRC#}" />
 <#define __ROUTES__="{#LAM.ROUTES#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
-<#define __API__="{#LAM.API#}" />
 <#define __IMAGE__="{#LAM.IMAGE#}" />
 <#define __MYCOMMON__="{#LAM.MYCOMMON#}" />
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
@@ -15,15 +15,34 @@
 
 
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
-<#import path="/api.js" root="__API__" />
-
 <#import path="vue.js,vue-router.js" root="__PLUGINS__/vue/" write="1" befor="1" />
+
+<!--Del:begin-->
+<#import path="
+/dayjs.min.js,
+/plugin/customParseFormat.js,
+/plugin/weekday.js,
+/plugin/localeData.js,
+/plugin/weekOfYear.js,
+/plugin/weekYear.js,
+/plugin/advancedFormat.js,
+/plugin/quarterOfYear.js
+" root="https://unpkg.com/dayjs" write="1" befor="1" />
+
+<#import path="/ant-design-vue@4.1.1/dist/antd.min.js" root="https://cdn.jsdelivr.net/npm" write="1" befor="1" />
+<#import type="css" path="/ant-design-vue@4.1.1/dist/reset.min.css" root="https://cdn.jsdelivr.net/npm" befor="1" />
+<!--Del:end-->
+
 <#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="__NODE_MODULES__" befor="1" />
 <#import path="/element-ui/lib/index.js" root="__NODE_MODULES__" write="1" befor="1" />
 
+
 <#import path="/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
+
+
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
 <#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
+
 
 
 <!DOCTYPE html>
@@ -35,6 +54,9 @@
 <title>{#-title-#}</title>
 <meta name="keywords" content="{#-title-#}" />
 <meta name="description" content="{#-title-#}" />
+<!#HEAD/>
+<!#CSS/>
+<!#JS/>
 <style type="text/css">
   
 	#header {
@@ -125,7 +147,7 @@
 		'use strict';
 		var System = this;
 
-		var D = System.require("this").content;
+		// var D = System.require("this").content;
 
 
 		
