@@ -46,24 +46,24 @@
         'use strict';
 
         return {
-            'LAMPATH': _ROOT_ + '/LAM2/lamborghiniJS',
+            'LAMPATH': _ROOT_ + 'LAM2/lamborghiniJS',
             'LAM_DEBUG': true,
             'LAM_ENV': 'dev',
             'Public': function (System) {
 
-                ROOT = _ROOT_ + '/brandhall_vue';
+                ROOT = _ROOT_ + 'brandhall_vue';
                 const SRC = ROOT + '/src',
                     ASSETS = ROOT + '/src/assets',
                     VIEWS = SRC + '/views',
                     ROUTES = SRC + '/routes',
                     CONF = ROOT + '/common/config';
-                const NODE_MODULES = _ROOT_ + "/node_modules"
+                const NODE_MODULES = _ROOT_ + "node_modules"
 
                 return {
                       'ROOT': _ROOT_
                     , 'BACKEND': ROOT
-                    , 'COMMON': _ROOT_ + '/common'
-                    , 'PLUGINS': _ROOT_ + '/common/plugins'
+                    , 'COMMON': _ROOT_ + 'common'
+                    , 'PLUGINS': _ROOT_ + 'common/plugins'
                     , 'MYCOMMON': ROOT + '/common'
                     , CONF
                     , SRC

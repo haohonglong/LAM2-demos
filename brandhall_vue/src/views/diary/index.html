@@ -305,7 +305,7 @@
             'watch': {
                 'keyword': function() { this.search();}
             },
-            template: System.Template.getBlock('views.diary.content')
+            template: `<#=block id="views.diary.content" />`
         };
 
         System.export('views.diary.index', ContentComponent);
