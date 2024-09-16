@@ -1,3 +1,4 @@
+<#define _PACKAGE_="views.goods.index" />
 <#define _TITLE_="商品列表" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define ~/="__VIEWS__/goods/index/" />
@@ -13,7 +14,7 @@
 <!--Del:end-->
 
 
-<#Block:begin id="views.goods.index">
+<#Block:begin id="_PACKAGE_">
 <div>
     <div v-loading.fullscreen.lock="loading">
         <div class="sectionButton-B1">
@@ -95,10 +96,10 @@
                     return System.isset(value);
                 }
               },
-              template: `<#=block id="views.goods.index" />`
+              template: `<#=block id="_PACKAGE_" />`
             };
 
-        System.export('views.goods.index', ContentComponent);
+        System.export('_PACKAGE_', ContentComponent);
 
     });
 </script>

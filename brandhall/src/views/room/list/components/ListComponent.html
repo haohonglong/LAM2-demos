@@ -86,7 +86,7 @@
                 this.data = this.data.filter((item, i) => index != i)
             }
           },
-          template: System.Template.getBlock('room.list.components.ListComponent')
+          template: `<#=block id="room.list.components.ListComponent" />`
         };
 
         System.export('roomListComponent', roomListComponent);

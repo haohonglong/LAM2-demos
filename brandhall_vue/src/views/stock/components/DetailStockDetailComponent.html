@@ -1,0 +1,82 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.DetailStockDetailComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+
+<#Block:begin id="__ID__">
+<div>
+    <el-dialog
+    :title="'股票详情'"
+    :visible.sync="dialogVisible"
+    :close-on-click-modal="true"
+    width="">
+    <el-descriptions :title="stock_price">
+      <el-descriptions-item label="今开">{{ open }}</el-descriptions-item>
+      <el-descriptions-item label="昨收">{{ close }}</el-descriptions-item>
+      <el-descriptions-item label="涨停">{{ lup }}</el-descriptions-item>
+      <el-descriptions-item label="跌停">{{ ldown }}</el-descriptions-item>
+      <el-descriptions-item label="最高">{{ hight }}</el-descriptions-item>
+      <el-descriptions-item label="最低">{{ low }}</el-descriptions-item>
+      <el-descriptions-item label="均价">{{ average }}</el-descriptions-item>
+      <el-descriptions-item label="换手率">{{ change }}%</el-descriptions-item>
+      <el-descriptions-item label="振幅">{{ amplitude }}%</el-descriptions-item>
+  </el-descriptions>
+    
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        var FormComponent = {
+          name: "DetailStockDetailComponent",
+          props: {
+          },
+          components: {},
+          data() {
+            return {
+                'dialogVisible': false
+                ,'stock_price': 0.00
+                ,'open': 0.00
+                ,'close': 0.00
+                ,'lup': 0.00
+                ,'ldown': 0.00
+                ,'hight': 0.00
+                ,'low': 0.00
+                ,'average': 0.00
+                ,'change': 0.00
+                ,'amplitude': 0.00
+            }
+          },
+          created(){
+          },
+          methods: {
+            show(data){
+              this.stock_price = data.stock_price;
+              this.open = data.open;
+              this.close = data.close;
+              this.lup = data.lup;
+              this.ldown = data.ldown;
+              this.hight = data.hight;
+              this.low = data.low;
+              this.average = data.average;
+              this.change = data.change;
+              this.amplitude = data.amplitude;
+              this.dialogVisible = true;
+              
+            }
+            
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>

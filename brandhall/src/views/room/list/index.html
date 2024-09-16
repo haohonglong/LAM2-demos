@@ -12,7 +12,10 @@
 
 <#Block:begin id="content">
 <div>
-    <!#include file="~/a.html" />
+<!--Del:begin-->
+<#include file="~/a.html" />
+<!--Del:end-->
+
     <div class="clear mb10 sectionForm-A1 sectionForm-A1-1-2 sectionForm-A2 mb15">
         <button type="submit" class="btn save L mr15">+&nbsp;&nbsp;添加新案例 </button>
     </div>
@@ -76,7 +79,7 @@
               }
               
           },
-          template: System.Template.getBlock('content')
+          template: `<#=block id="content" />`
         };
 
         System.export('ContentComponent', ContentComponent);

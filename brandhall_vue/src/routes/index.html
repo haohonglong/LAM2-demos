@@ -20,6 +20,8 @@
 <#include file="__VIEWS__/goodsname/index.html" />
 <#include file="__VIEWS__/unit/index.html" />
 <#include file="__VIEWS__/pictures/index.html" />
+<#include file="__VIEWS__/stock/index.html" />
+<#include file="__VIEWS__/stock/list/index.html" />
 <#include file="__VIEWS__/test/index.html" />
 
 <script type="text/javascript">
@@ -50,6 +52,8 @@ LAM.run(function(){
 			,{ path: '/goGame/index', component: System.require('views.goGame.index') }
 			,{ path: '/unit/index', component: System.require('views.unit.index') }
 			,{ path: '/pictures/index', component: System.require('views.pictures.index') }
+			,{ path: '/stock/index', component: System.require('views.stock.index') }
+			,{ path: '/stock/list/:stock_id/:stock_name', name: 'stockList', component: System.require('views.stock.list.index') }
 			,{ path: '/tesks/index', component: System.require('views.tesks.index') }
 			,{ path: '/test/index', component: System.require('views.test.index') }
 		]

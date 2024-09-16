@@ -1,6 +1,7 @@
 <#define __IMG__="{#LAM.IMAGE#}/imgs_LHH" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
 <#define __LAYOUTS__="{#LAM.LAYOUTS#}" />
+<#define __HOSTIP__="{#LAM.HOSTIP#}" />
 <#define @COMPONENTS="__LAYOUTS__/components" />
 <#define ~/="@COMPONENTS/" />
 
@@ -143,7 +144,7 @@
                         <div class="sectionBox sectionTitle-A sectionTitle-A1 sectionTitle-A1-1">
                             <h2>通知</h2>
                             <div class="more">
-                                <a href="###" class="linkBlue mr10">设置</a>
+                                <a href="http://__HOSTIP__/brandhall_vue/build/site/index.html#/goods/index" target="_blank" class="linkBlue mr10">构建</a>
                                 <a href="###" class="linkBlue">清除全部通知</a>
 
                             </div>

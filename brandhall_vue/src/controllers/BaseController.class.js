@@ -14,6 +14,7 @@ LAM.run([LAM], function(LAM){
 		},
 		'_className':'BaseController',
 		'__constructor':function(){},
+		'getToken': function(){ return this.csrfToken; },
 
 		/**
 		 *

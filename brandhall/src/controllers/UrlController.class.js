@@ -30,9 +30,7 @@ LAM.run([LAM], function(LAM){
         '_className':'UrlController',
         'indexAction':function(){
             return this.render('index',{
-                'VIEWS':System.VIEWS,
-                'IMAGE':System.IMAGE,
-                'ROOT':ROOT
+                'user': this.content.user
 
             },E);
         },
@@ -55,7 +53,7 @@ LAM.run([LAM], function(LAM){
     });
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = UrlController :
 	typeof define === 'function' && define.amd ? define(UrlController) : LAM.UrlController = UrlController;
-    System.export("src.controllers.UrlController", UrlController);
+    System.export("web.controllerInstance", new UrlController());
 });
 
 

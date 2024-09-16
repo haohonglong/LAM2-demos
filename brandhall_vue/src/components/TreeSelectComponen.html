@@ -6,6 +6,7 @@
 		:placeholder="placeholder"
 		v-model="filterText">
 	  </el-input>
+	  
   
 	  <el-option :value="data.sortName" :label="data.sortName" class="options">
 		<el-tree  id="tree-option"
@@ -17,6 +18,11 @@
 		  :default-expanded-keys="defaultExpandedKey"
 		  :filter-node-method="filterNode"
 		  @node-click="handleNodeClick">
+		  <span class="custom-tree-node" slot-scope="{ node, data }">
+			<span class="mr30">
+				{{ data.code }}:{{ node.label }}
+			</span>
+		  </span>
 		</el-tree>
 	  </el-option>
 	</el-select>
@@ -140,11 +146,10 @@
 				},
 				// 清除选中
 				clearHandle(){
-					return;
 					this.data.sortName = ''
-					this.data.sid = null
-					this.defaultExpandedKey = []
-					this.clearSelected()
+					this.data.sid = 0
+					// this.defaultExpandedKey = []
+					// this.clearSelected()
 					// this.$emit('getValue',null)
 				},
 				/* 清空选中样式 */
@@ -167,7 +172,7 @@
 					this.$refs.selectTree.filter(val);
 				}
 			},
-			template: System.Template.getBlock('components.TreeSelectComponen')
+			template: `<#=block id="components.TreeSelectComponen" />`
 		};
 
 		System.export('components.TreeSelectComponen', Component);

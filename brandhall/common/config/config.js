@@ -46,13 +46,13 @@
         'use strict';
 
         return {
-            'LAMPATH': _ROOT_ + '/LAM2/lamborghiniJS',
+            'LAMPATH': _ROOT_ + 'LAM2/lamborghiniJS',
             'LAM_DEBUG': true,
             'LAM_ENV': 'dev',
             'Public': function (System) {
 
-                ROOT = _ROOT_ + '/brandhall';
-                const BRANDHALL_VUE = _ROOT_ + '/brandhall_vue';
+                ROOT = _ROOT_ + 'brandhall';
+                const BRANDHALL_VUE = _ROOT_ + 'brandhall_vue';
                 const SRC = ROOT + '/src',
                     ASSETS = ROOT + '/src/assets',
                     VIEWS = SRC + '/views',
@@ -61,8 +61,8 @@
                 return {
                       'ROOT': _ROOT_
                     , 'BACKEND': ROOT
-                    , 'COMMON': _ROOT_ + '/common'
-                    , 'PLUGINS': _ROOT_ + '/common/plugins'
+                    , 'COMMON': _ROOT_ + 'common'
+                    , 'PLUGINS': _ROOT_ + 'common/plugins'
                     , 'MYCOMMON': ROOT + '/common'
                     , CONF
                     , SRC
@@ -79,7 +79,8 @@
                     , 'ERROR_404': VIEWS + '/_404.html'
                     , 'INDEX': 'index.html?r='
                     , 'SERVER': 'http://yaf.local'
-                    , 'CONFIGURATION_PATH': CONF + '/config.js'
+                    , 'CONFIGURATIONJS': CONF + '/config.js'
+                    , 'SYSTEMJS': System.LAMPATH + '/base/System.js'
                     , 'BASE64ENCODE': true
                     , 'token': "G94F9AyvNiuHCRVLY8kw9-HE6Jjw9qIU"
                     , 'LAMPATH': System.LAMPATH
@@ -87,7 +88,11 @@
                 };
             },
             'components': {
+                'tempInstance': null,
+                'viewInstance': null,
+                'blockCacheInstance': null,
                 'excluded': [],
+                'beforeBuildExcluded': ['Controller', 'BaseController', 'Router'],
                 'moduleId': 'm',
                 'routerId': 'r',
                 'defaultRoute': 'room/list',
@@ -112,8 +117,12 @@
                     // return System.md5(System.timestamp());
                 },
                 'runtime': function (System) {
-                    System.COOKIE_GUEST = new System.Storage('guest', localStorage, System.timestamp() + 1000*60*60*60*3);
-                    System.COOKIE = new System.Storage('content', localStorage);
+
+                    var Storage = System.require("lam.base.Storage");
+                    // System.blockCacheInstance  = new Storage('block', sessionStorage);
+
+                    System.COOKIE_GUEST = new Storage('guest', localStorage, System.timestamp() + 1000*60*60*60*3);
+                    System.COOKIE = new Storage('content', localStorage);
 
                 }
 

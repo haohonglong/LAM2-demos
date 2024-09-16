@@ -4,7 +4,28 @@ LAM.run([jQuery], function($){
 
 	const SERVER = System.SERVER;
 
+	function request(R, func) {
+		$[R.method](SERVER + R.url, R.params || {}, func, R.dataType || "json");
+	}
+
 	const API = {
+		"StockDate":{
+			"getOne": "/StockDate/getOne"
+		},
+		"stockDetail":{
+			"index": "/stockDetail/index",
+			"delete": "/stockDetail/delete",
+			"search": "/stockDetail/search",
+			"show": "/stockDetail/show",
+			"add": "/stockDetail/add"
+		},
+		"stock":{
+			"index": "/stock/index",
+			"search": "/stock/search",
+			"show": "/stock/show",
+			"add": "/stock/add",
+			"feach": "/stock/feach"
+		},
 		"article":{
 			"index": "/article/index",
 			"search": "/article/search",
@@ -91,11 +112,115 @@ LAM.run([jQuery], function($){
 		}
 	};
 
-	function request(R, func) {
-		$[R.method](SERVER + R.url, R.params || {}, func, R.dataType || "json");
-	}
+	
 
 	const Api = {
+		"StockDate": {
+			getOne({ 
+				stock_id
+				,stock_date_at
+			}, func){
+				request({
+					url: API.StockDate.getOne,
+					method: 'post',
+					params: { 
+						stock_id
+						,stock_date_at
+					}
+				}, func);
+			}
+		},
+		"stockDetail": {
+			index(stock_id, func){
+				request({
+					url: API.stockDetail.index,
+					method: 'get',
+					params: { stock_id }
+				}, func);
+			},
+			delete(id, func){
+				request({
+					url: API.stockDetail.delete,
+					method: 'get',
+					params: { id }
+				}, func);
+			},
+			add({ 
+				stock_id
+				,stock_price
+				,stock_type
+				,stock_deal_total
+				,created_at
+				,stock_detail_remark
+				,open
+				,close
+				,lup
+				,ldown
+				,hight
+				,low
+				,average
+				,change
+				,amplitude
+			}, func){
+				request({
+					url: API.stockDetail.add,
+					method: 'post',
+					params: { 
+						stock_id
+						,stock_price
+						,stock_type
+						,stock_deal_total
+						,created_at
+						,stock_detail_remark
+						,open
+						,close
+						,lup
+						,ldown
+						,hight
+						,low
+						,average
+						,change
+						,amplitude
+					}
+				}, func);
+			},
+			search({ title }, func){
+				request({
+					url: API.stockDetail.search,
+					method: 'post',
+					params: { title }
+				}, func);
+			}
+		},
+		"stock": {
+			index(func){
+				request({
+					url: API.stock.index,
+					method: 'get'
+				}, func);
+			},
+			feach(stock_id, func){
+				request({
+					url: API.stock.feach,
+					method: 'get',
+					params: { stock_id }
+				}, func);
+			},
+			add({ stock_id, stock_name, stock_remark }, func){
+				request({
+					url: API.stock.add,
+					method: 'post',
+					params: { stock_id, stock_name, stock_remark }
+				}, func);
+			},
+			search({ title }, func){
+				request({
+					url: API.stock.search,
+					method: 'post',
+					params: { title }
+				}, func);
+			}
+		},
 		"article": {
 			index(func){
 				request({
@@ -277,18 +402,18 @@ LAM.run([jQuery], function($){
 					method: 'get'
 				}, func);
 			},
-			add({ name, pid }, func){
+			add({ name, pid, code }, func){
 				request({
 					url: API.sorts.add,
 					method: 'post',
-					params: { name, pid }
+					params: { name, pid, code }
 				}, func);
 			},
-			edit({ id, name, pid }, func){
+			edit({ id, name, pid, code }, func){
 				request({
 					url: API.sorts.edit,
 					method: 'post',
-					params: { id, name, pid }
+					params: { id, name, pid, code }
 				}, func);
 			},
 			detail(id, func){

@@ -1,3 +1,4 @@
+<#define __PACKAGE__="views.shop" />
 <#define __INDEX__="{#LAM.INDEX#}" />
 <#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 <#define __SERVER__="{#LAM.SERVER#}" />
@@ -18,7 +19,7 @@
 
 
 
-<#Block:begin id="views.shop.index">
+<#Block:begin id="__PACKAGE__.index">
 <div>
     <div v-loading.fullscreen.lock="loading">
         <el-row>
@@ -207,10 +208,10 @@
                 },'json');
             }
           },
-          template: `<#=block id="views.shop.index" />`
+          template: `<#=block id="__PACKAGE__.index" />`
         };
 
-        System.export("views.shop.index", ContentComponent);
+        System.export("__PACKAGE__.index", ContentComponent);
     });
 </script>
 

@@ -39,7 +39,7 @@
       :expand-on-click-node="false">
       <span class="custom-tree-node" slot-scope="{ node, data }">
         <span class="mr30" @click="() => action(2, data)">
-            {{ node.label }}
+            {{ data.code }}:{{ node.label }}
         </span>
         <span>
           <el-button
@@ -70,6 +70,9 @@
         </el-form-item>
         <el-form-item :error="formError.name" label="名称：" prop="name">
             <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item :error="formError.code" label="编号：" prop="code">
+            <el-input v-model="form.code"></el-input>
         </el-form-item>
         
     </el-form>
@@ -115,10 +118,13 @@
                         'sid': "-1",
                         'id': "-1",
                         'sortName': "",
+                        'code': "",
                         'name': ""
                     },
                     'formError':{
-                        'name': ""
+                        'name': "",
+                        'code': "",
+                        'type': ""
                     }
                 };
             },
@@ -126,7 +132,7 @@
                 "el-tree-select": System.require('components.TreeSelectComponen')
             },
             created() {
-                this.$emit('change_crumb_data', [
+                this.$emit('change_crumb_data', [ // 面包屑
                     { 'name': '首页' },
                     { 'name': '_TITLE_' }
                 ]);
@@ -165,11 +171,13 @@
                 initError() {
                     this.formError.sid = "";
                     this.formError.name = "";
+                    this.formError.code = "";
                 },
                 init() {
                     this.form.sid = 0;
                     this.form.sortName = '';
                     this.form.name = '';
+                    this.form.code = '';
                 },
                 action(active, item) {
                     this.init();
@@ -183,6 +191,7 @@
                             if(item) {
                                 this.form.sid = item.id;
                                 this.form.sortName = item.name;
+                                this.form.code = item.code;
                             }
                             break;
                         case 2:
@@ -199,6 +208,7 @@
                             this.form.id = item.id;
                             this.form.name = item.name;
                             this.form.sid = item.pid;
+                            this.form.code = item.code;
                             break;
                         case 3:
                             this.remove(item.id);
@@ -221,15 +231,20 @@
                     const pid = this.form.sid;
                     const name = this.form.name;
                     const sortName = this.form.sortName;
+                    const code = this.form.code;
 
                     var data = { 
                         pid,
-                        name
+                        name,
+                        code
                     };
                     Api.sorts.add(data, D => {
                         this.loading = false;
                         if(D.status){
-                            alert(D.message);
+                            this.$message({
+                                type: 'success',
+                                message: D.message
+                            });
                             this.getContent();
                             this.ok();
 
@@ -247,15 +262,20 @@
                     const pid  = this.form.sid;
                     const name = this.form.name;
                     const sortName = this.form.sortName;
+                    const code = this.form.code;
 
                     Api.sorts.edit({
                         id,
                         pid,
-                        name
+                        name,
+                        code
                     }, data => {
                         this.loading = false;
                         if(data.status){
-                            alert(data.message);
+                            this.$message({
+                                type: 'success',
+                                message: data.message
+                            });
                             this.getContent();
                             this.ok();
                         }else{
@@ -288,7 +308,10 @@
                             if(data.status){
                                 this.getContent();
                             }else{
-                                alert(data.message);
+                                this.$message({
+                                    type: 'success',
+                                    message: data.message
+                                });
                                 System.each(data.errors,function (key,value) {
                                     alert(value)
                                 });

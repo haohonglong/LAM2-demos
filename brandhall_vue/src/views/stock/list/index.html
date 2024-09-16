@@ -1,0 +1,400 @@
+<#define __PACKAGE__="views.stock.list" />
+<#define __ID__="__PACKAGE__.index" />
+<#define _TITLE_="股票流水列表" />
+<#define __LAMPATH__="{#LAM.classPath#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+<#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
+<#import type="css" path="/tree" root="__CSS__" befor="1" />
+
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+<!--Del:begin-->
+<#extends title="_TITLE_" data="{'list':[
+{'name':'首页','href':'__HOME__','title':'首页'},
+{'name':'网页地址','href':'__INDEX__url/index','title':''},
+{'name':'_TITLE_'}
+]}" />
+<!--Del:end-->
+
+<#Block:begin id="__ID__">
+
+<div v-loading="loading">
+    <el-row>
+        <h2 style="font-size: 26px;">
+            {{ stock_id }}  {{ stock_name }} 
+            <el-button type="primary" @click="formAddStockDetailComponent">添加股票流水</el-button>
+            <el-input
+                v-model="search"
+                size="mini"
+                placeholder="请输入类别代码" />
+                <el-button type="primary" @click="feach">抓取数据</el-button></el-button>
+        </h2>
+        
+    </el-row>
+    <el-row>
+        <el-button type="primary" @click="removeSelected">删除选择的</el-button>
+        
+    </el-row>
+    <el-row>
+        <el-col :span="24">
+            <el-table
+                
+                :data="tableData.filter(data => !search ||
+                 search == data.stock_type
+                 )"
+                style="width: 100%"
+                height="500"
+                border
+                stripe
+                >
+                <el-table-column
+                    fixed
+                    prop="id"
+                    label="ID"
+                    width="80">
+                    <template slot-scope="scope">
+                        <el-checkbox v-model="del_ids" :label="scope.row.id">{{ scope.row.id }}</el-checkbox>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    prop="stock_type"
+                    label="类别"
+                    align="center"
+                    width="50">
+                    <template slot-scope="scope">
+                        <span style="color: red;" v-if="1 == scope.row.stock_type">买</span>
+                        <span style="color: green;" v-else-if="2 == scope.row.stock_type">卖</span>
+                        <span style="color:#909399" v-else>-</span>
+                      </template>
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    prop="created_at"
+                    label="日期"
+                    align="center"
+                    width="95"
+                    sortable>
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    prop="stock_price"
+                    label="价格"
+                    sortable
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="open"
+                    label="今开"
+                    sortable
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="close"
+                    label="昨收"
+                    sortable
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="hight"
+                    label="最高"
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="low"
+                    label="最低"
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="average"
+                    label="均价"
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="lup"
+                    label="涨停"
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="ldown"
+                    label="跌停"
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    prop="change"
+                    label="换手率"
+                    width="80">
+                    <template slot-scope="scope">
+                        {{ scope.row.change }}%
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    prop="amplitude"
+                    label="振幅率"
+                    width="80">
+                    <template slot-scope="scope">
+                        {{ scope.row.amplitude }}%
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    prop="stock_deal_total"
+                    label="成交量（股）"
+                    width="80">
+                </el-table-column>
+                <el-table-column label="成交价(手续费之前)" width="150">
+                    <template slot-scope="scope">
+                      {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
+                    </template>
+                </el-table-column>
+                <el-table-column label="实价">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.stock_deal_total > 0">
+                            <span v-if="2 == scope.row.stock_type">
+                                {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }} - 5.73 = {{ (scope.row.stock_price * scope.row.stock_deal_total - 5.73).toFixed(2) }}
+                            </span>
+                            <span v-else>
+                                {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
+                            </span>
+                            
+                        </span>
+                        <span v-else>0</span>
+                        
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    prop="stock_number"
+                    label="持有股数量"
+                    width="150">
+                </el-table-column>
+                <el-table-column 
+                    label="持有估值(手续费之前)"
+                    width="180">
+                    <template slot-scope="scope">
+                      <span>{{ scope.row.stock_price }} * {{ scope.row.stock_number }} = {{ (scope.row.stock_price * scope.row.stock_number).toFixed(2) }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" width="150">
+                    <template slot-scope="scope">
+                        <el-button type="primary" @click="viewStockDetail(scope.row)" size="mini">查看</el-button>
+                        <el-button type="danger" icon="el-icon-delete" circle @click="remove(scope.row.id)" size="mini"></el-button></el-button>
+                    </template>
+                </el-table-column>
+                
+
+            </el-table>
+        </el-col>
+    </el-row>
+
+    <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getListOfStockDetail" ref="stockDetailComponent" />
+    <detail-stock-detail-component ref="viewStockDetailComponent" />
+
+
+</div>
+
+
+<#Block:end>
+
+<#include file="~/components/FormAddStockDetailComponent.html" />
+<#include file="~/components/DetailStockDetailComponent.html" />
+
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+
+        var ContentComponent = {
+            'name': "stockList",
+            data(){
+                return {
+                    'stock_id': "",
+                    'stock_name': "",
+                    'loading': false,
+                    'search': '',
+                    'del_ids': [],
+                    tableData: []
+                    
+
+                };
+            },
+            'components': {
+                'form-add-stock-detail-component': System.require('stock.components.FormAddStockDetailComponent')
+                ,'detail-stock-detail-component': System.require('stock.components.DetailStockDetailComponent')
+            },
+            beforeCreate() { },
+            created() {
+                this.stock_id = this.$route.params.stock_id;
+                this.stock_name = this.$route.params.stock_name;
+                console.log(this.$route)
+
+
+                this.$emit('change_crumb_data', [
+                    { 'name': "股票列表", 'href': "/stock/index"},
+                    { 'name': '_TITLE_' }
+                ]);
+
+
+                this.getListOfStockDetail();
+            },
+            'methods': {
+                feach(){
+                    const stock_id = this.stock_id;
+                    
+                    this.$confirm('此操作将自动获取股票数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        Api.stock.feach(stock_id, D => {
+                            if(0 == D.status){
+                                const element = D.datas[0];
+                                if(0  == element.status){
+                                    this.$notify({
+                                        title: 'Success',
+                                        message: element.message,
+                                        type: 'success'
+                                    });
+                                }else {
+                                    this.$notify({
+                                    title: 'Warning',
+                                    message: element.message,
+                                    type: 'warning'});
+
+                                }
+                                this.getListOfStockDetail();
+                                
+                                    
+                            } else {
+                                this.$notify({
+                                    title: 'Warning',
+                                    message: '网络异常',
+                                    type: 'warning'});
+                            }
+                            this.loading = false;
+                            
+                        });
+                    }).catch(() => {
+                        this.loading = false;
+                        // this.$message('已取消删除')  
+                    })
+                    
+                },
+                confirm(func){
+                    this.$confirm('此操作将永久删除数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        func()
+                    }).catch(() => {
+                        this.loading = false;
+                        // this.$message('已取消删除')  
+                    })
+                },
+                removeSelected(){
+                    const ids = this.del_ids;
+                    this.confirm(()=> {
+                            this.loading = true;
+                        //do something
+                            Api.stockDetail.delete(ids, D => {
+                                if(0 == D.status){
+                                    this.getListOfStockDetail();
+                                    this.del_ids = [];
+                                    this.$notify({
+                                        title: 'Success',
+                                        message: D.message,
+                                        type: 'success'
+                                    });
+                                        
+                                } else {
+                                    this.$notify({
+                                        title: 'Warning',
+                                        message: D.message,
+                                        type: 'warning'});
+                                }
+                                
+                                this.loading = false;
+                            });
+                        })
+                },
+                remove(id){
+
+                    this.confirm(()=> {
+                        this.loading = true;
+                      //do something
+                        Api.stockDetail.delete(id, D => {
+                            if(0 == D.status){
+                                this.getListOfStockDetail();
+                                this.$notify({
+                                    title: 'Success',
+                                    message: D.message,
+                                    type: 'success'
+                                });
+                                    
+                            } else {
+                                this.$notify({
+                                    title: 'Warning',
+                                    message: D.message,
+                                    type: 'warning'});
+                            }
+                            this.loading = false;
+                        });
+                    })
+
+                },
+                viewStockDetail(data){
+                    this.$refs.viewStockDetailComponent.show(data);
+                    
+                },
+                formAddStockComponent(){
+                    this.$refs.stockComponent.dialogVisible = true
+                },
+                formAddStockDetailComponent(){
+                    this.$refs.stockDetailComponent.dialogVisible = true
+                },
+                stockChartComponent(){
+                    this.$refs.stockChartComponent.dialogVisible = true
+                },
+                getListOfStockDetail(){
+                    this.loading = true;
+                    Api.stockDetail.index(this.stock_id, D => {
+                        this.tableData = D;
+                        this.loading =false;
+
+                    });
+                },
+                getTheListOfStock(){
+                    this.$refs.stockDetailComponent.getTheListOfStock();
+                }
+                
+            },
+            template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+
+</style>
+
+
+
+

@@ -23,7 +23,9 @@
 {'name':'首页','href':'__HOME__','title':'首页'},
 {'name':'网页地址','href':'__INDEX__url/index','title':''},
 {'name':'_TITLE_'}
-]}" />
+],
+'user': {#-user-#}
+}" />
 
 <#Block:begin id="content">
 <div class="sectionWrap-A7 p-rel">
@@ -391,7 +393,7 @@
                     this.$refs.tree.filter(val);
                 }
             },
-            template: System.Template.getBlock('content')
+            template: `<#=block id="content" />`
         };
 
         System.export('ContentComponent', ContentComponent)

@@ -1,0 +1,358 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.FormAddStockDetailComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+
+<#Block:begin id="__ID__">
+<div v-loading="loading">
+    <el-dialog
+    :title="'添加 ' + stock_id +' '+ stock_name+' 股票流水'"
+    :visible.sync="dialogVisible"
+    :close-on-click-modal="true"
+    width="">
+    <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="交易类别："  :error="formError.stock_type" prop="stock_type">
+                    <el-select v-model="form.stock_type" placeholder="请选择交易类别">
+                        <el-option label="无操作" value="0"></el-option>
+                        <el-option label="买入" value="1"></el-option>
+                        <el-option label="卖出" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="股票价格：" :error="formError.stock_price" prop="stock_price">
+                    <el-input v-model="form.stock_price"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="日期："  :error="formError.created_at" prop="created_at">
+                    <el-date-picker
+                        v-model="form.created_at"
+                        format="yyyy-MM-dd HH:mm:ss"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        type="datetime"
+                        placeholder="选择日期">
+                        </el-date-picker>
+                  </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="成交数量：" :error="formError.stock_deal_total" prop="stock_deal_total">
+                    <el-input v-model="form.stock_deal_total"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row><el-col :span="8"><el-button type="primary" @click="getOneOfStockDatek()">获取以下信息</el-button></el-button></el-col></el-row>
+        <el-row>
+            <el-col :span="8">
+                <el-form-item label="今开：" :error="formError.open" prop="open">
+                    <el-input v-model="form.open"></el-input>
+                </el-form-item>
+            </el-col>
+            
+            <el-col :span="8">
+                <el-form-item label="涨停 ：" :error="formError.lup" prop="lup">
+                    <el-input v-model="form.lup"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="高 ：" :error="formError.hight" prop="hight">
+                    <el-input v-model="form.hight"></el-input>
+                </el-form-item>
+            </el-col>
+            
+        </el-row>
+        <el-row>
+            <el-col :span="8">
+                <el-form-item label="昨收 ：" :error="formError.close" prop="close">
+                    <el-input v-model="form.close"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="跌停：" :error="formError.ldown" prop="ldown">
+                    <el-input v-model="form.ldown"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="低 ：" :error="formError.low" prop="low">
+                    <el-input v-model="form.low"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+
+            <el-col :span="8">
+                <el-form-item label="均价 ：" :error="formError.average" prop="average">
+                    <el-input v-model="form.average"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="换手率 (%)：" :error="formError.change" prop="change">
+                    <el-input v-model="form.change"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="振幅率 (%)：" :error="formError.amplitude" prop="amplitude">
+                    <el-input v-model="form.amplitude"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        
+        
+
+        <el-form-item label="备注：" prop="stock_detail_remark">
+            <el-input type="textarea" v-model="form.stock_detail_remark"></el-input>
+        </el-form-item>
+        
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="ok()">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        const Api = System.require("Api");
+        var FormComponent = {
+          name: "FormAddStockDetailComponent",
+          props: {
+            stock_id: String,
+            stock_name: String
+          },
+          components: {},
+          data() {
+            var checkThePrice = (rule, value, callback) => {
+                
+                if (value === '') {
+                    callback(new Error('请输入价格'));
+                }else if (0 >= parseFloat(value)) {
+                    let msg = "股票价格必须大于0";
+                    this.$message.error(msg);
+                    callback(new Error(msg));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                'loading': false,
+                'form':{
+                    'stock_price': 0.00
+                    ,'stock_deal_total': 0
+                    ,'stock_type': ""
+                    ,'created_at': ""
+                    ,'stock_detail_remark': ""
+
+                    ,'open': 0.00
+                    ,'close': 0.00
+                    ,'lup': 0.00
+                    ,'ldown': 0.00
+                    ,'hight': 0.00
+                    ,'low': 0.00
+                    ,'average': 0.00
+                    ,'change': 0.00
+                    ,'amplitude': 0.00
+                },
+                'formError':{
+                    'stock_price': ""
+                    ,'stock_type': ""
+                    ,'stock_deal_total': ""
+                    ,'created_at': ""
+
+                    ,'open': ""
+                    ,'close': ""
+                    ,'lup': ""
+                    ,'ldown': ""
+                    ,'hight': ""
+                    ,'low': ""
+                    ,'average': ""
+                    ,'change': ""
+                    ,'amplitude': ""
+                },
+                rules: {
+                    stock_price: [
+                        { required: true, validator: checkThePrice, message: '股票价格必须大于0', trigger: 'blur' }
+                    ]
+                    ,stock_type: [
+                        { required: true, message: '请选择交易类别', trigger: 'blur' }
+                    ]
+                    ,created_at: [
+                        { required: true, message: '请选择日期', trigger: 'blur' }
+                    ]
+                },
+                dialogVisible: false
+            }
+          },
+          created(){
+          },
+          methods: {
+            getOneOfStockDatek(){
+                const stock_id = this.stock_id;
+                const stock_date_at = this.form.created_at.split(" ")[0];
+                const data = {
+                    stock_id,
+                    stock_date_at
+                }
+                this.loading = true;
+                Api.StockDate.getOne(data, D=>{
+                    if(D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message
+                        });
+                        this.loading = false;
+                        let data = D.data;
+
+                        this.form.open = data.open;
+                        this.form.close = data.close;
+                        this.form.lup = data.lup;
+                        this.form.ldown = data.ldown;
+                        this.form.hight = data.hight;
+                        this.form.low = data.low;
+                        this.form.average = data.average;
+                        this.form.change = data.change;
+                        this.form.amplitude = data.amplitude;
+
+                    }else{
+                        this.loading = false;
+                        this.$message.error(D.message);
+                        
+                    }
+
+                });
+
+            },
+            ok() {
+                this.loading = false;
+                this.dialogVisible = false;
+                this.init();
+                this.initError();
+                
+            },
+            submit() {
+                this.$refs.validateForm.validate((valid) => {
+                    if (!valid) {
+                        return false;
+                    }else {
+                        this.add();
+                    }
+                });
+                this.initError();
+
+            },
+            initError() {
+                this.formError.stock_price = "";
+                this.formError.stock_type = "";
+                this.formError.created_at = "";
+
+                this.formError.open = "";
+                this.formError.close = "";
+                this.formError.lup = "";
+                this.formError.ldown = "";
+                this.formError.hight = "";
+                this.formError.low = "";
+                this.formError.average = "";
+                this.formError.change = "";
+                this.formError.amplitude = "";
+
+            },
+            init() {
+                this.form.stock_price = 0.00;
+                this.form.stock_type = '';
+                this.form.stock_deal_total = 0;
+                this.form.created_at = '';
+                this.form.stock_detail_remark = '';
+            },
+            add() {
+                const stock_id = this.stock_id;
+                const stock_price = this.form.stock_price;
+                const stock_type = parseInt(this.form.stock_type);
+                const stock_deal_total = parseInt(this.form.stock_deal_total);
+                const created_at = this.form.created_at;
+                const stock_detail_remark = this.form.stock_detail_remark;
+
+                const open = this.form.open;
+                const close = this.form.close;
+                const lup = this.form.lup;
+                const ldown = this.form.ldown;
+                const hight = this.form.hight;
+                const low = this.form.low;
+                const average = this.form.average;
+                const change = this.form.change;
+                const amplitude = this.form.amplitude;
+                
+                if(stock_type > 0 && stock_deal_total < 1){
+                    this.formError["stock_deal_total"] = "除无操作外股票数量最少为1";
+                    return;
+
+                }
+                if(0 == stock_type && stock_deal_total > 0){
+                    this.formError["stock_deal_total"] = "无操作时股票数量必须为0";
+                    return;
+                }
+
+                if(2 == stock_type && 0  == stock_deal_total){
+                    this.formError["stock_deal_total"] = "卖出时股票数量不能为0";
+                    return;
+                }
+
+                
+
+                const data = { 
+                    stock_id
+                    ,stock_price
+                    ,stock_type
+                    ,stock_deal_total
+                    ,created_at
+                    ,stock_detail_remark
+
+                    ,open
+                    ,close
+                    ,lup
+                    ,ldown
+                    ,hight
+                    ,low
+                    ,average
+                    ,change
+                    ,amplitude
+                };
+
+                this.loading = true;
+                Api.stockDetail.add(data, D => {
+                    if(D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message
+                        });
+                        this.ok();
+                        this.$emit('get-list');
+
+                    }else{
+                        this.loading = false;
+                        this.$message.error(D.message);
+                        System.each(D.errors, (key,value) => {
+                            this.formError[key] = value;
+                        });
+                    }
+
+                });
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>

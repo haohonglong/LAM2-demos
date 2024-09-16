@@ -9,6 +9,7 @@
 <#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
 <#define @COMPONENTS="_LAYOUTS_/components" />
 <#define __DATAPATH__="{#LAM.DATA#}" />
+<#define __USER__="{#-System.require("this").content.user-#}" />
 #define# __MENU__ <#include file="__DATAPATH__/menu.json" /> #end#
 
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
@@ -17,11 +18,15 @@
 <#import path="/vue/vue.js" root="__PLUGINS__" write="1" befor="1" />
 
 <!--Del:begin-->
+
 <#import path="
 /vue-router@2.0.0/dist/vue-router.js
 ,/vuex@2.0.0/dist/vuex.js
 " root="https://unpkg.com" write="1" befor="1" />
+
 <!--Del:end-->
+
+
 
 <#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="https://unpkg.com" befor="1" />
 <#import path="/elementui/index.js" root="__PLUGINS__" write="1" befor="1" />
@@ -42,9 +47,9 @@
   <meta name="keywords" content="{#-title-#}" />
   <meta name="description" content="{#-title-#}" />
   <meta name="csrf-token" content="__CSRF_TOKEN__">
-  <!#HEAD/>
+  <!#LAM_INIT/>
   <!#CSS/>
-  <!#JS/>
+  
 
 <#Block:begin override="1:0" id="title" data="{'title':'{#-title-#}'}">
   <title><%=title%></title>
@@ -134,12 +139,13 @@
 <#include file="@COMPONENTS/HeaderComponent.html" />
 <#include file="@COMPONENTS/CrumbComponent.html" />
 {#-content-#}
+<!#JS/>
 <script type="text/javascript">
     var vm = LAM.run(function(){
         'use strict';
         var System = this;
 
-        var D = System.require("this").content;
+        // var D = System.require("this").content;
 
         $(function(){
             
@@ -155,7 +161,7 @@
                     drawer: false,
                     menu: __MENU__,
                     title: "喜鹊筑家旗舰店",
-                    user: D.user,
+                    user: __USER__,
                     crumbData: {#-D.list-#}
                 };
               },

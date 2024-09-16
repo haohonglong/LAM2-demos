@@ -1,4 +1,7 @@
+<#define __PACKAGE__="views.article.list" />
+<#define __ID__="__PACKAGE__" />
 <#define _TITLE_="文章列表" />
+<#define __URL__="{#LAM.URL#}" />
 <#define __INDEX__="{#LAM.INDEX#}" />
 <#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 <#define __CSS__="{#LAM.CSS#}" />
@@ -20,14 +23,12 @@
 
 
 
-<#Block:begin id="views.article.list">
+<#Block:begin id="__ID__">
 <div v-loading="loading">
     <el-row>
         <el-col :span="24">
             <el-form :inline="true" class="demo-form-inline">
-                <el-form-item label="标题">
-                  <el-input v-model="keyword" placeholder="标题"></el-input>
-                </el-form-item>
+                
                 <el-form-item>
                   <el-button type="primary" @click="action(1)">添加</el-button>
                 </el-form-item>
@@ -38,14 +39,17 @@
         <el-col :span="24">
             <el-table
                 
-                :data="tableData"
+                :data="tableData.filter(data => !keyword ||
+                data.title.toLowerCase().includes(keyword.toLowerCase())
+                )"
                 style="width: 100%">
                 <el-table-column
                     prop="title"
                     label="标题"
                     >
                     <template slot-scope="scope">
-                        <router-link :to="'/article/detail/' + scope.row.id">{{ scope.row.title }}</router-link>
+                        <!-- <router-link :to="'/article/detail/' + scope.row.id">{{ scope.row.title }}</router-link> -->
+                        <a :href="'__URL__/article/detail/' + scope.row.id" target="_blank">{{ scope.row.title }}</a>
                       </template>
                 </el-table-column>
                 <el-table-column
@@ -58,6 +62,15 @@
                     label="更新日期"
                     width="180">
                 </el-table-column>
+                <el-table-column
+                    align="right">
+                    <template slot="header" slot-scope="scope">
+                        <el-input
+                        v-model="keyword"
+                        size="mini"
+                        placeholder="Type to search"/>
+                    </template>
+                    </el-table-column>
                 <el-table-column label="操作" width="180">
                     <template slot-scope="scope">
                       <el-button
@@ -114,7 +127,7 @@
 
         const Api = System.require("Api");
 
-        const QuillEditorComponent = System.require("views.article.list.components.QuillEditorComponent");
+        const QuillEditorComponent = System.require("__PACKAGE__.components.QuillEditorComponent");
 
 
         var ContentComponent = {
@@ -257,6 +270,9 @@
                                 type: 'success',
                                 message: '添加成功!'
                             });
+                            this.init();
+                            this.initError();
+                            this.ok();
 
                         }else{
                             System.each(res.errors, (key,value) => {
@@ -271,7 +287,7 @@
                     
                     if(sid > 0) {
                         this.loading = true;
-                        Api.article.search({ title }, res => {
+                        Api.article.search({ name }, res => {
                             this.loading = false;
                             if(res.status){
                                 this.contents = res.data;
@@ -341,6 +357,9 @@
                                 type: 'success',
                                 message: '修改成功!'
                             });
+                            this.init();
+                            this.initError();
+                            this.ok();
                         }else{
                             System.each(res.errors, (key,value) => {
                                 this.formError[key] = value;
@@ -354,10 +373,10 @@
                     this.$refs.tree.filter(val);
                 }
             },
-            template: `<#=block id="views.article.list" />`
+            template: `<#=block id="__ID__" />`
         };
 
-        System.export('views.article.list', ContentComponent);
+        System.export('__ID__', ContentComponent);
     });
 </script>
 

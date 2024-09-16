@@ -1,0 +1,139 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.FormAddStockComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+
+<#Block:begin id="__ID__">
+<div v-loading="loading">
+    <el-dialog
+    title="添加股票"
+    :visible.sync="dialogVisible"
+    :close-on-click-modal="true"
+    width="">
+    <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="证劵代码：" prop="stock_id">
+                    <el-input v-model="form.stock_id"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="证劵名称：" prop="stock_name">
+                    <el-input v-model="form.stock_name"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-form-item label="证劵备注：" prop="stock_remark">
+            <el-input type="textarea" v-model="form.stock_remark"></el-input>
+        </el-form-item>
+        
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="ok">取 消</el-button>
+        <el-button type="primary" @click="submit()">提 交</el-button>
+    </span>
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        const Api = System.require("Api");
+        var FormComponent = {
+          name: "FormAddStockComponent",
+          props: {},
+          components: { },
+          data() {
+            return {
+                'loading': false,
+                'form':{
+                    'stock_id': "",
+                    'stock_name': "",
+                    'stock_remark': ""
+                },
+                'formError':{
+                    'stock_id': "",
+                    'stock_name': ""
+                },
+                'rules': {
+                    'stock_id': [
+                        { required: true, message: '请输入证劵代码', trigger: 'blur' }
+                    ],
+                    'stock_name': [
+                        { required: true, message: '请输入证劵名称', trigger: 'blur' }
+                    ]
+                },
+                'dialogVisible': false
+            }
+          },
+          methods: {
+            ok() {
+                this.loading = false;
+                this.dialogVisible = false;
+                this.init();
+                this.initError();
+                
+            },
+            submit() {
+                this.$refs.validateForm.validate((valid) => {
+                    if (!valid) {
+                        return false;
+                    }else {
+                        this.add();
+                    }
+                });
+                this.initError();
+                
+            },
+            initError() {
+                this.formError.stock_id = "";
+                this.formError.stock_name = "";
+            },
+            init() {
+                this.form.stock_id = '';
+                this.form.stock_name = '';
+                this.form.stock_remark = '';
+            },
+            add() {
+                const stock_id = this.form.stock_id;
+                const stock_name = this.form.stock_name;
+                const stock_remark = this.form.stock_remark;
+
+                const data = { 
+                    stock_id,
+                    stock_name,
+                    stock_remark
+                };
+                this.loading = true;
+                Api.stock.add(data, D => {
+                    if(D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message
+                        });
+                        this.ok();
+                        this.$emit('get-list-stock');
+
+                    }else{
+                        this.loading = false;
+                        System.each(D.errors, (key,value) => {
+                            this.formError[key] = value;
+                        });
+                    }
+
+                });
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>

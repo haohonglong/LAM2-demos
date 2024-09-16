@@ -26,6 +26,14 @@
     ]
   },
   {
+    "index": "a20",
+    "icon":"a-2",
+    "title":"股票",
+    "ul":[
+       {  "index": "a20-b1", "title":"股票列表","href":"/stock/index"}
+    ]
+  },
+  {
     "index": "a16",
     "icon":"a-1",
     "title":"游戏",

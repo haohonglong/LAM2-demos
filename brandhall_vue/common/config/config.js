@@ -82,7 +82,9 @@
                     , 'ERROR_404': VIEWS + '/_404.html'
                     , 'INDEX': 'index.html?r='
                     , 'SERVER': 'http://yaf.local/'
-                    , 'CONFIGURATION_PATH': CONF + '/config.js'
+                    , 'SERVER2': 'http://192.168.3.10:8090'
+                    , 'CONFIGURATIONJS': CONF + '/config.js'
+                    , 'SYSTEMJS': System.LAMPATH + '/base/System.js'
                     , 'BASE64ENCODE': true
                     , 'token': "G94F9AyvNiuHCRVLY8kw9-HE6Jjw9qIU"
                     , 'LAMPATH': System.LAMPATH
@@ -91,8 +93,11 @@
                 };
             },
             'components': {
-                'excluded': ['Model'],
-                'beforeBuildExcluded': ['Controller', 'BaseController', 'Router'],
+                'tempInstance': null,
+                'viewInstance': null,
+                'blockCacheInstance': null,
+                'excluded': [],
+                'beforeBuildExcluded': ['Controller', 'BaseController', 'Router', 'Shape', 'Canvas'],
                 'moduleId': 'm',
                 'routerId': 'r',
                 'defaultRoute': 'site/index',
@@ -101,6 +106,7 @@
                 },
                 'routeAutoRun': true,
                 't': function (System) {
+                    
                     // var id =0;
                     // System.Moudle = System.createDict();
                     // System.Object.g_key_id=function(){
@@ -114,8 +120,12 @@
                     // return System.md5(System.timestamp());
                 },
                 'runtime': function (System) {
-                    System.COOKIE_GUEST = new System.Storage('guest', localStorage, System.timestamp() + 1000*60*60*60*3);
-                    System.COOKIE = new System.Storage('content', localStorage);
+                    var Storage = System.require("lam.base.Storage");
+                    
+                    // System.blockCacheInstance  = new Storage('block', sessionStorage);
+
+                    System.COOKIE_GUEST = new Storage('guest', localStorage, System.timestamp() + 1000*60*60*60*3);
+                    System.COOKIE = new Storage('content', localStorage);
 
                 }
 

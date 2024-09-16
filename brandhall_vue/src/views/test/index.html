@@ -117,6 +117,9 @@
           mounted() {
           },
           created(){
+            // $.get("https://finance.pae.baidu.com/vapi/v1/getquotation?all=1&srcid=5353&pointType=string&group=quotation_minute_ab&market_type=ab&new_Format=1&finClientType=pc&query=000875&code=000875", {}, function(data){
+            //     console.log(data)
+            // }, "json");
             this.$emit('change_crumb_data', [
                     { 'name': '首页' },
                     { 'name': '_TITLE_' }

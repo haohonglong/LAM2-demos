@@ -8,7 +8,7 @@ these are usage case of LAM2
              
              以下命令不是必须的
              cd LAM2
-             git checkout -b develop origin/develop
+             git checkout -b master origin/master
 
 ### structure：
                 brandhall  #后台管理demo

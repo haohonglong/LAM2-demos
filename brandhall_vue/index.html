@@ -6,10 +6,11 @@
     <script type="text/javascript" src="./common/config/config.js"></script>
     <script type="text/javascript" src="../LAM2/lamborghiniJS/base/System.js"></script>
     <script type="text/javascript">
-        LAM.main=function (view) {
+        LAM.main=function (view, buildHtml) {
             // console.log(view);
             var System = this;
             var r = System.get('r');
+
             // System.COOKIE_GUEST.find('auth_key', System.token,function (index,id) {
             //     var _this = this;
             //     if(-1 === index){
@@ -30,20 +31,33 @@
             //         }
             //     }
             // });
-            System._content = System._content.replaceAll('../', '../../../');
-            System._content = System._content.replaceAll('/brandhall_vue/index.html?r=site/index', '/brandhall_vue/build/site/index.html');
+            buildHtml = buildHtml
+                            .replaceAll('../', '../../../')
+                            .replaceAll('/brandhall_vue/index.html?r=site/index', '/brandhall_vue/build/site/index.html');
+
+            var arr = r.split('/');                
+            var filename = arr[1];
             
-            $.post(System.SERVER+"/index/build",{
-                'content': System._content,
-                // 'replace':[
-                //     {'../':'../../../'}, 
-                //     {'brandhall_vue/index.html?r=site/index':'brandhall_vue/build/site/index.html'}
-                // ],
-                'path':"/www/lamborghiniJS/LAM2-demos/brandhall_vue/build/" + System.get('r'),
-                'suffix':'.html'
-            },function(view){
+            $.post(System.SERVER2,{
+                'content': buildHtml,
+                'path':"/www/brandhall_vue/build/" + arr[0],
+                'filename':filename+'.html'
+            },function(data){
+
 
             },'json');
+
+            
+            // $.post(System.SERVER+"/index/build",{
+            //     'content': buildHtml,
+            //     'ftp_server':"192.168.3.10:9527",
+            //     'path':"/brandhall_vue/build/" + System.get('r'),
+            //     'suffix':'.html'
+            // },function(view){
+
+            // },'json');
+
+
             return view;
         };
         LAM.bootstrap();

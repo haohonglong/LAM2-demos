@@ -46,7 +46,7 @@
             :filter-node-method="filterNode"
             ref="tree">
             <span class="span-ellipsis" slot-scope="{ node, data }">
-                <span :title="node.label">{{ node.label  }}</span>
+                <span :title="node.label">{{ data.code }}:{{ node.label }}</span>
             </span>
         </el-tree>
     </div>
@@ -72,13 +72,14 @@
                 <div class="sectionFloat sectionWrap-A17 mb10">
                     <ul class="clear">
                         <li v-for="(item, index) in contents" class="L mr5 mb10 sectionButton-B1 sectionButton-B1-big">
-                            <el-tooltip class="item" effect="dark" :content="item.info" placement="bottom-start">
-                                <el-button>
+                            <el-button>
+                                <el-checkbox :key="item.id"></el-checkbox>
+                                <el-tooltip class="item" effect="dark" :content="item.info" placement="bottom-start">
                                     <a :href="item.url" target="_blank">{{ item.name }}</a>
-                                    <a v-on:click="action(2, item)">修改</a>
-                                    <a v-on:click="action(3, item)">删除</a>
-                                </el-button>
-                            </el-tooltip>
+                                </el-tooltip>
+                                <a v-on:click="action(2, item)">修改</a>
+                                <a v-on:click="action(3, item)">删除</a>
+                            </el-button>
                         </li>
                     </ul>
                 </div>
@@ -116,7 +117,6 @@
 
 
 <#Block:end>
-
 
 
 <#include file="__COMPONENTS__/TreeSelectComponen.html" />
@@ -347,7 +347,6 @@
                         }else{
                             vue.contents = "没有数据";
                         }
-                        this.loading = false;
                     });
                     
 

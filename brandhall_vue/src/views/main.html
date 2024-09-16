@@ -1,5 +1,5 @@
 
-<#define __CSRF_TOKEN__="{#LAM.require("this").csrfToken#}" />
+<#define __CSRF_TOKEN__="{#LAM.require("this").getToken()#}" />
 <#define __SRC__="{#LAM.SRC#}" />
 <#define __ROUTES__="{#LAM.ROUTES#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
@@ -13,11 +13,17 @@
 <#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
 <#define @COMPONENTS="_LAYOUTS_/components" />
 
-
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import path="vue.js,vue-router.js" root="__PLUGINS__/vue/" write="1" befor="1" />
 
+
 <!--Del:begin-->
+<#import path="
+/vue/dist/vue.js,
+/vue-router/dist/vue-router.min.js,
+/vuex/dist/vuex.min.js
+" root="__NODE_MODULES__" write="1" befor="1" />
+
 <#import path="
 /dayjs.min.js,
 /plugin/customParseFormat.js,
@@ -49,14 +55,17 @@
 <html lang="zh-cn">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="csrf-token" content="__CSRF_TOKEN__">
 <title>{#-title-#}</title>
 <meta name="keywords" content="{#-title-#}" />
 <meta name="description" content="{#-title-#}" />
-<!#HEAD/>
+<!#LAM_INIT/>
 <!#CSS/>
-<!#JS/>
+
+
 <style type="text/css">
   
 	#header {
@@ -132,6 +141,8 @@
 		  </el-container>
 		</el-container>
 	</div>
+
+<!#JS/>
 
 <#include file="@COMPONENTS/MenuComponent.html" />
 <#include file="@COMPONENTS/MobileMenuComponent.html" />

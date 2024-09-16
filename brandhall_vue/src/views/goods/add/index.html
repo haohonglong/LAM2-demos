@@ -1,5 +1,4 @@
 <#define __INDEX__="{#LAM.INDEX#}" />
-<#define __BILLID__="{#LAM.md5(LAM.hash())#}" />
 <#define _TITLE_="添加商品" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define __URL__="{#LAM.URL#}" />
@@ -200,7 +199,7 @@
                     shop_id_error: "",
                     create_at: null,
                     create_at_error: "",
-                    bill_id: "__BILLID__",
+                    bill_id: System.md5(System.hash()),
                     bill_id_error: "",
                     discount: 0.00,
                     points: 0,
