@@ -1,11 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSE 测试</title>
+
+<link href="https://lib.baomitu.com/normalize/latest/normalize.min.css" rel="stylesheet">
+<style>
+/* css style */
+body{
+    padding:0 10px;
+}
+</style>
+
+<script src="https://lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-    adfadsaf
+<!-- 内容 -->
+<h1>SSE 测试</h1>
+
+<div id="divInfo"></div>
+<script>
+$(function(){
+    // JS
+    
+});
+
+function showInfo(str)
+{
+    $('#divInfo').append('<div>' + str + '</div>');
+}
+
+if(typeof(EventSource) !== "undefined") {
+
+    var evtSource = new EventSource("http://yaf.local/stock/getProgress");
+    evtSource.addEventListener('message', function (event) {
+        let progress = parseInt(event.data);
+        console.log(progress);
+        if(0 == progress) {
+            evtSource.close();
+            return;
+        } else {
+            showInfo(progress)
+        }
+
+    });
+
+
+
+} else {
+    showInfo("您的浏览器不支持SSE");
+}
+</script>
+
 </body>
 </html>

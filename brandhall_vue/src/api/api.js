@@ -4,8 +4,17 @@ LAM.run([jQuery], function($){
 
 	const SERVER = System.SERVER;
 
-	function request(R, func) {
-		$[R.method](SERVER + R.url, R.params || {}, func, R.dataType || "json");
+	function request(R, func, error_func) {
+		// $[R.method](SERVER + R.url, R.params || {}, func, R.dataType || "json");
+
+		$.ajax({
+			method: R.method,
+			url: SERVER + R.url,
+			data: R.params,
+			dataType: "json"
+		  })
+		.done(func)
+		.fail(error_func);
 	}
 
 	const API = {
@@ -24,7 +33,8 @@ LAM.run([jQuery], function($){
 			"search": "/stock/search",
 			"show": "/stock/show",
 			"add": "/stock/add",
-			"feach": "/stock/feach"
+			"feach": "/stock/feach",
+			"getProgress":"/stock/getProgress"
 		},
 		"article":{
 			"index": "/article/index",
@@ -199,12 +209,18 @@ LAM.run([jQuery], function($){
 					method: 'get'
 				}, func);
 			},
-			feach(stock_id, func){
+			feach({stock_id, way}, func, error_func){
 				request({
 					url: API.stock.feach,
 					method: 'get',
-					params: { stock_id }
-				}, func);
+					params: { stock_id, way }
+				}, func, error_func);
+			},
+			getProgress(func, error_func){
+				request({
+					url: API.stock.getProgress,
+					method: 'get'
+				}, func, error_func);
 			},
 			add({ stock_id, stock_name, stock_remark }, func){
 				request({

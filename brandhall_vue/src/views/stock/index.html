@@ -11,6 +11,7 @@
 <#define __CLASSPATH__="{#LAM.classPath#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __URL__="{#LAM.URL#}" />
 <#define ~/="__VIEWS__/stock/" />
 
 
@@ -41,9 +42,26 @@
                         size="mini"
                         placeholder="请输入证劵名称"/>
                 </el-form-item>
-                <el-button type="primary" @click="feachAll">抓取所有数据</el-button></el-button>
+                <el-button type="primary" :loading="feachAllLoading" @click="feachAll">抓取所有数据</el-button></el-button>
+                <el-select v-model="way" placeholder="please select a way to aroute">
+                    <el-option
+                      label="线路1"
+                      value="1">
+                    </el-option>
+                    <el-option
+                      label="线路2"
+                      value="2">
+                    </el-option>
+                    <el-option
+                      label="线路3"
+                      value="3">
+                    </el-option>
+                  </el-select>
             </el-form>
         </el-col>
+    </el-row>
+    <el-row>
+        <el-progress :percentage="percentage"></el-progress>
     </el-row>
     <el-row>
         <el-col :span="24">
@@ -70,9 +88,7 @@
                     label="证劵名称"
                     width="100">
                     <template slot-scope="scope">
-                        <router-link :to="{ name: 'stockList', params: { stock_id: scope.row.stock_id, stock_name: scope.row.stock_name }}">
-                            {{ scope.row.stock_name }}
-                          </router-link>
+                        <a :href="'__URL__/stock/list/' + scope.row.stock_id + '/' + scope.row.stock_name" target="_blank">{{ scope.row.stock_name }}</a>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -208,9 +224,12 @@
             data(){
                 return {
                     'loading': false,
+                    'feachAllLoading': false,
+                    'way': '1',
                     'search': '',
                     tableData: [],
-                    stockids: []
+                    stockids: [],
+                    percentage: 0
 
                 };
             },
@@ -227,6 +246,7 @@
 
 
                 this.getTheListOfStock();
+                
             },
             'methods': {
                 formAddStockComponent(){
@@ -242,13 +262,15 @@
                     });
                 },
                 feachByStockid(stock_id){
+                    const way = this.way;
+                    const data = {stock_id, way};
                     
                     this.$confirm('此操作将自动获取股票数据, 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        Api.stock.feach(stock_id, D => {
+                        Api.stock.feach(data, D => {
                             if(0 == D.status){
                                 const element = D.datas[0];
                                 if(0  == element.status){
@@ -283,12 +305,43 @@
                     
                 },
                 feachAll(){
+
+                    
+                    let evtSource;
+                    const stock_id = null;
+                    const way = this.way;
+                    const data = {stock_id, way};
                     this.$confirm('此操作将自动获取股票数据, 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        Api.stock.feach(null, D => {
+                        this.percentage = 0;
+                        this.feachAllLoading = true;
+                        this.loading = false;
+
+                        if(typeof(EventSource) !== "undefined") {
+                            let this_ = this;
+                            evtSource = new EventSource("__SERVER__/stock/getProgress");
+                            //监听事件
+                            evtSource.addEventListener('message', function (event) {
+                                this_.percentage = parseInt(event.data);
+
+                            });
+
+                        } else {
+                            this.$notify({
+                                title: 'Error',
+                                message: '您的浏览器不支持SSE',
+                                type: 'error',
+                                duration: 0});
+
+                        }
+
+                        Api.stock.feach(data, D => {
+                            evtSource.close();
+                            this.feachAllLoading = false;
+
                             if(0 == D.status){
                                 D.datas.forEach((element, i) => {
                                     System.wait(()=>{
@@ -310,25 +363,45 @@
                                     
                                     
                                 });
-                                if(D.total > 0){
-                                    this.$notify({
+
+                                this.$notify({
                                         title: `${D.total}条数据更新完成`,
                                         duration: 0
                                     });
 
-                                }
                                 this.getTheListOfStock();
                                 
                                     
+                            } else if(6 == D.status){ 
+                                // this.percentage =  D.progress;
+
                             } else {
                                 this.$notify({
                                     title: 'Warning',
                                     message: '网络异常',
                                     type: 'warning'});
                             }
+                            
+                            
+                            
+                        }, ()=>{
+                            evtSource.close();
+                            this.feachAllLoading = false;
+                            this.percentage = 0;
+
+                            this.$notify({
+                                title: 'Error',
+                                message: 'Ajax-网络异常',
+                                type: 'error',
+                                duration: 0});
+
                             this.loading = false;
                             
                         });
+
+                        
+                        
+
                     }).catch(() => {
                         this.loading = false;
                         // this.$message('已取消删除')  

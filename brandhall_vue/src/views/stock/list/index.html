@@ -261,7 +261,7 @@
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        Api.stock.feach(stock_id, D => {
+                        Api.stock.feach({stock_id}, D => {
                             if(0 == D.status){
                                 const element = D.datas[0];
                                 if(0  == element.status){
