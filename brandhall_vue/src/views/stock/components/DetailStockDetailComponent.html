@@ -14,12 +14,22 @@
     :close-on-click-modal="true"
     width="">
     <el-descriptions :title="stock_price">
-      <el-descriptions-item label="今开">{{ open }}</el-descriptions-item>
+      <template slot="title">
+        <span v-if="stock_price > close" style="color: #de524c;">{{ stock_price }}</span>
+        <span v-else-if="stock_price < close" style="color: green;">{{ stock_price }}</span>
+        <span v-else>{{ stock_price }}</span>
+        
+    </template>
+      <el-descriptions-item label="今开">
+        <span v-if="open > close" style="color: #de524c;">{{ open }}</span>
+        <span v-else-if="open < close" style="color: green;">{{ open }}</span>
+        <span v-else>{{ open }}</span>
+      </el-descriptions-item>
       <el-descriptions-item label="昨收">{{ close }}</el-descriptions-item>
       <el-descriptions-item label="涨停">{{ lup }}</el-descriptions-item>
       <el-descriptions-item label="跌停">{{ ldown }}</el-descriptions-item>
-      <el-descriptions-item label="最高">{{ hight }}</el-descriptions-item>
-      <el-descriptions-item label="最低">{{ low }}</el-descriptions-item>
+      <el-descriptions-item label="最高">{{ highest }}</el-descriptions-item>
+      <el-descriptions-item label="最低">{{ lowest }}</el-descriptions-item>
       <el-descriptions-item label="均价">{{ average }}</el-descriptions-item>
       <el-descriptions-item label="换手率">{{ change }}%</el-descriptions-item>
       <el-descriptions-item label="振幅">{{ amplitude }}%</el-descriptions-item>
@@ -48,8 +58,8 @@
                 ,'close': 0.00
                 ,'lup': 0.00
                 ,'ldown': 0.00
-                ,'hight': 0.00
-                ,'low': 0.00
+                ,'highest': 0.00
+                ,'lowest': 0.00
                 ,'average': 0.00
                 ,'change': 0.00
                 ,'amplitude': 0.00
@@ -64,8 +74,8 @@
               this.close = data.close;
               this.lup = data.lup;
               this.ldown = data.ldown;
-              this.hight = data.hight;
-              this.low = data.low;
+              this.highest = data.highest;
+              this.lowest = data.lowest;
               this.average = data.average;
               this.change = data.change;
               this.amplitude = data.amplitude;

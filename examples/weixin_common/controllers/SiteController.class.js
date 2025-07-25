@@ -27,6 +27,7 @@
             return this.renderPartial('index',{
                 'COMMON':System.COMMON,
                 'ROOT':ROOT,
+                'title':'第七版《中文核心期刊要目总览》官方正式公布(1)',
                 'D':{
                     'title':'你好，世界！',
                     'content':'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.'

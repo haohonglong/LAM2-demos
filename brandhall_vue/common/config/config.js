@@ -44,6 +44,7 @@
     window[namespace] = {};
     window[namespace].configure = function (System) {
         'use strict';
+        const SN = System.timestamp();
 
         return {
             'LAMPATH': _ROOT_ + 'LAM2/lamborghiniJS',
@@ -58,6 +59,7 @@
                     ROUTES = SRC + '/routes',
                     CONF = ROOT + '/common/config';
                 const NODE_MODULES = _ROOT_ + "node_modules"
+                
 
                 return {
                       'ROOT': _ROOT_
@@ -69,6 +71,7 @@
                     , SRC
                     , ROUTES
                     , NODE_MODULES
+                    , SN
                     , 'CSS': ASSETS + '/css'
                     , 'SCRIPT': ASSETS + '/js'
                     , 'IMAGE': ASSETS + '/images'
@@ -97,6 +100,7 @@
                 'viewInstance': null,
                 'blockCacheInstance': null,
                 'excluded': [],
+                'GENERATOR': true,
                 'beforeBuildExcluded': ['Controller', 'BaseController', 'Router', 'Shape', 'Canvas'],
                 'moduleId': 'm',
                 'routerId': 'r',
@@ -120,11 +124,22 @@
                     // return System.md5(System.timestamp());
                 },
                 'runtime': function (System) {
+                    
+                    System.export('getWeekdayByDate', function(date_str) {
+                        const ARR = date_str.split('-');
+                        let year = ARR[0], month = ARR[1], day = ARR[2];
+                        const weekdays = ['Sunday(日)', 'Monday(一)', 'Tuesday(二)', 'Wednesday(三)', 'Thursday(四)', 'Friday(五)', 'Saturday(六)'];
+                        // 注意：JavaScript 中月份从 0 开始（0=January，11=December）
+                        const date = new Date(year, month - 1, day); 
+                        return weekdays[date.getDay()];
+                    });
+
                     var Storage = System.require("lam.base.Storage");
                     
                     // System.blockCacheInstance  = new Storage('block', sessionStorage);
+                    // System.timestamp() + 1000*60*60*60*3
 
-                    System.COOKIE_GUEST = new Storage('guest', localStorage, System.timestamp() + 1000*60*60*60*3);
+                    System.COOKIE_GUEST = new Storage('guest', localStorage);
                     System.COOKIE = new Storage('content', localStorage);
 
                 }
@@ -178,14 +193,14 @@
                             //'async':'async',
                             //'defer':'defer',
                             'charset': 'utf-8',
-                            'sn': System.timestamp()
+                            'sn': SN
                         }
                     },
                     'css': {
                         'Attribute': {
                             'type': 'text/css',
                             'rel': 'stylesheet',
-                            'sn': System.timestamp()
+                            'sn': SN
                         }
                     }
                 },

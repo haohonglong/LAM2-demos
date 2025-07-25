@@ -1,7 +1,7 @@
 <#define __HOMESTYLER__="{{LAM.HOMESTYLER}}/floorplan" />
 <#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
 
-<#include repeat="0" tp-data="" file="__COMPONENTS__/index.html" />
+<#include file="__COMPONENTS__/index.html" />
 
 
 <!doctype html>
@@ -63,7 +63,7 @@
   </div>
   <!-- <script type="text/javascript" src="./dist/browserutil.js"></script> -->
 
-  <#import path="
+<#import path="
 /vendor.bundle.js,
 /utils.99902298de406b65ef90.bundle.js,
 /internal.99902298de406b65ef90.bundle.js,
@@ -75,7 +75,8 @@
 /extplugin.99902298de406b65ef90.bundle.js,
 /startup.99902298de406b65ef90.bundle.js
 
-" root="__HOMESTYLER__/dist" write="true" />
+" root="__HOMESTYLER__/dist" write="1" before="1" />
+
 </body>
 
 </html>

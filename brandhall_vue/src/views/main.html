@@ -42,6 +42,8 @@
 <#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="__NODE_MODULES__" befor="1" />
 <#import path="/element-ui/lib/index.js" root="__NODE_MODULES__" write="1" befor="1" />
 
+<#import path="/lib/index.js" root="__NODE_MODULES__/umy-ui" write="1" befor="1" />
+<#import type="css" path="/lib/theme-chalk/index.css" root="__NODE_MODULES__/umy-ui" befor="1" />
 
 <#import path="/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
 
@@ -73,7 +75,7 @@
 	  z-index: 999;
 	  top: 0; 
 	  left: 0;
-	  background-color: #4a759f;
+	  background-color: #6d1667;
 	  padding: 5px 20px;
 	  width: 100%;
 	  height: 50px;
@@ -91,10 +93,29 @@
 	  background-color: #e3e5eb;
 	  
 	}
+
+	.el-button--primary {
+    color: #FFF;
+    background-color: #9a36ca;
+    border-color: #863cb9;
+}
+
+.el-button--primary:focus,.el-button--primary:hover {
+    background: #ed6cff;
+    border-color: #ae5ec3;
+    color: #FFF
+}
+
+.el-header {
+    color: #fff;
+}
+/*文字*/
+.sectionText-A1 a{color: #ffffff;}
+
   </style>
 </head>
 
-<body>
+<body style="background-color: #fafafa;">
     <div id="app">
 		<el-container>
 		  <el-drawer
@@ -128,7 +149,7 @@
 			
 			<div id="content">
 			  <!-- <nav-menu-component></nav-menu-component> -->
-			  <div class="ml20 mb30"><crumb-component :list="crumbData"></crumb-component></div>
+			  <div class="ml20"><crumb-component :list="crumbData"></crumb-component></div>
 			  <el-main style="overflow: hidden">
 				<!-- <div style="padding: 20px"> -->
 					<router-view @change_crumb_data="change_crumb_data"></router-view>

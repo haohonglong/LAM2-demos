@@ -74,7 +74,7 @@
                     , 'API': ROOT + '/api'
                     , 'COMPONENTS': ROOT + '/components'
                     , VIEWS
-                    , 'ERROR_404': VIEWS + '/_404.html'
+                    , 'ERROR_404': VIEWS + '/404.html'
                     , 'INDEX': 'index.html?r='
                     , 'SERVER': 'http://yaf.local'
                     , 'CONFIGURATION_PATH': CONF + '/config.js'

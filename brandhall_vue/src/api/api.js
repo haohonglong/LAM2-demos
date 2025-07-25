@@ -9,7 +9,7 @@ LAM.run([jQuery], function($){
 
 		$.ajax({
 			method: R.method,
-			url: SERVER + R.url,
+			url: R.url,
 			data: R.params,
 			dataType: "json"
 		  })
@@ -19,106 +19,110 @@ LAM.run([jQuery], function($){
 
 	const API = {
 		"StockDate":{
-			"getOne": "/StockDate/getOne"
+			"getOne": SERVER+ "/StockDate/getOne",
+			"index": SERVER+ "/StockDate/index"
 		},
 		"stockDetail":{
-			"index": "/stockDetail/index",
-			"delete": "/stockDetail/delete",
-			"search": "/stockDetail/search",
-			"show": "/stockDetail/show",
-			"add": "/stockDetail/add"
+			"index": SERVER+ "/stockDetail/index",
+			"delete": SERVER+ "/stockDetail/delete",
+			"search": SERVER+ "/stockDetail/search",
+			"show": SERVER+ "/stockDetail/show",
+			"add": SERVER+ "/stockDetail/add"
 		},
 		"stock":{
-			"index": "/stock/index",
-			"search": "/stock/search",
-			"show": "/stock/show",
-			"add": "/stock/add",
-			"feach": "/stock/feach",
-			"getProgress":"/stock/getProgress"
+			"index": SERVER+ "/stock/index",
+			"search": SERVER+ "/stock/search",
+			"show": SERVER+ "/stock/show",
+			"add": SERVER+ "/stock/add",
+			"edit": SERVER+ "/stock/edit",
+			"feach": SERVER+ "/stock/feach",
+			"getProgress": SERVER+ "/stock/getProgress",
+			"delete": SERVER+ "/stock/delete",
+			"setLevel": SERVER+ "/stock/setLevel"
 		},
 		"article":{
-			"index": "/article/index",
-			"search": "/article/search",
-			"show": "/article/show",
-			"add": "/article/add",
-			"edit": "/article/edit",
-			"delete": "/article/delete"
+			"index": SERVER+ "/article/index",
+			"search": SERVER+ "/article/search",
+			"show": SERVER+ "/article/show",
+			"add": SERVER+ "/article/add",
+			"edit": SERVER+ "/article/edit",
+			"delete": SERVER+ "/article/delete"
 		},
 		"mindmaps":{
-			"index": "/mindmaps/index",
-			"show": "/mindmaps/show",
-			"add": "/mindmaps/add",
-			"edit": "/mindmaps/edit",
-			"editByKey": "/mindmaps/editByKey",
-			"delete": "/mindmaps/delete"
+			"index": SERVER+ "/mindmaps/index",
+			"show": SERVER+ "/mindmaps/show",
+			"add": SERVER+ "/mindmaps/add",
+			"edit": SERVER+ "/mindmaps/edit",
+			"editByKey": SERVER+ "/mindmaps/editByKey",
+			"delete": SERVER+ "/mindmaps/delete"
 		},
 		"diary":{
-			"list": "/diary/index",
-			"add": "/diary/add",
-			"edit": "/diary/edit",
-			"search": "/diary/search",
-			"delete": "/diary/delete"
+			"list": SERVER+ "/diary/index",
+			"add": SERVER+ "/diary/add",
+			"edit": SERVER+ "/diary/edit",
+			"search": SERVER+ "/diary/search",
+			"delete": SERVER+ "/diary/delete"
 		},
 		"video2":{
-			"list": "/video2/index",
-			"add": "/video2/add",
-			"edit": "/video2/edit",
-			"search": "/video2/search",
-			"delete": "/video2/delete"
+			"list": SERVER+ "/video2/index",
+			"add": SERVER+ "/video2/add",
+			"edit": SERVER+ "/video2/edit",
+			"search": SERVER+ "/video2/search",
+			"delete": SERVER+ "/video2/delete"
 		},
 		"video":{
-			"list": "/video/index",
-			"add": "/video/add",
-			"edit": "/video/edit",
-			"search": "/video/search",
-			"delete": "/video/delete"
+			"list": SERVER+ "/video/index",
+			"add": SERVER+ "/video/add",
+			"edit": SERVER+ "/video/edit",
+			"search": SERVER+ "/video/search",
+			"delete": SERVER+ "/video/delete"
 		},
 		"url":{
-			"add": "/url/add",
-			"edit": "/url/edit",
-			"detail": "/url/show",
-			"list": "/url/index",
-			"search": "/url/search",
-			"delete": "/url/delete"
+			"add": SERVER+ "/url/add",
+			"edit": SERVER+ "/url/edit",
+			"detail": SERVER+ "/url/show",
+			"list": SERVER+ "/url/index",
+			"search": SERVER+ "/url/search",
+			"delete": SERVER+ "/url/delete"
 		},
 		"sorts": {
-			"add": "/sorts/add",
-			"edit": "/sorts/edit",
-			"detail": "/sorts/show",
-			"list": "/sorts/index",
-			"search": "/sorts/search",
-			"delete": "/sorts/delete"
+			"add": SERVER+ "/sorts/add",
+			"edit": SERVER+ "/sorts/edit",
+			"detail": SERVER+ "/sorts/show",
+			"list": SERVER+ "/sorts/index",
+			"search": SERVER+ "/sorts/search",
+			"delete": SERVER+ "/sorts/delete"
 		},
 		"shop": {
-			"add": "/shop/add",
-			"edit": "/shop/edit",
-			"index": "/shop/index",
-			"delete": "/shop/delete"
+			"add": SERVER+ "/shop/add",
+			"edit": SERVER+ "/shop/edit",
+			"index": SERVER+ "/shop/index",
+			"delete": SERVER+ "/shop/delete"
 		},
 		"goods": {
-			"add": "/goods/add",
-			"edit": "/goods/edit",
-			"detail": "/goods/show",
-			"list": "/goods/index",
-			"statistics": "/goods/statistics",
+			"add": SERVER+ "/goods/add",
+			"edit": SERVER+ "/goods/edit",
+			"detail": SERVER+ "/goods/show",
+			"list": SERVER+ "/goods/index",
+			"statistics": SERVER+ "/goods/statistics",
 		},
 		"site": {
-			"login": "/site/login"
+			"login": SERVER+ "/site/login"
 		},
 		"unit": {
-			"add": "/unit/add",
-			"edit": "/unit/edit",
-			"index": "/unit/index",
-			"delete": "/unit/delete"
+			"add": SERVER+ "/unit/add",
+			"edit": SERVER+ "/unit/edit",
+			"index": SERVER+ "/unit/index",
+			"delete": SERVER+ "/unit/delete"
 		},
 		"goodsname": {
-			"add": "/goodsname/add",
-			"edit": "/goodsname/edit",
-			"index": "/goodsname/index",
-			"delete": "/goodsname/delete"
+			"add": SERVER+ "/goodsname/add",
+			"edit": SERVER+ "/goodsname/edit",
+			"index": SERVER+ "/goodsname/index",
+			"delete": SERVER+ "/goodsname/delete"
 		},
 		"bill": {
-			"getOne": "/bill/getOne"
+			"getOne": SERVER+ "/bill/getOne"
 		}
 	};
 
@@ -138,14 +142,21 @@ LAM.run([jQuery], function($){
 						,stock_date_at
 					}
 				}, func);
+			},
+			index(stock_id, func){
+				request({
+					url: API.StockDate.index,
+					method: 'get',
+					params: {stock_id}
+				}, func);
 			}
 		},
 		"stockDetail": {
-			index(stock_id, func){
+			index({stock_id, size}, func){
 				request({
 					url: API.stockDetail.index,
 					method: 'get',
-					params: { stock_id }
+					params: {stock_id, size}
 				}, func);
 			},
 			delete(id, func){
@@ -166,11 +177,13 @@ LAM.run([jQuery], function($){
 				,close
 				,lup
 				,ldown
-				,hight
-				,low
+				,highest
+				,lowest
 				,average
 				,change
 				,amplitude
+				,volume
+				,amount
 			}, func){
 				request({
 					url: API.stockDetail.add,
@@ -186,11 +199,13 @@ LAM.run([jQuery], function($){
 						,close
 						,lup
 						,ldown
-						,hight
-						,low
+						,highest
+						,lowest
 						,average
 						,change
 						,amplitude
+						,volume
+						,amount
 					}
 				}, func);
 			},
@@ -203,6 +218,20 @@ LAM.run([jQuery], function($){
 			}
 		},
 		"stock": {
+			setLevel({stock_id, level}, func){
+				request({
+					url: API.stock.setLevel,
+					method: 'get',
+					params: { stock_id, level }
+				}, func);
+			},
+			delete(stock_id, func){
+				request({
+					url: API.stock.delete,
+					method: 'get',
+					params: { stock_id }
+				}, func);
+			},
 			index(func){
 				request({
 					url: API.stock.index,
@@ -222,18 +251,25 @@ LAM.run([jQuery], function($){
 					method: 'get'
 				}, func, error_func);
 			},
-			add({ stock_id, stock_name, stock_remark }, func){
+			add({ stock_id, stock_code, stock_name, stock_remark }, func){
 				request({
 					url: API.stock.add,
 					method: 'post',
-					params: { stock_id, stock_name, stock_remark }
+					params: { stock_id, stock_code, stock_name, stock_remark }
 				}, func);
 			},
-			search({ title }, func){
+			edit({ stock_id, stock_code, stock_name, stock_cost, stock_remark }, func){
+				request({
+					url: API.stock.edit,
+					method: 'post',
+					params: { stock_id, stock_code, stock_name, stock_cost, stock_remark }
+				}, func);
+			},
+			search({ key, value }, func){
 				request({
 					url: API.stock.search,
-					method: 'post',
-					params: { title }
+					method: 'get',
+					params: { key, value }
 				}, func);
 			}
 		},

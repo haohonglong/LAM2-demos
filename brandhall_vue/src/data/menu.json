@@ -34,6 +34,14 @@
     ]
   },
   {
+    "index": "a21",
+    "icon":"a-2",
+    "title":"五线谱",
+    "ul":[
+       {  "index": "a21-b1", "title":"首页","href":"/stave/index"}
+    ]
+  },
+  {
     "index": "a16",
     "icon":"a-1",
     "title":"游戏",
@@ -117,6 +125,14 @@
     "title":"图片库",
     "ul":[
       { "index": "a19-b1", "title":"列表","href":"/pictures/index"}
+    ]
+  },
+  {
+    "index": "a20",
+    "icon":"a-1",
+    "title":"酒店后台",
+    "ul":[
+      { "index": "a20-a1", "title":"首页","href":"/hotel/index"}
     ]
   }
 

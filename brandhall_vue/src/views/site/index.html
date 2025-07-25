@@ -12,6 +12,7 @@
 <#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
 <#define @COMPONENTS="_LAYOUTS_/components" />
 <#define __DATAPATH__="{#LAM.DATA#}" />
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
 #define# __MENU__ <#include file="__DATAPATH__/menu.json" /> #end#
 
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
@@ -28,6 +29,8 @@
 
 <#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="https://unpkg.com" befor="1" />
 <#import path="/elementui/index.js" root="__PLUGINS__" write="1" befor="1" />
+
+
 
 <#import path="/layer-v3.1.1/layer/layer.js" root="__PLUGINS__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />

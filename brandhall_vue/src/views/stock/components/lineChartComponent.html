@@ -1,0 +1,156 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.lineChartComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+<#import path="/echarts/5/files/dist/echarts.min.js" root="https://registry.npmmirror.com" write="1" befor="1" />
+
+
+
+<#Block:begin id="__ID__">
+<div>
+    <el-dialog
+    :title="title+' 股票图表'"
+    :visible.sync="dialogVisible"
+    :close-on-click-modal="true"
+    width="100%">
+    <div ref="chart" style="height:400px;"></div>
+    
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run([window],function(window){
+        'use strict';
+        var System = this;
+        let myChart = null;
+
+        const upColor = '#00da3c';
+        const downColor = '#ec0000';
+
+        
+
+        var FormComponent = {
+          name: "lineChartComponent",
+          props: {
+            data: Array,
+            title: String
+          },
+          components: { },
+          data() {
+            return {
+                'dialogVisible': false,
+                'times':[],
+                'prices':[]
+            }
+          },
+          created(){
+            System.listen((t)=>{
+                if(this.data.length >  0){
+                    this.data.forEach((item)=>{
+                        this.times.push(item.created_at);
+                        this.prices.push(item.stock_price);
+                            
+                    });
+                    return true;
+                }
+
+            },1)
+            
+          },
+          mounted(){
+            this.init();
+          },
+          methods: {
+            query() {
+                const TITLE = this.title;
+                const times = this.times.reverse();
+                const prices = this.prices.reverse();
+                
+                myChart.setOption(
+                    {
+                        tooltip: {
+                            trigger: 'axis',
+                            position: function (pos, params, el, elRect, size) {
+                                const obj = {
+                                    top: 10
+                                };
+                                obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 180;
+                                return obj;
+                            }
+                        },
+                        dataZoom: [
+                            {
+                            type: 'inside',
+                            xAxisIndex: [0, 1],
+                            start: 0,
+                            end: 100
+                            },
+                            {
+                            show: true,
+                            xAxisIndex: [0, 1],
+                            type: 'slider',
+                            top: '85%',
+                            start: 0,
+                            end: 100
+                            }
+                        ],
+                        xAxis: {
+                            type: 'category',
+                            data: times
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                data: prices,
+                                type: 'line',
+                                smooth: false
+                            }
+                            
+                        ]
+                    },
+                    true
+                );
+                myChart.dispatchAction({
+                    type: 'brush',
+                    areas: [
+                    {
+                        brushType: 'lineX',
+                        coordRange: [],
+                        xAxisIndex: 0
+                    }
+                    ]
+                });
+
+                
+              
+            },
+            init() {
+                System.listen(()=>{
+                  if(this.$refs.chart)  {
+                        myChart = echarts.init(this.$refs.chart, null, {
+                          renderer: 'canvas',
+                          useDirtyRect: false
+                          });
+                          this.query();
+                      return true;
+                      
+                  }
+                }, 1);
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        // window.addEventListenter("resize", () => {
+        //     myChart.resize();
+        // });
+
+        System.export('__ID__', FormComponent);
+    });
+</script>

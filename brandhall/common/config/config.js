@@ -92,6 +92,7 @@
                 'viewInstance': null,
                 'blockCacheInstance': null,
                 'excluded': [],
+                'GENERATOR': true,
                 'beforeBuildExcluded': ['Controller', 'BaseController', 'Router'],
                 'moduleId': 'm',
                 'routerId': 'r',

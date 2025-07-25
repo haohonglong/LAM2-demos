@@ -18,7 +18,6 @@
             <el-col :span="12">
                 <el-form-item label="交易类别："  :error="formError.stock_type" prop="stock_type">
                     <el-select v-model="form.stock_type" placeholder="请选择交易类别">
-                        <el-option label="无操作" value="0"></el-option>
                         <el-option label="买入" value="1"></el-option>
                         <el-option label="卖出" value="2"></el-option>
                     </el-select>
@@ -43,7 +42,7 @@
                   </el-form-item>
             </el-col>
             <el-col :span="8">
-                <el-form-item label="成交数量：" :error="formError.stock_deal_total" prop="stock_deal_total">
+                <el-form-item label="股票数量：" :error="formError.stock_deal_total" prop="stock_deal_total">
                     <el-input v-model="form.stock_deal_total"></el-input>
                 </el-form-item>
             </el-col>
@@ -62,8 +61,8 @@
                 </el-form-item>
             </el-col>
             <el-col :span="8">
-                <el-form-item label="高 ：" :error="formError.hight" prop="hight">
-                    <el-input v-model="form.hight"></el-input>
+                <el-form-item label="高 ：" :error="formError.highest" prop="highest">
+                    <el-input v-model="form.highest"></el-input>
                 </el-form-item>
             </el-col>
             
@@ -80,8 +79,8 @@
                 </el-form-item>
             </el-col>
             <el-col :span="8">
-                <el-form-item label="低 ：" :error="formError.low" prop="low">
-                    <el-input v-model="form.low"></el-input>
+                <el-form-item label="低 ：" :error="formError.lowest" prop="lowest">
+                    <el-input v-model="form.lowest"></el-input>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -103,6 +102,21 @@
                 </el-form-item>
             </el-col>
         </el-row>
+        
+        <el-row>
+
+            <el-col :span="8">
+                <el-form-item label="成交量 ：" :error="formError.volume" prop="volume">
+                    <el-input v-model="form.volume"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="成交额：" :error="formError.amount" prop="amount">
+                    <el-input v-model="form.amount"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+
         
         
 
@@ -159,11 +173,13 @@
                     ,'close': 0.00
                     ,'lup': 0.00
                     ,'ldown': 0.00
-                    ,'hight': 0.00
-                    ,'low': 0.00
+                    ,'highest': 0.00
+                    ,'lowest': 0.00
                     ,'average': 0.00
                     ,'change': 0.00
                     ,'amplitude': 0.00
+                    ,'volume': 0
+                    ,'amount': 0.00
                 },
                 'formError':{
                     'stock_price': ""
@@ -175,11 +191,13 @@
                     ,'close': ""
                     ,'lup': ""
                     ,'ldown': ""
-                    ,'hight': ""
-                    ,'low': ""
+                    ,'highest': ""
+                    ,'lowest': ""
                     ,'average': ""
                     ,'change': ""
                     ,'amplitude': ""
+                    ,'volume': ""
+                    ,'amount': ""
                 },
                 rules: {
                     stock_price: [
@@ -219,11 +237,13 @@
                         this.form.close = data.close;
                         this.form.lup = data.lup;
                         this.form.ldown = data.ldown;
-                        this.form.hight = data.hight;
-                        this.form.low = data.low;
+                        this.form.highest = data.highest;
+                        this.form.lowest = data.lowest;
                         this.form.average = data.average;
                         this.form.change = data.change;
                         this.form.amplitude = data.amplitude;
+                        this.form.volume = data.volume;
+                        this.form.amount = data.amount;
 
                     }else{
                         this.loading = false;
@@ -261,11 +281,13 @@
                 this.formError.close = "";
                 this.formError.lup = "";
                 this.formError.ldown = "";
-                this.formError.hight = "";
-                this.formError.low = "";
+                this.formError.highest = "";
+                this.formError.lowest = "";
                 this.formError.average = "";
                 this.formError.change = "";
                 this.formError.amplitude = "";
+                this.formError.volume = "";
+                this.formError.amount = "";
 
             },
             init() {
@@ -287,11 +309,13 @@
                 const close = this.form.close;
                 const lup = this.form.lup;
                 const ldown = this.form.ldown;
-                const hight = this.form.hight;
-                const low = this.form.low;
+                const highest = this.form.highest;
+                const lowest = this.form.lowest;
                 const average = this.form.average;
                 const change = this.form.change;
                 const amplitude = this.form.amplitude;
+                const volume = this.form.volume;
+                const amount = this.form.amount;
                 
                 if(stock_type > 0 && stock_deal_total < 1){
                     this.formError["stock_deal_total"] = "除无操作外股票数量最少为1";
@@ -322,11 +346,13 @@
                     ,close
                     ,lup
                     ,ldown
-                    ,hight
-                    ,low
+                    ,highest
+                    ,lowest
                     ,average
                     ,change
                     ,amplitude
+                    ,volume
+                    ,amount
                 };
 
                 this.loading = true;

@@ -1,9 +1,12 @@
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
 <#define _TITLE_="思维导图详细页" />
 <#define __INDEX__="{#LAM.INDEX#}" />
 <#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define ~/="__VIEWS__/mindline/detail/" />
+
+<#import path="/html2canvas.min.js" root="__NODE_MODULES__/html2canvas/dist" write="1" befor="1" />
 
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 
@@ -13,8 +16,11 @@
 	<div class="mb10">
 		<el-button @click="save()">保存</el-button>
 		<el-button @click="goto()">返回列表</el-button>
+		<el-button @click="capture()">导出图片</el-button>
 	</div>
-    <mindmaps-component :list="D"></mindmaps-component>
+	<div id="capture">
+		<mindmaps-component :list="D"></mindmaps-component>
+	</div>
 </div>
 
 <#Block:end>
@@ -73,6 +79,36 @@
 				});
 			},
 			methods: {
+				capture(){
+					this.loading = true;
+					// 设置 html2canvas 的配置选项
+					const options = {
+						useCORS: true, // 允许跨域图像
+						scale: 10, // 设置渲染比例
+						allowTaint: false, // 允许画布被“污染”（即允许跨域图像渲染，但可能导致无法导出为图像文件）
+						logging: true // 在控制台输出日志信息
+					};
+
+					// 调用 html2canvas 函数，将 #capture 元素转换为画布
+					html2canvas(document.querySelector("#capture"), options).then(canvas => {
+						// 将画布内容转换为 Data URL（base64 编码的图像数据）
+						const imgData = canvas.toDataURL('image/JPEG');
+
+						// 创建一个新的 <a> 元素，用于下载图像
+						const link = document.createElement('a');
+						link.href = imgData;
+						link.download = 'capture.jpg'; // 设置下载的文件名
+
+						// 触发下载
+						link.click();
+						this.loading = false;
+
+						// 如果你想在页面上显示画布，而不是下载它，你可以这样做：
+						// document.body.appendChild(canvas);
+					}).catch(error => {
+						console.error('Error capturing the element:', error);
+					});
+				},
 				goto() {
 					this.$confirm('保存过了吗？', '提示', {
                         confirmButtonText: '已保存了',

@@ -99,6 +99,7 @@
         </el-form-item>
         <el-form-item :error="formError.title" label="标题：" prop="title">
             <el-input v-model="form.title"></el-input>
+            <el-button type="primary" @click="submit()">保存</el-button>
         </el-form-item>
         <el-form-item :error="formError.content" label="内容：" prop="content">
             <QuillEditorComponent :data="form"></QuillEditorComponent>

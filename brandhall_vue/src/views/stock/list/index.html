@@ -10,12 +10,14 @@
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
 <#define __VIEWS__="{#LAM.VIEWS#}" />
 <#define ~/="__VIEWS__/stock/" />
 
 
 <#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
+
 
 
 
@@ -32,133 +34,197 @@
 
 <div v-loading="loading">
     <el-row>
-        <h2 style="font-size: 26px;">
-            {{ stock_id }}  {{ stock_name }} 
-            <el-button type="primary" @click="formAddStockDetailComponent">添加股票流水</el-button>
-            <el-input
-                v-model="search"
-                size="mini"
-                placeholder="请输入类别代码" />
-                <el-button type="primary" @click="feach">抓取数据</el-button></el-button>
-        </h2>
+        <el-col :span="12">
+            <div class="mb10" style="font-size: 18px;">
+                <a style="color: #6d1667;" target="_blank" :href="'https://stockpage.10jqka.com.cn/'+stock_code">{{ stock_code }}  {{ stock_name }} </a>
+                <a style="color: #6d1667;" target="_blank" :href="'https://gushitong.baidu.com/stock/ab-'+stock_code">百度股市通</a>
+<!--Del:begin-->
+
+                <el-badge style="margin-left: 10px;" :value="lups.length" class="item">
+                    <el-button size="small" @click="showContent('up', lups)">涨停</el-button>
+                </el-badge>
+                <el-badge style="margin-left: 20px;margin-right: 20px;" :value="ldowns.length" class="item" type="success">
+                    <el-button size="small" @click="showContent('down', ldowns)">跌停</el-button>
+                </el-badge>
+
+                
+<!--Del:end-->
+
+                <el-button size="small" @click="showDialogUpAndDown()">跌涨</el-button>
+
+            </div>
+            <div class="mb10">
+                <el-button type="primary" @click="candlestick">K线图</el-button></el-button>
+                <el-button type="primary" @click="line">折线图</el-button></el-button>
+<!--Del:begin-->
+                <el-button type="primary" @click="timeSharing">分时图</el-button></el-button>
+<!--Del:end-->
+
+            </div>
+            <div style="margin-left: -20px;height: 120px;"><iframe :src="'http://stockpage.10jqka.com.cn/realHead_v2.html#hs_'+ stock_code" width="100%" frameborder="0"></iframe></div>
+
+        </el-col>
+        <el-col :span="12">
+            <div style="height:230px;margin-top: -20px;">
+                <iframe :src="'//stockpage.10jqka.com.cn/HQ_v4.html#hs_'+ stock_code" width="100%" height="100%"  frameborder="0"></iframe>
+            </div>
+        </el-col>
         
     </el-row>
+    
     <el-row>
         <el-button type="primary" @click="removeSelected">删除选择的</el-button>
-        
-    </el-row>
-    <el-row>
-        <el-col :span="24">
-            <el-table
-                
-                :data="tableData.filter(data => !search ||
-                 search == data.stock_type
-                 )"
+        <el-button type="primary" @click="formAddStockDetailComponent">添加股票流水</el-button>
+                <el-input
+                    v-model="search"
+                    size="mini"
+                    placeholder="1:买,2:卖,3:买卖" />
+    
+                <el-input
+                    v-model="searchDate"
+                    size="mini"
+                    placeholder="日期" />
+
+        <el-col :span="24" class="plTableBox">
+            <u-table
+                class="table"
+                :data="filter()"
                 style="width: 100%"
-                height="500"
+                :height="500"
+                use-virtual
+                :row-height="55"
                 border
-                stripe
-                >
-                <el-table-column
+                stripe>
+                <u-table-column
                     fixed
+                    sortable
                     prop="id"
                     label="ID"
-                    width="80">
+                    width="100%">
                     <template slot-scope="scope">
                         <el-checkbox v-model="del_ids" :label="scope.row.id">{{ scope.row.id }}</el-checkbox>
                     </template>
-                </el-table-column>
-                <el-table-column
+                </u-table-column>
+                <u-table-column
                     fixed
                     prop="stock_type"
-                    label="类别"
+                    label="交易类型"
                     align="center"
-                    width="50">
+                    width="90">
                     <template slot-scope="scope">
-                        <span style="color: red;" v-if="1 == scope.row.stock_type">买</span>
-                        <span style="color: green;" v-else-if="2 == scope.row.stock_type">卖</span>
+                        <span style="color: red;" v-if="1 == scope.row.stock_type"><el-tag :type="'success'">买入</el-tag></span>
+                        <span style="color: green;" v-else-if="2 == scope.row.stock_type"><el-tag :type="'danger'">卖出</el-tag></span>
                         <span style="color:#909399" v-else>-</span>
                       </template>
-                </el-table-column>
-                <el-table-column
+                </u-table-column>
+                <u-table-column
                     fixed
                     prop="created_at"
                     label="日期"
                     align="center"
-                    width="95"
+                    width="155px"
                     sortable>
-                </el-table-column>
-                <el-table-column
+                </u-table-column>
+                <u-table-column
                     fixed
                     prop="stock_price"
                     label="价格"
                     sortable
                     width="80">
-                </el-table-column>
-                <el-table-column
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.stock_price > scope.row.close" style="color: #de524c;">{{ scope.row.stock_price }}</span>
+                        <span v-else-if="scope.row.stock_price < scope.row.close" style="color: green;">{{ scope.row.stock_price }}</span>
+                        <span v-else>{{ scope.row.stock_price }}</span>
+                        
+                    </template>
+                </u-table-column>
+                <u-table-column
+                    fixed
+                    prop="stock_number"
+                    label="持有股数量"
+                    width="95">
+                </u-table-column>
+                <u-table-column
+                    fixed
+                    prop="stock_deal_total"
+                    label="成交量(股)"
+                    width="90">
+                </u-table-column>
+                <u-table-column
                     prop="open"
                     label="今开"
                     sortable
                     width="80">
-                </el-table-column>
-                <el-table-column
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.open > scope.row.close" style="color: #de524c;">{{ scope.row.open }}</span>
+                        <span v-else-if="scope.row.open < scope.row.close" style="color: green;">{{ scope.row.open }}</span>
+                        <span v-else>{{ scope.row.open }}</span>
+                        
+                    </template>
+                </u-table-column>
+                <u-table-column
                     prop="close"
                     label="昨收"
                     sortable
                     width="80">
-                </el-table-column>
-                <el-table-column
-                    prop="hight"
+                </u-table-column>
+                <u-table-column
+                    prop="highest"
                     label="最高"
                     width="80">
-                </el-table-column>
-                <el-table-column
-                    prop="low"
+                </u-table-column>
+                <u-table-column
+                    prop="lowest"
                     label="最低"
                     width="80">
-                </el-table-column>
-                <el-table-column
+                </u-table-column>
+                <u-table-column
                     prop="average"
                     label="均价"
                     width="80">
-                </el-table-column>
-                <el-table-column
+                </u-table-column>
+                <u-table-column
                     prop="lup"
                     label="涨停"
                     width="80">
-                </el-table-column>
-                <el-table-column
+                </u-table-column>
+                <u-table-column
                     prop="ldown"
                     label="跌停"
                     width="80">
-                </el-table-column>
-                <el-table-column
+                </u-table-column>
+                <u-table-column
                     prop="change"
-                    label="换手率"
+                    label="换手率(%)"
                     width="80">
                     <template slot-scope="scope">
-                        {{ scope.row.change }}%
+                        {{ scope.row.change }}
                     </template>
-                </el-table-column>
-                <el-table-column
+                </u-table-column>
+                <u-table-column
                     prop="amplitude"
-                    label="振幅率"
+                    label="振幅率(%)"
                     width="80">
                     <template slot-scope="scope">
-                        {{ scope.row.amplitude }}%
+                        {{ scope.row.amplitude }}
                     </template>
-                </el-table-column>
-                <el-table-column
-                    prop="stock_deal_total"
-                    label="成交量（股）"
-                    width="80">
-                </el-table-column>
-                <el-table-column label="成交价(手续费之前)" width="150">
+                </u-table-column>
+                <u-table-column
+                    prop="volume"
+                    label="成交量"
+                    width="120">
+                </u-table-column>
+                <u-table-column
+                    prop="amount"
+                    label="成交额"
+                    width="120">
+                </u-table-column>
+                <u-table-column label="成交价(手续费之前)" width="200">
                     <template slot-scope="scope">
-                      {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
+                      {{ scope.row.stock_price }} * {{ scope.row.stock_deal_total }} = {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
                     </template>
-                </el-table-column>
-                <el-table-column label="实价">
+                </u-table-column>
+                <u-table-column label="实价" width="200">
                     <template slot-scope="scope">
                         <span v-if="scope.row.stock_deal_total > 0">
                             <span v-if="2 == scope.row.stock_type">
@@ -172,33 +238,64 @@
                         <span v-else>0</span>
                         
                     </template>
-                </el-table-column>
-                <el-table-column
-                    prop="stock_number"
-                    label="持有股数量"
-                    width="150">
-                </el-table-column>
-                <el-table-column 
+                </u-table-column>
+                <u-table-column 
                     label="持有估值(手续费之前)"
-                    width="180">
+                    width="200">
                     <template slot-scope="scope">
                       <span>{{ scope.row.stock_price }} * {{ scope.row.stock_number }} = {{ (scope.row.stock_price * scope.row.stock_number).toFixed(2) }}</span>
                     </template>
-                </el-table-column>
-                <el-table-column label="操作" width="150">
+                </u-table-column>
+                <u-table-column fixed="right" label="操作" width="120">
                     <template slot-scope="scope">
                         <el-button type="primary" @click="viewStockDetail(scope.row)" size="mini">查看</el-button>
                         <el-button type="danger" icon="el-icon-delete" circle @click="remove(scope.row.id)" size="mini"></el-button></el-button>
                     </template>
-                </el-table-column>
+                </u-table-column>
                 
 
-            </el-table>
+            </u-table>
         </el-col>
     </el-row>
 
     <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getListOfStockDetail" ref="stockDetailComponent" />
     <detail-stock-detail-component ref="viewStockDetailComponent" />
+    <candlestick-chart-component :data="stockDate" :title="stock_id+'-'+stock_name" ref="candlestickChartComponent" />
+    <line-chart-component :data="tableData" :title="stock_id+'-'+stock_name" ref="lineChartComponent" />
+    <content-component :data="contents" :title="title" ref="contentComponent" />
+
+<!--Del:begin-->
+    <el-dialog  width="50%" custom-class="" :title="stock_code +' : '+ stock_name" :visible.sync="dialogTimeSharingVisible">
+        <div style="height:400px;">
+            <iframe :src="'//stockpage.10jqka.com.cn/HQ_v4.html#hs_'+ stock_code" width="100%" height="100%"  frameborder="0"></iframe>
+        </div>
+    </el-dialog>
+
+<!--Del:end-->
+
+<el-dialog  width="25%" custom-class="" :close-on-click-modal="true" title="跌涨" :visible.sync="dialogUpAndDown">
+    <div style="height:400px;">
+        <el-row>
+            <el-col :span="12">
+                <span style="color: red;font-size: 16px;">涨</span>：{{ lups.length }}次
+                <div v-for="up in lups">
+                    {{ up.created_at.split(" ")[0] }} | <span>{{ up.lup }}</span>
+
+                </div>
+                
+            </el-col>
+            <el-col :span="12">
+                <span style="color: green;font-size: 16px;">跌</span>：{{ ldowns.length }}次
+                <div v-for="down in ldowns">
+                    {{ down.created_at.split(" ")[0] }} | <span>{{ down.ldown }}</span>
+                </div>
+            </el-col>
+        </el-row>
+        
+    </div>
+</el-dialog>
+
+
 
 
 </div>
@@ -208,6 +305,9 @@
 
 <#include file="~/components/FormAddStockDetailComponent.html" />
 <#include file="~/components/DetailStockDetailComponent.html" />
+<#include file="~/components/candlestickChartComponent.html" />
+<#include file="~/components/lineChartComponent.html" />
+<#include file="~/components/ContentComponent.html" />
 
 
 <script type="text/javascript">
@@ -223,12 +323,24 @@
             'name': "stockList",
             data(){
                 return {
+                    'dialogTimeSharingVisible': false,
+                    'dialogUpAndDown': false,
+                    'title':'',
+                    'contents': [],
                     'stock_id': "",
+                    'stock_code': "",
                     'stock_name': "",
                     'loading': false,
                     'search': '',
+                    'searchDate': '',
                     'del_ids': [],
-                    tableData: []
+                    'tableData': [],
+                    'stockDate': [],
+                    'lups':[],
+                    'lups_str':[],
+                    'ldowns':[],
+                    'ldowns_str':[],
+
                     
 
                 };
@@ -236,12 +348,26 @@
             'components': {
                 'form-add-stock-detail-component': System.require('stock.components.FormAddStockDetailComponent')
                 ,'detail-stock-detail-component': System.require('stock.components.DetailStockDetailComponent')
+                ,'candlestick-chart-component': System.require('stock.components.candlestickChartComponent')
+                ,'line-chart-component': System.require('stock.components.lineChartComponent')
+                ,'content-component': System.require('stock.components.ContentComponent')
             },
             beforeCreate() { },
             created() {
                 this.stock_id = this.$route.params.stock_id;
+                this.stock_code = this.$route.params.stock_code;
                 this.stock_name = this.$route.params.stock_name;
-                console.log(this.$route)
+                const stock_id = this.stock_id;
+
+                Api.StockDate.index(stock_id, D => {
+                    if(0 == D.status){
+                        this.stockDate = D.data;
+                        
+                    }
+
+                });
+                
+                // console.log(this.$route)
 
 
                 this.$emit('change_crumb_data', [
@@ -249,51 +375,47 @@
                     { 'name': '_TITLE_' }
                 ]);
 
-
                 this.getListOfStockDetail();
+                
+                System.listen(()=>{
+                    this.getListOfStockDetail();
+                }, 250000);
             },
             'methods': {
-                feach(){
-                    const stock_id = this.stock_id;
-                    
-                    this.$confirm('此操作将自动获取股票数据, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        Api.stock.feach({stock_id}, D => {
-                            if(0 == D.status){
-                                const element = D.datas[0];
-                                if(0  == element.status){
-                                    this.$notify({
-                                        title: 'Success',
-                                        message: element.message,
-                                        type: 'success'
-                                    });
-                                }else {
-                                    this.$notify({
-                                    title: 'Warning',
-                                    message: element.message,
-                                    type: 'warning'});
+                timeSharing(){
+                    this.dialogTimeSharingVisible = true;
 
-                                }
-                                this.getListOfStockDetail();
-                                
-                                    
-                            } else {
-                                this.$notify({
-                                    title: 'Warning',
-                                    message: '网络异常',
-                                    type: 'warning'});
+                },
+                filter(){
+                    this.searchDate = this.searchDate.trim();
+                    let arr = this.tableData.filter(data =>{
+                        const pattern = new RegExp(this.searchDate.split(' ').join('.*'), 'i');
+                        return pattern.test(data.created_at);
+
+
+                    }).filter(data => !this.search ||  this.search == data.stock_type || ('3' == this.search &&  ('1' == data.stock_type || '2' == data.stock_type)));
+                    return arr;
+                },
+                tableRowClassName(row) {
+                    if(row.stock_price > 0){
+                        if (row.stock_price == row.lup && row.stock_price == row.highest) {
+                            if(!this.lups_str.in_array(row.stock_date_at)){
+                                this.lups_str.push(row.stock_date_at);
+                                this.lups.push(row);
+                                return 'warning-row';
+
                             }
-                            this.loading = false;
-                            
-                        });
-                    }).catch(() => {
-                        this.loading = false;
-                        // this.$message('已取消删除')  
-                    })
-                    
+                        } else if (row.stock_price == row.ldown && row.stock_price == row.lowest) {
+                            if(!this.ldowns_str.in_array(row.stock_date_at)){
+                                this.ldowns_str.push(row.stock_date_at);
+                                this.ldowns.push(row);
+                                return 'dangerous-row';
+                            }
+                        }
+
+                    }
+
+                    return '';
                 },
                 confirm(func){
                     this.$confirm('此操作将永久删除数据, 是否继续?', '提示', {
@@ -309,7 +431,9 @@
                 },
                 removeSelected(){
                     const ids = this.del_ids;
-                    this.confirm(()=> {
+
+                    if(ids.length > 0){
+                        this.confirm(()=> {
                             this.loading = true;
                         //do something
                             Api.stockDetail.delete(ids, D => {
@@ -332,6 +456,14 @@
                                 this.loading = false;
                             });
                         })
+
+                    } else {
+                        this.$notify({
+                            title: 'Warning',
+                            message: "请选择要删除的数据",
+                            type: 'warning'});
+                    }
+                    
                 },
                 remove(id){
 
@@ -365,16 +497,37 @@
                 formAddStockComponent(){
                     this.$refs.stockComponent.dialogVisible = true
                 },
+                showContent(title, contents){
+                    this.title = title;
+                    this.contents = contents
+                    this.$refs.contentComponent.dialogVisible = true
+                },
+                showDialogUpAndDown(){
+                    this.dialogUpAndDown = true
+                },
                 formAddStockDetailComponent(){
                     this.$refs.stockDetailComponent.dialogVisible = true
                 },
-                stockChartComponent(){
-                    this.$refs.stockChartComponent.dialogVisible = true
+                candlestick(){
+                    this.$refs.candlestickChartComponent.dialogVisible = true
+                },
+                line(){
+                    this.$refs.lineChartComponent.dialogVisible = true
                 },
                 getListOfStockDetail(){
                     this.loading = true;
-                    Api.stockDetail.index(this.stock_id, D => {
-                        this.tableData = D;
+                    const size = 0;
+                    const stock_id = this.stock_id;
+                    Api.stockDetail.index({stock_id, size}, D => {
+                        if(0 ==  D.status){
+                            this.tableData = D.data;
+                            this.tableData.forEach(item => {
+                                this.tableRowClassName(item);
+                            });
+                            
+                            
+                        }
+                        
                         this.loading =false;
 
                     });

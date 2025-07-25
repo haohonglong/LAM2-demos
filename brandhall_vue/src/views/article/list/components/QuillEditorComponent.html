@@ -1,8 +1,10 @@
 <#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
 
+
 <#import type="css" path="quill.core.css,quill.snow.css,quill.bubble.css" root="__NODE_MODULES__/quill/dist/" befor="1" />
 <#import path="quill.js" root="__NODE_MODULES__/quill/dist/" befor="1" write="1" />
 <#import path="vue-quill-editor.js" root="__NODE_MODULES__/vue-quill-editor/dist/" befor="1" write="1" />
+
 
 
 
@@ -10,6 +12,11 @@
 <div>
     
 	<quill-editor v-model="data.content"
+	
+<!--Del:begin-->
+	:options="editorOption"
+
+<!--Del:end-->
 		ref="myQuillEditor"
 		:options="editorOption"
 		@blur="onEditorBlur($event)"
@@ -38,7 +45,47 @@
             data(){
                 return {
 					editorOption: {
-					// some quill options
+						modules: {
+							toolbar: {
+								container: [
+								['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+								['blockquote', 'code-block'],
+					
+								[{ 'header': 1 }, { 'header': 2 }],               // custom button values
+								[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+								[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+								[{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+								[{ 'direction': 'rtl' }],                         // text direction
+					
+								[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+								[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+					
+								[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+								[{ 'font': [] }],
+								[{ 'align': [] }],
+					
+								['clean'],                                         // remove formatting button
+					
+								['link', 'image', 'video']                         // link and image, video
+								],
+								handlers: {
+									'custom-button': function (value) {
+										console.log('Clicked on custom-button with value:', value);
+										// 在这里添加按钮点击后的行为
+									},
+									// handlers object will be merged with default handlers object
+									link: function (value) {
+										if (value) {
+											const href = prompt('Enter the URL');
+											this.quill.format('link', href);
+										} else {
+											this.quill.format('link', false);
+										}
+									}
+								}
+							}
+						}
+
 					}
                     
                 };
@@ -50,6 +97,10 @@
 					console.log('editor blur!', quill)
 				},
 				onEditorFocus(quill) {
+					// quill.enable(false);
+					// quill.focus({ preventScroll: true });
+					
+
 					console.log('editor focus!', quill)
 				},
 				onEditorReady(quill) {
@@ -77,6 +128,10 @@
 </script>
 
 <style type="text/css">
+.ql-editor{
+	height: 500px;overflow: auto;
+}
+
 </style>
 
 

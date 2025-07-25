@@ -22,7 +22,9 @@
 <#include file="__VIEWS__/pictures/index.html" />
 <#include file="__VIEWS__/stock/index.html" />
 <#include file="__VIEWS__/stock/list/index.html" />
-<#include file="__VIEWS__/test/index.html" />
+<! #include file="__VIEWS__/stock/date/index.html" /-->
+<#include file="__VIEWS__/hotel/index.html" />
+<#include file="__VIEWS__/stave/index.html" />
 
 <script type="text/javascript">
 LAM.run(function(){
@@ -34,6 +36,8 @@ LAM.run(function(){
 		const routes = [
 			{ path: '/', component: INDEX }
 			,{ path: '/room/list', component: INDEX }
+			,{ path: '/stave/index', component: System.require('views.stave.index') }
+			,{ path: '/hotel/index', component: System.require('views.hotel.index') }
 			,{ path: '/video/index', component: System.require('views.video.index') }
 			,{ path: '/video/sex', component: System.require('views.video.sex') }
 			,{ path: '/sorts/index', component: System.require('views.sorts.index') }
@@ -53,9 +57,9 @@ LAM.run(function(){
 			,{ path: '/unit/index', component: System.require('views.unit.index') }
 			,{ path: '/pictures/index', component: System.require('views.pictures.index') }
 			,{ path: '/stock/index', component: System.require('views.stock.index') }
-			,{ path: '/stock/list/:stock_id/:stock_name', name: 'stockList', component: System.require('views.stock.list.index') }
+			,{ path: '/stock/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.list.index') }
+			// ,{ path: '/stockDate/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.date.index') }
 			,{ path: '/tesks/index', component: System.require('views.tesks.index') }
-			,{ path: '/test/index', component: System.require('views.test.index') }
 		]
 		const router = new VueRouter({ routes })
 

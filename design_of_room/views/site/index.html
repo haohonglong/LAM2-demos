@@ -1,3 +1,4 @@
+<#define __TITLE__="{{-title-}}" />
 <#define __CLASSPATH__="{{LAM.classPath}}" />
 <#define __COMPONENTS__="{{LAM.COMPONENTS}}" />
 <#define __CSS__="{{LAM.CSS}}" />
@@ -20,21 +21,26 @@ root="__JS__" write="1" befor="1" />
 <#import type="css" path="/base.css" root="__CSS__" befor="1" />
 
 
-<#include repeat="0" tp-data="" file="__COMPONENTS__/index.html" />
+
+
+<#include file="__COMPONENTS__/index.html" />
+
+
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta name="keywords" content="{{title}}" />
-    <meta name="description" content="{{title}}" />
+    <meta name="keywords" content="__TITLE__" />
+    <meta name="description" content="__TITLE__" />
     <!#HEAD/>
     <!#CSS/>
     <!#JS/>
-    <#beginBlock type="override" id="title" data="{'title':'{{title}}'}">
-    <title><%=title%></title>
-    <#endBlock>
+<#beginBlock type="override" id="title" data="{'title':'__TITLE__'}">
+<title><%=title%></title>
+<#endBlock>
+
     <#=block id="title" />
 
 </head>
@@ -69,4 +75,14 @@ root="__JS__" write="1" befor="1" />
     <!#=block id="loading" />
 
 </body>
+<script type="text/javascript">
+
+	LAMJS.run(function(){
+		'use strict';
+		var System=this;
+		var Drag = System.require("lam.base.Drag");
+        new Drag(document.getElementById('goods-sidebar'),{'noText':true});
+    });
+
+ </script>
 </html>

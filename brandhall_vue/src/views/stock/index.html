@@ -19,7 +19,6 @@
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
 
 
-
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
 <!--Del:begin-->
 <#extends title="_TITLE_" data="{'list':[
@@ -29,91 +28,212 @@
 ]}" />
 <!--Del:end-->
 
+
 <#Block:begin id="__ID__">
 
 <div v-loading="loading">
+    
     <el-row>
-        <el-col :span="24">
+        <el-col :span="12">
             <el-form :inline="true" class="demo-form-inline">
                 <el-form-item>
-                  <el-button type="primary" @click="formAddStockComponent">添加股票</el-button>
-                  <el-input
-                        v-model="search"
-                        size="mini"
-                        placeholder="请输入证劵名称"/>
-                </el-form-item>
-                <el-button type="primary" :loading="feachAllLoading" @click="feachAll">抓取所有数据</el-button></el-button>
-                <el-select v-model="way" placeholder="please select a way to aroute">
-                    <el-option
-                      label="线路1"
-                      value="1">
-                    </el-option>
-                    <el-option
-                      label="线路2"
-                      value="2">
-                    </el-option>
-                    <el-option
-                      label="线路3"
-                      value="3">
-                    </el-option>
-                  </el-select>
+                    <el-button type="primary" @click="formAddStockComponent">添加股票</el-button>
+                    <el-input
+                          v-model="search"
+                          size="mini"
+                          placeholder="请输入证劵名称"/>
+                          <i @click="search=''" class="el-icon-circle-close"></i>
+                  </el-form-item>
+                  <div>
+                    <el-button type="primary" :loading="feachAllLoading" @click="feachAll">抓取所有数据</el-button></el-button>
+                    <el-select style="width:100px;" v-model="way" placeholder="please select a way to aroute">
+                        <el-option
+                          label="线路1"
+                          value="1">
+                        </el-option>
+                        <el-option
+                          label="线路2"
+                          value="2">
+                        </el-option>
+                        <el-option
+                          label="线路3"
+                          value="3">
+                        </el-option>
+                    </el-select>
+
+                    <el-button type="primary" @click="autoFeachAll">{{ feach_auto_text }}</el-button>
+                    间隔时间(ms)：
+                    <el-input style="width:120px;" v-model="feach_auto_times"></el-input>
+                    <el-select v-model="the_time_of_the_delay" @change="setTime" style="width:100px;" placeholder="">
+                        <el-option
+                          label="1分钟"
+                          value="1">
+                        </el-option>
+                        <el-option
+                          label="2分钟"
+                          value="2">
+                        </el-option>
+                        <el-option
+                          label="3分钟"
+                          value="3">
+                        </el-option>
+                        <el-option
+                          label="5分钟"
+                          value="5">
+                        </el-option>
+                    </el-select>
+                </div>
             </el-form>
+            
+            <div style="height: 120px;margin-top: 10px;font-size: 18px;" v-if="stock_code != ''">
+                <span style="color: #6d1667;font-size: 24px;">{{ stock_code }} {{ stock_name }}</span>
+                <a target="_blank" :href="'https://stockpage.10jqka.com.cn/'+stock_code">同花顺</a>
+                <a :href="'https://gushitong.baidu.com/stock/ab-' + stock_code" target="_blank">百度股市通</a>
+                <div style="margin-left: -20px;" v-html="ifram"></div>
+            </div>
+
         </el-col>
+        <el-col :span="12">
+            <el-row>
+                <el-col :span="12">
+                    <el-tag effect="dark" type="danger">涨停：</el-tag>
+                    <el-tag
+                        v-for="item in lups"
+                        :key="item"
+                        @click="setSearch(item)"
+                        type="danger">
+                        {{ item }}
+                    </el-tag>
+                </el-col>
+                <el-col :span="12">
+                    <el-tag effect="dark" type="success">跌停：</el-tag>
+                    <el-tag
+                        v-for="item in ldowns"
+                        :key="item"
+                        @click="setSearch(item)"
+                        type="success">
+                        {{ item }}
+                    </el-tag>
+                </el-col>
+            </el-row>
+            
+            <div v-if="stock_code != ''" style="height:260px;" v-html="timeSharing"></div>
+        </el-col>
+        
     </el-row>
     <el-row>
         <el-progress :percentage="percentage"></el-progress>
     </el-row>
     <el-row>
-        <el-col :span="24">
+        <el-col :span="24" class="plTableBox">
             <el-table
-                
+                class="table"
                 :data="tableData.filter(data => !search ||
                  data.stock_id.toLowerCase().includes(search.toLowerCase()) ||
                  data.stock_name.toLowerCase().includes(search.toLowerCase()) 
                  )"
+                 :row-class-name="tableRowClassName"
                 style="width: 100%"
                 height="500"
+                use-virtual
+                :row-height="55"
                 border
-                stripe
+                
                 >
                 <el-table-column
                     fixed
+                    prop="level"
+                    label="五星推荐"
+                    sortable
+                    width="145px">
+                    <template slot-scope="scope">
+                        <div style="cursor: pointer;margin-bottom: 10px;" @click="setLevel(scope.row.stock_id, 0)">NONE</div>
+                        <el-rate @change="setLevel(scope.row.stock_id, scope.row.level)" v-model="scope.row.level"></el-rate>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    sortable
+                    prop="created_at"
+                    label="创建日期"
+                    align="center"
+                    width="95px">
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    sortable
+                    prop="updated_at"
+                    label="最新日期"
+                    align="center"
+                    width="95px">
+                </el-table-column>
+                <el-table-column
+                    fixed
                     prop="stock_id"
+                    label="ID"
+                    width="80">
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    prop="stock_code"
                     label="证劵代码"
                     width="80">
+                    <template slot-scope="scope">
+                        <span style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     fixed
                     prop="stock_name"
                     label="证劵名称"
-                    width="100">
+                    width="150">
                     <template slot-scope="scope">
-                        <a :href="'__URL__/stock/list/' + scope.row.stock_id + '/' + scope.row.stock_name" target="_blank">{{ scope.row.stock_name }}</a>
+                        <a :href="'__URL__/stock/list/' + scope.row.stock_id + '/' + scope.row.stock_code + '/' + scope.row.stock_name" target="_blank">{{ scope.row.stock_name }}</a>
+                        <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
+                        
                     </template>
                 </el-table-column>
                 <el-table-column
                     fixed
                     prop="bought"
-                    label="成本价"
-                    width="80">
+                    label="成交价"
+                    width="65">
                 </el-table-column>
                 <el-table-column
                     fixed
-                    prop="updated_at"
-                    label="最新日期"
-                    align="center"
+                    prop="cost"
+                    label="成本价"
                     width="95">
                 </el-table-column>
                 <el-table-column
                     fixed   
                     prop="stock_price"
-                    label="最新"
+                    label="市值"
+                    sortable
                     width="80">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.stock_price > scope.row.close" class="">{{ scope.row.stock_price }}</span>
+                        <span v-else-if="scope.row.stock_price < scope.row.close" style="color: green;">{{ scope.row.stock_price }}</span>
+                        <span v-else>{{ scope.row.stock_price }}</span>
+                        
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    prop="stock_number"
+                    label="持股数"
+                    width="65">
                 </el-table-column>
                 <el-table-column
                     prop="open"
                     label="开盘价"
                     width="80">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.open > scope.row.close" class="warning">{{ scope.row.open }}</span>
+                        <span v-else-if="scope.row.open < scope.row.close" style="color: green;">{{ scope.row.open }}</span>
+                        <span v-else>{{ scope.row.open }}</span>
+                        
+                    </template>
                 </el-table-column>
                 <el-table-column
                     prop="close"
@@ -121,12 +241,12 @@
                     width="80">
                 </el-table-column>
                 <el-table-column
-                    prop="hight"
+                    prop="highest"
                     label="最高"
                     width="80">
                 </el-table-column>
                 <el-table-column
-                    prop="low"
+                    prop="lowest"
                     label="最低"
                     width="80">
                 </el-table-column>
@@ -147,24 +267,29 @@
                 </el-table-column>
                 <el-table-column
                     prop="change"
-                    label="换手率"
+                    label="换手率(%)"
                     width="80">
                     <template slot-scope="scope">
-                        {{ scope.row.change }}%
+                        {{ scope.row.change }}
                     </template>
                 </el-table-column>
                 <el-table-column
                     prop="amplitude"
-                    label="振幅率"
+                    label="振幅率(%)"
                     width="80">
                     <template slot-scope="scope">
-                        {{ scope.row.amplitude }}%
+                        {{ scope.row.amplitude }}
                     </template>
                 </el-table-column>
                 <el-table-column
-                    prop="stock_number"
-                    label="持股数量"
-                    width="80">
+                    prop="volume"
+                    label="成交量"
+                    width="120">
+                </el-table-column>
+                <el-table-column
+                    prop="amount"
+                    label="成交额"
+                    width="120">
                 </el-table-column>
                 <el-table-column 
                     label="持有估值(手续费之前)"
@@ -177,19 +302,22 @@
                     label="盈亏"
                     width="180">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.bought > 1">({{ scope.row.stock_price }} - {{ scope.row.bought }}) * {{ scope.row.stock_number }} = {{ ((scope.row.stock_price - scope.row.bought) * scope.row.stock_number) .toFixed(2) }}</span>
+                      <span v-if="scope.row.bought > 1">({{ scope.row.stock_price }} - {{ scope.row.cost }}) * {{ scope.row.stock_number }} = {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_number) .toFixed(2) }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column 
-                    label="盈亏率"
+                    label="盈亏率(%)"
                     width="180">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.bought > 1">(({{ scope.row.stock_price }} - {{ scope.row.bought }}) / {{ scope.row.bought }}) * 100 = {{ (((scope.row.stock_price - scope.row.bought) / scope.row.bought) * 100) .toFixed(2) }}%</span>
+                      <span v-if="scope.row.bought > 1">(({{ scope.row.stock_price }} - {{ scope.row.cost }}) / {{ scope.row.cost }}) * 100 = {{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100) .toFixed(2) }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" width="100">
+                <el-table-column label="操作" width="250px">
                     <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="openAddTransactionDialog(scope.row)" class="!rounded-button flex items-center">交易</el-button>
                         <el-button type="primary" @click="feachByStockid(scope.row.stock_id)" size="mini">feach</el-button></el-button>
+                        <el-button type="primary" @click="formEditStockComponent(scope.row)" icon="el-icon-edit" circle size="mini"></el-button>
+                        <el-button type="danger" icon="el-icon-delete" circle @click="remove(scope.row.stock_id)" size="mini"></el-button></el-button>
                     </template>
                 </el-table-column>
                 
@@ -199,7 +327,22 @@
         </el-col>
     </el-row>
 
-    <form-add-stock-component @get-list-stock="getTheListOfStock" ref="stockComponent" />
+    <form-stock-component title="添加" @get-list-stock="getTheListOfStock" ref="stockComponent" />
+    <form-stock-component title="修改" :stock_id="stock_id" @get-list-stock="getTheListOfStock" ref="stockEditComponent" />
+    <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getTheListOfStock" ref="stockDetailComponent" />
+    <stock-date-list-component ref="stockDeteComponent" />
+
+<!--Del:begin-->
+    <el-dialog :modal="false" top="0" custom-class="dialogInfo" :title="stock_code +' : '+ stock_name" :visible.sync="dialogInfoVisible">
+        <div v-html="ifram"></div>
+    </el-dialog>
+    <el-dialog  :modal="false" top="0"  width="50%" custom-class="dialogInfo" :title="stock_code +' : '+ stock_name" :visible.sync="dialogTimeSharingVisible">
+        <div style="height:400px;" v-html="timeSharing"></div>
+    </el-dialog>
+
+<!--Del:end-->
+
+
 
 
 </div>
@@ -207,8 +350,15 @@
 
 <#Block:end>
 
-<#include file="~/components/FormAddStockComponent.html" />
+<#Block:begin id="__ID__.ifram" data="{'src': ''}">
+<iframe src="http://stockpage.10jqka.com.cn/<%=src%>" width="100%" height="100%" frameborder="0"></iframe>
+<#Block:end>
 
+
+
+<#include file="~/components/FormStockComponent.html" />
+<#include file="~/components/FormAddStockDetailComponent.html" />
+<#include file="~/components/StockDateListComponent.html" />
 
 <script type="text/javascript">
 
@@ -216,25 +366,45 @@
         'use strict';
         var System = this;
 
+        function getIframe(src){
+            return `<iframe src="http://stockpage.10jqka.com.cn/${src}" width="100%" height="100%" frameborder="0"></iframe>`;
+        }
+
         const Api = System.require("Api");
+        var feach_auto_timer = 0;
 
 
         var ContentComponent = {
             'name': "stockIndex",
             data(){
                 return {
+                    'lups':[],
+                    'ldowns':[],
+                    'timeSharing': '',
+                    'ifram': '',
+                    'dialogTimeSharingVisible': false,
+                    'dialogInfoVisible': false,
                     'loading': false,
                     'feachAllLoading': false,
                     'way': '1',
                     'search': '',
-                    tableData: [],
-                    stockids: [],
-                    percentage: 0
+                    'the_time_of_the_delay': '5',
+                    'feach_auto_times': 60000,
+                    'feach_auto': false,
+                    'feach_auto_text': '自动获取',
+                    'tableData': [],
+                    'stockids': [],
+                    'percentage': 0,
+                    'stock_id': '',
+                    'stock_code': '',
+                    'stock_name':''
 
                 };
             },
             'components': {
-                'form-add-stock-component': System.require('stock.components.FormAddStockComponent')
+                'form-stock-component': System.require('stock.components.FormStockComponent')
+                ,'form-add-stock-detail-component': System.require('stock.components.FormAddStockDetailComponent')
+                ,'stock-date-list-component': System.require('stock.components.StockDateListComponent')
             },
             beforeCreate() { },
             created() {
@@ -242,18 +412,107 @@
                     { 'name': '首页' },
                     { 'name': '_TITLE_' }
                 ]);
-
-
-
+                this.setTime(5);
                 this.getTheListOfStock();
                 
             },
             'methods': {
+                setSearch(stock_id){
+                    this.search = stock_id;
+                },
+                showDateList(row){
+                    // this.loading = true;
+                    const stock_id = row.stock_id;
+                    const stock_code = row.stock_code;
+                    const stock_name = row.stock_name;
+                    this.$refs.stockDeteComponent.show(stock_id, stock_code, stock_name, ()=>{
+                        this.loading = false;
+                    });
+
+                },
+                handleDialogShow(row) {
+                    // const ifram = `<iframe src="http://stockpage.10jqka.com.cn/realHead_v2.html#hs_${row.stock_code}" width="100%" frameborder="0"></iframe>`;
+                    // const ifram = getIframe('realHead_v2.html#hs_'+ row.stock_code);
+                    // const timeSharing = getIframe('HQ_v4.html#hs_'+ row.stock_code);
+                    const ifram = System.Template.getBlock('__ID__.ifram', {'src': 'realHead_v2.html#hs_'+ row.stock_code});
+                    const timeSharing = System.Template.getBlock('__ID__.ifram', {'src': 'HQ_v4.html#hs_'+ row.stock_code});
+                    this.ifram = ifram;
+                    this.timeSharing = timeSharing;
+                    this.stock_code = row.stock_code;
+                    this.stock_name = row.stock_name;
+
+                },
+                setTime(n){
+                    this.feach_auto_times = n * 60000;
+                },
+                openAddTransactionDialog(row){
+                    this.stock_id = row.stock_id;
+                    this.stock_name = row.stock_name;
+                    this.$refs.stockDetailComponent.dialogVisible = true
+                },
+                setLevel(stock_id, level){
+                    Api.stock.setLevel({stock_id, level}, D => {
+                        if(0 == D.status){
+                            this.getTheListOfStock();
+                            this.$notify({
+                                title: 'Success',
+                                message: D.message,
+                                type: 'success'
+                            });
+                            
+                                
+                        } else {
+                            this.$notify({
+                                title: 'Warning',
+                                message: D.message,
+                                type: 'warning'});
+                        }
+                    });
+
+                },
+                tableRowClassName({row, rowIndex}) {
+
+                    if(row.stock_price > 0){
+                        if (row.stock_price === row.lup && row.stock_price === row.highest) {
+                            if(!this.lups.in_array(row.stock_code)){
+                                this.lups.push(row.stock_code);
+
+                            }
+                            return 'warning-row';
+                        } else if (row.stock_price === row.ldown && row.stock_price === row.lowest) {
+                            if(!this.ldowns.in_array(row.stock_code)){
+                                this.ldowns.push(row.stock_code);
+
+                            }
+                            console.log(row.stock_code)
+                            return 'dangerous-row';
+                        }
+
+                    }
+                    
+                    return '';
+                },
                 formAddStockComponent(){
                     this.$refs.stockComponent.dialogVisible = true
-                    this.getTheListOfStock();
+                    
+                },
+                formEditStockComponent(row){
+                    this.stock_id = row.stock_id
+
+                    this.$refs.stockEditComponent.form.stock_code = row.stock_code
+                    this.$refs.stockEditComponent.form.stock_name = row.stock_name
+                    this.$refs.stockEditComponent.form.stock_cost = row.cost
+                    this.$refs.stockEditComponent.form.stock_remark = row.stock_remark
+
+                    this.$refs.stockEditComponent.dialogVisible = true
+
+                    
                 },
                 getTheListOfStock(){
+                    console.log('getTheListOfStock')
+                    this.lups =  [];
+                    this.ldowns = [];
+
                     this.loading = true;
                     Api.stock.index(D => {
                         this.tableData  = D;
@@ -265,147 +524,177 @@
                     const way = this.way;
                     const data = {stock_id, way};
                     
-                    this.$confirm('此操作将自动获取股票数据, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        Api.stock.feach(data, D => {
-                            if(0 == D.status){
-                                const element = D.datas[0];
-                                if(0  == element.status){
-                                    this.$notify({
-                                        title: 'Success',
-                                        message: element.message,
-                                        type: 'success'
-                                    });
-                                }else {
-                                    this.$notify({
-                                    title: 'Warning',
+                    Api.stock.feach(data, D => {
+                        if(0 == D.status){
+                            const element = D.datas[0];
+                            if(0  == element.status){
+                                this.$notify({
+                                    title: 'Success',
                                     message: element.message,
-                                    type: 'warning'});
+                                    type: 'success'
+                                });
+                            }else {
+                                this.$notify({
+                                title: 'Warning',
+                                message: element.message,
+                                type: 'warning'});
 
-                                }
-                                this.getTheListOfStock();
+                            }
+                            this.getTheListOfStock();
+                            
                                 
+                        } else {
+                            this.$notify({
+                                title: 'Warning',
+                                message: '网络异常',
+                                type: 'warning'});
+                        }
+                        this.loading = false;
+                        
+                    });
+                    
+                },
+                autoFeachAll(){
+                    if(this.feach_auto){
+                        System.stop(feach_auto_timer);
+                        this.feach_auto = false;
+                        this.feach_auto_text ="自动获取";
+
+                    } else {
+                        this.feach_auto = true;
+                        this.feach_auto_text ="停止";
+                        System.listen((timer)=>{
+                            feach_auto_timer = timer;
+                            if(!this.feachAllLoading){
+                                this.feachAll();
+                            }
+
+                        }, this.feach_auto_times);
+                    }
+                    
+                },
+                remove(stock_id){
+                    this.$prompt('Please input your password', 'Tip', {
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Cancel',
+                        inputValidator: (value)=>{return 'kill' == value},
+                        inputErrorMessage: 'Invalid password'
+                    }).then(() => {
+                        Api.stock.delete(stock_id, D => {
+                            if(0 == D.status){
+                                this.getTheListOfStock();
+                                this.$notify({
+                                    title: 'Success',
+                                    message: D.message,
+                                    type: 'success'
+                                });
                                     
                             } else {
                                 this.$notify({
                                     title: 'Warning',
-                                    message: '网络异常',
+                                    message: D.message,
                                     type: 'warning'});
                             }
-                            this.loading = false;
-                            
                         });
                     }).catch(() => {
                         this.loading = false;
                         // this.$message('已取消删除')  
                     })
-                    
+
                 },
                 feachAll(){
-
-                    
                     let evtSource;
                     const stock_id = null;
                     const way = this.way;
                     const data = {stock_id, way};
-                    this.$confirm('此操作将自动获取股票数据, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.percentage = 0;
-                        this.feachAllLoading = true;
-                        this.loading = false;
+                    
 
-                        if(typeof(EventSource) !== "undefined") {
-                            let this_ = this;
-                            evtSource = new EventSource("__SERVER__/stock/getProgress");
-                            //监听事件
-                            evtSource.addEventListener('message', function (event) {
-                                this_.percentage = parseInt(event.data);
+                    this.percentage = 0;
+                    this.feachAllLoading = true;
+                    this.loading = false;
 
+                    Api.stock.feach(data, D => {
+                        evtSource.close();
+                        this.feachAllLoading = false;
+
+                        if(0 == D.status){
+                            D.datas.forEach((element, i) => {
+                                System.wait(()=>{
+                                    if(0  == element.status){
+                                        this.$notify({
+                                            title: 'Success',
+                                            message: element.message,
+                                            type: 'success'
+                                        });
+                                    }else {
+                                        this.$notify({
+                                        title: 'Warning',
+                                        message: element.message,
+                                        type: 'warning'});
+
+                                    }
+                                },i * 1500 + 1000);
+                                
+                                
+                                
                             });
+
+                            this.$notify({
+                                    title: `${D.total}条数据更新完成`,
+                                    duration: 100000
+                                });
+
+                            this.getTheListOfStock();
+                            
+                                
+                        } else if(6 == D.status){ 
+                            // this.percentage =  D.progress;
 
                         } else {
                             this.$notify({
-                                title: 'Error',
-                                message: '您的浏览器不支持SSE',
-                                type: 'error',
-                                duration: 0});
-
+                                title: 'Warning',
+                                message: '网络异常',
+                                type: 'warning'});
                         }
+                        
+                        
+                        
+                    }, ()=>{
+                        evtSource.close();
+                        this.feachAllLoading = false;
+                        this.percentage = 0;
 
-                        Api.stock.feach(data, D => {
-                            evtSource.close();
-                            this.feachAllLoading = false;
+                        this.$notify({
+                            title: 'Error',
+                            message: 'Ajax-网络异常',
+                            type: 'error'});
 
-                            if(0 == D.status){
-                                D.datas.forEach((element, i) => {
-                                    System.wait(()=>{
-                                        if(0  == element.status){
-                                            this.$notify({
-                                                title: 'Success',
-                                                message: element.message,
-                                                type: 'success'
-                                            });
-                                        }else {
-                                            this.$notify({
-                                            title: 'Warning',
-                                            message: element.message,
-                                            type: 'warning'});
+                        this.loading = false;
+                        
 
-                                        }
-                                    },i * 1500 + 1000);
-                                    
-                                    
-                                    
-                                });
+                        this.getTheListOfStock();
+                        
+                    });
 
-                                this.$notify({
-                                        title: `${D.total}条数据更新完成`,
-                                        duration: 0
-                                    });
+                    if(typeof(EventSource) !== "undefined") {
+                        let this_ = this;
+                        evtSource = new EventSource("__SERVER__/stock/getProgress");
+                        //监听事件
+                        evtSource.addEventListener('message', function (event) {
+                            this_.percentage = parseInt(event.data);
 
-                                this.getTheListOfStock();
-                                
-                                    
-                            } else if(6 == D.status){ 
-                                // this.percentage =  D.progress;
-
-                            } else {
-                                this.$notify({
-                                    title: 'Warning',
-                                    message: '网络异常',
-                                    type: 'warning'});
-                            }
-                            
-                            
-                            
-                        }, ()=>{
-                            evtSource.close();
-                            this.feachAllLoading = false;
-                            this.percentage = 0;
-
-                            this.$notify({
-                                title: 'Error',
-                                message: 'Ajax-网络异常',
-                                type: 'error',
-                                duration: 0});
-
-                            this.loading = false;
-                            
                         });
 
-                        
-                        
+                    } else {
+                        this.$notify({
+                            title: 'Error',
+                            message: '您的浏览器不支持SSE',
+                            type: 'error',
+                            duration: 0});
 
-                    }).catch(() => {
-                        this.loading = false;
-                        // this.$message('已取消删除')  
-                    })
+                    }
+
+                    
                     
                 },
                 feachStockids(){
@@ -461,6 +750,47 @@
 </script>
 
 <style type="text/css">
+
+.plTableBox .table tr.warning-row>td{
+    background: rgb(201 100 220)!important;
+    color: #fff;
+  }
+  .plTableBox .table tr.warning-row>td a{
+    color: #fff;
+  }
+
+.plTableBox .table tr.maybe-row>td{
+    background: #E6A23C!important;
+    color: #fff;
+  }
+  .plTableBox .table tr.maybe-row>td a{
+    color: #fff;
+  }
+
+
+  .plTableBox .table tr.dangerous-row>td{
+    background: rgb(88 202 43)!important;
+    color: #911b9b;
+  }
+  
+  .plTableBox .table tr>td .warning{
+    color: #de524c;
+  }
+
+
+  .plTableBox .table tr.warning-row>td .warning{
+    color: #efbb4c;
+  }
+
+  .plTableBox .table tr.dangerous-row>td a{
+    color: #911b9b;
+  }
+
+  .dialogInfo{
+    margin-left: auto;
+    margin-right: 0;
+  }
+
 
 </style>
 
