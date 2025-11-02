@@ -17,10 +17,11 @@ LAM.run([LAM], function(LAM){
 
         },
         '_className':'TestController',
-        'indexAction':function(){
-            this.title = "index";
+        
+        'staveAction':function(){
+            this.title = "stave";
             
-            return this.renderPartial('index');
+            return this.renderPartial('stave');
 
 
         },

@@ -1,0 +1,243 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.StockDateListComponent" />
+<#define __LAMPATH__="{#LAM.classPath#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
+<#define __URL__="{#LAM.URL#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+<#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
+<#import type="css" path="/tree" root="__CSS__" befor="1" />
+
+
+
+<#Block:begin id="__ID__">
+
+<div v-loading="loading">
+    <el-dialog width="100%" title="" :visible.sync="dialogTableVisible">
+        <template slot="title">
+            <a style="font-size: 16px;font-weight: bold;" :href="'__URL__/stock/list/' + stock_id + '/' + stock_code + '/' + stock_name" target="_blank">{{stock_code}}  : {{stock_name}}</a>
+
+
+
+        </template>
+
+        <el-row>
+            
+            <el-col :span="24" class="plTableBox">
+                <u-table
+                    class="table"
+                    :data="tableData"
+                    :row-class-name="tableRowClassName"
+                    style="width: 100%"
+                    :height="500"
+                    use-virtual
+                    :row-height="55"
+                    border
+                    stripe>
+                    <el-table-column
+                        fixed
+                        sortable
+                        prop="id"
+                        label="ID"
+                        width="100%">
+                    </el-table-column>
+                    <el-table-column
+                        fixed
+                        prop="stock_date_at"
+                        label="日期"
+                        align="center"
+                        width="155px"
+                        sortable>
+                    </el-table-column>
+                    <el-table-column
+                        fixed
+                        label="星期"
+                        align="center"
+                        width="155px">
+                        <template slot-scope="scope">
+                            <span>
+                                {{ getWeekdayByDate(scope.row.stock_date_at) }}
+                            </span>
+                            
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                    fixed
+                    prop="stock_price"
+                    label="价格"
+                    sortable
+                    width="80">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.stock_price > scope.row.close">{{ scope.row.stock_price }}</span>
+                        <span v-else-if="scope.row.stock_price < scope.row.close" style="color: green;">{{ scope.row.stock_price }}</span>
+                        <span v-else>{{ scope.row.stock_price }}</span>
+                        
+                    </template>
+                </el-table-column>
+                    <el-table-column
+                        fixed
+                        prop="volume"
+                        label="成交量(股)"
+                        width="180">
+                    </el-table-column>
+                    <el-table-column
+                        prop="amount"
+                        label="成交额"
+                        width="180">
+                    </el-table-column>
+                    <el-table-column
+                        prop="open"
+                        label="今开"
+                        width="80">
+                    </el-table-column>
+                    <el-table-column
+                        prop="close"
+                        label="昨收"
+                        width="80">
+                    </el-table-column>
+                    <el-table-column
+                        prop="highest"
+                        label="最高"
+                        width="80">
+                    </el-table-column>
+                    <el-table-column
+                        prop="lowest"
+                        label="最低"
+                        width="80">
+                    </el-table-column>
+                    <el-table-column
+                        prop="average"
+                        label="均价"
+                        width="80">
+                    </el-table-column>
+                    <el-table-column
+                        prop="lup"
+                        label="涨停"
+                        width="80">
+                    </el-table-column>
+                    <el-table-column
+                        prop="ldown"
+                        label="跌停"
+                        width="80">
+                    </el-table-column>
+                    <el-table-column
+                        prop="change"
+                        label="换手率(%)"
+                        width="80">
+                    </el-table-column>
+                    <el-table-column
+                        prop="amplitude"
+                        label="振幅率(%)"
+                        width="80">
+                    </el-table-column>
+                </u-table>
+            </el-col>
+        </el-row>
+    </el-dialog>
+
+    
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+
+        var ContentComponent = {
+            'name': "StockDateListComponent",
+            data(){
+                return {
+                    'dialogTableVisible': false,
+                    'title':'',
+                    'contents': [],
+                    'stock_id': "",
+                    'stock_code': "",
+                    'stock_name': "",
+                    'loading': false,
+                    'tableData': [],
+                    'lups':[],
+                    'lups_str':[],
+                    'ldowns':[],
+                    'ldowns_str':[]
+                };
+            },
+            'components': {
+            },
+            created() { },
+            'methods': {
+                getWeekdayByDate: System.require('getWeekdayByDate'),
+                show(stock_id, stock_code, stock_name, fn){
+                    this.loading = true;
+                    this.title = "";
+                    this.contents = [];
+                    this.lups_str = [];
+                    this.lups = [];
+                    this.ldowns_str = [];
+                    this.ldowns = [];
+
+                    this.stock_id = stock_id;
+                    this.stock_code = stock_code;
+                    this.stock_name = stock_name;
+
+                    Api.StockDate.index(stock_id, D => {
+                        this.loading = false;
+                        // fn();
+                        this.dialogTableVisible = true;
+                        if(0 == D.status){
+                            this.tableData = D.data;
+                            
+                        }
+                    });
+
+                },
+                tableRowClassName({row, rowIndex}) {
+
+                    if (row.highest == row.lup) {
+                        if(!this.lups_str.in_array(row.stock_date_at)){
+                            this.lups_str.push(row.stock_date_at);
+                            this.lups.push(row);
+                            
+                        }
+                        return 'warning-row';
+                    } else if (row.lowest == row.ldown) {
+                        if(!this.ldowns_str.in_array(row.stock_date_at)){
+                            this.ldowns_str.push(row.stock_date_at);
+                            this.ldowns.push(row);
+                        }
+                        return 'dangerous-row';
+                    }
+                    
+                    return '';
+                }
+                
+            },
+            template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', ContentComponent);
+    });
+</script>
+
+<style type="text/css">
+
+</style>
+
+
+
+

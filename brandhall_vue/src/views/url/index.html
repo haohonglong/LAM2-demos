@@ -387,7 +387,6 @@
                         this.loading = true;
                       //do something
                         Api.url.delete(id, data => {
-                            alert(data.message);
                             if(!data.status){
                                 System.each(data.errors,function (key,value) {
                                     alert(value)

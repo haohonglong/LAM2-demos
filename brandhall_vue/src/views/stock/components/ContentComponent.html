@@ -1,0 +1,56 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.ContentComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+
+<#Block:begin id="__ID__">
+<div>
+    <el-dialog
+    :title="'up' == title ? '涨停' : '跌停'"
+    :visible.sync="dialogVisible"
+    :close-on-click-modal="true"
+    width="25%">
+        <div v-if="data.length > 0">
+            <div class="mt10" v-for="item in data">
+              {{ item.created_at }} | 
+              <span v-if="'up' == title">{{ item.lup }}</span>
+              <span v-else>{{ item.ldown }}</span>
+            </div>
+        </div>
+        <div v-else>nothing</div>
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        var FormComponent = {
+          name: "ContentComponent",
+          props: {
+            'title': String,
+            'data': Array
+          },
+          components: { },
+          data() {
+            return {
+                'dialogVisible': false
+            }
+          },
+          methods: {
+            ok() {
+                this.dialogVisible = false;
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>

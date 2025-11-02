@@ -177,7 +177,19 @@
 <script type="text/javascript">
 	var vm = LAM.run(function(){
 		'use strict';
+		
 		var System = this;
+
+		Vue.directive('loadmore', {
+			bind(el, binding) {
+				const bodyWrapper = el.querySelector('.el-table__body-wrapper');
+				bodyWrapper.addEventListener('scroll', function() {
+				if(this.scrollHeight - this.scrollTop <= this.clientHeight) {
+					binding.value();
+				}
+				})
+			}
+		});
 
 		// var D = System.require("this").content;
 
@@ -185,6 +197,8 @@
 		
 
 		const router = System.require('VueRouter');
+
+		
 
 		var vm = new Vue({
 				router,
@@ -219,6 +233,7 @@
 				watch: {
 				}
 			}).$mount("#app");
+
 
 			return vm;
 

@@ -108,37 +108,37 @@
                     this.error_msg = "";
                     const username = this.username;
                     const password = this.password;
-                    
-                    System.COOKIE_GUEST.find('auth_key', System.token, function (index,id) {
-                        if(-1 === index){
-                            API.site.login({ username, password } ,res => {
-                                
-                                if(0 === res.status) {
+                    API.site.login({ username, password } ,res => {
+                        if(0 === res.status) {
+                            localStorage.setItem('access_token', res.data.auth_key)
+                            
+                            System.COOKIE_GUEST.find('auth_key', res.data.auth_key, function (index,id) {
+                                if(-1 === index){
                                     this.add(res.data);
+
+                                }else {
                                     System.redirect(System.INDEX+System.routeRules.index);
-                                } else {
-                                    if(System.isString(res.error)){
-                                        vm.error_msg = res.error;
-                                    } else {
-                                        const n = System.length(res.error);
-                                        let i = 0;
-                                        System.each(res.error, (k, item) => {
-                                            if(i < n-1) 
-                                                item = item +", "
-                                            vm.error_msg += item;
-                                            i++;
-                                        });
-                                    }
+                                    
                                 }
                             });
-
-                        }else {
-                            let data = this.get(index);
-                            if(System.token === data.auth_key){
-                                System.redirect(System.INDEX+System.routeRules.index);
+                            System.redirect(System.INDEX+System.routeRules.index);
+                        } else {
+                            if(System.isString(res.error)){
+                                vm.error_msg = res.error;
+                            } else {
+                                const n = System.length(res.error);
+                                let i = 0;
+                                System.each(res.error, (k, item) => {
+                                    if(i < n-1) 
+                                        item = item +", "
+                                    vm.error_msg += item;
+                                    i++;
+                                });
                             }
                         }
                     });
+                    
+                    
                     
                     
                 }

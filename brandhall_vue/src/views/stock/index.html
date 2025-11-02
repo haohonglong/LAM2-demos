@@ -20,21 +20,14 @@
 
 
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
-<!--Del:begin-->
-<#extends title="_TITLE_" data="{'list':[
-{'name':'首页','href':'__HOME__','title':'首页'},
-{'name':'网页地址','href':'__INDEX__url/index','title':''},
-{'name':'_TITLE_'}
-]}" />
-<!--Del:end-->
 
 
 <#Block:begin id="__ID__">
 
-<div v-loading="loading">
+<div v-loading="loading" class="mobile-stock-container">
     
-    <el-row>
-        <el-col :span="12">
+    <el-row class="mobile-stock-header">
+        <el-col :span="5">
             <el-form :inline="true" class="demo-form-inline">
                 <el-form-item>
                     <el-button type="primary" @click="formAddStockComponent">添加股票</el-button>
@@ -44,82 +37,80 @@
                           placeholder="请输入证劵名称"/>
                           <i @click="search=''" class="el-icon-circle-close"></i>
                   </el-form-item>
-                  <div>
-                    <el-button type="primary" :loading="feachAllLoading" @click="feachAll">抓取所有数据</el-button></el-button>
-                    <el-select style="width:100px;" v-model="way" placeholder="please select a way to aroute">
-                        <el-option
-                          label="线路1"
-                          value="1">
-                        </el-option>
-                        <el-option
-                          label="线路2"
-                          value="2">
-                        </el-option>
-                        <el-option
-                          label="线路3"
-                          value="3">
-                        </el-option>
-                    </el-select>
-
-                    <el-button type="primary" @click="autoFeachAll">{{ feach_auto_text }}</el-button>
-                    间隔时间(ms)：
-                    <el-input style="width:120px;" v-model="feach_auto_times"></el-input>
-                    <el-select v-model="the_time_of_the_delay" @change="setTime" style="width:100px;" placeholder="">
-                        <el-option
-                          label="1分钟"
-                          value="1">
-                        </el-option>
-                        <el-option
-                          label="2分钟"
-                          value="2">
-                        </el-option>
-                        <el-option
-                          label="3分钟"
-                          value="3">
-                        </el-option>
-                        <el-option
-                          label="5分钟"
-                          value="5">
-                        </el-option>
-                    </el-select>
-                </div>
+                  
             </el-form>
             
-            <div style="height: 120px;margin-top: 10px;font-size: 18px;" v-if="stock_code != ''">
-                <span style="color: #6d1667;font-size: 24px;">{{ stock_code }} {{ stock_name }}</span>
-                <a target="_blank" :href="'https://stockpage.10jqka.com.cn/'+stock_code">同花顺</a>
-                <a :href="'https://gushitong.baidu.com/stock/ab-' + stock_code" target="_blank">百度股市通</a>
-                <div style="margin-left: -20px;" v-html="ifram"></div>
-            </div>
+            
 
         </el-col>
-        <el-col :span="12">
-            <el-row>
-                <el-col :span="12">
-                    <el-tag effect="dark" type="danger">涨停：</el-tag>
-                    <el-tag
-                        v-for="item in lups"
-                        :key="item"
-                        @click="setSearch(item)"
-                        type="danger">
-                        {{ item }}
-                    </el-tag>
-                </el-col>
-                <el-col :span="12">
-                    <el-tag effect="dark" type="success">跌停：</el-tag>
-                    <el-tag
-                        v-for="item in ldowns"
-                        :key="item"
-                        @click="setSearch(item)"
-                        type="success">
-                        {{ item }}
-                    </el-tag>
-                </el-col>
-            </el-row>
+        <el-col :span="19">
+            <el-button type="primary" :loading="feachAllLoading" @click="feachAll">抓取所有数据</el-button></el-button>
+                  <el-select style="width:100px;" v-model="way" placeholder="please select a way to aroute">
+                      <el-option
+                        label="线路1"
+                        value="1">
+                      </el-option>
+                      <el-option
+                        label="线路2"
+                        value="2">
+                      </el-option>
+                      <el-option
+                        label="线路3"
+                        value="3">
+                      </el-option>
+                  </el-select>
+
+                  <el-button type="primary" @click="autoFeachAll">{{ feach_auto_text }}</el-button>
+                  间隔时间(ms)：
+                  <el-input style="width:120px;" v-model="feach_auto_times"></el-input>
+                  <el-select v-model="the_time_of_the_delay" @change="setTime" style="width:100px;" placeholder="">
+                      <el-option
+                        label="1分钟"
+                        value="1">
+                      </el-option>
+                      <el-option
+                        label="2分钟"
+                        value="2">
+                      </el-option>
+                      <el-option
+                        label="3分钟"
+                        value="3">
+                      </el-option>
+                      <el-option
+                        label="5分钟"
+                        value="5">
+                      </el-option>
+                  </el-select>
             
-            <div v-if="stock_code != ''" style="height:260px;" v-html="timeSharing"></div>
         </el-col>
         
+    </el-row>
+    <el-row>
+        <el-col :span="12">
+            <el-tag effect="dark" type="danger">涨停：</el-tag>
+            <el-tag
+                v-for="item in lups"
+                :key="item"
+                @click="setSearch(item)"
+                type="danger">
+                {{ item }}
+            </el-tag>
+        </el-col>
+        <el-col :span="12">
+            <el-tag effect="dark" type="success">跌停：</el-tag>
+            <el-tag
+                v-for="item in ldowns"
+                :key="item"
+                @click="setSearch(item)"
+                type="success">
+                {{ item }}
+            </el-tag>
+        </el-col>
+    </el-row>
+    <el-row style="height: 25px;margin-top: 10px;font-size: 18px;" v-if="stock_code != ''">
+        <span style="color: #6d1667;font-size: 24px;" @click="setSearch(stock_code)">{{ stock_code }} {{ stock_name }}</span>
+        <span style="cursor: pointer;" @click="setIframSrc('https://stockpage.10jqka.com.cn/' + stock_code)">同花顺</span>
+        <span style="cursor: pointer;" @click="setIframSrc('https://gushitong.baidu.com/stock/ab-' + stock_code)">百度股市通</span>
     </el-row>
     <el-row>
         <el-progress :percentage="percentage"></el-progress>
@@ -128,18 +119,23 @@
         <el-col :span="24" class="plTableBox">
             <el-table
                 class="table"
-                :data="tableData.filter(data => !search ||
-                 data.stock_id.toLowerCase().includes(search.toLowerCase()) ||
-                 data.stock_name.toLowerCase().includes(search.toLowerCase()) 
-                 )"
-                 :row-class-name="tableRowClassName"
+                :data="filteredTableData"
+                :row-class-name="tableRowClassName"
                 style="width: 100%"
                 height="500"
                 use-virtual
                 :row-height="55"
                 border
+<!--Del:begin-->
+                v-loadmore="load"
+<!--Del:end-->
                 
                 >
+                <el-table-column
+                    fixed          
+                    type="index"
+                    width="50">
+                </el-table-column>
                 <el-table-column
                     fixed
                     prop="level"
@@ -172,6 +168,9 @@
                     prop="stock_id"
                     label="ID"
                     width="80">
+                    <template slot-scope="scope">
+                        <span style="cursor: pointer;" @click="setSearch(scope.row.stock_id)">{{  scope.row.stock_id  }}</span>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     fixed
@@ -179,7 +178,25 @@
                     label="证劵代码"
                     width="80">
                     <template slot-scope="scope">
-                        <span style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
+                        <div v-if="scope.row.stock_remark.trim().length > 0">
+                            <el-tooltip class="item" effect="light" :content="scope.row.stock_remark" placement="bottom">
+                                <span style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
+                            </el-tooltip>
+                        </div>
+                        <span v-else style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
+                        
+                        
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    sortable
+                    prop="flag"
+                    label="测试"
+                    align="center"
+                    width="50">
+                    <template slot-scope="scope">
+                        <span v-if="1 == scope.row.flag">是</span>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -189,7 +206,7 @@
                     width="150">
                     <template slot-scope="scope">
                         <a :href="'__URL__/stock/list/' + scope.row.stock_id + '/' + scope.row.stock_code + '/' + scope.row.stock_name" target="_blank">{{ scope.row.stock_name }}</a>
-                        <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
+                        <span v-if="0 == scope.row.flag" style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
                         
                     </template>
                 </el-table-column>
@@ -197,6 +214,13 @@
                     fixed
                     prop="bought"
                     label="成交价"
+                    sortable
+                    width="65">
+                </el-table-column>
+                <el-table-column
+                    fixed
+                    prop="tax"
+                    label="税"
                     width="65">
                 </el-table-column>
                 <el-table-column
@@ -222,6 +246,7 @@
                     fixed
                     prop="stock_number"
                     label="持股数"
+                    sortable
                     width="65">
                 </el-table-column>
                 <el-table-column
@@ -281,16 +306,6 @@
                         {{ scope.row.amplitude }}
                     </template>
                 </el-table-column>
-                <el-table-column
-                    prop="volume"
-                    label="成交量"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="amount"
-                    label="成交额"
-                    width="120">
-                </el-table-column>
                 <el-table-column 
                     label="持有估值(手续费之前)"
                     width="180">
@@ -312,8 +327,9 @@
                       <span v-if="scope.row.bought > 1">(({{ scope.row.stock_price }} - {{ scope.row.cost }}) / {{ scope.row.cost }}) * 100 = {{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100) .toFixed(2) }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" width="250px">
+                <el-table-column label="操作" width="320px">
                     <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="copyStock(scope.row)" class="!rounded-button flex items-center">copy</el-button>
                         <el-button type="primary" size="mini" @click="openAddTransactionDialog(scope.row)" class="!rounded-button flex items-center">交易</el-button>
                         <el-button type="primary" @click="feachByStockid(scope.row.stock_id)" size="mini">feach</el-button></el-button>
                         <el-button type="primary" @click="formEditStockComponent(scope.row)" icon="el-icon-edit" circle size="mini"></el-button>
@@ -332,15 +348,16 @@
     <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getTheListOfStock" ref="stockDetailComponent" />
     <stock-date-list-component ref="stockDeteComponent" />
 
-<!--Del:begin-->
-    <el-dialog :modal="false" top="0" custom-class="dialogInfo" :title="stock_code +' : '+ stock_name" :visible.sync="dialogInfoVisible">
-        <div v-html="ifram"></div>
-    </el-dialog>
-    <el-dialog  :modal="false" top="0"  width="50%" custom-class="dialogInfo" :title="stock_code +' : '+ stock_name" :visible.sync="dialogTimeSharingVisible">
-        <div style="height:400px;" v-html="timeSharing"></div>
-    </el-dialog>
 
-<!--Del:end-->
+
+<el-drawer
+  title="I am the title"
+  :visible.sync="sidebarOfRight"
+  :with-header="false"
+  direction="rtl"
+  size="95%">
+  <iframe :src="iframSrc" width="100%" height="100%" frameborder="0"></iframe>
+</el-drawer>
 
 
 
@@ -350,9 +367,8 @@
 
 <#Block:end>
 
-<#Block:begin id="__ID__.ifram" data="{'src': ''}">
-<iframe src="http://stockpage.10jqka.com.cn/<%=src%>" width="100%" height="100%" frameborder="0"></iframe>
-<#Block:end>
+
+
 
 
 
@@ -378,10 +394,10 @@
             'name': "stockIndex",
             data(){
                 return {
+                    'sidebarOfRight':false,
                     'lups':[],
                     'ldowns':[],
-                    'timeSharing': '',
-                    'ifram': '',
+                    'iframSrc': '',
                     'dialogTimeSharingVisible': false,
                     'dialogInfoVisible': false,
                     'loading': false,
@@ -397,7 +413,9 @@
                     'percentage': 0,
                     'stock_id': '',
                     'stock_code': '',
-                    'stock_name':''
+                    'stock_name':'',
+                    'size': 0,
+                    'infiniteScrollDisabled': false
 
                 };
             },
@@ -405,6 +423,17 @@
                 'form-stock-component': System.require('stock.components.FormStockComponent')
                 ,'form-add-stock-detail-component': System.require('stock.components.FormAddStockDetailComponent')
                 ,'stock-date-list-component': System.require('stock.components.StockDateListComponent')
+            },
+            computed: {
+                filteredTableData() {
+                    if (!this.search) return this.tableData;
+                    
+                    const search = this.search.toLowerCase();
+                    return this.tableData.filter(data => 
+                        data.stock_id.toLowerCase().includes(search) ||
+                        data.stock_name.toLowerCase().includes(search)
+                    );
+                }
             },
             beforeCreate() { },
             created() {
@@ -430,14 +459,14 @@
                     });
 
                 },
+                setIframSrc(src){
+                    this.iframSrc = src;
+                    this.sidebarOfRight = true;
+
+                },
                 handleDialogShow(row) {
-                    // const ifram = `<iframe src="http://stockpage.10jqka.com.cn/realHead_v2.html#hs_${row.stock_code}" width="100%" frameborder="0"></iframe>`;
-                    // const ifram = getIframe('realHead_v2.html#hs_'+ row.stock_code);
-                    // const timeSharing = getIframe('HQ_v4.html#hs_'+ row.stock_code);
-                    const ifram = System.Template.getBlock('__ID__.ifram', {'src': 'realHead_v2.html#hs_'+ row.stock_code});
-                    const timeSharing = System.Template.getBlock('__ID__.ifram', {'src': 'HQ_v4.html#hs_'+ row.stock_code});
-                    this.ifram = ifram;
-                    this.timeSharing = timeSharing;
+                    this.setIframSrc('https://gushitong.baidu.com/stock/ab-' + row.stock_code)
+
                     this.stock_code = row.stock_code;
                     this.stock_name = row.stock_name;
 
@@ -448,6 +477,7 @@
                 openAddTransactionDialog(row){
                     this.stock_id = row.stock_id;
                     this.stock_name = row.stock_name;
+                    this.$refs.stockDetailComponent.form.stock_price = row.stock_price;
                     this.$refs.stockDetailComponent.dialogVisible = true
                 },
                 setLevel(stock_id, level){
@@ -472,7 +502,7 @@
                 },
                 tableRowClassName({row, rowIndex}) {
 
-                    if(row.stock_price > 0){
+                    if(row.stock_price > 0 && 0 == row.flag){
                         if (row.stock_price === row.lup && row.stock_price === row.highest) {
                             if(!this.lups.in_array(row.stock_code)){
                                 this.lups.push(row.stock_code);
@@ -493,7 +523,14 @@
                     return '';
                 },
                 formAddStockComponent(){
+                    this.$refs.stockComponent.init();
                     this.$refs.stockComponent.dialogVisible = true
+                    
+                },
+                copyStock(row){
+
+                    this.formAddStockComponent();
+                    this.$refs.stockComponent.setForm('t_'+row.stock_id, row.stock_code, row.stock_name+'-测试', row.stock_name+'-测试');
                     
                 },
                 formEditStockComponent(row){
@@ -502,6 +539,7 @@
                     this.$refs.stockEditComponent.form.stock_code = row.stock_code
                     this.$refs.stockEditComponent.form.stock_name = row.stock_name
                     this.$refs.stockEditComponent.form.stock_cost = row.cost
+                    this.$refs.stockEditComponent.form.tax = row.tax
                     this.$refs.stockEditComponent.form.stock_remark = row.stock_remark
 
                     this.$refs.stockEditComponent.dialogVisible = true
@@ -513,12 +551,29 @@
                     this.lups =  [];
                     this.ldowns = [];
 
-                    this.loading = true;
-                    Api.stock.index(D => {
-                        this.tableData  = D;
-                        this.loading = false;
+                    this.tableData = [];
+                    this.size = 0;
+                    this.infiniteScrollDisabled = false;
+                    this.load();
+                },
+                load(){
+                    if(!this.infiniteScrollDisabled){
+                        this.loading = true;
+                        const size = ++this.size;
+                        const rows = 0;
+                        Api.stock.index({size, rows}, D => {
+                            if(0 == D.status){
+                                this.tableData = this.tableData.merge(D.data);
+    
+                            }else if(1 == D.status) {
+                                this.infiniteScrollDisabled = true;
+                            }
+                            this.loading = false;
+    
+                        });
 
-                    });
+                    }
+
                 },
                 feachByStockid(stock_id){
                     const way = this.way;
@@ -577,7 +632,7 @@
                     this.$prompt('Please input your password', 'Tip', {
                         confirmButtonText: 'OK',
                         cancelButtonText: 'Cancel',
-                        inputValidator: (value)=>{return 'kill' == value},
+                        inputValidator: (value)=>{return '534735884d341071762ede7af01c53e8' === System.md5(value)},
                         inputErrorMessage: 'Invalid password'
                     }).then(() => {
                         Api.stock.delete(stock_id, D => {
@@ -603,10 +658,11 @@
 
                 },
                 feachAll(){
+                    const progress_id = System.md5(System.hash());
                     let evtSource;
-                    const stock_id = null;
                     const way = this.way;
-                    const data = {stock_id, way};
+                    const stock_id = null;
+                    const data = {stock_id, way, progress_id};
                     
 
                     this.percentage = 0;
@@ -678,7 +734,7 @@
 
                     if(typeof(EventSource) !== "undefined") {
                         let this_ = this;
-                        evtSource = new EventSource("__SERVER__/stock/getProgress");
+                        evtSource = new EventSource("__SERVER__/stock/getProgress?progress_id="+progress_id);
                         //监听事件
                         evtSource.addEventListener('message', function (event) {
                             this_.percentage = parseInt(event.data);
@@ -750,50 +806,270 @@
 </script>
 
 <style type="text/css">
-
-.plTableBox .table tr.warning-row>td{
-    background: rgb(201 100 220)!important;
-    color: #fff;
-  }
-  .plTableBox .table tr.warning-row>td a{
-    color: #fff;
-  }
-
-.plTableBox .table tr.maybe-row>td{
-    background: #E6A23C!important;
-    color: #fff;
-  }
-  .plTableBox .table tr.maybe-row>td a{
-    color: #fff;
-  }
-
-
-  .plTableBox .table tr.dangerous-row>td{
-    background: rgb(88 202 43)!important;
-    color: #911b9b;
-  }
-  
-  .plTableBox .table tr>td .warning{
-    color: #de524c;
-  }
-
-
-  .plTableBox .table tr.warning-row>td .warning{
-    color: #efbb4c;
-  }
-
-  .plTableBox .table tr.dangerous-row>td a{
-    color: #911b9b;
-  }
-
-  .dialogInfo{
-    margin-left: auto;
-    margin-right: 0;
-  }
-
-
+    /* 修改1: 移动端容器基础样式 */
+    .mobile-stock-container {
+        padding: 8px;
+        max-width: 100%;
+        overflow-x: auto;
+        font-size: 14px;
+    }
+    
+    /* 修改2: 头部布局移动端适配 */
+    .mobile-stock-header {
+        margin-bottom: 10px;
+    }
+    
+    /* 移动端头部布局调整 */
+    @media (max-width: 768px) {
+        .mobile-stock-container {
+            padding: 5px;
+            font-size: 12px;
+        }
+        
+        /* 头部改为垂直布局 */
+        .mobile-stock-header .el-col {
+            width: 100% !important;
+            margin-bottom: 10px;
+        }
+        
+        /* 左侧搜索区域 */
+        .mobile-stock-header .el-col:first-child {
+            order: 1;
+        }
+        
+        /* 右侧操作区域 */
+        .mobile-stock-header .el-col:last-child {
+            order: 2;
+        }
+        
+        /* 表单项垂直排列 */
+        .mobile-stock-header .demo-form-inline {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .mobile-stock-header .el-form-item {
+            margin-bottom: 8px;
+            margin-right: 0;
+        }
+        
+        /* 搜索输入框全宽度 */
+        .mobile-stock-header .el-input {
+            width: 100%;
+        }
+        
+        /* 操作按钮组适应移动端 */
+        .mobile-stock-header .el-button {
+            margin: 2px;
+            font-size: 11px;
+            padding: 6px 8px;
+        }
+        
+        /* 选择器适应移动端 */
+        .mobile-stock-header .el-select {
+            width: 80px !important;
+            margin: 2px;
+        }
+        
+        /* 数字输入框适应移动端 */
+        .mobile-stock-header .el-input[style*="width:120px"] {
+            width: 80px !important;
+            margin: 2px;
+        }
+        
+        /* 操作区域按钮换行 */
+        .mobile-stock-header .el-col:last-child {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+        }
+    }
+    
+    /* 超小屏幕进一步优化 */
+    @media (max-width: 480px) {
+        .mobile-stock-header .el-button {
+            font-size: 10px;
+            padding: 4px 6px;
+            margin: 1px;
+        }
+        
+        .mobile-stock-header .el-select {
+            width: 70px !important;
+            font-size: 10px;
+        }
+        
+        .mobile-stock-header .el-input[style*="width:120px"] {
+            width: 60px !important;
+            font-size: 10px;
+        }
+        
+        /* 操作区域文字换行 */
+        .mobile-stock-header .el-col:last-child {
+            font-size: 10px;
+        }
+        
+        /* 间隔时间文字换行 */
+        .mobile-stock-header .el-col:last-child > span {
+            white-space: nowrap;
+            font-size: 10px;
+        }
+    }
+    
+    /* 修改3: 涨停跌停标签区域移动端适配 */
+    @media (max-width: 768px) {
+        .el-row:not(.mobile-stock-header) .el-col {
+            width: 100% !important;
+            margin-bottom: 8px;
+        }
+        
+        /* 标签区域改为可滚动 */
+        .el-tag {
+            display: inline-block;
+            margin: 2px;
+            font-size: 11px;
+            padding: 0 6px;
+            height: 22px;
+            line-height: 20px;
+        }
+        
+        /* 标签容器允许横向滚动 */
+        .el-col .el-tag {
+            white-space: nowrap;
+        }
+    }
+    
+    /* 修改4: 当前股票信息移动端适配 */
+    @media (max-width: 768px) {
+        .el-row[style*="height: 25px"] {
+            height: auto !important;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .el-row[style*="height: 25px"] span {
+            font-size: 14px !important;
+        }
+        
+        .el-row[style*="height: 25px"] span[style*="color: #6d1667"] {
+            font-size: 16px !important;
+            margin-bottom: 5px;
+        }
+    }
+    
+    /* 修改5: 表格容器适应移动端 */
+    @media (max-width: 768px) {
+        .plTableBox {
+            overflow-x: auto;
+        }
+        
+        .table {
+            min-width: 1200px;
+        }
+        
+        .el-table td, .el-table th {
+            padding: 4px 2px;
+            font-size: 11px;
+        }
+        
+        .el-table .cell {
+            padding: 0 2px;
+        }
+        
+        .el-rate {
+            font-size: 12px;
+        }
+    }
+    
+    /* 修改6: 超小屏幕表格适配 */
+    @media (max-width: 480px) {
+        .el-table td, .el-table th {
+            padding: 2px 1px;
+            font-size: 10px;
+        }
+        
+        .el-button {
+            padding: 4px 6px;
+            font-size: 10px;
+            margin: 1px;
+        }
+        
+        .el-tag {
+            font-size: 10px;
+            padding: 0 4px;
+            height: 20px;
+            line-height: 18px;
+        }
+    }
+    
+    /* 修改7: 横向滚动条样式优化 */
+    .plTableBox::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .plTableBox::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+    
+    .plTableBox::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+    
+    .plTableBox::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+    
+    /* 修改8: 保持原有的样式 */
+    .plTableBox .table tr.warning-row>td {
+        background: rgb(201 100 220)!important;
+        color: #fff;
+    }
+    
+    .plTableBox .table tr.warning-row>td a {
+        color: #fff;
+    }
+    
+    .plTableBox .table tr.dangerous-row>td {
+        background: rgb(88 202 43)!important;
+        color: #911b9b;
+    }
+    
+    .plTableBox .table tr>td .warning {
+        color: #de524c;
+    }
+    
+    .plTableBox .table tr.warning-row>td .warning {
+        color: #efbb4c;
+    }
+    
+    .plTableBox .table tr.dangerous-row>td a {
+        color: #911b9b;
+    }
+    
+    .dialogInfo {
+        margin-left: auto;
+        margin-right: 0;
+    }
+    
+    /* 修改9: 移动端价格颜色优化 */
+    @media (max-width: 768px) {
+        .plTableBox .table tr>td .warning {
+            font-weight: bold;
+        }
+    }
+    
+    /* 修改10: 移动端抽屉优化 */
+    @media (max-width: 768px) {
+        .el-drawer {
+            width: 100% !important;
+        }
+    }
 </style>
-
 
 
 

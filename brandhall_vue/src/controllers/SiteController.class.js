@@ -54,9 +54,11 @@ LAM.run([LAM], function(LAM){
         },
         'logoutAction':function(){
             this.title = "";
-            System.COOKIE_GUEST.find('auth_key', System.token,function (index) {
+            const ACCESS_TOKEN = localStorage.getItem('access_token');
+            System.COOKIE_GUEST.find('auth_key', ACCESS_TOKEN,function (index) {
                 if(index > -1){
                     this.remove(index);
+                    localStorage.removeItem('access_token');
                     System.redirect(System.INDEX+"site/login");
                 }
             });
@@ -67,15 +69,7 @@ LAM.run([LAM], function(LAM){
         'regAction':function(){
             this.title = "注册";
             var _this = this;
-            System.COOKIE_GUEST.find('auth_key', System.token, function (index,id) {
-                if(-1 !== index){
-                    var data = this.get(index);
-                    if(System.token === data.auth_key){
-                        System.redirect(System.INDEX+System.routeRules.index);
-                    }
-                }
 
-            });
             return this.renderPartial('reg',{
                 'COMMON':System.COMMON,
                 'ROOT':ROOT,

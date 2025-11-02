@@ -10,8 +10,9 @@
             // console.log(view);
             var System = this;
             var r = System.get('r');
-
-            System.COOKIE_GUEST.find('auth_key', System.token,function (index,id) {
+            const ACCESS_TOKEN = localStorage.getItem('access_token');
+            
+            System.COOKIE_GUEST.find('auth_key', ACCESS_TOKEN,function (index, id) {
                 var _this = this;
                 if(-1 === index){
                     if(!(r === 'site/login' || r === 'site/reg'))
@@ -26,11 +27,13 @@
                     },1);
 
                     let data = this.get(index);
-                    if(System.token === data.auth_key && (r === 'site/login' || r === 'site/reg')){
+                    if(ACCESS_TOKEN === data.auth_key && (r === 'site/login' || r === 'site/reg')){
                         System.redirect(System.INDEX+System.routeRules.index);
                     }
                 }
             });
+
+
             buildHtml = buildHtml
                             .replaceAll('../', '../../../')
                             .replaceAll('/brandhall_vue/index.html?r=site/index', '/brandhall_vue/build/site/index.html');
@@ -38,14 +41,14 @@
             var arr = r.split('/');                
             var filename = arr[1];
             
-            $.post(System.SERVER2,{
-                'content': buildHtml,
-                'path':"/www/brandhall_vue/build/" + arr[0],
-                'filename':filename+'.html'
-            },function(data){
+            // $.post(System.SERVER2,{
+            //     'content': buildHtml,
+            //     'path':"/www/brandhall_vue/build/" + arr[0],
+            //     'filename':filename+'.html'
+            // },function(data){
 
 
-            },'json');
+            // },'json');
 
             
             // $.post(System.SERVER+"/index/build",{

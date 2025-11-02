@@ -1,0 +1,299 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.FormStockComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+
+<#Block:begin id="__ID__">
+<div v-loading="loading">
+    <el-dialog v-if="!empty(stock_id)"
+        title="修改股票"
+        :visible.sync="dialogVisible"
+        :close-on-click-modal="true"
+        width="">
+        <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="证劵id：">
+                        <span style="color: #909399;">{{ stock_id }}</span>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="证劵代码：" prop="stock_code">
+                        <el-input v-model="form.stock_code"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="证劵名称：" prop="stock_name">
+                        <el-input v-model="form.stock_name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="成本价：">
+                        <el-input v-model="form.stock_cost"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="4">
+                    <el-form-item label-width="45px" label="税：">
+                        <el-input v-model="form.tax"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-form-item label="证劵备注：" prop="stock_remark">
+                <el-input type="textarea" v-model="form.stock_remark"></el-input>
+            </el-form-item>
+            
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="submit()">提 交</el-button>
+        </span>
+    </el-dialog>
+
+    <el-dialog v-else
+        title="添加股票"
+        :visible.sync="dialogVisible"
+        :close-on-click-modal="true"
+        width="">
+        <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="flag：">
+                        <el-radio v-model="form.flag" label="1">测试</el-radio>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="证劵id：" prop="stock_id">
+                        <el-input v-model="form.stock_id"></el-input>
+                    </el-form-item>
+
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="证劵代码：" prop="stock_code">
+                        <el-input v-model="form.stock_code"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="证劵名称：" prop="stock_name">
+                        <el-input v-model="form.stock_name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="税：">
+                        <el-input v-model="form.tax"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-form-item label="证劵备注：" prop="stock_remark">
+                <el-input type="textarea" v-model="form.stock_remark"></el-input>
+            </el-form-item>
+            
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="submit()">提 交</el-button>
+            <el-button @click="resetForm()">Reset</el-button>
+        </span>
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        const Api = System.require("Api");
+        var FormComponent = {
+          name: "FormStockComponent",
+          props: {
+            'title': {
+                type: [String],
+                default: ""
+            },
+            'stock_id': {
+                type: [String],
+                default: ""
+            }
+          },
+          components: { },
+          data() {
+            return {
+                'loading': false,
+                'form':{
+                    'stock_id': "",
+                    'stock_code': "",
+                    'stock_cost': 0,
+                    'stock_name': "",
+                    'stock_remark': "",
+                    "flag": 0,
+                    "tax": 5.00
+                },
+                'formError':{
+                    'stock_id': "",
+                    'stock_code': "",
+                    'stock_name': ""
+                },
+                'rules': {
+                    'stock_id': [
+                        { required: true, message: '请输入证劵id', trigger: 'blur' }
+                    ],
+                    'stock_code': [
+                        { required: true, message: '请输入证劵代码', trigger: 'blur' }
+                    ],
+                    'stock_name': [
+                        { required: true, message: '请输入证劵名称', trigger: 'blur' }
+                    ]
+                },
+                'dialogVisible': false
+            }
+          },
+          methods: {
+            empty(str){
+                return System.empty(str)
+
+            },
+            ok() {
+                this.loading = false;
+                this.dialogVisible = false;
+                this.init();
+                this.initError();
+                
+            },
+            submit() {
+                this.$refs.validateForm.validate((valid) => {
+                    if (!valid) {
+                        return false;
+                    }else{
+                        if(System.empty(this.stock_id)) {
+                            this.add();
+                        }else{
+                            this.edit();
+                        }
+                    }
+                });
+                this.initError();
+                
+            },
+            resetForm(){
+                this.$refs['validateForm'].resetFields();
+                this.init();
+                
+            },
+            initError() {
+                this.formError.stock_id = "";
+                this.formError.stock_code = "";
+                this.formError.stock_name = "";
+            },
+            init() {
+                this.form.stock_id = '';
+                this.form.stock_code = '';
+                this.form.stock_name = '';
+                this.form.stock_remark = '';
+                this.form.flag = 0;
+                this.form.tax = 5.00;
+            },
+            setForm(stock_id, stock_code, stock_name, stock_remark) {
+                this.form.stock_id = stock_id;
+                this.form.stock_code = stock_code;
+                this.form.stock_name = stock_name;
+                this.form.stock_remark = stock_remark;
+                this.form.flag = '1';
+            },
+            add() {
+                const stock_id = this.form.stock_id;
+                const stock_code = this.form.stock_code;
+                const stock_name = this.form.stock_name;
+                const stock_remark = this.form.stock_remark;
+                const flag = this.form.flag;
+                const tax = this.form.tax;
+
+                const data = { 
+                    stock_id,
+                    stock_code,
+                    stock_name,
+                    stock_remark,
+                    flag,
+                    tax
+                };
+                this.loading = true;
+                Api.stock.add(data, D => {
+                    if(D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message
+                        });
+                        this.ok();
+                        this.$emit('get-list-stock');
+
+                    }else{
+                        this.loading = false;
+                        if(1062 == D.message[1]){ //字段唯一性不允许重复
+                            this.$notify({
+                                title: 'Warning',
+                                message: `证劵id: ${stock_id} 已存在了`,
+                                type: 'warning'});
+                        }else {
+                            System.each(D.errors, (key,value) => {
+                                this.formError[key] = value;
+                                this.$notify({
+                                    title: 'Warning',
+                                    message: value,
+                                    type: 'warning'});
+                            });
+
+                        }
+                    }
+
+                });
+            },
+            edit() {
+                const stock_id = this.stock_id;
+                const stock_code = this.form.stock_code;
+                const stock_name = this.form.stock_name;
+                const stock_cost = this.form.stock_cost;
+                const stock_remark = this.form.stock_remark;
+                const tax = this.form.tax;
+
+                const data = { 
+                    stock_id,
+                    stock_code,
+                    stock_name,
+                    stock_cost,
+                    stock_remark,
+                    tax
+                };
+                this.loading = true;
+                Api.stock.edit(data, D => {
+                    if(D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message
+                        });
+                        this.ok();
+                        this.$emit('get-list-stock');
+
+                    }else{
+                        this.loading = false;
+                        
+                        System.each(D.errors, (key,value) => {
+                            this.formError[key] = value;
+                            this.$notify({
+                                title: 'Warning',
+                                message: value,
+                                type: 'warning'});
+                        });
+                    }
+
+                });
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>

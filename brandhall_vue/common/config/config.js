@@ -89,7 +89,7 @@
                     , 'CONFIGURATIONJS': CONF + '/config.js'
                     , 'SYSTEMJS': System.LAMPATH + '/base/System.js'
                     , 'BASE64ENCODE': true
-                    , 'token': "G94F9AyvNiuHCRVLY8kw9-HE6Jjw9qIU"
+                    , 'token': ""
                     , 'LAMPATH': System.LAMPATH
                     , 'HOSTIP': "192.168.3.10:9527"
                     , 'URL': "http://192.168.3.10:9527/brandhall_vue/index.html?r=site/index#"

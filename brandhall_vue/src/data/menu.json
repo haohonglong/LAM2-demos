@@ -1,6 +1,5 @@
 
 [
-  
   {
     "index": "a17",
     "icon":"a-2",
@@ -133,6 +132,23 @@
     "title":"酒店后台",
     "ul":[
       { "index": "a20-a1", "title":"首页","href":"/hotel/index"}
+    ]
+  },
+  {
+    "index": "a21",
+    "icon":"a-1",
+    "title":"测试页面",
+    "ul":[
+      { "index": "a21-a1", "title":"首页","href":"/test/index"}
+    ]
+  },
+
+  {
+    "index": "a22",
+    "icon":"a-1",
+    "title":"图形",
+    "ul":[
+      { "index": "a21-a1", "title":"首页","href":"/test/index"}
     ]
   }
 

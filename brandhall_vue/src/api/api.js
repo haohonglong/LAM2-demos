@@ -152,11 +152,11 @@ LAM.run([jQuery], function($){
 			}
 		},
 		"stockDetail": {
-			index({stock_id, size}, func){
+			index({stock_id, size, rows}, func){
 				request({
 					url: API.stockDetail.index,
 					method: 'get',
-					params: {stock_id, size}
+					params: {stock_id, size, rows}
 				}, func);
 			},
 			delete(id, func){
@@ -232,17 +232,18 @@ LAM.run([jQuery], function($){
 					params: { stock_id }
 				}, func);
 			},
-			index(func){
+			index({ size, rows }, func){
 				request({
 					url: API.stock.index,
-					method: 'get'
+					method: 'get',
+					params: { size, rows }
 				}, func);
 			},
-			feach({stock_id, way}, func, error_func){
+			feach({stock_id, way, progress_id}, func, error_func){
 				request({
 					url: API.stock.feach,
 					method: 'get',
-					params: { stock_id, way }
+					params: { stock_id, way, progress_id }
 				}, func, error_func);
 			},
 			getProgress(func, error_func){
@@ -251,18 +252,18 @@ LAM.run([jQuery], function($){
 					method: 'get'
 				}, func, error_func);
 			},
-			add({ stock_id, stock_code, stock_name, stock_remark }, func){
+			add({ stock_id, stock_code, stock_name, stock_remark, flag, tax }, func){
 				request({
 					url: API.stock.add,
 					method: 'post',
-					params: { stock_id, stock_code, stock_name, stock_remark }
+					params: { stock_id, stock_code, stock_name, stock_remark, flag, tax }
 				}, func);
 			},
-			edit({ stock_id, stock_code, stock_name, stock_cost, stock_remark }, func){
+			edit({ stock_id, stock_code, stock_name, stock_cost, stock_remark, tax }, func){
 				request({
 					url: API.stock.edit,
 					method: 'post',
-					params: { stock_id, stock_code, stock_name, stock_cost, stock_remark }
+					params: { stock_id, stock_code, stock_name, stock_cost, stock_remark, tax }
 				}, func);
 			},
 			search({ key, value }, func){
