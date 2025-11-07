@@ -148,7 +148,7 @@
     "icon":"a-1",
     "title":"图形",
     "ul":[
-      { "index": "a21-a1", "title":"首页","href":"/test/index"}
+      { "index": "a21-a1", "title":"首页","href":"/canvas/index"}
     ]
   }
 

@@ -39,6 +39,13 @@ LAM.run([LAM], function(LAM){
 
 
         },
+        'stock2Action':function(){
+            this.title = "股票管理系统";
+            
+            return this.renderPartial('stock2');
+
+
+        },
 
 
 
