@@ -1,4 +1,3 @@
-
 <#define __CSRF_TOKEN__="{#LAM.require("this").getToken()#}" />
 <#define __SRC__="{#LAM.SRC#}" />
 <#define __ROUTES__="{#LAM.ROUTES#}" />
@@ -12,6 +11,7 @@
 <#define __CSS__="{#LAM.CSS#}" />
 <#define _LAYOUTS_="{#LAM.LAYOUTS#}" />
 <#define @COMPONENTS="_LAYOUTS_/components" />
+<#define _TITLE_="{#-title-#}" />
 
 <#import path="/Tab.class,/Tools.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import path="vue.js,vue-router.js" root="__PLUGINS__/vue/" write="1" befor="1" />
@@ -61,9 +61,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="csrf-token" content="__CSRF_TOKEN__">
-<title>{#-title-#}</title>
-<meta name="keywords" content="{#-title-#}" />
-<meta name="description" content="{#-title-#}" />
+
+<#Block:begin override="1:0" id="title" data="{'title':'_TITLE_'}">
+<title><%=title%></title>
+<#Block:end>
+
+<#=block id="title" />
+
+
+
+<meta name="keywords" content="_TITLE_" />
+<meta name="description" content="_TITLE_" />
 <!#LAM_INIT/>
 <!#CSS/>
 
@@ -111,7 +119,74 @@
 }
 /*文字*/
 .sectionText-A1 a{color: #ffffff;}
+@media (max-width: 480px) {
+	/*
+	.sectionBtn-A2{
+	  background-color: transparent;
+	  top: 45px;
+	}
+	.sectionBtn-A2 span {
+	  background-color: #6d1667;
+	  
+	} 
+	*/
+}
 
+
+/* 确保菜单容器可以滚动 */
+.el-menu {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* 修复菜单项样式 */
+.el-menu-item, .el-submenu__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 现代简约风格滚动条 */
+.el-menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.el-menu::-webkit-scrollbar-track {
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+}
+
+.el-menu::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #6d1667 0%, #9a36ca 100%);
+    border-radius: 10px;
+    border: 2px solid #f8f9fa;
+}
+
+.el-menu::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #9a36ca 0%, #6d1667 100%);
+}
+
+/* 毛玻璃效果滚动条 */
+.el-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.el-menu::-webkit-scrollbar-track {
+    background: rgba(248, 249, 250, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 3px;
+}
+
+.el-menu::-webkit-scrollbar-thumb {
+    background: rgba(157, 54, 202, 0.6);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.el-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(109, 22, 103, 0.8);
+}
   </style>
 </head>
 
@@ -218,9 +293,14 @@
 					'nav-menu-component': System.require("components.NavMenuComponent")
 				},
 				computed: {
+				},
+				mounted() {
 					
 				},
 				created() {
+					this.setTitle(router.currentRoute.meta.title);
+					
+					
 				},
 				methods: {
 					handleClose() {
@@ -228,9 +308,16 @@
 					},
 					change_crumb_data(data) {
 						this.crumbData = data;
+					},
+					setTitle(title){
+						document.title = title;
 					}
 				},
 				watch: {
+					'$route'(to, from) {
+						this.setTitle(to.meta.title);
+						console.log('路由变化:', to.path, '->', from.path)
+					}
 				}
 			}).$mount("#app");
 

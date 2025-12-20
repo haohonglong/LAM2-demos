@@ -253,7 +253,7 @@ a:hover,a:active{ text-decoration:underline;}*/
     #hidden_bnt{display: none;}
     .sectionCrumb-A1{display: none;}
     .sectionPhoneTop-A1{display: block;}
-    .sectionTop-A2{display: none;}
+    /* .sectionTop-A2{display: none;} */
     .sectionMenu-A1-2-2{display: none;}
     
 }
@@ -804,7 +804,7 @@ a:hover,a:active{ text-decoration:underline;}*/
 .sectionTitle-A1-5 .myli{color: #c2c2c2;cursor: pointer;}
 .sectionTitle-A1-5 .cur{color: #111;font-weight: bold;}
 
-.sectionTitle-A2{background: #1e2333;}
+.sectionTitle-A2{background: #6d1667;}
 .sectionTitle-A2 h2{height: 47px;line-height: 47px;font-size: 14px;color: #c4c3cf;padding-left: 15px;padding-right: 15px; }
 
 .sectionTitle-A3 h2{font-size: 12px;font-weight: normal;color: #808080;}

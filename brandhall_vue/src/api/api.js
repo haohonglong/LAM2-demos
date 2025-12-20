@@ -3,9 +3,17 @@ LAM.run([jQuery], function($){
 	const System = this;
 
 	const SERVER = System.SERVER;
+	const GUEST = System.COOKIE_GUEST.find('auth_key', localStorage.getItem('access_token'));
+	const OBJ =  System.COOKIE_GUEST.get(GUEST.index);
+	
 
 	function request(R, func, error_func) {
 		// $[R.method](SERVER + R.url, R.params || {}, func, R.dataType || "json");
+
+		
+		if(OBJ && OBJ.id){
+			R.params.userid = OBJ.id;
+		}
 
 		$.ajax({
 			method: R.method,
@@ -25,14 +33,11 @@ LAM.run([jQuery], function($){
 		"stockDetail":{
 			"index": SERVER+ "/stockDetail/index",
 			"delete": SERVER+ "/stockDetail/delete",
-			"search": SERVER+ "/stockDetail/search",
-			"show": SERVER+ "/stockDetail/show",
 			"add": SERVER+ "/stockDetail/add"
 		},
 		"stock":{
 			"index": SERVER+ "/stock/index",
 			"search": SERVER+ "/stock/search",
-			"show": SERVER+ "/stock/show",
 			"add": SERVER+ "/stock/add",
 			"edit": SERVER+ "/stock/edit",
 			"feach": SERVER+ "/stock/feach",
@@ -107,7 +112,9 @@ LAM.run([jQuery], function($){
 			"statistics": SERVER+ "/goods/statistics",
 		},
 		"site": {
-			"login": SERVER+ "/site/login"
+			"login": SERVER+ "/site/login",
+			"signup": SERVER+ "/site/signup",
+			"logout": SERVER+ "/site/logout"
 		},
 		"unit": {
 			"add": SERVER+ "/unit/add",
@@ -208,13 +215,6 @@ LAM.run([jQuery], function($){
 						,amount
 					}
 				}, func);
-			},
-			search({ title }, func){
-				request({
-					url: API.stockDetail.search,
-					method: 'post',
-					params: { title }
-				}, func);
 			}
 		},
 		"stock": {
@@ -235,22 +235,19 @@ LAM.run([jQuery], function($){
 			index({ size, rows }, func){
 				request({
 					url: API.stock.index,
-					method: 'get',
+					method: 'post',
 					params: { size, rows }
 				}, func);
 			},
 			feach({stock_id, way, progress_id}, func, error_func){
 				request({
 					url: API.stock.feach,
-					method: 'get',
+					method: 'post',
 					params: { stock_id, way, progress_id }
 				}, func, error_func);
 			},
-			getProgress(func, error_func){
-				request({
-					url: API.stock.getProgress,
-					method: 'get'
-				}, func, error_func);
+			getProgress(progress_id){
+				return `${API.stock.getProgress}?progress_id=${progress_id}`;
 			},
 			add({ stock_id, stock_code, stock_name, stock_remark, flag, tax }, func){
 				request({
@@ -616,6 +613,25 @@ LAM.run([jQuery], function($){
 					url: API.site.login,
 					method: 'post',
 					params: { username, password }
+				}, func);
+			},
+			signup({ 
+				username,
+				email,
+				phone,
+				password
+			}, func) {
+				request({
+					url: API.site.signup,
+					method: 'post',
+					params: { username, email, phone, password }
+				}, func);
+			},
+			logout({}, func) {
+				request({
+					url: API.site.logout,
+					method: 'post',
+					params: { }
 				}, func);
 			}
 		},

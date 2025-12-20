@@ -12,7 +12,7 @@
     :title="'股票详情'"
     :visible.sync="dialogVisible"
     :close-on-click-modal="true"
-    width="">
+    width="100%">
     <el-descriptions :title="stock_price">
       <template slot="title">
         <span v-if="stock_price > close" style="color: #de524c;">{{ stock_price }}</span>
@@ -25,14 +25,16 @@
         <span v-else-if="open < close" style="color: green;">{{ open }}</span>
         <span v-else>{{ open }}</span>
       </el-descriptions-item>
-      <el-descriptions-item label="昨收">{{ close }}</el-descriptions-item>
       <el-descriptions-item label="涨停">{{ lup }}</el-descriptions-item>
-      <el-descriptions-item label="跌停">{{ ldown }}</el-descriptions-item>
       <el-descriptions-item label="最高">{{ highest }}</el-descriptions-item>
+      <el-descriptions-item label="昨收">{{ close }}</el-descriptions-item>
+      <el-descriptions-item label="跌停">{{ ldown }}</el-descriptions-item>
       <el-descriptions-item label="最低">{{ lowest }}</el-descriptions-item>
       <el-descriptions-item label="均价">{{ average }}</el-descriptions-item>
       <el-descriptions-item label="换手率">{{ change }}%</el-descriptions-item>
       <el-descriptions-item label="振幅">{{ amplitude }}%</el-descriptions-item>
+      <el-descriptions-item label="成交量">{{ volume }}</el-descriptions-item>
+      <el-descriptions-item label="成交额">{{ amount }}</el-descriptions-item>
   </el-descriptions>
     
     </el-dialog>
@@ -63,6 +65,8 @@
                 ,'average': 0.00
                 ,'change': 0.00
                 ,'amplitude': 0.00
+                ,'volume': 0.00
+                ,'amount': 0.00
             }
           },
           created(){
@@ -79,6 +83,8 @@
               this.average = data.average;
               this.change = data.change;
               this.amplitude = data.amplitude;
+              this.volume = data.volume;
+              this.amount = data.amount;
               this.dialogVisible = true;
               
             }

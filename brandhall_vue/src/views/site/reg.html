@@ -1,4 +1,6 @@
 <#define __API__="{#LAM.API#}" />
+<#define __NODE_MODULES__="{#LAM.NODE_MODULES#}" />
+<#define __MODELS__="{#LAM.MODELS#}" />
 <#define __PLUGINS__="{#LAM.PLUGINS#}" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
 <#define __COMMON__="{#LAM.COMMON#}" />
@@ -7,9 +9,15 @@
 <#import path="/Tab.class,/PopupLayer.class,/Validation.class" root="__CLASSPATH__" write="1" befor="1" />
 <#import type="css" path="/css/lib/bootstrap" root="__COMMON__" befor="1" />
 <#import type="css" path="/global,/lib" root="__CSS__" befor="1" />
+<#import path="/CaptchaModel.class.js" write="1" befor="1" root="__MODELS__" />
+
 
 <#import path="/api.js" root="__API__" />
 <#import path="/vue/vue.js" root="__PLUGINS__" write="1" befor="1" />
+
+<#import type="css" path="/element-ui/lib/theme-chalk/index.css" root="__NODE_MODULES__" befor="1" />
+<#import path="/element-ui/lib/index.js" root="__NODE_MODULES__" write="1" befor="1" />
+
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -20,166 +28,926 @@
 <title>__TITLE__</title>
 <meta name="keywords" content="__TITLE__" />
 <meta name="description" content="__TITLE__" />
+<style>
+    /* 基础样式 - 美化版 */
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .sectionContainer-A1 {
+        width: 100%;
+        max-width: 500px;
+        animation: fadeIn 0.5s ease-out;
+    }
+    
+    .sectionBg-A1 {
+        display: none;
+    }
+    
+    .error-tips {
+        color: #ff4d4f;
+        font-size: 13px;
+        line-height: 1.4;
+        padding: 8px 12px;
+        background: #fff2f0;
+        border: 1px solid #ffccc7;
+        border-radius: 6px;
+        margin-top: 10px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+    
+    .captcha-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .captcha-input {
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .captcha-img {
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .captcha-img:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .refresh-captcha {
+        color: #409eff;
+        cursor: pointer;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 10px;
+        background: #f0f7ff;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+    
+    .refresh-captcha:hover {
+        background: #e6f3ff;
+        transform: scale(1.05);
+    }
+    
+    .register-btn {
+        width: 100%;
+        margin-top: 10px;
+        height: 44px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    
+    .register-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    }
+    
+    .register-btn:active {
+        transform: translateY(0);
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 24px;
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .login-link a {
+        color: #409eff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+    
+    .login-link a:hover {
+        background: #f0f7ff;
+        text-decoration: none;
+    }
+    
+    /* 修复验证码显示 */
+    #v_container {
+        display: inline-block !important;
+        vertical-align: middle;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    
+    /* 调整表单布局 */
+    .mobile-form .el-form-item {
+        margin-bottom: 24px;
+    }
+    
+    /* 美化对话框 */
+    .el-dialog {
+        border-radius: 16px !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+        overflow: hidden;
+        animation: slideUp 0.4s ease-out;
+    }
+    
+    .el-dialog__header {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 24px 32px !important;
+        border-bottom: 1px solid #e8e8e8;
+    }
+    
+    .el-dialog__title {
+        color: #333;
+        font-size: 20px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .el-dialog__title:before {
+        content: "👤";
+        font-size: 24px;
+    }
+    
+    .el-dialog__body {
+        padding: 32px !important;
+        background: #fff;
+    }
+    
+    /* 美化表单 */
+    .mobile-form .el-form-item__label {
+        font-weight: 500;
+        color: #555;
+        font-size: 14px;
+    }
+    
+    .el-input__inner {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0 15px;
+        height: 44px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+    }
+    
+    .el-input__inner:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .el-input-group__prepend {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        padding: 0 15px;
+    }
+    
+    /* 美化提示图标 */
+    .el-icon-user,
+    .el-icon-message,
+    .el-icon-phone,
+    .el-icon-lock {
+        color: #667eea;
+    }
+    
+    /* 美化loading状态 */
+    .el-button--primary.is-loading {
+        opacity: 0.8;
+    }
+    
+    /* 美化验证码区域 */
+    .el-form-item.is-error .el-input__inner {
+        border-color: #ff4d4f;
+        animation: shake 0.3s;
+    }
+    
+    /* 移动端优化 */
+    @media screen and (max-width: 768px) {
+        body {
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .sectionContainer-A1 {
+            max-width: 100%;
+            padding: 0;
+        }
+        
+        .el-dialog {
+            width: 100% !important;
+            margin: 0 !important;
+            border-radius: 12px !important;
+        }
+        
+        .el-dialog__header {
+            padding: 20px 24px !important;
+        }
+        
+        .el-dialog__body {
+            padding: 24px 20px !important;
+        }
+        
+        .el-dialog__title {
+            font-size: 18px;
+        }
+        
+        .mobile-form .el-form-item {
+            margin-bottom: 20px;
+        }
+        
+        .mobile-form .el-form-item__label {
+            font-size: 14px;
+            width: 80px !important;
+        }
+        
+        .mobile-form .el-form-item__content {
+            margin-left: 0 !important;
+        }
+        
+        .captcha-container {
+            flex-wrap: wrap;
+        }
+        
+        .captcha-input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        #v_container {
+            width: 120px;
+            height: 40px;
+        }
+        
+        .refresh-captcha {
+            margin-left: 0;
+        }
+        
+        .register-btn {
+            height: 48px;
+            font-size: 16px;
+        }
+    }
+    
+    @media screen and (max-width: 480px) {
+        .el-dialog__body {
+            padding: 20px 16px !important;
+        }
+        
+        .mobile-form .el-form-item__label {
+            width: 70px !important;
+            font-size: 13px;
+        }
+        
+        .mobile-form .el-form-item__content {
+            margin-left: 0 !important;
+        }
+        
+        .captcha-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        #v_container {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .refresh-captcha {
+            align-self: flex-start;
+        }
+    }
+    
+    @media screen and (max-width: 375px) {
+        .mobile-form .el-form-item__label {
+            width: 65px !important;
+        }
+        
+        .mobile-form .el-form-item__content {
+            margin-left: 0 !important;
+        }
+    }
+    
+    /* 动画效果 */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+    
+    /* 美化滚动条 */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 3px;
+    }
+    
+    /* 美化placeholder */
+    ::placeholder {
+        color: #999;
+        opacity: 1;
+    }
+    
+    /* 美化焦点状态 */
+    *:focus {
+        outline: none;
+    }
+    
+    /* 美化选中状态 */
+    ::selection {
+        background: rgba(102, 126, 234, 0.2);
+        color: #333;
+    }
+    
+    /* 美化表单状态 */
+    .el-form-item.is-success .el-input__inner {
+        border-color: #52c41a;
+    }
+    
+    /* 美化图标动画 */
+    .el-icon-refresh {
+        transition: transform 0.3s ease;
+    }
+    
+    .refresh-captcha:hover .el-icon-refresh {
+        transform: rotate(180deg);
+    }
+    
+    /* 美化背景图案 */
+    body:before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                          radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 20%);
+        pointer-events: none;
+        z-index: -1;
+    }
+</style>
 </head>
 
 <body class="sectionContainer-A1">
  
 <div class="sectionBg-A1"></div>
-<div class="container-fluid">
-    <div class="sectionTop-A1 z1">您是商家么？ <a href="###">了解更多</a></div>
-    <div class="sectionWrap-A1">
-        <div class="p25">
-            <div class="sectionTitle-A1 mb15 mt10">
-                <h2 class="mb10">现在就加入<em>Gezlife</em></h2>
-                <p>发现惊喜，搜集所爱，收入囊中只在这里。现在就注册加入欢喜开始搭建您自己的目录吧！</p>
-            </div>
-            
-            <div class="sectionWrap-A2 mb10">
-                <a href="###" class="sectionBtn-A1 sectionBtn-A1-1 mr5">新浪微博</a>
-                <a href="###" class="sectionBtn-A1 sectionBtn-A1-2 mr5">腾讯QQ</a>
-                <a href="###" class="sectionBtn-A1 sectionBtn-A1-3">人人</a>
+<div class="container-fluid" id="app">
+    <el-dialog title="用户注册" :visible="true" :show-close="false" width="50%">
+        <div class="sectionForm-A1">
+            <div class="sectionBlock-A1" data-tab="section" data-id="pone">
+                <el-form :model="form" :inline="false" :rules="rules" ref="validateForm" class="mobile-form" label-width="100px">
+                    <el-form-item label="" prop="username" :error="serverErrors.username">
+                        <el-input 
+                            v-model="form.username" 
+                            autocomplete="off" 
+                            placeholder="请输入用户名（3-20位字母、数字或下划线）"
+                            clearable>
+                            <template slot="prepend">
+                                <i class="el-icon-user"></i>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    
+                    <el-form-item label="" prop="email" :error="serverErrors.email">
+                        <el-input 
+                            v-model="form.email" 
+                            autocomplete="off" 
+                            placeholder="请输入邮箱地址"
+                            clearable>
+                            <template slot="prepend">
+                                <i class="el-icon-message"></i>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    
+                    <el-form-item label="" prop="phone" :error="serverErrors.phone">
+                        <el-input 
+                            v-model="form.phone" 
+                            autocomplete="off" 
+                            placeholder="请输入11位手机号码"
+                            clearable>
+                            <template slot="prepend">
+                                <i class="el-icon-phone"></i>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    
+                    <el-form-item label="" prop="password">
+                        <el-input 
+                            type="password" 
+                            v-model="form.password" 
+                            autocomplete="off" 
+                            placeholder="请输入密码（6-20位字符）"
+                            show-password
+                            clearable>
+                            <template slot="prepend">
+                                <i class="el-icon-lock"></i>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    
+                    <el-form-item label="" prop="password_repeat">
+                        <el-input 
+                            type="password" 
+                            v-model="form.password_repeat" 
+                            autocomplete="off" 
+                            placeholder="请再次输入密码"
+                            show-password
+                            clearable>
+                            <template slot="prepend">
+                                <i class="el-icon-lock"></i>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    
+                    <el-form-item label="" prop="code">
+                        <div class="captcha-container">
+                            <el-input 
+                                class="captcha-input"
+                                v-model="form.code" 
+                                autocomplete="off" 
+                                placeholder="请输入验证码"
+                                clearable>
+                            </el-input>
+                            <div id="v_container" style="width:120px;height: 40px;" class=""></div>
+                        </div>
+                    </el-form-item>
+                    
+                    <el-form-item>
+                        <el-button 
+                            type="primary" 
+                            @click="submit()" 
+                            :loading="loading"
+                            class="register-btn">
+                            {{ loading ? '注册中...' : '立即注册' }}
+                        </el-button>
+                        
+                        <div v-if="error_msg" class="error-tips">
+                            <i class="el-icon-warning"></i> {{ error_msg }}
+                        </div>
+                        
+                        <div class="login-link">
+                            已经有账号？<a href="index.html?r=site/login">点击这里登录</a>
+                        </div>
+                    </el-form-item>
+                </el-form>
             </div>
             
         </div>
-        <div class="sectionTitle-B1 sectionFloat-A1 mb10">
-            <ul class="clear" data-tab="select">
-              <li class="cur" data-id="emmail">邮件地址注册</li>
-              <li class="" data-id="pone">手机号码注册</li>
-            </ul>
-        </div>
-        <div class="p25 sectionForm-A1">
-            <div class="sectionBlock-A1" data-tab="section" data-id="emmail">
-                <form class="form-horizontal">
-                  <div class="mb20">
-                    <input type="text" name="e-addres" id="e-addres" class="form-control mb5" placeholder="邮件地址">
-                    <span class="help-block none">邮件地址不正确，请重新输入。</span>
-                  </div>
-                  
-                  
-                  <div class="mb20">
-                    <input type="password" name="e-password" id="e-password" class="form-control mb5" placeholder="设置密码">
-                    <span class="help-block none">请输入密码</span>
-                  </div>
-                  
-                 <div class="sectionWrap-A3 clear mb10">
-                      <button type="submit" class="btn L">注册</button>
-                      <p class="sectionText-A1 R">已经有了账号？<a href="index.html?r=site/login">点击这里登录</a></p>
-                  </div>
-                </form>
-            </div>
-            
-            <div class="sectionBlock-A1 none" data-tab="section" data-id="pone">
-                <form class="form-horizontal">
-                  <div class="mb20">
-                    <input type="text" class="form-control mb5" id="phone" placeholder="手机号码">
-                    <span class="help-block none">手机号码格式不正确，请重新输入。</span>
-                  </div>
-                  
-                  <div class="mb20">
-                    <div class="clear yzm mb5">
-                        <input type="text" class="form-control L text" id="checkCode" placeholder="填写验证码">
-                        <a href="###" class="linkBlue L ml20 p-rel top8">重新获取验证码</a>
-                    </div>
-                    <span class="help-block none">请输入验证码</span>
-                  </div>
-                  
-                  <div class="mb20">
-                    <input type="password" class="form-control mb5" id="phone-password" placeholder="设置密码">
-                    <span class="help-block none">请输入密码</span>
-                  </div>
-                  
-                  <div class="sectionWrap-A3 clear mb10">
-                      <button type="submit" class="btn L">注册</button>
-                      <p class="sectionText-A1 R">已经有了账号？<a href="index.html?r=site/login">点击这里登录</a></p>
-                  </div>
-                </form>
-            </div>
-            
-            
-        </div>
-        
-    </div>
+
+    </el-dialog>
+
+
 
 </div>
 
 <script type="text/javascript">
-    LAM.run(function() {
+    LAM.run([jQuery], function($) {
         'use strict';
         var System = this;
         var reg = null;
-        function show_error($v){
-            $v.addClass('error');
-            $v.parents('.mb20').find('.help-block').show();
-        }
 
-        $(function () {
-            $(document).on('click', '[data-tab="select"] li', function () {
-                System.Tab.tab.call(this,{
-                    "active":'cur'
+        const API = System.require("Api");
+        var CaptchaModel = System.require("models.CaptchaModel");
+
+        var vm = new Vue({
+            el: '#app',
+            data: function() {
+                // 密码验证规则
+                var validatePassword = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入密码'));
+                    } else if (value.length < 6) {
+                        callback(new Error('密码长度不能少于6位'));
+                    } else if (value.length > 20) {
+                        callback(new Error('密码长度不能超过20位'));
+                    } else {
+                        // 如果确认密码已经输入，验证两者是否一致
+                        if (this.form.password_repeat !== '') {
+                            this.$refs.validateForm.validateField('password_repeat');
+                        }
+                        callback();
+                    }
+                };
+                
+                // 重复密码验证规则
+                var validatePasswordRepeat = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请再次输入密码'));
+                    } else if (value !== this.form.password) {
+                        callback(new Error('两次输入的密码不一致'));
+                    } else {
+                        callback();
+                    }
+                };
+                
+                // 手机号验证规则
+                var validatePhone = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入手机号码'));
+                    } else if (!/^1[3-9]\d{9}$/.test(value)) {
+                        callback(new Error('请输入正确的手机号码'));
+                    } else {
+                        callback();
+                    }
+                };
+                
+                // 用户名验证规则
+                var validateUsername = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入用户名'));
+                    } else if (!/^[a-zA-Z0-9_]{3,20}$/.test(value)) {
+                        callback(new Error('用户名应为3-20位字母、数字或下划线'));
+                    } else {
+                        callback();
+                    }
+                };
+                
+                // 邮箱验证规则
+                var validateEmail = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入邮箱地址'));
+                    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) {
+                        callback(new Error('请输入正确的邮箱地址'));
+                    } else {
+                        callback();
+                    }
+                };
+                
+                // 验证码验证规则
+                var validateCode = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入验证码'));
+                    } else if (!this.verifyCode || !this.verifyCode.validate(value)) {
+                        callback(new Error('验证码错误'));
+                    } else {
+                        callback();
+                    }
+                };
+                
+                return {
+                    form: {
+                        username: '',
+                        phone: '',
+                        email: '',
+                        password: '',
+                        password_repeat: '',
+                        code: ''
+                    },
+                    // 服务器返回的错误信息
+                    serverErrors: {
+                        username: '',
+                        email: '',
+                        phone: ''
+                    },
+                    rules: {
+                        username: [
+                            { required: true, validator: validateUsername, trigger: 'blur' }
+                        ],
+                        email: [
+                            { required: true, validator: validateEmail, trigger: 'blur' }
+                        ],
+                        phone: [
+                            { required: true, validator: validatePhone, trigger: 'blur' }
+                        ],
+                        password: [
+                            { required: true, validator: validatePassword, trigger: 'blur' }
+                        ],
+                        password_repeat: [
+                            { required: true, validator: validatePasswordRepeat, trigger: 'blur' }
+                        ],
+                        code: [
+                            { required: true, validator: validateCode, trigger: 'blur' }
+                        ]
+                    },
+                    error_msg: '',
+                    loading: false,
+                    verifyCode: null
+                };
+            },
+            created() {
+                // 页面创建时初始化
+            },
+            mounted() {
+                this.$nextTick(() => {
+                    this.initCaptcha();
                 });
-
-            });
-
-            reg=new System.PopupLayer({
-                '$popLayout':$('.sectionWrap-A1')
-            });
-            reg.$popLayout.appendTo($('bdoy'));
-            reg.setCenter();
-
-            $("form").each(function(){
-                $(this).submit(function(){
-                    var flag=true;
-
-                    var $email=$(this).find("#e-addres");
-                    var $e_password=$(this).find('#e-password');
-                    var $phone=$(this).find('#phone');
-                    var $checkCode=$(this).find('#checkCode');
-                    var $phone_password=$(this).find('#phone-password');
-
-
-
-
-                    if ($email && !System.Validation.reg.email.test($email.val())) {
-                        show_error($email);
-                        flag=false;
+            },
+            methods: {
+                // 清空所有错误信息
+                clearAllErrors() {
+                    this.serverErrors = {
+                        username: '',
+                        email: '',
+                        phone: ''
+                    };
+                    this.error_msg = '';
+                    // 清除表单验证状态
+                    if (this.$refs.validateForm) {
+                        this.$refs.validateForm.clearValidate();
                     }
-                    if ($e_password && ''==$e_password.val()) {
-                        show_error($e_password);
-                        flag=false;
+                },
+                // 处理服务器返回的错误信息
+                handleServerErrors(errorData) {
+                    // 清空之前的错误
+                    this.clearAllErrors();
+                    
+                    if (!errorData) return;
+                    
+                    console.log('服务器返回错误:', errorData);
+                    
+                    if (System.isString(errorData)) {
+                        // 如果是字符串，作为通用错误
+                        this.error_msg = errorData;
+                        this.$message({
+                            type: 'error',
+                            message: errorData
+                        });
+                    } else if (System.isObject(errorData)) {
+                        let hasFieldError = false;
+                        
+                        // 处理字段错误
+                        System.each(errorData, (field, error) => {
+                            if (System.isArray(error) && error.length > 0) {
+                                // 取第一个错误信息
+                                const errorMsg = error[0];
+                                this.setFieldError(field, errorMsg);
+                                hasFieldError = true;
+                            } else if (System.isString(error)) {
+                                this.setFieldError(field, error);
+                                hasFieldError = true;
+                            }
+                        });
+                        
+                        // 如果没有字段错误但有通用错误，显示通用错误
+                        if (!hasFieldError && errorData.message) {
+                            this.error_msg = errorData.message;
+                            this.$message({
+                                type: 'error',
+                                message: errorData.message
+                            });
+                        }
                     }
-
-                    if ($phone && !System.Validation.reg.phone.test($phone.val())) {
-                        show_error($phone);
-                        flag=false;
+                },
+                // 设置字段错误
+                setFieldError(field, errorMessage) {
+                    // 更新 serverErrors
+                    if (this.serverErrors.hasOwnProperty(field)) {
+                        this.serverErrors[field] = errorMessage;
+                        
+                        // 等待 DOM 更新后手动触发验证显示
+                        this.$nextTick(() => {
+                            // 方法1: 使用 validateField 触发验证
+                            this.$refs.validateForm.validateField(field, (errorMessage) => {
+                                // 验证回调
+                            });
+                            
+                            // 方法2: 直接设置表单字段的验证状态（更可靠）
+                            const formItem = this.findFormItemByProp(field);
+                            if (formItem) {
+                                formItem.validateState = 'error';
+                                formItem.validateMessage = errorMessage;
+                                // 强制更新
+                                this.$forceUpdate();
+                            }
+                        });
+                    } else {
+                        // 如果不是已知字段，作为通用错误
+                        this.error_msg = errorMessage;
+                        this.$message({
+                            type: 'error',
+                            message: errorMessage
+                        });
                     }
-                    if ($checkCode && ''==$checkCode.val()) {
-                        show_error($checkCode);
-                        flag=false;
+                },
+                // 根据 prop 查找表单字段
+                findFormItemByProp(prop) {
+                    if (!this.$refs.validateForm || !this.$refs.validateForm.fields) {
+                        return null;
                     }
-
-                    if ($phone_password && ''==$phone_password.val()) {
-                        show_error($phone_password);
-                        flag=false;
+                    
+                    return this.$refs.validateForm.fields.find(field => field.prop === prop);
+                },
+                // 初始化验证码
+                initCaptcha() {
+                    try {
+                        // 确保容器存在
+                        const container = document.getElementById('v_container');
+                        if (!container) {
+                            console.error('验证码容器不存在');
+                            return;
+                        }
+                        
+                        // 清空容器
+                        container.innerHTML = '';
+                        
+                        // 初始化验证码
+                        this.verifyCode = new CaptchaModel("v_container", {
+                            width: 120,
+                            height: 40,
+                            fontSize: 22,
+                            type: 'number'
+                        });
+                        
+                        console.log('验证码初始化成功');
+                        
+                    } catch (error) {
+                        console.error('验证码初始化失败:', error);
+                        this.$message.error('验证码初始化失败，请刷新页面');
                     }
-
-
-                    return flag;
-                });
-            });
-
-
-
-            $(window).resize(function() {
-                reg.resize().scroll();
-            });
-            $(window).scroll(function() {
-                reg.scroll();
-
-
-            });
+                },
+                
+                // 刷新验证码
+                refreshCaptcha() {
+                    if (this.verifyCode) {
+                        try {
+                            this.verifyCode.refresh();
+                            this.form.code = ''; // 清空验证码输入框
+                            this.$refs.validateForm.clearValidate('code'); // 清除验证码验证状态
+                        } catch (error) {
+                            console.error('刷新验证码失败:', error);
+                            this.initCaptcha(); // 如果刷新失败，重新初始化
+                        }
+                    } else {
+                        this.initCaptcha();
+                    }
+                },
+                
+                // 验证表单
+                validateForm() {
+                    let isValid = true;
+                    this.$refs.validateForm.validate((valid) => {
+                        if (!valid) {
+                            isValid = false;
+                            this.$message({
+                                type: 'error',
+                                message: '请完善表单信息'
+                            });
+                        }
+                    });
+                    return isValid;
+                },
+                
+                // 验证验证码
+                verifyCaptcha() {
+                    if (!this.verifyCode) {
+                        this.$message.error('验证码初始化失败');
+                        return false;
+                    }
+                    
+                    try {
+                        const isValid = this.verifyCode.validate(this.form.code);
+                        if (!isValid) {
+                            this.$message.error('验证码错误');
+                            this.refreshCaptcha();
+                            return false;
+                        }
+                        return true;
+                    } catch (error) {
+                        console.error('验证码验证失败:', error);
+                        this.$message.error('验证码验证失败');
+                        return false;
+                    }
+                },
+                
+                // 提交表单
+                submit() {
+                    if (this.loading) return;
+                    
+                    // 验证表单
+                    if (!this.validateForm()) {
+                        return false;
+                    }
+                    
+                    // 验证验证码
+                    if (!this.verifyCaptcha()) {
+                        return false;
+                    }
+                    
+                    this.loading = true;
+                    this.error_msg = '';
+                    
+                    // 准备提交数据
+                    const submitData = {
+                        username: this.form.username,
+                        email: this.form.email,
+                        phone: this.form.phone,
+                        password: this.form.password
+                    };
+                    
+                    // 调用注册API
+                    API.site.signup(submitData, (res) => {
+                        this.loading = false;
+                        
+                        if (res && res.status === 0) {
+                            this.$message({
+                                type: 'success',
+                                message: '注册成功！正在跳转到登录页面...',
+                                duration: 2000
+                            });
+                            
+                            // 注册成功，2秒后跳转到登录页面
+                            setTimeout(() => {
+                                window.location.href = 'index.html?r=site/login';
+                            }, 2000);
+                            
+                        } else {
+                            let errorMsg = '注册失败';
+                            
+                            if (res && res.error) {
+                                if (System.isString(res.error)) {
+                                    errorMsg = res.error;
+                                } else if (System.isObject(res.error)) {
+                                    this.handleServerErrors(res.error);
+                                    // const errors = [];
+                                    // System.each(res.error, (key, value) => {
+                                    //     if (System.isArray(value)) {
+                                    //         errors.push(value.join(', '));
+                                    //     } else {
+                                    //         errors.push(value);
+                                    //     }
+                                    // });
+                                    // errorMsg = errors.join(', ');
+                                }
+                            }
+                            
+                            // this.error_msg = errorMsg;
+                            this.$message({
+                                type: 'error',
+                                message: errorMsg
+                            });
+                            
+                            // 刷新验证码
+                            this.refreshCaptcha();
+                        }
+                    });
+                }
+            }
         });
 
-
+        $(function () {
+            
+            // 确保验证码正确显示
+            // System.wait(function() {
+            //     if (vm && vm.initCaptcha) {
+            //         vm.initCaptcha();
+            //     }
+            // }, 300);
+        });
 
     });
 

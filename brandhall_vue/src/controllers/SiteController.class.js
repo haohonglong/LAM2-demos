@@ -4,6 +4,9 @@ LAM.run([LAM], function(LAM){
     var __this__=null;
     System.is(System,'BaseController','SiteController',System.CONTROLLERS);
     var BaseController = System.require("src.controllers.BaseController");
+
+    const API = System.require("Api");
+
     
 
     var ROOT  = System.BACKEND;
@@ -20,12 +23,21 @@ LAM.run([LAM], function(LAM){
         'indexAction':function(){
             this.title = "首页";
             this.viewpath = System.VIEWS;
+
+            
+                            
+            const GUEST = System.COOKIE_GUEST.find('auth_key', localStorage.getItem('access_token'));
+            const OBJ =  System.COOKIE_GUEST.get(GUEST.index);
+            let username = '小明';
+            if(OBJ && OBJ.username){
+                username = OBJ.username;
+            }
             
             return this.renderPartial('main',{
                 'COMMON':System.COMMON,
                 'ROOT':ROOT,
                 'user':{
-                    'name':'小明',
+                    'name': username,
                     'age':28
                 },
                 'D':{
@@ -59,7 +71,16 @@ LAM.run([LAM], function(LAM){
                 if(index > -1){
                     this.remove(index);
                     localStorage.removeItem('access_token');
-                    System.redirect(System.INDEX+"site/login");
+                    API.site.logout({}, (res) => {
+                        if(res.status){
+                            System.redirect(System.INDEX+"site/login");
+                        }else {
+                            alert("退出异常")
+                        }
+
+                    });
+                    
+
                 }
             });
 

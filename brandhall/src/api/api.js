@@ -48,7 +48,8 @@ LAM.run([jQuery], function($){
 			"list": "/goods/index",
 		},
 		"site": {
-			"login": "/site/login"
+			"login": "/site/login",
+			"signup": "/site/signup"
 		}
 	};
 
@@ -238,6 +239,16 @@ LAM.run([jQuery], function($){
 			}, func) {
 				request({
 					url: API.site.login,
+					method: 'post',
+					params: { username, password }
+				}, func);
+			},
+			signup({ 
+				username,
+				password
+			}, func) {
+				request({
+					url: API.site.signup,
 					method: 'post',
 					params: { username, password }
 				}, func);

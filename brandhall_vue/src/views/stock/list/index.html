@@ -52,6 +52,7 @@
 <!--Del:end-->
 
                 <el-button size="small" @click="dialogUpAndDown = true">跌涨</el-button>
+                <el-button type="primary" @click="getListOfStockDetail">刷新</el-button></el-button>
 
             </div>
             <div class="mb10">
@@ -96,8 +97,7 @@
                 </u-table-column>
                 <u-table-column
                     fixed
-                    label="选择"
-                    width="100%">
+                    width="30">
                     <template slot-scope="scope">
                         <el-checkbox v-model="del_ids" :label="scope.row.id"></el-checkbox>
                     </template>
@@ -141,6 +141,18 @@
                         <span v-else>{{ scope.row.stock_price }}</span>
                         
                     </template>
+                </u-table-column>
+                <u-table-column
+                    fixed
+                    prop="cost"
+                    label="成本价"
+                    width="80">
+                </u-table-column>
+                <u-table-column
+                    fixed
+                    prop="tax"
+                    label="税"
+                    width="80">
                 </u-table-column>
                 <u-table-column
                     fixed
@@ -223,16 +235,34 @@
                     label="成交额"
                     width="120">
                 </u-table-column>
-                <u-table-column label="成交价(手续费之前)" width="200">
+                <u-table-column
+                    label="盈亏"
+                    width="80">
                     <template slot-scope="scope">
-                      {{ scope.row.stock_price }} * {{ scope.row.stock_deal_total }} = {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
+                        <div v-if="isset(scope.row.cost)">
+                            {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_number).toFixed(2) }}
+                        </div>
+                      </template>
+                </u-table-column>
+                <u-table-column
+                    label="盈亏率"
+                    width="80">
+                    <template slot-scope="scope">
+                        <div v-if="isset(scope.row.cost)">
+                            {{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100).toFixed(2) }}%
+                        </div>
+                      </template>
+                </u-table-column>
+                <u-table-column label="成交价(手续费之前)" width="100">
+                    <template slot-scope="scope">
+                      {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
                     </template>
                 </u-table-column>
-                <u-table-column label="实价" width="200">
+                <u-table-column label="实价" width="100">
                     <template slot-scope="scope">
                         <span v-if="scope.row.stock_deal_total > 0">
                             <span v-if="2 == scope.row.stock_type">
-                                {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }} - 5.73 = {{ (scope.row.stock_price * scope.row.stock_deal_total - 5.73).toFixed(2) }}
+                                {{ (scope.row.stock_price * scope.row.stock_deal_total - 5.73).toFixed(2) }}
                             </span>
                             <span v-else>
                                 {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
@@ -245,9 +275,9 @@
                 </u-table-column>
                 <u-table-column 
                     label="持有估值(手续费之前)"
-                    width="200">
+                    width="100">
                     <template slot-scope="scope">
-                      <span>{{ scope.row.stock_price }} * {{ scope.row.stock_number }} = {{ (scope.row.stock_price * scope.row.stock_number).toFixed(2) }}</span>
+                      <span>{{ (scope.row.stock_price * scope.row.stock_number).toFixed(2) }}</span>
                     </template>
                 </u-table-column>
                 <u-table-column 
@@ -258,10 +288,10 @@
                       <span v-if="1 == scope.row.gone">是</span>
                     </template>
                 </u-table-column>
-                <u-table-column fixed="right" label="操作" width="120">
+                <u-table-column fixed="right" label="操作" width="135">
                     <template slot-scope="scope">
                         <el-button type="primary" @click="viewStockDetail(scope.row)" size="mini">查看</el-button>
-                        <el-button type="danger" icon="el-icon-delete" circle @click="remove(scope.row.id)" size="mini"></el-button></el-button>
+                        <el-button type="danger" icon="el-icon-delete" circle @click="removeSelected(scope.row)" size="mini"></el-button></el-button>
                     </template>
                 </u-table-column>
                 
@@ -285,7 +315,7 @@
 
 <!--Del:end-->
 
-<el-dialog  width="25%" custom-class="" :close-on-click-modal="true" title="跌涨" :visible.sync="dialogUpAndDown">
+<el-dialog  width="100%" custom-class="" :close-on-click-modal="true" title="跌涨" :visible.sync="dialogUpAndDown">
     <div>
         <el-row>
             <el-col :span="12">
@@ -402,11 +432,12 @@
 
                 this.getListOfStockDetail();
                 
-                System.listen(()=>{
-                    this.getListOfStockDetail();
-                }, 250000);
+                
             },
             'methods': {
+                isset(a){
+                    return System.isset(a);
+                },
                 timeSharing(){
                     this.dialogTimeSharingVisible = true;
 
@@ -452,9 +483,22 @@
                     }).catch(() => {
                         this.loading = false;
                         // this.$message('已取消删除')  
+                        this.del_ids = [];
                     })
                 },
-                removeSelected(){
+                removeSelected(row){
+                    if(System.isset(row.stock_type)){
+                        if(0 == row.stock_type){
+                            this.del_ids.push(row.id);
+                        }else {
+                            this.$notify({
+                                title: 'Warning',
+                                message: "除了非买卖数据外禁止删除",
+                                type: 'warning'});
+                                return;
+                        }
+                    }
+
                     const ids = this.del_ids;
 
                     if(ids.length > 0){
@@ -489,31 +533,6 @@
                             type: 'warning'});
                     }
                     
-                },
-                remove(id){
-
-                    this.confirm(()=> {
-                        this.loading = true;
-                      //do something
-                        Api.stockDetail.delete(id, D => {
-                            if(0 == D.status){
-                                this.getListOfStockDetail();
-                                this.$notify({
-                                    title: 'Success',
-                                    message: D.message,
-                                    type: 'success'
-                                });
-                                    
-                            } else {
-                                this.$notify({
-                                    title: 'Warning',
-                                    message: D.message,
-                                    type: 'warning'});
-                            }
-                            this.loading = false;
-                        });
-                    })
-
                 },
                 viewStockDetail(data){
                     this.$refs.viewStockDetailComponent.show(data);

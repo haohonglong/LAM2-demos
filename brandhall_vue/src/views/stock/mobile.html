@@ -1,0 +1,1655 @@
+<#define __PACKAGE__="views.stock" />
+<#define __ID__="__PACKAGE__.mobile" />
+<#define _TITLE_="股票列表-mobile" />
+<#define __LAMPATH__="{#LAM.classPath#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __DATAPATH__="{#LAM.DATA#}" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __CSS__="{#LAM.CSS#}" />
+<#define __PLUGINS__="{#LAM.PLUGINS#}" />
+<#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __URL__="{#LAM.URL#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+<#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
+<#import type="css" path="/tree" root="__CSS__" befor="1" />
+
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+<#Block:begin id="__ID__">
+
+<div v-loading="loading" class="stock-app">
+    <!-- 顶部操作栏 -->
+    <div class="app-header">
+        <div class="app-title">
+            <el-row style="display: inline-block;" v-if="stock_code != ''">
+                <span @click="searchStock(stock_code)">{{ stock_code }} {{ stock_name }}</span>
+                <span style="cursor: pointer;color:#333;font-size: 14px;" @click="setIframSrc('https://stockpage.10jqka.com.cn/' + stock_code)">同花顺</span>
+                <span style="cursor: pointer;color:#333;font-size: 14px;" @click="setIframSrc('https://gushitong.baidu.com/stock/ab-' + stock_code)">百度股市通</span>
+            </el-row>
+            <el-row v-else>
+                <span>股票管理</span>
+                <el-badge :value="totalCount" class="stock-count-badge">
+                    <span class="stock-count">股票总数</span>
+                </el-badge>
+            </el-row>
+        </div>
+        <div class="header-actions">
+            <el-button type="primary" size="small" @click="addStock">添加股票</el-button>
+            <el-button type="success" size="small" :loading="feachAllLoading" @click="feachAll">更新数据</el-button>
+            <el-button type="info" size="small" @click="showStatistics">统计</el-button>
+        </div>
+    </div>
+
+    <!-- 统计信息卡片 -->
+    <div class="stats-cards" v-if="showStats">
+        <div class="stat-card">
+            <div class="stat-value">{{ totalCount }}</div>
+            <div class="stat-label">总股票数</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ lups.length }}</div>
+            <div class="stat-label">涨停</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ ldowns.length }}</div>
+            <div class="stat-label">跌停</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ highRatingCount }}</div>
+            <div class="stat-label">高推荐</div>
+        </div>
+    </div>
+
+    <!-- 搜索区域 -->
+    <div class="search-box">
+        <div class="search-input">
+            <el-input
+                v-model="searchText"
+                placeholder="搜索股票代码或名称"
+                prefix-icon="el-icon-search"
+                clearable
+                @clear="clearSearchText()">
+            </el-input>
+        </div>
+        <el-select v-model="selectedLine" placeholder="线路" size="small">
+            <el-option label="线路1" value="1"></el-option>
+            
+<!--Del:begin-->
+
+            <el-option label="线路2" value="2"></el-option>
+            <el-option label="线路3" value="3"></el-option>
+<!--Del:end-->
+
+        </el-select>
+        <el-button type="primary" size="small" @click="toggleAutoUpdate">
+            {{ autoUpdate ? '停止自动' : '自动更新' }}
+        </el-button>
+
+        <!-- 间隔时间设置区域 -->
+        <div class="interval-settings">
+            <span class="interval-label">间隔时间：</span>
+            <el-input 
+                v-model="intervalTime" 
+                size="small" 
+                class="interval-input"
+                placeholder="毫秒">
+            </el-input>
+            <el-select 
+                v-model="intervalUnit" 
+                size="small" 
+                class="interval-select" 
+                placeholder="单位">
+                <el-option label="1分钟" value="1"></el-option>
+                <el-option label="2分钟" value="2"></el-option>
+                <el-option label="3分钟" value="3"></el-option>
+                <el-option label="5分钟" value="5"></el-option>
+            </el-select>
+        </div>
+    </div>
+
+    <!-- 筛选控制区域 -->
+    <div class="filter-controls">
+        <div class="filter-item">
+            <span class="filter-label">筛选：</span>
+            <el-select v-model="filterType" size="small" @change="applyFilters">
+                <el-option label="全部股票" value="all"></el-option>
+                <el-option label="仅涨停" value="limitUp"></el-option>
+                <el-option label="仅跌停" value="limitDown"></el-option>
+<!--Del:begin-->
+
+                <el-option label="高推荐(4星以上)" value="highRating"></el-option>
+
+<!--Del:end-->
+
+                <el-option label="测试股票" value="test"></el-option>
+            </el-select>
+        </div>
+        <div class="filter-item">
+            <el-checkbox v-model="showOnlyUpdatedToday" @change="applyFilters">仅今日更新</el-checkbox>
+        </div>
+    </div>
+
+    <!-- 排序控制区域 -->
+    <div class="sort-controls">
+        <div class="sort-item">
+            <span class="sort-label">排序方式：</span>
+            <el-select v-model="sortField" size="small" @change="sortStocks">
+                <el-option label="默认顺序" value="default"></el-option>
+                <el-option label="推荐等级" value="level"></el-option>
+                <el-option label="创建日期" value="created_at"></el-option>
+                <el-option label="更新日期" value="updated_at"></el-option>
+                <el-option label="当前价格" value="stock_price"></el-option>
+                <el-option label="涨跌幅" value="change_rate"></el-option>
+                <el-option label="持股数" value="stock_number"></el-option>
+            </el-select>
+        </div>
+        <div class="sort-item">
+            <span class="sort-label">排序方向：</span>
+            <el-radio-group v-model="sortOrder" size="small" @change="sortStocks">
+                <el-radio-button label="desc">降序</el-radio-button>
+                <el-radio-button label="asc">升序</el-radio-button>
+            </el-radio-group>
+        </div>
+        <div class="sort-item" v-if="sortField === 'level'">
+            <span class="sort-label">高亮显示：</span>
+            <el-switch
+                v-model="highlightHighRating"
+                active-text="高推荐"
+                inactive-text="全部"
+                @change="toggleHighlight">
+            </el-switch>
+        </div>
+    </div>
+
+    <!-- 涨停跌停标签 -->
+    <div class="tags-section">
+        <div class="tags-header">
+            <div class="tags-title">涨停股票</div>
+            <el-tag type="danger" size="mini">{{ lups.length }}只</el-tag>
+        </div>
+        <div class="tags-container">
+            <el-tag
+                v-for="item in lups"
+                :key="item"
+                @click="searchStock(item)"
+                type="danger"
+                size="small"
+                style="cursor: pointer; margin: 2px;">
+                {{ item }}
+            </el-tag>
+        </div>
+    </div>
+
+    <div class="tags-section">
+        <div class="tags-header">
+            <div class="tags-title">跌停股票</div>
+            <el-tag type="success" size="mini">{{ ldowns.length }}只</el-tag>
+        </div>
+        <div class="tags-container">
+            <el-tag
+                v-for="item in ldowns"
+                :key="item"
+                @click="searchStock(item)"
+                type="success"
+                size="small"
+                style="cursor: pointer; margin: 2px;">
+                {{ item }}
+            </el-tag>
+        </div>
+    </div>
+
+    <!-- 进度条 -->
+    <el-row v-if="percentage > 0">
+        <el-progress 
+            :percentage="percentage"
+            :show-text="percentage > 5">
+        </el-progress>
+        <div class="progress-text" v-if="percentage > 0 && percentage < 100">
+            更新中... {{ percentage }}%
+        </div>
+    </el-row>
+
+    <!-- 股票列表 -->
+    <div v-if="loading" class="loading-container">
+        <i class="el-icon-loading"></i>
+        <span style="margin-left: 8px;">加载中...</span>
+    </div>
+
+    <div v-else-if="displayedStocks.length === 0" class="empty-container">
+        <i class="el-icon-data-analysis empty-icon"></i>
+        <div>暂无股票数据</div>
+        <el-button type="primary" size="small" @click="addStock" style="margin-top: 16px;">添加股票</el-button>
+    </div>
+
+    <div v-else>
+        <div class="stock-list-info">
+            显示 {{ displayedStocks.length }} / {{ tableData.length }} 只股票
+            <el-button v-if="displayedStocks.length < tableData.length" type="text" size="mini" @click="resetFilters">
+                显示全部
+            </el-button>
+        </div>
+        
+        <div 
+            class="stock-card" 
+            v-for="stock in displayedStocks" 
+            :key="stock.stock_id"
+            :class="{'high-rating-card': stock.level >= 4, 'test-stock-card': stock.flag === 1}">
+            <div class="stock-header">
+                <div class="stock-info">
+                    <div class="stock-id-btn" @click="searchStock(stock.stock_id)">
+                        ID: {{ stock.stock_id }}
+                    </div>
+                    <div class="stock-code" @click="handleDialogShow(stock)">
+                        {{ stock.stock_code }}
+                        <el-tag v-if="stock.flag === 1" type="warning" size="mini" style="margin-left: 4px;">测试</el-tag>
+                    </div>
+                    <div class="stock-name">
+                        <a :href="'__URL__/stock/list/' + stock.stock_id + '/' + stock.stock_code + '/' + stock.stock_name" target="_blank">{{ stock.stock_name }}</a>
+                        <span v-if="0 == stock.flag" style="cursor: pointer;" @click="showDateList(stock)">(每日)</span>
+                    </div>
+                </div>
+                <div class="stock-price" :class="getPriceClass(stock)">
+                    {{ stock.stock_price }}
+                    <div class="price-change" :class="getChangeClass(stock)">
+                        {{ getChangeRate(stock) }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stock-details">
+                <div class="detail-item">
+                    <span class="detail-label">成交价</span>
+                    <span class="detail-value">{{ stock.bought }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">成本价</span>
+                    <span class="detail-value">{{ stock.cost }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">持股数</span>
+                    <span class="detail-value">
+                        {{ stock.stock_number }}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">税</span>
+                    <span class="detail-value">{{ stock.tax }}元</span>
+                </div>
+            </div>
+
+            <!-- 盈亏信息 -->
+            <div class="profit-info" v-if="stock.bought > 1">
+                <div class="profit-item">
+                    <span class="profit-label">持仓市值</span>
+                    <span class="profit-value">{{ (stock.stock_price * stock.stock_number).toFixed(2) }}</span>
+                </div>
+                <div class="profit-item">
+                    <span class="profit-label">盈亏</span>
+                    <span class="profit-value" :class="getProfitClass(stock)">
+                        {{ ((stock.stock_price - stock.cost) * stock.stock_number - stock.tax).toFixed(2) }}
+                    </span>
+                </div>
+                <div class="profit-item">
+                    <span class="profit-label">盈亏率</span>
+                    <span class="profit-value" :class="getProfitClass(stock)">
+                        {{ (((stock.stock_price - stock.cost) / stock.cost) * 100).toFixed(2) }}%
+                    </span>
+                </div>
+            </div>
+
+            <!-- 推荐等级 -->
+            <div class="rating-section">
+                <div class="rating-label">推荐等级</div>
+                <div class="rating-controls">
+                    <span style="cursor: pointer; font-size: 12px; color: #909399;" @click="setLevel(stock.stock_id, 0)">重置</span>
+                    <el-rate 
+                        size="mini" 
+                        @change="setLevel(stock.stock_id, stock.level)" 
+                        v-model="stock.level"
+                        :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                    </el-rate>
+                </div>
+            </div>
+
+            <!-- 日期信息 -->
+            <div class="date-info">
+                <div class="date-item">
+                    <span class="date-label">创建日期</span>
+                    <span class="date-value">{{ stock.created_at }}</span>
+                </div>
+                <div class="date-item">
+                    <span class="date-label">更新日期</span>
+                    <span class="date-value">{{ stock.updated_at }}</span>
+                </div>
+            </div>
+            <div class="date-info">
+                {{ stock.stock_remark }}
+            </div>
+            
+            <div class="stock-actions">
+                <el-tooltip content="复制股票信息" placement="top">
+                    <el-button type="success" size="mini" class="action-btn" @click="copyStock(stock)">
+                        复制
+                    </el-button>
+                </el-tooltip>
+                <el-tooltip content="交易操作" placement="top">
+                    <el-button type="warning" size="mini" class="action-btn" @click="tradeStock(stock)">
+                        交易
+                    </el-button>
+                </el-tooltip>
+                <el-tooltip content="更新该股票数据" placement="top">
+                    <el-button type="primary" size="mini" class="action-btn" @click="feachByStockid(stock.stock_id)">
+                        更新
+                    </el-button>
+                </el-tooltip>
+                <el-tooltip content="编辑股票信息" placement="top">
+                    <el-button type="warning" size="mini" class="action-btn" @click="formEditStockComponent(stock)">
+                        编辑
+                    </el-button>
+                </el-tooltip>
+                <el-tooltip content="删除该股票" placement="top">
+                    <el-button type="danger" size="mini" class="action-btn" @click="remove(stock.stock_id)">
+                        删除
+                    </el-button>
+                </el-tooltip>
+            </div>
+        </div>
+        
+        <!-- 加载更多 -->
+<!--Del:begin-->
+        <div class="load-more" v-if="!infiniteScrollDisabled && displayedStocks.length > 0">
+            <el-button 
+                type="text" 
+                :loading="loading" 
+                @click="loadMore"
+                class="load-more-btn">
+                {{ loading ? '加载中...' : '加载更多' }}
+            </el-button>
+        </div>
+        
+<!--Del:end-->
+
+    </div>
+    
+    <!-- 组件引用 -->
+    <form-stock-component title="添加" @get-list-stock="getTheListOfStock" ref="stockComponent" />
+    <form-stock-component title="修改" :stock_id="stock_id" @get-list-stock="getTheListOfStock" ref="stockEditComponent" />
+    <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getTheListOfStock" ref="stockDetailComponent" />
+    <stock-date-list-component ref="stockDeteComponent" />
+
+    <!-- 右侧抽屉 -->
+    <el-drawer
+      title="股票详情"
+      :visible.sync="sidebarOfRight"
+      :with-header="true"
+      direction="rtl"
+      size="95%"
+      class="stock-drawer">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <div class="drawer-title">{{ stock_code }} {{ stock_name }}</div>
+          <el-button type="primary" size="small" @click="refreshIframe">刷新</el-button>
+        </div>
+        <div class="drawer-iframe-container">
+          <iframe :src="iframSrc" width="100%" height="100%" frameborder="0" class="drawer-iframe"></iframe>
+        </div>
+      </div>
+    </el-drawer>
+
+    <!-- 底部操作栏（移动端） -->
+    <div class="bottom-actions">
+        <div class="action-item" @click="addStock">
+            <div class="action-icon">
+                <i class="el-icon-plus"></i>
+            </div>
+            <span>添加</span>
+        </div>
+        <div class="action-item" @click="feachAll">
+            <div class="action-icon">
+                <i class="el-icon-refresh"></i>
+            </div>
+            <span>更新</span>
+        </div>
+        <div class="action-item" @click="showStatistics">
+            <div class="action-icon">
+                <i class="el-icon-data-analysis"></i>
+            </div>
+            <span>统计</span>
+        </div>
+        <div class="action-item" @click="toggleAutoUpdate">
+            <div class="action-icon" :class="{'auto-updating': autoUpdate}">
+                <i class="el-icon-timer"></i>
+            </div>
+            <span>{{ autoUpdate ? '停止' : '自动' }}</span>
+        </div>
+    </div>
+</div>
+
+<#Block:end>
+
+<#include file="~/components/FormStockComponent.html" />
+<#include file="~/components/FormAddStockDetailComponent.html" />
+<#include file="~/components/StockDateListComponent.html" />
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+        
+
+        function getIframe(src){
+            return `<iframe src="http://stockpage.10jqka.com.cn/${src}" width="100%" height="100%" frameborder="0"></iframe>`;
+        }
+
+        const Api = System.require("Api");
+        var feach_auto_timer = 0;
+
+        var ContentComponent = {
+            'name': "stockIndex",
+            data(){
+                return {
+                    'highlightHighRating': true,
+                    'sortField': 'default',
+                    'sortOrder': 'desc',
+                    'sidebarOfRight':false,
+                    'lups':[],
+                    'ldowns':[],
+                    'iframSrc': '',
+                    'dialogTimeSharingVisible': false,
+                    'dialogInfoVisible': false,
+                    'loading': false,
+                    'feachAllLoading': false,
+                    'selectedLine': '1',
+                    'searchText': '',
+                    'intervalUnit': '5',
+                    'intervalTime': 60000,
+                    'feach_auto': false,
+                    'autoUpdate': false,
+                    'tableData': [],
+                    'stockids': [],
+                    'percentage': 0,
+                    'stock_id': '',
+                    'stock_code': '',
+                    'stock_name':'',
+                    'size': 0,
+                    'infiniteScrollDisabled': false,
+                    'showStats': false,
+                    'filterType': 'all',
+                    'showOnlyUpdatedToday': false,
+                    'totalCount': 0
+                };
+            },
+            'components': {
+                'form-stock-component': System.require('stock.components.FormStockComponent')
+                ,'form-add-stock-detail-component': System.require('stock.components.FormAddStockDetailComponent')
+                ,'stock-date-list-component': System.require('stock.components.StockDateListComponent')
+            },
+            computed: {
+                filteredStocks() {
+                    if (!this.searchText) return this.tableData;
+                    
+                    const searchText = this.searchText.toLowerCase();
+                    localStorage.setItem('searchText', searchText);
+
+                    return this.tableData.filter(data => 
+                        data.stock_id.toLowerCase().includes(searchText) ||
+                        data.stock_code.toLowerCase().includes(searchText) ||
+                        data.stock_name.toLowerCase().includes(searchText)
+                    );
+                },
+                sortedStocks() {
+                    const stocks = [...this.filteredStocks];
+                    
+                    if (this.sortField === 'default') {
+                        return stocks.sort((a, b) => {
+                            const levelDiff = parseFloat(b.level) - parseFloat(a.level);
+                            if (levelDiff !== 0) return levelDiff;
+                            return new Date(b.created_at) - new Date(a.created_at);
+                        });
+                    }
+                    
+                    return stocks.sort((a, b) => {
+                        let aValue, bValue;
+                        
+                        switch (this.sortField) {
+                            case 'created_at':
+                            case 'updated_at':
+                                aValue = new Date(a[this.sortField]);
+                                bValue = new Date(b[this.sortField]);
+                                break;
+                            case 'stock_price':
+                            case 'level':
+                                // 确保level是数字类型
+                                aValue = parseInt(a[this.sortField]) || 0;
+                                bValue = parseInt(b[this.sortField]) || 0;
+                                break;
+                            case 'stock_number':
+                                aValue = parseFloat(a[this.sortField]) || 0;
+                                bValue = parseFloat(b[this.sortField]) || 0;
+                                break;
+                            case 'change_rate':
+                                aValue = this.getChangeRateValue(a);
+                                bValue = this.getChangeRateValue(b);
+                                break;
+                            default:
+                                return 0;
+                        }
+                        // 处理可能的空值
+                        aValue = aValue || 0;
+                        bValue = bValue || 0;
+                        
+                        if (this.sortOrder === 'asc') {
+                            return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+                        } else {
+                            return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+                        }
+                    });
+                },
+                displayedStocks() {
+                    let stocks = this.sortedStocks;
+                    
+                    // 应用筛选条件
+                    if (this.filterType !== 'all') {
+                        switch (this.filterType) {
+                            case 'limitUp':
+                                stocks = stocks.filter(stock => 
+                                    stock.stock_price === stock.lup && stock.stock_price === stock.highest
+                                );
+                                break;
+                            case 'limitDown':
+                                stocks = stocks.filter(stock => 
+                                    stock.stock_price === stock.ldown && stock.stock_price === stock.lowest
+                                );
+                                break;
+                            case 'highRating':
+                                stocks = stocks.filter(stock => stock.level >= 0);
+                                break;
+                            case 'test':
+                                stocks = stocks.filter(stock => stock.flag === 1);
+                                break;
+                        }
+                    }
+                    
+                    // 高亮显示高推荐股票
+                    if (this.highlightHighRating && this.sortField === 'level') {
+                        stocks = stocks.filter(stock => stock.level >= 0);
+                    }
+                    
+                    // 仅显示今日更新的股票
+                    if (this.showOnlyUpdatedToday) {
+                        const today = new Date().toISOString().split('T')[0];
+                        stocks = stocks.filter(stock => 
+                            stock.updated_at && stock.updated_at.includes(today)
+                        );
+                    }
+                    
+                    return stocks;
+                },
+                highRatingCount() {
+                    return this.tableData.filter(stock => stock.level >= 0).length;
+                }
+            },
+            beforeCreate() { },
+            created() {
+                this.getSearchText();
+
+                this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
+                this.setTime(5);
+                this.getTheListOfStock();
+
+            },
+            'methods': {
+                getSearchText(){
+                    const searchText = localStorage.getItem('searchText');
+                    if(searchText){
+                        this.searchText = searchText;
+
+                    }
+                },
+                clearSearchText(){
+                    this.searchText = "";
+                    localStorage.removeItem('searchText');
+
+                },
+                getChangeRate(stock) {
+                    if (!stock.close || stock.close === 0) return '0.00%';
+                    const change = ((stock.stock_price - stock.close) / stock.close * 100).toFixed(2);
+                    return (change > 0 ? '+' : '') + change + '%';
+                },
+                getChangeRateValue(stock) {
+                    if (!stock.close || stock.close === 0) return 0;
+                    return ((stock.stock_price - stock.close) / stock.close * 100);
+                },
+                getChangeClass(stock) {
+                    if (!stock.close) return 'change-normal';
+                    const change = stock.stock_price - stock.close;
+                    if (change > 0) return 'change-up';
+                    if (change < 0) return 'change-down';
+                    return 'change-normal';
+                },
+                getProfitClass(stock) {
+                    if (!stock.cost || stock.cost === 0) return 'profit-normal';
+                    const profit = stock.stock_price - stock.cost;
+                    if (profit > 0) return 'profit-up';
+                    if (profit < 0) return 'profit-down';
+                    return 'profit-normal';
+                },
+                getPriceClass(stock) {
+                    if (stock.stock_price > stock.close) return 'price-up';
+                    if (stock.stock_price < stock.close) return 'price-down';
+                    return 'price-normal';
+                },
+                toggleHighlight() {
+                    // 切换高亮显示时不需要额外操作，计算属性会自动更新
+                },
+                sortStocks() {
+                    console.log(`按${this.sortField} ${this.sortOrder === 'asc' ? '升序' : '降序'}排序`);
+                },
+                applyFilters() {
+                    // 筛选条件应用，计算属性会自动更新
+                },
+                resetFilters() {
+                    this.filterType = 'all';
+                    this.showOnlyUpdatedToday = false;
+                    this.highlightHighRating = true;
+                },
+                showStatistics() {
+                    this.showStats = !this.showStats;
+                },
+                searchStock(text){
+                    this.searchText = text;
+                },
+                showDateList(row){
+                    const stock_id = row.stock_id;
+                    const stock_code = row.stock_code;
+                    const stock_name = row.stock_name;
+                    this.$refs.stockDeteComponent.show(stock_id, stock_code, stock_name, ()=>{
+                        this.loading = false;
+                    });
+                },
+                setIframSrc(src){
+                    this.iframSrc = src;
+                    this.sidebarOfRight = true;
+                },
+                refreshIframe() {
+                    const iframe = document.querySelector('.drawer-iframe');
+                    if (iframe) {
+                        iframe.src = iframe.src;
+                    }
+                },
+                handleDialogShow(row) {
+                    this.setIframSrc('https://gushitong.baidu.com/stock/ab-' + row.stock_code)
+                    this.stock_code = row.stock_code;
+                    this.stock_name = row.stock_name;
+                    this.searchStock(this.stock_code);
+                },
+                setTime(n){
+                    this.intervalTime = n * 60000;
+                },
+                tradeStock(row){
+                    this.stock_id = row.stock_id;
+                    this.stock_name = row.stock_name;
+                    this.$refs.stockDetailComponent.form.stock_price = row.stock_price;
+                    this.$refs.stockDetailComponent.dialogVisible = true
+                },
+                setLevel(stock_id, level){
+                    Api.stock.setLevel({stock_id, level}, D => {
+                        if(0 == D.status){
+                            this.getTheListOfStock();
+                            this.$notify({
+                                title: 'Success',
+                                message: D.message,
+                                type: 'success'
+                            });
+                        } else {
+                            this.$notify({
+                                title: 'Warning',
+                                message: D.message,
+                                type: 'warning'});
+                        }
+                    });
+                },
+                /**
+                 * 统计涨跌停数量
+                */
+                countLimitUpDownNums(row){
+                    if(row.stock_price > 0 && 0 == row.flag){
+                        if (row.stock_price === row.lup && row.stock_price === row.highest) {
+                            if(!this.lups.in_array(row.stock_code)){
+                                this.lups.push(row.stock_code);
+                            }
+                        } else if (row.stock_price === row.ldown && row.stock_price === row.lowest) {
+                            if(!this.ldowns.in_array(row.stock_code)){
+                                this.ldowns.push(row.stock_code);
+                            }
+                        }
+                    }
+
+                },
+                addStock(){
+                    this.$refs.stockComponent.init();
+                    this.$refs.stockComponent.dialogVisible = true
+                },
+                copyStock(row){
+                    this.addStock();
+                    this.$refs.stockComponent.setForm('t_'+row.stock_id, row.stock_code, row.stock_name+'-测试', row.stock_name+'-测试');
+                },
+                formEditStockComponent(row){
+                    this.stock_id = row.stock_id
+                    this.$refs.stockEditComponent.form.stock_code = row.stock_code
+                    this.$refs.stockEditComponent.form.stock_name = row.stock_name
+                    this.$refs.stockEditComponent.form.stock_cost = row.cost
+                    this.$refs.stockEditComponent.form.tax = row.tax
+                    this.$refs.stockEditComponent.form.stock_remark = row.stock_remark
+                    this.$refs.stockEditComponent.dialogVisible = true
+                },
+                getTheListOfStock(){
+                    console.log('getTheListOfStock')
+                    this.lups =  [];
+                    this.ldowns = [];
+                    this.tableData = [];
+                    this.size = 0;
+                    this.infiniteScrollDisabled = false;
+                    this.load();
+                },
+                load(){
+                    if(!this.infiniteScrollDisabled){
+                        this.loading = true;
+                        const size = ++this.size;
+                        const rows = 0;
+                        Api.stock.index({size, rows}, D => {
+                            if(0 == D.status){
+                                this.tableData = this.tableData.merge(D.data);
+                                this.totalCount = this.tableData.length;
+                                this.tableData.forEach((item) => {
+                                    this.countLimitUpDownNums(item);
+                                });
+                            }else if(1 == D.status) {
+                                this.infiniteScrollDisabled = true;
+                            }
+                            this.loading = false;
+                        });
+                    }
+                },
+                loadMore() {
+                    this.load();
+                },
+                feachByStockid(stock_id){
+                    const way = this.selectedLine;
+                    const data = {stock_id, way};
+                    
+                    Api.stock.feach(data, D => {
+                        if(0 == D.status){
+                            const element = D.datas[0];
+                            if(0  == element.status){
+                                this.$notify({
+                                    title: 'Success',
+                                    message: element.message,
+                                    type: 'success'
+                                });
+                            }else {
+                                this.$notify({
+                                title: 'Warning',
+                                message: element.message,
+                                type: 'warning'});
+                            }
+                            this.getTheListOfStock();
+                        } else {
+                            this.$notify({
+                                title: 'Warning',
+                                message: '网络异常',
+                                type: 'warning'});
+                        }
+                        this.loading = false;
+                    });
+                },
+                toggleAutoUpdate(){
+                    if(this.feach_auto){
+                        System.stop(feach_auto_timer);
+                        this.feach_auto = false;
+                        this.autoUpdate = false;
+                    } else {
+                        this.feach_auto = true;
+                        this.autoUpdate = true;
+                        System.listen((timer)=>{
+                            feach_auto_timer = timer;
+                            if(!this.feachAllLoading){
+                                this.feachAll();
+                            }
+                        }, this.intervalTime);
+                    }
+                },
+                remove(stock_id){
+                    this.$prompt('Please input your password', 'Tip', {
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Cancel',
+                        inputValidator: (value)=>{return '534735884d341071762ede7af01c53e8' === System.md5(value)},
+                        inputErrorMessage: 'Invalid password'
+                    }).then(() => {
+                        Api.stock.delete(stock_id, D => {
+                            if(0 == D.status){
+                                this.getTheListOfStock();
+                                this.$notify({
+                                    title: 'Success',
+                                    message: D.message,
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$notify({
+                                    title: 'Warning',
+                                    message: D.message,
+                                    type: 'warning'});
+                            }
+                        });
+                    }).catch(() => {
+                        this.loading = false;
+                    })
+                },
+                feachAll(){
+                    const progress_id = System.md5(System.hash());
+                    let evtSource;
+                    const way = this.selectedLine;
+                    const stock_id = null;
+                    const data = {stock_id, way, progress_id};
+                    
+                    this.percentage = 0;
+                    this.feachAllLoading = true;
+                    this.loading = false;
+
+                    Api.stock.feach(data, D => {
+                        if (evtSource) evtSource.close();
+                        this.feachAllLoading = false;
+
+                        if(0 == D.status){
+                            D.datas.forEach((element, i) => {
+                                System.wait(()=>{
+                                    if(0  == element.status){
+                                        this.$notify({
+                                            title: 'Success',
+                                            message: element.message,
+                                            type: 'success'
+                                        });
+                                    }else {
+                                        this.$notify({
+                                        title: 'Warning',
+                                        message: element.message,
+                                        type: 'warning'});
+                                    }
+                                },i * 1500 + 1000);
+                            });
+
+                            this.$notify({
+                                    title: `${D.total}条数据更新完成`,
+                                    duration: 100000
+                                });
+
+                            this.getTheListOfStock();
+                        } else if(6 == D.status){ 
+                            // this.percentage =  D.progress;
+                        } else {
+                            this.$notify({
+                                title: 'Warning',
+                                message: '网络异常',
+                                type: 'warning'});
+                        }
+                    }, ()=>{
+                        if (evtSource) evtSource.close();
+                        this.feachAllLoading = false;
+                        this.percentage = 0;
+
+                        this.$notify({
+                            title: 'Error',
+                            message: 'Ajax-网络异常',
+                            type: 'error'});
+
+                        this.loading = false;
+                        this.getTheListOfStock();
+                    });
+
+                    if(typeof(EventSource) !== "undefined") {
+                        let this_ = this;
+                        evtSource = new EventSource(Api.stock.getProgress(progress_id));
+                        //监听事件
+                        evtSource.addEventListener('message', function (event) {
+                            this_.percentage = parseInt(event.data);
+                        });
+                    } else {
+                        this.$notify({
+                            title: 'Error',
+                            message: '您的浏览器不支持SSE',
+                            type: 'error',
+                            duration: 0});
+                    }
+                }
+            },
+            template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', ContentComponent);
+    });
+</script>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+        line-height: 1.5;
+    }
+    
+    .stock-app {
+        max-width: 100%;
+        padding: 16px;
+        padding-bottom: 80px; /* 为底部操作栏留出空间 */
+    }
+    
+    /* 统计信息卡片 */
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+    
+    .stat-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .stat-value {
+        font-size: 20px;
+        font-weight: bold;
+        color: #409EFF;
+        margin-bottom: 4px;
+    }
+    
+    .stat-label {
+        font-size: 12px;
+        color: #909399;
+    }
+    
+    /* 顶部操作栏 */
+    .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .app-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #409EFF;
+    }
+    
+    .stock-count-badge {
+        margin-left: 8px;
+    }
+    
+    .stock-count {
+        font-size: 14px;
+        color: #909399;
+    }
+    
+    .header-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    /* 搜索区域 */
+    .search-box {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .search-input {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    /* 筛选控制区域 */
+    .filter-controls {
+        background: #fff;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .filter-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .filter-label {
+        font-size: 14px;
+        color: #606266;
+        white-space: nowrap;
+    }
+    
+    /* 排序控制区域 */
+    .sort-controls {
+        background: #fff;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .sort-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .sort-label {
+        font-size: 14px;
+        color: #606266;
+        white-space: nowrap;
+    }
+    
+    /* 推荐等级特殊样式 */
+    .rating-highlight {
+        background: linear-gradient(135deg, #ffd700, #ff6b6b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+    }
+    
+    .rating-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    /* 间隔时间设置区域 */
+    .interval-settings {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 8px 0;
+    }
+    
+    .interval-label {
+        font-size: 14px;
+        color: #606266;
+        white-space: nowrap;
+    }
+    
+    .interval-input {
+        width: 120px;
+    }
+    
+    .interval-select {
+        width: 100px;
+    }
+    
+    /* 标签区域 */
+    .tags-section {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .tags-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+    
+    .tags-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #409EFF;
+    }
+    
+    .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    /* 进度条 */
+    .progress-text {
+        text-align: center;
+        font-size: 12px;
+        color: #909399;
+        margin-top: 4px;
+    }
+    
+    /* 股票列表信息 */
+    .stock-list-info {
+        background: #fff;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        font-size: 14px;
+        color: #606266;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* 股票卡片 */
+    .stock-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+    }
+    
+    .stock-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* 高推荐等级卡片特殊样式 */
+    .high-rating-card {
+        border-left: 4px solid #ffd700;
+        background: linear-gradient(135deg, #fff, #fff9e6);
+    }
+    
+    /* 测试股票卡片特殊样式 */
+    .test-stock-card {
+        border-left: 4px solid #e6a23c;
+        background: linear-gradient(135deg, #fff, #fdf6ec);
+    }
+    
+    .stock-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #ebeef5;
+    }
+    
+    .stock-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .stock-code {
+        font-weight: bold;
+        font-size: 16px;
+        color: #409EFF;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+    
+    .stock-name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    
+    .stock-price {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: right;
+    }
+    
+    .price-up {
+        color: #f56c6c;
+    }
+    
+    .price-down {
+        color: #67c23a;
+    }
+    
+    .price-normal {
+        color: #606266;
+    }
+    
+    .price-change {
+        font-size: 12px;
+        font-weight: normal;
+        margin-top: 2px;
+    }
+    
+    .change-up {
+        color: #f56c6c;
+    }
+    
+    .change-down {
+        color: #67c23a;
+    }
+    
+    .change-normal {
+        color: #909399;
+    }
+    
+    .stock-details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .detail-label {
+        color: #909399;
+        font-size: 13px;
+    }
+    
+    .detail-value {
+        font-weight: 500;
+        font-size: 13px;
+    }
+    
+    /* 盈亏信息 */
+    .profit-info {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .profit-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+    }
+    
+    .profit-item:last-child {
+        margin-bottom: 0;
+    }
+    
+    .profit-label {
+        color: #606266;
+        font-size: 13px;
+    }
+    
+    .profit-value {
+        font-weight: 500;
+        font-size: 13px;
+    }
+    
+    .profit-up {
+        color: #f56c6c;
+    }
+    
+    .profit-down {
+        color: #67c23a;
+    }
+    
+    .profit-normal {
+        color: #606266;
+    }
+    
+    /* 推荐等级区域 */
+    .rating-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 8px 0;
+        border-top: 1px dashed #ebeef5;
+        border-bottom: 1px dashed #ebeef5;
+    }
+    
+    .rating-label {
+        font-size: 14px;
+        color: #606266;
+    }
+    
+    .rating-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .date-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        padding: 8px 0;
+        border-bottom: 1px dashed #ebeef5;
+    }
+    
+    .date-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    .date-label {
+        font-size: 12px;
+        color: #909399;
+    }
+    
+    .date-value {
+        font-size: 13px;
+        font-weight: 500;
+        color: #606266;
+    }
+    
+    .stock-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+    }
+    
+    .action-btn {
+        flex: 1;
+    }
+    
+    /* 加载更多 */
+    .load-more {
+        text-align: center;
+        margin: 16px 0;
+    }
+    
+    .load-more-btn {
+        width: 100%;
+        padding: 12px;
+    }
+    
+    /* 加载状态 */
+    .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        background: #fff;
+        border-radius: 8px;
+        margin-bottom: 16px;
+    }
+    
+    /* 空状态 */
+    .empty-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        background: #fff;
+        border-radius: 8px;
+        color: #909399;
+    }
+    
+    .empty-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        color: #c0c4cc;
+    }
+    
+    /* 底部操作栏 */
+    .bottom-actions {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-around;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+    
+    .action-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: #606266;
+        cursor: pointer;
+    }
+    
+    .action-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ecf5ff;
+        border-radius: 50%;
+        color: #409EFF;
+        transition: all 0.3s ease;
+    }
+    
+    .action-icon.auto-updating {
+        background: #f56c6c;
+        color: #fff;
+        animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    /* 抽屉样式 */
+    .stock-drawer .el-drawer__body {
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .drawer-content {
+        padding: 16px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    
+    .drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+    
+    .drawer-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .drawer-iframe-container {
+        flex: 1;
+        overflow: hidden;
+        border-radius: 4px;
+        border: 1px solid #ebeef5;
+    }
+    
+    .drawer-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    
+    /* 响应式调整 */
+    @media (min-width: 768px) {
+        .stock-app {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 20px;
+        }
+        
+        .stock-details {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .bottom-actions {
+            display: none;
+        }
+        
+        .search-box {
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        .interval-settings {
+            margin-left: auto;
+        }
+        
+        .stats-cards {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .app-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .header-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        .search-box {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .search-input {
+            min-width: auto;
+        }
+        
+        .filter-controls {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+        
+        .filter-item {
+            justify-content: space-between;
+        }
+        
+        .sort-controls {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+        
+        .sort-item {
+            justify-content: space-between;
+        }
+        
+        .interval-settings {
+            width: 100%;
+            justify-content: space-between;
+            border-top: 1px solid #ebeef5;
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+        
+        .stats-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .interval-settings {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+        
+        .interval-label {
+            text-align: center;
+        }
+        
+        .interval-input,
+        .interval-select {
+            width: 100%;
+        }
+        
+        .stock-details {
+            grid-template-columns: 1fr;
+        }
+        
+        .date-info {
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .stock-actions {
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            flex: 1 0 45%;
+            margin-bottom: 8px;
+        }
+        .stock-id-btn {
+            color: #409EFF;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #ecf5ff;
+            border: 1px solid #d9ecff;
+            font-size: 12px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin-bottom: 4px;
+        }
+
+        .stock-id-btn:hover {
+            background: #409EFF;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(64, 158, 255, 0.3);
+        }
+    }
+</style>

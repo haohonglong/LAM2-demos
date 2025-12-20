@@ -9,93 +9,169 @@
 <#Block:begin id="__ID__">
 <div v-loading="loading">
     <el-dialog v-if="!empty(stock_id)"
-        title="修改股票"
+        :title="title + '股票'"
         :visible.sync="dialogVisible"
-        :close-on-click-modal="true"
-        width="">
-        <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="证劵id：">
-                        <span style="color: #909399;">{{ stock_id }}</span>
+        :close-on-click-modal="false"
+        :lock-scroll="false"
+        width="95%"
+        top="5vh"
+        class="mobile-form-dialog"
+        custom-class="mobile-dialog">
+        <div class="dialog-content">
+            <el-form :model="form" :rules="rules" ref="validateForm" label-width="100px" class="mobile-form">
+                <div class="form-section">
+                    <div class="section-title">基本信息</div>
+                    <el-row :gutter="10">
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="证劵ID：">
+                                <span class="readonly-text">{{ stock_id }}</span>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="证劵代码：" prop="stock_code">
+                                <el-input v-model="form.stock_code" size="medium" placeholder="请输入股票代码"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="证劵名称：" prop="stock_name">
+                                <el-input v-model="form.stock_name" size="medium" placeholder="请输入股票名称"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="12" :sm="8">
+                            <el-form-item label="成本价：">
+                                <el-input v-model="form.stock_cost" size="medium" type="number" placeholder="0.00">
+                                    <template slot="append">元</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="12" :sm="8">
+                            <el-form-item label="税率：">
+                                <el-input v-model="form.tax" size="medium" type="number" placeholder="5.00">
+                                    <template slot="append">%</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title">备注信息</div>
+                    <el-form-item label="股票备注：" prop="stock_remark">
+                        <el-input 
+                            type="textarea" 
+                            v-model="form.stock_remark" 
+                            :rows="3" 
+                            maxlength="200"
+                            show-word-limit
+                            placeholder="请输入股票备注信息（可选）">
+                        </el-input>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="证劵代码：" prop="stock_code">
-                        <el-input v-model="form.stock_code"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="证劵名称：" prop="stock_name">
-                        <el-input v-model="form.stock_name"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item label="成本价：">
-                        <el-input v-model="form.stock_cost"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="4">
-                    <el-form-item label-width="45px" label="税：">
-                        <el-input v-model="form.tax"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-form-item label="证劵备注：" prop="stock_remark">
-                <el-input type="textarea" v-model="form.stock_remark"></el-input>
-            </el-form-item>
-            
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="submit()">提 交</el-button>
-        </span>
+                </div>
+            </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer mobile-footer">
+            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">提交</el-button>
+            <el-button @click="dialogVisible = false" class="cancel-btn">取消</el-button>
+        </div>
     </el-dialog>
 
     <el-dialog v-else
         title="添加股票"
         :visible.sync="dialogVisible"
-        :close-on-click-modal="true"
-        width="">
-        <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="flag：">
-                        <el-radio v-model="form.flag" label="1">测试</el-radio>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="证劵id：" prop="stock_id">
-                        <el-input v-model="form.stock_id"></el-input>
-                    </el-form-item>
+        :close-on-click-modal="false"
+        :lock-scroll="false"
+        width="95%"
+        top="5vh"
+        class="mobile-form-dialog"
+        custom-class="mobile-dialog">
+        <div class="dialog-content">
+            <el-form :model="form" :rules="rules" ref="validateForm" label-width="100px" class="mobile-form">
+<!--Del:begin-->
 
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="证劵代码：" prop="stock_code">
-                        <el-input v-model="form.stock_code"></el-input>
+                <div class="form-section">
+                    <div class="section-title">股票类型</div>
+                    <el-row>
+                        <el-col :span="24">
+                            <el-form-item label="股票类型：">
+                                <el-radio-group v-model="form.flag" class="flag-radio-group">
+                                    <el-radio :label="0" class="flag-radio">正式</el-radio>
+                                    <el-radio :label="1" class="flag-radio">测试</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+<!--Del:end-->
+
+
+                <div class="form-section">
+                    <div class="section-title">基本信息</div>
+                    <el-row :gutter="10">
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="证劵ID：" prop="stock_id">
+                                <el-input 
+                                    v-model="form.stock_id" 
+                                    size="medium" 
+                                    placeholder="请输入股票ID"
+                                    clearable>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="证劵代码：" prop="stock_code">
+                                <el-input 
+                                    v-model="form.stock_code" 
+                                    size="medium" 
+                                    placeholder="如：000001"
+                                    clearable>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="证劵名称：" prop="stock_name">
+                                <el-input 
+                                    v-model="form.stock_name" 
+                                    size="medium" 
+                                    placeholder="如：平安银行"
+                                    clearable>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="税率：">
+                                <el-input 
+                                    v-model="form.tax" 
+                                    size="medium" 
+                                    type="number" 
+                                    placeholder="5.00"
+                                    clearable>
+                                    <template slot="append">%</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title">备注信息</div>
+                    <el-form-item label="股票备注：" prop="stock_remark">
+                        <el-input 
+                            type="textarea" 
+                            v-model="form.stock_remark" 
+                            :rows="3" 
+                            maxlength="200"
+                            show-word-limit
+                            placeholder="请输入股票备注信息（可选）">
+                        </el-input>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="证劵名称：" prop="stock_name">
-                        <el-input v-model="form.stock_name"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="税：">
-                        <el-input v-model="form.tax"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-form-item label="证劵备注：" prop="stock_remark">
-                <el-input type="textarea" v-model="form.stock_remark"></el-input>
-            </el-form-item>
-            
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="submit()">提 交</el-button>
-            <el-button @click="resetForm()">Reset</el-button>
-        </span>
+                </div>
+            </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer mobile-footer">
+            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">提交</el-button>
+            <el-button @click="resetForm()" class="reset-btn">重置</el-button>
+            <el-button @click="dialogVisible = false" class="cancel-btn">取消</el-button>
+        </div>
     </el-dialog>
 </div>
 
@@ -139,13 +215,16 @@
                 },
                 'rules': {
                     'stock_id': [
-                        { required: true, message: '请输入证劵id', trigger: 'blur' }
+                        { required: true, message: '请输入证劵ID', trigger: 'blur' },
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                     ],
                     'stock_code': [
-                        { required: true, message: '请输入证劵代码', trigger: 'blur' }
+                        { required: true, message: '请输入证劵代码', trigger: 'blur' },
+                        { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
                     ],
                     'stock_name': [
-                        { required: true, message: '请输入证劵名称', trigger: 'blur' }
+                        { required: true, message: '请输入证劵名称', trigger: 'blur' },
+                        { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
                     ]
                 },
                 'dialogVisible': false
@@ -166,6 +245,10 @@
             submit() {
                 this.$refs.validateForm.validate((valid) => {
                     if (!valid) {
+                        this.$message({
+                            type: 'error',
+                            message: '请完善表单信息'
+                        });
                         return false;
                     }else{
                         if(System.empty(this.stock_id)) {
@@ -181,7 +264,10 @@
             resetForm(){
                 this.$refs['validateForm'].resetFields();
                 this.init();
-                
+                this.$message({
+                    type: 'success',
+                    message: '表单已重置'
+                });
             },
             initError() {
                 this.formError.stock_id = "";
@@ -193,6 +279,7 @@
                 this.form.stock_code = '';
                 this.form.stock_name = '';
                 this.form.stock_remark = '';
+                this.form.stock_cost = 0;
                 this.form.flag = 0;
                 this.form.tax = 5.00;
             },
@@ -201,13 +288,14 @@
                 this.form.stock_code = stock_code;
                 this.form.stock_name = stock_name;
                 this.form.stock_remark = stock_remark;
-                this.form.flag = '1';
+                this.form.flag = 1;
             },
             add() {
                 const stock_id = this.form.stock_id;
                 const stock_code = this.form.stock_code;
                 const stock_name = this.form.stock_name;
                 const stock_remark = this.form.stock_remark;
+                
                 const flag = this.form.flag;
                 const tax = this.form.tax;
 
@@ -233,18 +321,21 @@
                         this.loading = false;
                         if(1062 == D.message[1]){ //字段唯一性不允许重复
                             this.$notify({
-                                title: 'Warning',
-                                message: `证劵id: ${stock_id} 已存在了`,
-                                type: 'warning'});
+                                title: '错误',
+                                message: `证劵ID: ${stock_id} 已存在`,
+                                type: 'error',
+                                duration: 3000
+                            });
                         }else {
                             System.each(D.errors, (key,value) => {
                                 this.formError[key] = value;
                                 this.$notify({
-                                    title: 'Warning',
+                                    title: '错误',
                                     message: value,
-                                    type: 'warning'});
+                                    type: 'error',
+                                    duration: 3000
+                                });
                             });
-
                         }
                     }
 
@@ -282,13 +373,25 @@
                         System.each(D.errors, (key,value) => {
                             this.formError[key] = value;
                             this.$notify({
-                                title: 'Warning',
+                                title: '错误',
                                 message: value,
-                                type: 'warning'});
+                                type: 'error',
+                                duration: 3000
+                            });
                         });
                     }
 
                 });
+            }
+          },
+          watch: {
+            dialogVisible(newVal) {
+                if (newVal) {
+                    // 对话框显示时，确保内容正确显示
+                    this.$nextTick(() => {
+                        // 处理移动端显示问题
+                    });
+                }
             }
           },
           template: `<#=block id="__ID__" />`
@@ -297,3 +400,280 @@
         System.export('__ID__', FormComponent);
     });
 </script>
+
+<style scoped>
+/* 移动端对话框样式 */
+.mobile-form-dialog {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+}
+
+.mobile-dialog {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dialog-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 5px;
+}
+
+/* 移动端表单样式 */
+.mobile-form {
+    padding: 0 8px;
+}
+
+.mobile-form >>> .el-form-item {
+    margin-bottom: 20px;
+}
+
+.mobile-form >>> .el-form-item__label {
+    font-size: 14px;
+    color: #606266;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.mobile-form >>> .el-input__inner,
+.mobile-form >>> .el-textarea__inner {
+    border-radius: 8px;
+    border: 1px solid #dcdfe6;
+    font-size: 16px; /* 防止iOS缩放 */
+}
+
+.mobile-form >>> .el-input__inner:focus,
+.mobile-form >>> .el-textarea__inner:focus {
+    border-color: #409EFF;
+    box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+}
+
+/* 表单分区样式 */
+.form-section {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 16px;
+    padding-left: 8px;
+    border-left: 4px solid #409EFF;
+}
+
+/* 只读文本样式 */
+.readonly-text {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #f5f7fa;
+    border-radius: 4px;
+    color: #909399;
+    font-size: 14px;
+    min-width: 100px;
+}
+
+/* 单选按钮组样式 */
+.flag-radio-group {
+    width: 100%;
+}
+
+.flag-radio {
+    margin-right: 20px;
+}
+
+.mobile-form >>> .el-radio__label {
+    font-size: 14px;
+}
+
+/* 底部按钮区域 */
+.mobile-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0 8px;
+    border-top: 1px solid #ebeef5;
+    background: #fff;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.mobile-footer .el-button {
+    flex: 1;
+    margin: 0 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    height: 44px;
+    border: none;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #409EFF, #66b1ff);
+    color: white;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #66b1ff, #409EFF);
+}
+
+.reset-btn {
+    background: #f5f7fa;
+    color: #606266;
+    border: 1px solid #dcdfe6 !important;
+}
+
+.cancel-btn {
+    background: #f5f7fa;
+    color: #606266;
+    border: 1px solid #dcdfe6 !important;
+}
+
+.reset-btn:hover,
+.cancel-btn:hover {
+    background: #e4e7ed;
+    color: #303133;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .mobile-form >>> .el-form-item__label {
+        padding-bottom: 6px;
+        line-height: 1.3;
+    }
+    
+    .mobile-form >>> .el-col-xs-24 {
+        margin-bottom: 8px;
+    }
+    
+    .mobile-form >>> .el-form-item {
+        margin-bottom: 16px;
+    }
+    
+    .form-section {
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+    
+    .section-title {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    
+    .mobile-footer {
+        padding: 12px 0 4px;
+    }
+    
+    .mobile-footer .el-button {
+        height: 42px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dialog-content {
+        max-height: 65vh;
+    }
+    
+    .mobile-form {
+        padding: 0 4px;
+    }
+    
+    .mobile-form >>> .el-form-item__label {
+        font-size: 13px;
+    }
+    
+    .mobile-form >>> .el-input__inner,
+    .mobile-form >>> .el-textarea__inner {
+        font-size: 15px;
+    }
+    
+    .section-title {
+        font-size: 14px;
+    }
+    
+    .mobile-footer .el-button {
+        height: 40px;
+        font-size: 14px;
+        margin: 0 3px;
+    }
+    
+    .readonly-text {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+}
+
+/* 防止iOS输入框缩放 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .mobile-form >>> .el-input__inner,
+    .mobile-form >>> .el-textarea__inner {
+        font-size: 16px;
+    }
+}
+
+/* 滚动条样式优化 */
+.dialog-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 错误状态样式 */
+.mobile-form >>> .el-form-item.is-error .el-input__inner,
+.mobile-form >>> .el-form-item.is-error .el-textarea__inner {
+    border-color: #f56c6c;
+    box-shadow: 0 0 0 2px rgba(245, 108, 108, 0.1);
+}
+
+.mobile-form >>> .el-form-item__error {
+    font-size: 12px;
+    padding-top: 4px;
+}
+
+/* 加载状态优化 */
+>>> .el-loading-mask {
+    border-radius: 12px;
+}
+
+>>> .el-loading-spinner .el-loading-text {
+    font-size: 14px;
+    color: #409EFF;
+}
+
+/* 输入框附加内容样式 */
+.mobile-form >>> .el-input-group__append {
+    background: #f5f7fa;
+    color: #909399;
+    border: none;
+    font-size: 14px;
+}
+
+/* 文本域样式优化 */
+.mobile-form >>> .el-textarea .el-input__count {
+    background: transparent;
+    font-size: 12px;
+    color: #909399;
+}
+</style>

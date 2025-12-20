@@ -1,3 +1,4 @@
+
 <#define __PACKAGE__="stock.components" />
 <#define __ID__="__PACKAGE__.FormAddStockDetailComponent" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
@@ -11,124 +12,184 @@
     <el-dialog
     :title="'添加 ' + stock_id +' '+ stock_name+' 股票流水'"
     :visible.sync="dialogVisible"
-    :close-on-click-modal="true"
-    width="">
-    <el-form :model="form" :rules="rules" ref="validateForm" label-width="120px" class="demo-ruleForm">
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="交易类别："  :error="formError.stock_type" prop="stock_type">
-                    <el-select v-model="form.stock_type" placeholder="请选择交易类别">
-                        <el-option label="买入" value="1"></el-option>
-                        <el-option label="卖出" value="2"></el-option>
-                    </el-select>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="股票价格：" :error="formError.stock_price" prop="stock_price">
-                    <el-input v-model="form.stock_price"></el-input>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="日期："  :error="formError.created_at" prop="created_at">
-                    <el-date-picker
-                        v-model="form.created_at"
-                        format="yyyy-MM-dd HH:mm:ss"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        type="datetime"
-                        placeholder="选择日期">
-                        </el-date-picker>
-                  </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="股票数量：" :error="formError.stock_deal_total" prop="stock_deal_total">
-                    <el-input v-model="form.stock_deal_total"></el-input>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row><el-col :span="8"><el-button type="primary" @click="getOneOfStockDatek()">获取以下信息</el-button></el-button></el-col></el-row>
-        <el-row>
-            <el-col :span="8">
-                <el-form-item label="今开：" :error="formError.open" prop="open">
-                    <el-input v-model="form.open"></el-input>
-                </el-form-item>
-            </el-col>
+    :close-on-click-modal="false"
+    :lock-scroll="false"
+    width="95%"
+    top="2vh"
+    class="mobile-stock-detail-dialog"
+    custom-class="mobile-detail-dialog">
+    
+    <div class="dialog-content">
+        <el-form :model="form" :rules="rules" ref="validateForm" label-width="90px" class="mobile-detail-form">
             
-            <el-col :span="8">
-                <el-form-item label="涨停 ：" :error="formError.lup" prop="lup">
-                    <el-input v-model="form.lup"></el-input>
+            <!-- 基本信息区块 -->
+            <div class="form-section">
+                <div class="section-title">交易信息</div>
+                <el-row :gutter="10">
+                    <el-col :xs="24" :sm="12">
+                        <el-form-item label="交易类别：" prop="stock_type">
+                            <el-select 
+                                v-model="form.stock_type" 
+                                placeholder="选择交易类别"
+                                size="medium"
+                                class="full-width-select">
+                                <el-option label="买入" value="1"></el-option>
+                                <el-option label="卖出" value="2"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12">
+                        <el-form-item label="股票价格：" prop="stock_price">
+                            <el-input 
+                                v-model="form.stock_price" 
+                                type="number"
+                                placeholder="0.00"
+                                size="medium">
+                                <template slot="append">元</template>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                
+                <el-row :gutter="10">
+                    <el-col :xs="24" :sm="12">
+                        <el-form-item label="交易日期：" prop="created_at">
+                            <el-date-picker
+                                v-model="form.created_at"
+                                format="yyyy-MM-dd HH:mm:ss"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                type="datetime"
+                                placeholder="选择日期时间"
+                                size="medium"
+                                class="full-width-datepicker">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12">
+                        <el-form-item label="股票数量：" prop="stock_deal_total">
+                            <el-input 
+                                v-model="form.stock_deal_total" 
+                                type="number"
+                                placeholder="0"
+                                size="medium">
+                                <template slot="append">股</template>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                
+                <!-- 获取信息按钮 -->
+                <el-row>
+                    <el-col :span="24">
+                        <div class="action-button-group">
+                            <el-button 
+                                type="primary" 
+                                @click="getOneOfStockDatek()" 
+                                :loading="loading"
+                                class="fetch-info-btn"
+                                size="medium">
+                                <i class="el-icon-download"></i>
+                                获取股票信息
+                            </el-button>
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+
+            <!-- 股票数据区块 -->
+            <div class="form-section" v-if="form.open > 0">
+                <div class="section-title">股票数据</div>
+                
+                <div class="stock-data-grid">
+                    <div class="data-row">
+                        <div class="data-item">
+                            <span class="data-label">今开：</span>
+                            <el-input v-model="form.open" size="small" class="data-input"></el-input>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">涨停：</span>
+                            <el-input v-model="form.lup" size="small" class="data-input"></el-input>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">最高：</span>
+                            <el-input v-model="form.highest" size="small" class="data-input"></el-input>
+                        </div>
+                    </div>
+                    
+                    <div class="data-row">
+                        <div class="data-item">
+                            <span class="data-label">昨收：</span>
+                            <el-input v-model="form.close" size="small" class="data-input"></el-input>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">跌停：</span>
+                            <el-input v-model="form.ldown" size="small" class="data-input"></el-input>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">最低：</span>
+                            <el-input v-model="form.lowest" size="small" class="data-input"></el-input>
+                        </div>
+                    </div>
+                    
+                    <div class="data-row">
+                        <div class="data-item">
+                            <span class="data-label">均价：</span>
+                            <el-input v-model="form.average" size="small" class="data-input"></el-input>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">换手率：</span>
+                            <el-input v-model="form.change" size="small" class="data-input">
+                                <template slot="append">%</template>
+                            </el-input>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">振幅率：</span>
+                            <el-input v-model="form.amplitude" size="small" class="data-input">
+                                <template slot="append">%</template>
+                            </el-input>
+                        </div>
+                    </div>
+                    
+                    <div class="data-row">
+                        <div class="data-item full-width">
+                            <span class="data-label">成交量：</span>
+                            <el-input v-model="form.volume" size="small" class="data-input">
+                                <template slot="append">手</template>
+                            </el-input>
+                        </div>
+                        <div class="data-item full-width">
+                            <span class="data-label">成交额：</span>
+                            <el-input v-model="form.amount" size="small" class="data-input">
+                                <template slot="append">万元</template>
+                            </el-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 备注信息区块 -->
+            <div class="form-section">
+                <div class="section-title">备注信息</div>
+                <el-form-item label="交易备注：" prop="stock_detail_remark">
+                    <el-input 
+                        type="textarea" 
+                        v-model="form.stock_detail_remark" 
+                        :rows="3"
+                        maxlength="200"
+                        show-word-limit
+                        placeholder="请输入交易备注信息（可选）"
+                        resize="none">
+                    </el-input>
                 </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="高 ：" :error="formError.highest" prop="highest">
-                    <el-input v-model="form.highest"></el-input>
-                </el-form-item>
-            </el-col>
+            </div>
             
-        </el-row>
-        <el-row>
-            <el-col :span="8">
-                <el-form-item label="昨收 ：" :error="formError.close" prop="close">
-                    <el-input v-model="form.close"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="跌停：" :error="formError.ldown" prop="ldown">
-                    <el-input v-model="form.ldown"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="低 ：" :error="formError.lowest" prop="lowest">
-                    <el-input v-model="form.lowest"></el-input>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-
-            <el-col :span="8">
-                <el-form-item label="均价 ：" :error="formError.average" prop="average">
-                    <el-input v-model="form.average"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="换手率 (%)：" :error="formError.change" prop="change">
-                    <el-input v-model="form.change"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="振幅率 (%)：" :error="formError.amplitude" prop="amplitude">
-                    <el-input v-model="form.amplitude"></el-input>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        
-        <el-row>
-
-            <el-col :span="8">
-                <el-form-item label="成交量 ：" :error="formError.volume" prop="volume">
-                    <el-input v-model="form.volume"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="成交额：" :error="formError.amount" prop="amount">
-                    <el-input v-model="form.amount"></el-input>
-                </el-form-item>
-            </el-col>
-        </el-row>
-
-        
-        
-
-        <el-form-item label="备注：" prop="stock_detail_remark">
-            <el-input type="textarea" v-model="form.stock_detail_remark"></el-input>
-        </el-form-item>
-        
-    </el-form>
-    <span slot="footer" class="dialog-footer">
-        <el-button @click="ok()">取 消</el-button>
-        <el-button type="primary" @click="submit()">提 交</el-button>
-    </span>
+        </el-form>
+    </div>
+    
+    <div slot="footer" class="dialog-footer mobile-detail-footer">
+        <el-button @click="ok()" class="cancel-btn" size="medium">取消</el-button>
+        <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading" size="medium">提交</el-button>
+    </div>
     </el-dialog>
 </div>
 
@@ -149,17 +210,28 @@
           components: {},
           data() {
             var checkThePrice = (rule, value, callback) => {
-                
                 if (value === '') {
                     callback(new Error('请输入价格'));
                 }else if (0 >= parseFloat(value)) {
                     let msg = "股票价格必须大于0";
-                    this.$message.error(msg);
                     callback(new Error(msg));
                 } else {
                     callback();
                 }
             };
+            
+            var checkDealTotal = (rule, value, callback) => {
+                if (this.form.stock_type === '1' || this.form.stock_type === '2') {
+                    if (!value || parseInt(value) < 1) {
+                        callback(new Error('股票数量不能少于1'));
+                    } else {
+                        callback();
+                    }
+                } else {
+                    callback();
+                }
+            };
+            
             return {
                 'loading': false,
                 'form':{
@@ -201,13 +273,16 @@
                 },
                 rules: {
                     stock_price: [
-                        { required: true, validator: checkThePrice, message: '股票价格必须大于0', trigger: 'blur' }
-                    ]
-                    ,stock_type: [
-                        { required: true, message: '请选择交易类别', trigger: 'blur' }
-                    ]
-                    ,created_at: [
-                        { required: true, message: '请选择日期', trigger: 'blur' }
+                        { required: true, validator: checkThePrice, trigger: 'blur' }
+                    ],
+                    stock_type: [
+                        { required: true, message: '请选择交易类别', trigger: 'change' }
+                    ],
+                    created_at: [
+                        { required: true, message: '请选择交易日期', trigger: 'change' }
+                    ],
+                    stock_deal_total: [
+                        { validator: checkDealTotal, trigger: 'blur' }
                     ]
                 },
                 dialogVisible: false
@@ -217,78 +292,68 @@
           },
           methods: {
             getOneOfStockDatek(){
+                if (!this.form.created_at) {
+                    this.$message.warning('请先选择交易日期');
+                    return;
+                }
+                
                 const stock_id = this.stock_id;
                 const stock_date_at = this.form.created_at.split(" ")[0];
                 const data = {
                     stock_id,
                     stock_date_at
-                }
+                };
+                
                 this.loading = true;
-                Api.StockDate.getOne(data, D=>{
-                    if(D.status){
+                
+                // 修复：使用正确的API调用方式，移除 .catch() 调用
+                Api.StockDate.getOne(data, (D) => {
+                    this.loading = false;
+                    
+                    if(D && D.status){
                         this.$message({
                             type: 'success',
-                            message: D.message
+                            message: '股票数据获取成功'
                         });
-                        this.loading = false;
                         let data = D.data;
 
-                        this.form.open = data.open;
-                        this.form.close = data.close;
-                        this.form.lup = data.lup;
-                        this.form.ldown = data.ldown;
-                        this.form.highest = data.highest;
-                        this.form.lowest = data.lowest;
-                        this.form.average = data.average;
-                        this.form.change = data.change;
-                        this.form.amplitude = data.amplitude;
-                        this.form.volume = data.volume;
-                        this.form.amount = data.amount;
-
-                    }else{
-                        this.loading = false;
-                        this.$message.error(D.message);
-                        
+                        this.form.open = data.open || 0.00;
+                        this.form.close = data.close || 0.00;
+                        this.form.lup = data.lup || 0.00;
+                        this.form.ldown = data.ldown || 0.00;
+                        this.form.highest = data.highest || 0.00;
+                        this.form.lowest = data.lowest || 0.00;
+                        this.form.average = data.average || 0.00;
+                        this.form.change = data.change || 0.00;
+                        this.form.amplitude = data.amplitude || 0.00;
+                        this.form.volume = data.volume || 0;
+                        this.form.amount = data.amount || 0.00;
+                    } else {
+                        this.$message.error((D && D.message) || '获取股票数据失败');
                     }
-
                 });
-
             },
             ok() {
                 this.loading = false;
                 this.dialogVisible = false;
                 this.init();
                 this.initError();
-                
             },
             submit() {
                 this.$refs.validateForm.validate((valid) => {
                     if (!valid) {
+                        this.$message.error('请完善表单信息');
                         return false;
                     }else {
                         this.add();
                     }
                 });
                 this.initError();
-
             },
             initError() {
-                this.formError.stock_price = "";
-                this.formError.stock_type = "";
-                this.formError.created_at = "";
-
-                this.formError.open = "";
-                this.formError.close = "";
-                this.formError.lup = "";
-                this.formError.ldown = "";
-                this.formError.highest = "";
-                this.formError.lowest = "";
-                this.formError.average = "";
-                this.formError.change = "";
-                this.formError.amplitude = "";
-                this.formError.volume = "";
-                this.formError.amount = "";
-
+                Object.keys(this.formError).forEach(key => {
+                    this.formError[key] = "";
+                });
             },
             init() {
                 this.form.stock_price = 0.00;
@@ -296,84 +361,107 @@
                 this.form.stock_deal_total = 0;
                 this.form.created_at = '';
                 this.form.stock_detail_remark = '';
+                
+                // 重置股票数据
+                this.form.open = 0.00;
+                this.form.close = 0.00;
+                this.form.lup = 0.00;
+                this.form.ldown = 0.00;
+                this.form.highest = 0.00;
+                this.form.lowest = 0.00;
+                this.form.average = 0.00;
+                this.form.change = 0.00;
+                this.form.amplitude = 0.00;
+                this.form.volume = 0;
+                this.form.amount = 0.00;
             },
             add() {
                 const stock_id = this.stock_id;
-                const stock_price = this.form.stock_price;
+                const stock_price = parseFloat(this.form.stock_price);
                 const stock_type = parseInt(this.form.stock_type);
                 const stock_deal_total = parseInt(this.form.stock_deal_total);
                 const created_at = this.form.created_at;
                 const stock_detail_remark = this.form.stock_detail_remark;
 
-                const open = this.form.open;
-                const close = this.form.close;
-                const lup = this.form.lup;
-                const ldown = this.form.ldown;
-                const highest = this.form.highest;
-                const lowest = this.form.lowest;
-                const average = this.form.average;
-                const change = this.form.change;
-                const amplitude = this.form.amplitude;
-                const volume = this.form.volume;
-                const amount = this.form.amount;
+                const open = parseFloat(this.form.open) || 0.00;
+                const close = parseFloat(this.form.close) || 0.00;
+                const lup = parseFloat(this.form.lup) || 0.00;
+                const ldown = parseFloat(this.form.ldown) || 0.00;
+                const highest = parseFloat(this.form.highest) || 0.00;
+                const lowest = parseFloat(this.form.lowest) || 0.00;
+                const average = parseFloat(this.form.average) || 0.00;
+                const change = parseFloat(this.form.change) || 0.00;
+                const amplitude = parseFloat(this.form.amplitude) || 0.00;
+                const volume = parseInt(this.form.volume) || 0;
+                const amount = parseFloat(this.form.amount) || 0.00;
                 
+                // 验证逻辑
                 if(stock_type > 0 && stock_deal_total < 1){
                     this.formError["stock_deal_total"] = "除无操作外股票数量最少为1";
-                    return;
-
-                }
-                if(0 == stock_type && stock_deal_total > 0){
-                    this.formError["stock_deal_total"] = "无操作时股票数量必须为0";
+                    this.$message.error("股票数量不能少于1");
                     return;
                 }
-
-                if(2 == stock_type && 0  == stock_deal_total){
-                    this.formError["stock_deal_total"] = "卖出时股票数量不能为0";
-                    return;
-                }
-
-                
 
                 const data = { 
-                    stock_id
-                    ,stock_price
-                    ,stock_type
-                    ,stock_deal_total
-                    ,created_at
-                    ,stock_detail_remark
-
-                    ,open
-                    ,close
-                    ,lup
-                    ,ldown
-                    ,highest
-                    ,lowest
-                    ,average
-                    ,change
-                    ,amplitude
-                    ,volume
-                    ,amount
+                    stock_id,
+                    stock_price,
+                    stock_type,
+                    stock_deal_total,
+                    created_at,
+                    stock_detail_remark,
+                    open,
+                    close,
+                    lup,
+                    ldown,
+                    highest,
+                    lowest,
+                    average,
+                    change,
+                    amplitude,
+                    volume,
+                    amount
                 };
 
                 this.loading = true;
-                Api.stockDetail.add(data, D => {
-                    if(D.status){
+                
+                // 修复：使用正确的API调用方式
+                Api.stockDetail.add(data, (D) => {
+                    this.loading = false;
+                    
+                    if(D && D.status){
                         this.$message({
                             type: 'success',
-                            message: D.message
+                            message: D.message || '添加成功'
                         });
                         this.ok();
                         this.$emit('get-list');
-
-                    }else{
-                        this.loading = false;
-                        this.$message.error(D.message);
-                        System.each(D.errors, (key,value) => {
-                            this.formError[key] = value;
-                        });
+                    } else {
+                        this.$message.error((D && D.message) || '添加失败');
+                        if (D && D.errors) {
+                            System.each(D.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
                     }
-
                 });
+            }
+          },
+          watch: {
+            dialogVisible(newVal) {
+                if (newVal) {
+                    this.$nextTick(() => {
+                        // 初始化当前时间
+                        if (!this.form.created_at) {
+                            const now = new Date();
+                            this.form.created_at = now.getFullYear() + '-' + 
+                                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                                String(now.getDate()).padStart(2, '0') + ' ' + 
+                                String(now.getHours()).padStart(2, '0') + ':' + 
+                                String(now.getMinutes()).padStart(2, '0') + ':' + 
+                                String(now.getSeconds()).padStart(2, '0');
+                        }
+                    });
+                }
             }
           },
           template: `<#=block id="__ID__" />`
@@ -382,3 +470,337 @@
         System.export('__ID__', FormComponent);
     });
 </script>
+
+<style scoped>
+/* 移动端对话框样式 */
+.mobile-stock-detail-dialog {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+}
+
+.mobile-detail-dialog {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dialog-content {
+    max-height: 75vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 5px;
+}
+
+/* 移动端表单样式 */
+.mobile-detail-form {
+    padding: 0 8px;
+}
+
+.mobile-detail-form >>> .el-form-item {
+    margin-bottom: 18px;
+}
+
+.mobile-detail-form >>> .el-form-item__label {
+    font-size: 14px;
+    color: #606266;
+    font-weight: 500;
+    line-height: 1.4;
+    padding-right: 8px;
+}
+
+.mobile-detail-form >>> .el-input__inner,
+.mobile-detail-form >>> .el-textarea__inner {
+    border-radius: 8px;
+    border: 1px solid #dcdfe6;
+    font-size: 16px;
+}
+
+.mobile-detail-form >>> .el-input__inner:focus,
+.mobile-detail-form >>> .el-textarea__inner:focus {
+    border-color: #409EFF;
+    box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+}
+
+/* 表单分区样式 */
+.form-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 16px;
+    padding-left: 8px;
+    border-left: 4px solid #409EFF;
+}
+
+/* 全宽选择器和日期选择器 */
+.full-width-select,
+.full-width-datepicker {
+    width: 100%;
+}
+
+/* 操作按钮组 */
+.action-button-group {
+    text-align: center;
+    margin: 16px 0;
+}
+
+.fetch-info-btn {
+    width: 100%;
+    border-radius: 8px;
+    height: 44px;
+    font-size: 15px;
+    background: linear-gradient(135deg, #67C23A, #85CE61);
+    border: none;
+}
+
+.fetch-info-btn:hover {
+    background: linear-gradient(135deg, #85CE61, #67C23A);
+}
+
+/* 股票数据网格布局 */
+.stock-data-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.data-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.data-item {
+    flex: 1;
+    min-width: calc(33.333% - 8px);
+    display: flex;
+    align-items: center;
+}
+
+.data-item.full-width {
+    min-width: calc(50% - 8px);
+}
+
+.data-label {
+    font-size: 12px;
+    color: #909399;
+    min-width: 50px;
+    white-space: nowrap;
+}
+
+.data-input {
+    flex: 1;
+}
+
+.data-input >>> .el-input__inner {
+    font-size: 13px;
+    text-align: center;
+    padding: 4px 8px;
+}
+
+/* 底部按钮区域 */
+.mobile-detail-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0 8px;
+    border-top: 1px solid #ebeef5;
+    background: #fff;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.mobile-detail-footer .el-button {
+    flex: 1;
+    margin: 0 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    height: 44px;
+    border: none;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #409EFF, #66b1ff);
+    color: white;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #66b1ff, #409EFF);
+}
+
+.cancel-btn {
+    background: #f5f7fa;
+    color: #606266;
+    border: 1px solid #dcdfe6 !important;
+}
+
+.cancel-btn:hover {
+    background: #e4e7ed;
+    color: #303133;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .mobile-detail-form >>> .el-form-item__label {
+        padding-bottom: 6px;
+        line-height: 1.3;
+    }
+    
+    .mobile-detail-form >>> .el-col-xs-24 {
+        margin-bottom: 8px;
+    }
+    
+    .mobile-detail-form >>> .el-form-item {
+        margin-bottom: 16px;
+    }
+    
+    .form-section {
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+    }
+    
+    .section-title {
+        font-size: 15px;
+        margin-bottom: 14px;
+    }
+    
+    .data-item {
+        min-width: calc(50% - 8px);
+    }
+    
+    .data-item.full-width {
+        min-width: 100%;
+    }
+    
+    .mobile-detail-footer {
+        padding: 14px 0 6px;
+    }
+    
+    .mobile-detail-footer .el-button {
+        height: 42px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dialog-content {
+        max-height: 70vh;
+    }
+    
+    .mobile-detail-form {
+        padding: 0 4px;
+    }
+    
+    .mobile-detail-form >>> .el-form-item__label {
+        font-size: 13px;
+    }
+    
+    .mobile-detail-form >>> .el-input__inner,
+    .mobile-detail-form >>> .el-textarea__inner {
+        font-size: 15px;
+    }
+    
+    .section-title {
+        font-size: 14px;
+    }
+    
+    .data-item {
+        min-width: 100%;
+    }
+    
+    .data-label {
+        min-width: 60px;
+    }
+    
+    .mobile-detail-footer .el-button {
+        height: 40px;
+        font-size: 14px;
+        margin: 0 3px;
+    }
+    
+    .fetch-info-btn {
+        height: 42px;
+        font-size: 14px;
+    }
+}
+
+/* 防止iOS输入框缩放 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .mobile-detail-form >>> .el-input__inner,
+    .mobile-detail-form >>> .el-textarea__inner {
+        font-size: 16px;
+    }
+}
+
+/* 滚动条样式优化 */
+.dialog-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 错误状态样式 */
+.mobile-detail-form >>> .el-form-item.is-error .el-input__inner,
+.mobile-detail-form >>> .el-form-item.is-error .el-textarea__inner {
+    border-color: #f56c6c;
+    box-shadow: 0 0 0 2px rgba(245, 108, 108, 0.1);
+}
+
+.mobile-detail-form >>> .el-form-item__error {
+    font-size: 12px;
+    padding-top: 4px;
+}
+
+/* 加载状态优化 */
+>>> .el-loading-mask {
+    border-radius: 12px;
+}
+
+/* 输入框附加内容样式 */
+.mobile-detail-form >>> .el-input-group__append {
+    background: #f5f7fa;
+    color: #909399;
+    border: none;
+    font-size: 13px;
+}
+
+/* 文本域样式优化 */
+.mobile-detail-form >>> .el-textarea .el-input__count {
+    background: transparent;
+    font-size: 12px;
+    color: #909399;
+}
+
+/* 日期选择器优化 */
+.mobile-detail-form >>> .el-date-editor.el-input {
+    width: 100%;
+}
+
+/* 选择器优化 */
+.mobile-detail-form >>> .el-select {
+    width: 100%;
+}
+</style>
