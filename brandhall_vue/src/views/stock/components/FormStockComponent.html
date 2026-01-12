@@ -33,7 +33,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵名称：" prop="stock_name">
+                            <el-form-item label="证劵名称：" prop="stock_name" :error="serverErrors.stock_name">
                                 <el-input v-model="form.stock_name" size="medium" placeholder="请输入股票名称"></el-input>
                             </el-form-item>
                         </el-col>
@@ -108,7 +108,7 @@
                     <div class="section-title">基本信息</div>
                     <el-row :gutter="10">
                         <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵ID：" prop="stock_id">
+                            <el-form-item label="证劵ID：" prop="stock_id" :error="serverErrors.stock_id">
                                 <el-input 
                                     v-model="form.stock_id" 
                                     size="medium" 
@@ -128,7 +128,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵名称：" prop="stock_name">
+                            <el-form-item label="证劵名称：" prop="stock_name" :error="serverErrors.stock_name">
                                 <el-input 
                                     v-model="form.stock_name" 
                                     size="medium" 
@@ -213,6 +213,11 @@
                     'stock_code': "",
                     'stock_name': ""
                 },
+                // 服务器返回的错误信息
+                'serverErrors': {
+                    'stock_id': "",
+                    'stock_name': ""
+                },
                 'rules': {
                     'stock_id': [
                         { required: true, message: '请输入证劵ID', trigger: 'blur' },
@@ -241,6 +246,94 @@
                 this.init();
                 this.initError();
                 
+            },
+            // 清空所有错误信息
+            clearAllErrors() {
+                this.serverErrors = {
+                    'stock_id': "",
+                    'stock_name': ""
+                };
+            },
+            // 设置字段错误
+            setFieldError(field, errorMessage) {
+                    // 更新 serverErrors
+                    if (this.serverErrors.hasOwnProperty(field)) {
+                        this.serverErrors[field] = errorMessage;
+                        
+                        // 等待 DOM 更新后手动触发验证显示
+                        this.$nextTick(() => {
+                            // 方法1: 使用 validateField 触发验证
+                            this.$refs.validateForm.validateField(field, (errorMessage) => {
+                                // 验证回调
+                            });
+                            
+                            // 方法2: 直接设置表单字段的验证状态（更可靠）
+                            const formItem = this.findFormItemByProp(field);
+                            if (formItem) {
+                                formItem.validateState = 'error';
+                                formItem.validateMessage = errorMessage;
+                                // 强制更新
+                                this.$forceUpdate();
+                            }
+                        });
+                    } else {
+                        // 如果不是已知字段，作为通用错误
+                        this.error_msg = errorMessage;
+                        this.$message({
+                            type: 'error',
+                            message: errorMessage
+                        });
+                    }
+            },
+            // 处理服务器返回的错误信息
+            handleServerErrors(errorData) {
+                // 清空之前的错误
+                this.clearAllErrors();
+                
+                if (!errorData) return;
+                
+                console.log('服务器返回错误:', errorData);
+                
+                if (System.isString(errorData)) {
+                    // 如果是字符串，作为通用错误
+                    this.error_msg = errorData;
+                    this.$message({
+                        type: 'error',
+                        message: errorData
+                    });
+                } else if (System.isObject(errorData)) {
+                    let hasFieldError = false;
+                    
+                    // 处理字段错误
+                    System.each(errorData, (field, error) => {
+                        if (System.isArray(error) && error.length > 0) {
+                            // 取第一个错误信息
+                            const errorMsg = error[0];
+                            this.setFieldError(field, errorMsg);
+                            hasFieldError = true;
+                        } else if (System.isString(error)) {
+                            this.setFieldError(field, error);
+                            hasFieldError = true;
+                        }
+                    });
+                    
+                    // 如果没有字段错误但有通用错误，显示通用错误
+                    if (!hasFieldError && errorData.message) {
+                        this.error_msg = errorData.message;
+                        this.$message({
+                            type: 'error',
+                            message: errorData.message
+                        });
+                    }
+                }
+            },
+            // 根据 prop 查找表单字段
+            findFormItemByProp(prop) {
+                if (!this.$refs.validateForm || !this.$refs.validateForm.fields) {
+                    return null;
+                }
+                
+                return this.$refs.validateForm.fields.find(field => field.prop === prop);
             },
             submit() {
                 this.$refs.validateForm.validate((valid) => {
@@ -315,28 +408,12 @@
                             message: D.message
                         });
                         this.ok();
+                        this.$emit('feach-by-stockid', stock_id);
                         this.$emit('get-list-stock');
 
                     }else{
                         this.loading = false;
-                        if(1062 == D.message[1]){ //字段唯一性不允许重复
-                            this.$notify({
-                                title: '错误',
-                                message: `证劵ID: ${stock_id} 已存在`,
-                                type: 'error',
-                                duration: 3000
-                            });
-                        }else {
-                            System.each(D.errors, (key,value) => {
-                                this.formError[key] = value;
-                                this.$notify({
-                                    title: '错误',
-                                    message: value,
-                                    type: 'error',
-                                    duration: 3000
-                                });
-                            });
-                        }
+                        this.handleServerErrors(D.errors);
                     }
 
                 });
@@ -370,15 +447,7 @@
                     }else{
                         this.loading = false;
                         
-                        System.each(D.errors, (key,value) => {
-                            this.formError[key] = value;
-                            this.$notify({
-                                title: '错误',
-                                message: value,
-                                type: 'error',
-                                duration: 3000
-                            });
-                        });
+                        this.handleServerErrors(D.errors);
                     }
 
                 });

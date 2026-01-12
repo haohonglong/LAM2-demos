@@ -11,8 +11,9 @@ LAM.run([jQuery], function($){
 		// $[R.method](SERVER + R.url, R.params || {}, func, R.dataType || "json");
 
 		
-		if(OBJ && OBJ.id){
+		if(System.isObject(R.params) && OBJ && OBJ.id){
 			R.params.userid = OBJ.id;
+			
 		}
 
 		$.ajax({

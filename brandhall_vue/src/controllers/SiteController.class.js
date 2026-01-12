@@ -69,13 +69,13 @@ LAM.run([LAM], function(LAM){
             const ACCESS_TOKEN = localStorage.getItem('access_token');
             System.COOKIE_GUEST.find('auth_key', ACCESS_TOKEN,function (index) {
                 if(index > -1){
-                    this.remove(index);
-                    localStorage.removeItem('access_token');
                     API.site.logout({}, (res) => {
                         if(res.status){
+                            this.remove(index);
+                            localStorage.removeItem('access_token');
                             System.redirect(System.INDEX+"site/login");
                         }else {
-                            alert("退出异常")
+                            console.log(res);
                         }
 
                     });

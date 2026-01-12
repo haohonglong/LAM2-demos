@@ -137,7 +137,7 @@
                     <el-table-column fixed prop="stock_name" label="证劵名称" width="150">
                         <template slot-scope="scope">
                             <a :href="'__URL__/stock/list/' + scope.row.stock_id + '/' + scope.row.stock_code + '/' + scope.row.stock_name" target="_blank">{{ scope.row.stock_name }}</a>
-                            <span v-if="0 == scope.row.flag" style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
+                            <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
                         </template>
                     </el-table-column>
                     <el-table-column fixed prop="bought" label="成交价" sortable width="65"></el-table-column>
@@ -172,12 +172,12 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="盈亏" width="180">
-                        <template slot-scope="scope">
+                        <template slot-scope="scope" v-if="isNotNull(scope.row.cost)">
                           <span v-if="scope.row.bought > 1">({{ scope.row.stock_price }} - {{ scope.row.cost }}) * {{ scope.row.stock_number }} = {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_number) .toFixed(2) }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="盈亏率(%)" width="180">
-                        <template slot-scope="scope">
+                        <template slot-scope="scope" v-if="isNotNull(scope.row.cost)">
                           <span v-if="scope.row.bought > 1">(({{ scope.row.stock_price }} - {{ scope.row.cost }}) / {{ scope.row.cost }}) * 100 = {{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100) .toFixed(2) }}</span>
                         </template>
                     </el-table-column>
@@ -412,13 +412,13 @@
                         <span class="profit-label">持仓市值</span>
                         <span class="profit-value">{{ (stock.stock_price * stock.stock_number).toFixed(2) }}</span>
                     </div>
-                    <div class="profit-item">
+                    <div class="profit-item" v-if="isNotNull(stock.cost)">
                         <span class="profit-label">盈亏</span>
                         <span class="profit-value" :class="getProfitClass(stock)">
                             {{ ((stock.stock_price - stock.cost) * stock.stock_number).toFixed(2) }}
                         </span>
                     </div>
-                    <div class="profit-item">
+                    <div class="profit-item" v-if="isNotNull(stock.cost)">
                         <span class="profit-label">盈亏率</span>
                         <span class="profit-value" :class="getProfitClass(stock)">
                             {{ (((stock.stock_price - stock.cost) / stock.cost) * 100).toFixed(2) }}%
@@ -641,6 +641,9 @@
                 window.removeEventListener('resize', this.handleResize);
             },
             'methods': {
+                isNotNull(a){
+                    return !System.isNull(a);
+                },
                 clearSearchText(){
                     this.search = "";
                     localStorage.removeItem('searchText');
@@ -863,14 +866,24 @@
                 autoFeachAll(){
                     this.toggleAutoUpdate();
                 },
-                remove(stock_id){
-                    this.$prompt('Please input your password', 'Tip', {
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
-                        inputValidator: (value)=>{return '534735884d341071762ede7af01c53e8' === System.md5(value)},
-                        inputErrorMessage: 'Invalid password'
+                confirm(func){
+                    this.$confirm('这将永久删除这支股票的所有数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
                     }).then(() => {
+                        func()
+                    }).catch(() => {
+                        this.loading = false;
+                        // this.$message('已取消删除')  
+                        this.del_ids = [];
+                    })
+                },
+                remove(stock_id){
+                    this.confirm(()=> {
+                        this.loading = true;
                         Api.stock.delete(stock_id, D => {
+                            this.loading = false;
                             if(0 == D.status){
                                 this.getTheListOfStock();
                                 this.$notify({
@@ -884,10 +897,10 @@
                                     message: D.message,
                                     type: 'warning'});
                             }
+                            
                         });
-                    }).catch(() => {
-                        this.loading = false;
-                    })
+
+                    });
                 },
                 feachAll(){
                     const progress_id = System.md5(System.hash());

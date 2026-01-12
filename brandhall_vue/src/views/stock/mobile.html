@@ -252,7 +252,7 @@
                     </div>
                     <div class="stock-name">
                         <a :href="'__URL__/stock/list/' + stock.stock_id + '/' + stock.stock_code + '/' + stock.stock_name" target="_blank">{{ stock.stock_name }}</a>
-                        <span v-if="0 == stock.flag" style="cursor: pointer;" @click="showDateList(stock)">(每日)</span>
+                        <span style="cursor: pointer;" @click="showDateList(stock)">(每日)</span>
                     </div>
                 </div>
                 <div class="stock-price" :class="getPriceClass(stock)">
@@ -290,13 +290,13 @@
                     <span class="profit-label">持仓市值</span>
                     <span class="profit-value">{{ (stock.stock_price * stock.stock_number).toFixed(2) }}</span>
                 </div>
-                <div class="profit-item">
+                <div class="profit-item" v-if="isNotNull(stock.cost)">
                     <span class="profit-label">盈亏</span>
                     <span class="profit-value" :class="getProfitClass(stock)">
                         {{ ((stock.stock_price - stock.cost) * stock.stock_number - stock.tax).toFixed(2) }}
                     </span>
                 </div>
-                <div class="profit-item">
+                <div class="profit-item" v-if="isNotNull(stock.cost)">
                     <span class="profit-label">盈亏率</span>
                     <span class="profit-value" :class="getProfitClass(stock)">
                         {{ (((stock.stock_price - stock.cost) / stock.cost) * 100).toFixed(2) }}%
@@ -379,7 +379,7 @@
     </div>
     
     <!-- 组件引用 -->
-    <form-stock-component title="添加" @get-list-stock="getTheListOfStock" ref="stockComponent" />
+    <form-stock-component title="添加" @get-list-stock="getTheListOfStock" @feach-by-stockid="feachByStockid" ref="stockComponent" />
     <form-stock-component title="修改" :stock_id="stock_id" @get-list-stock="getTheListOfStock" ref="stockEditComponent" />
     <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getTheListOfStock" ref="stockDetailComponent" />
     <stock-date-list-component ref="stockDeteComponent" />
@@ -610,6 +610,9 @@
 
             },
             'methods': {
+                isNotNull(a){
+                    return !System.isNull(a);
+                },
                 getSearchText(){
                     const searchText = localStorage.getItem('searchText');
                     if(searchText){
@@ -830,14 +833,24 @@
                         }, this.intervalTime);
                     }
                 },
-                remove(stock_id){
-                    this.$prompt('Please input your password', 'Tip', {
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
-                        inputValidator: (value)=>{return '534735884d341071762ede7af01c53e8' === System.md5(value)},
-                        inputErrorMessage: 'Invalid password'
+                confirm(func){
+                    this.$confirm('这将永久删除这支股票的所有数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
                     }).then(() => {
+                        func()
+                    }).catch(() => {
+                        this.loading = false;
+                        // this.$message('已取消删除')  
+                        this.del_ids = [];
+                    })
+                },
+                remove(stock_id){
+                    this.confirm(()=> {
+                        this.loading = true;
                         Api.stock.delete(stock_id, D => {
+                            this.loading = false;
                             if(0 == D.status){
                                 this.getTheListOfStock();
                                 this.$notify({
@@ -851,10 +864,10 @@
                                     message: D.message,
                                     type: 'warning'});
                             }
+                            
                         });
-                    }).catch(() => {
-                        this.loading = false;
-                    })
+
+                    });
                 },
                 feachAll(){
                     const progress_id = System.md5(System.hash());

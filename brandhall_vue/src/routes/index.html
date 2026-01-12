@@ -1,4 +1,5 @@
 <#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __TITLE__="{#LAM.TITLE#}" />
 
 <#include file="__VIEWS__/mindline/index/index.html" />
 <#include file="__VIEWS__/mindline/detail/index.html" />
@@ -37,35 +38,35 @@ LAM.run(function(){
 		const INDEX = System.require('views.room.index');
 
 		const routes = [
-			{ path: '/', component: INDEX, meta: {title: '案例列表'} }
-			,{ path: '/room/list', component: INDEX, meta: {title: '案例列表'} }
-			,{ path: '/stave/index', component: System.require('views.stave.index'), meta: {title: '五线谱'} }
-			,{ path: '/hotel/index', component: System.require('views.hotel.index'), meta: {title: '酒店'} }
-			,{ path: '/video/index', component: System.require('views.video.index'), meta: {title: '视频'} }
-			,{ path: '/video/sex', component: System.require('views.video.sex'), meta: {title: 'sex'} }
-			,{ path: '/sorts/index', component: System.require('views.sorts.index'), meta: {title: '类别'} }
-			,{ path: '/goods/index', component: System.require('views.goods.index'), meta: {title: '商品'} }
-			,{ path: '/goods/add', component: System.require('views.goods.add'), meta: {title: '统计商品'} }
-			,{ path: '/goods/chart', component: System.require('views.goods.chart'), meta: {title: '商品图表'} }
-			,{ path: '/goodsname/index', component: System.require('views.goodsname.index'), meta: {title: '商品名'} }
-			,{ path: '/url/index', component: System.require('views.url.index'), meta: {title: '网页地址'} }
-			,{ path: '/shop/index', component: System.require('views.shop.index'), meta: {title: '商铺'} }
-			,{ path: '/diary/index', component: System.require('views.diary.index'), meta: {title: '记事本'} }
-			,{ path: '/mindline/index', component: System.require('views.mindline.index'), meta: {title: '脑图'} }
-			,{ path: '/mindline/detail/:key', component: System.require('views.mindline.detail'), meta: {title: '脑图详细'} }
-			,{ path: '/article/index', component: System.require('views.article.list'), meta: {title: '文章'} }
-			,{ path: '/article/detail/:id', component: System.require('views.article.detail'), meta: {title: '文章详细'} }
-			,{ path: '/blindBox/index', component: System.require('views.blindBox.index'), meta: {title: '盲盒'} }
-			,{ path: '/goGame/index', component: System.require('views.goGame.index'), meta: {title: '围棋'} }
-			,{ path: '/unit/index', component: System.require('views.unit.index'), meta: {title: '计量单位'} }
-			,{ path: '/pictures/index', component: System.require('views.pictures.index'), meta: {title: '图片'} }
-			,{ path: '/stock/index', component: System.require('views.stock.index'), meta: {title: '股票列表'} }
-			,{ path: '/stock/mobile', component: System.require('views.stock.mobile'), meta: {title: '股票列表手机模式'} }
-			,{ path: '/stock/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.list.index'), meta: {title: '股票流水'} }
+			{ path: '/', component: System.require('views.stock.mobile'), meta: {title: '__TITLE__股票列表手机模式'} }
+			,{ path: '/room/list', component: INDEX, meta: {title: '__TITLE__案例列表'} }
+			,{ path: '/stave/index', component: System.require('views.stave.index'), meta: {title: '__TITLE__五线谱'} }
+			,{ path: '/hotel/index', component: System.require('views.hotel.index'), meta: {title: '__TITLE__酒店'} }
+			,{ path: '/video/index', component: System.require('views.video.index'), meta: {title: '__TITLE__视频'} }
+			,{ path: '/video/sex', component: System.require('views.video.sex'), meta: {title: '__TITLE__sex'} }
+			,{ path: '/sorts/index', component: System.require('views.sorts.index'), meta: {title: '__TITLE__类别'} }
+			,{ path: '/goods/index', component: System.require('views.goods.index'), meta: {title: '__TITLE__商品'} }
+			,{ path: '/goods/add', component: System.require('views.goods.add'), meta: {title: '__TITLE__统计商品'} }
+			,{ path: '/goods/chart', component: System.require('views.goods.chart'), meta: {title: '__TITLE__商品图表'} }
+			,{ path: '/goodsname/index', component: System.require('views.goodsname.index'), meta: {title: '__TITLE__商品名'} }
+			,{ path: '/url/index', component: System.require('views.url.index'), meta: {title: '__TITLE__网页地址'} }
+			,{ path: '/shop/index', component: System.require('views.shop.index'), meta: {title: '__TITLE__商铺'} }
+			,{ path: '/diary/index', component: System.require('views.diary.index'), meta: {title: '__TITLE__记事本'} }
+			,{ path: '/mindline/index', component: System.require('views.mindline.index'), meta: {title: '__TITLE__脑图'} }
+			,{ path: '/mindline/detail/:key', component: System.require('views.mindline.detail'), meta: {title: '__TITLE__脑图详细'} }
+			,{ path: '/article/index', component: System.require('views.article.list'), meta: {title: '__TITLE__文章'} }
+			,{ path: '/article/detail/:id', component: System.require('views.article.detail'), meta: {title: '__TITLE__文章详细'} }
+			,{ path: '/blindBox/index', component: System.require('views.blindBox.index'), meta: {title: '__TITLE__盲盒'} }
+			,{ path: '/goGame/index', component: System.require('views.goGame.index'), meta: {title: '__TITLE__围棋'} }
+			,{ path: '/unit/index', component: System.require('views.unit.index'), meta: {title: '__TITLE__计量单位'} }
+			,{ path: '/pictures/index', component: System.require('views.pictures.index'), meta: {title: '__TITLE__图片'} }
+			,{ path: '/stock/index', component: System.require('views.stock.index'), meta: {title: '__TITLE__股票列表'} }
+			,{ path: '/stock/mobile', component: System.require('views.stock.mobile'), meta: {title: '__TITLE__股票列表手机模式'} }
+			,{ path: '/stock/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.list.index'), meta: {title: '__TITLE__股票流水'} }
 			// ,{ path: '/stockDate/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.date.index') }
-			,{ path: '/tesks/index', component: System.require('views.tesks.index'), meta: {title: '任务'} }
-			,{ path: '/canvas/index', component: System.require('views.canvas.index'), meta: {title: 'canvas'} }
-			,{ path: '/test/index', component: System.require('views.test.index'), meta: {title: '测试'} }
+			,{ path: '/tesks/index', component: System.require('views.tesks.index'), meta: {title: '__TITLE__任务'} }
+			,{ path: '/canvas/index', component: System.require('views.canvas.index'), meta: {title: '__TITLE__canvas'} }
+			,{ path: '/test/index', component: System.require('views.test.index'), meta: {title: '__TITLE__测试'} }
 		]
 		const router = new VueRouter({ routes })
 

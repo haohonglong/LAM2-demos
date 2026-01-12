@@ -240,7 +240,12 @@
                             this.ok();
                             this.$message({ message: '修改成功', type: 'success' });
                         } else {
-                            this.$message.error('修改失败');
+                            if(res.errors){
+                                this.formError.key = res.errors.key;
+                                this.formError.name = res.errors.name;
+                            }else{
+                                this.$message.error('修改失败');
+                            }
                         }
                     });
 
@@ -261,6 +266,13 @@
                             this.loadData();
                             this.ok();
                             this.$message({ message: '添加成功', type: 'success' });
+                        }else{
+                            if(res.errors){
+                                this.formError.key = res.errors.key;
+                                this.formError.name = res.errors.name;
+                            }else{
+                                this.$message.error('修改失败');
+                            }
                         }
                     });
 
