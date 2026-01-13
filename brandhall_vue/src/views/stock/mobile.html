@@ -231,7 +231,7 @@
     <div v-else>
         <div class="stock-list-info">
             显示 {{ displayedStocks.length }} / {{ tableData.length }} 只股票
-            <el-button v-if="displayedStocks.length < tableData.length" type="text" size="mini" @click="resetFilters">
+            <el-button v-if="displayedStocks.length < tableData.length" type="text" size="mini" @click="clearSearchText()">
                 显示全部
             </el-button>
         </div>

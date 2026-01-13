@@ -108,16 +108,6 @@
                     <div class="section-title">基本信息</div>
                     <el-row :gutter="10">
                         <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵ID：" prop="stock_id" :error="serverErrors.stock_id">
-                                <el-input 
-                                    v-model="form.stock_id" 
-                                    size="medium" 
-                                    placeholder="请输入股票ID"
-                                    clearable>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :xs="24" :sm="12">
                             <el-form-item label="证劵代码：" prop="stock_code">
                                 <el-input 
                                     v-model="form.stock_code" 
@@ -200,7 +190,6 @@
             return {
                 'loading': false,
                 'form':{
-                    'stock_id': "",
                     'stock_code': "",
                     'stock_cost': 0,
                     'stock_name': "",
@@ -215,14 +204,9 @@
                 },
                 // 服务器返回的错误信息
                 'serverErrors': {
-                    'stock_id': "",
                     'stock_name': ""
                 },
                 'rules': {
-                    'stock_id': [
-                        { required: true, message: '请输入证劵ID', trigger: 'blur' },
-                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
-                    ],
                     'stock_code': [
                         { required: true, message: '请输入证劵代码', trigger: 'blur' },
                         { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
@@ -250,7 +234,6 @@
             // 清空所有错误信息
             clearAllErrors() {
                 this.serverErrors = {
-                    'stock_id': "",
                     'stock_name': ""
                 };
             },
@@ -363,12 +346,10 @@
                 });
             },
             initError() {
-                this.formError.stock_id = "";
                 this.formError.stock_code = "";
                 this.formError.stock_name = "";
             },
             init() {
-                this.form.stock_id = '';
                 this.form.stock_code = '';
                 this.form.stock_name = '';
                 this.form.stock_remark = '';
@@ -377,14 +358,13 @@
                 this.form.tax = 5.00;
             },
             setForm(stock_id, stock_code, stock_name, stock_remark) {
-                this.form.stock_id = stock_id;
                 this.form.stock_code = stock_code;
                 this.form.stock_name = stock_name;
                 this.form.stock_remark = stock_remark;
                 this.form.flag = 1;
             },
             add() {
-                const stock_id = this.form.stock_id;
+                const stock_id = System.hash();
                 const stock_code = this.form.stock_code;
                 const stock_name = this.form.stock_name;
                 const stock_remark = this.form.stock_remark;
