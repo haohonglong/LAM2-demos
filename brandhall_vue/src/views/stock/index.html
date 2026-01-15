@@ -140,17 +140,17 @@
                             <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
                         </template>
                     </el-table-column>
-                    <el-table-column fixed prop="bought" label="成交价" sortable width="65"></el-table-column>
-                    <el-table-column fixed prop="tax" label="税" width="65"></el-table-column>
-                    <el-table-column fixed prop="cost" label="成本价" width="95"></el-table-column>
-                    <el-table-column fixed prop="stock_price" label="市值" sortable width="80">
+                    <el-table-column prop="bought" fixed label="成交价" sortable width="65"></el-table-column>
+                    <el-table-column prop="tax" label="税" width="65"></el-table-column>
+                    <el-table-column prop="cost" label="成本价" width="95"></el-table-column>
+                    <el-table-column prop="stock_price" label="市值" sortable width="80">
                         <template slot-scope="scope">
                             <span v-if="scope.row.stock_price > scope.row.close" class="">{{ scope.row.stock_price }}</span>
                             <span v-else-if="scope.row.stock_price < scope.row.close" style="color: green;">{{ scope.row.stock_price }}</span>
                             <span v-else>{{ scope.row.stock_price }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column fixed prop="stock_number" label="持股数" sortable width="65"></el-table-column>
+                    <el-table-column prop="stock_number" label="持股数" sortable width="65"></el-table-column>
                     <el-table-column prop="open" label="开盘价" width="80">
                         <template slot-scope="scope">
                             <span v-if="scope.row.open > scope.row.close" class="warning">{{ scope.row.open }}</span>
@@ -158,14 +158,6 @@
                             <span v-else>{{ scope.row.open }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="close" label="收盘价" width="80"></el-table-column>
-                    <el-table-column prop="highest" label="最高" width="80"></el-table-column>
-                    <el-table-column prop="lowest" label="最低" width="80"></el-table-column>
-                    <el-table-column prop="average" label="均价" width="80"></el-table-column>
-                    <el-table-column prop="lup" label="涨停" width="80"></el-table-column>
-                    <el-table-column prop="ldown" label="跌停" width="80"></el-table-column>
-                    <el-table-column prop="change" label="换手率(%)" width="80"></el-table-column>
-                    <el-table-column prop="amplitude" label="振幅率(%)" width="80"></el-table-column>
                     <el-table-column label="持有估值(手续费之前)" width="180">
                         <template slot-scope="scope">
                           <span>{{ scope.row.stock_price }} * {{ scope.row.stock_number }} = {{ (scope.row.stock_price * scope.row.stock_number).toFixed(2) }}</span>
@@ -181,7 +173,7 @@
                           <span v-if="scope.row.bought > 1">(({{ scope.row.stock_price }} - {{ scope.row.cost }}) / {{ scope.row.cost }}) * 100 = {{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100) .toFixed(2) }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作" width="320px">
+                    <el-table-column label="操作" width="370px">
                         <template slot-scope="scope">
                             <el-button type="primary" size="mini" @click="copyStock(scope.row)" class="!rounded-button flex items-center">copy</el-button>
                             <el-button type="primary" size="mini" @click="openAddTransactionDialog(scope.row)" class="!rounded-button flex items-center">交易</el-button>
