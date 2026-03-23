@@ -28,7 +28,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵代码：" prop="stock_code">
+                            <el-form-item label="证劵代码：" prop="stock_code" :error="serverErrors.stock_code">
                                 <el-input v-model="form.stock_code" size="medium" placeholder="请输入股票代码"></el-input>
                             </el-form-item>
                         </el-col>
@@ -108,7 +108,7 @@
                     <div class="section-title">基本信息</div>
                     <el-row :gutter="10">
                         <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵代码：" prop="stock_code">
+                            <el-form-item label="证劵代码：" prop="stock_code" :error="serverErrors.stock_code">
                                 <el-input 
                                     v-model="form.stock_code" 
                                     size="medium" 
@@ -204,6 +204,7 @@
                 },
                 // 服务器返回的错误信息
                 'serverErrors': {
+                    'stock_code': "",
                     'stock_name': ""
                 },
                 'rules': {
@@ -234,6 +235,7 @@
             // 清空所有错误信息
             clearAllErrors() {
                 this.serverErrors = {
+                    'stock_code': "",
                     'stock_name': ""
                 };
             },
@@ -348,6 +350,7 @@
             initError() {
                 this.formError.stock_code = "";
                 this.formError.stock_name = "";
+                this.clearAllErrors();
             },
             init() {
                 this.form.stock_code = '';
@@ -356,6 +359,7 @@
                 this.form.stock_cost = 0;
                 this.form.flag = 0;
                 this.form.tax = 5.00;
+                this.initError();
             },
             setForm(stock_id, stock_code, stock_name, stock_remark) {
                 this.form.stock_code = stock_code;
@@ -364,6 +368,7 @@
                 this.form.flag = 1;
             },
             add() {
+                this.initError();
                 const stock_id = System.hash();
                 const stock_code = this.form.stock_code;
                 const stock_name = this.form.stock_name;
@@ -399,6 +404,7 @@
                 });
             },
             edit() {
+                this.initError();
                 const stock_id = this.stock_id;
                 const stock_code = this.form.stock_code;
                 const stock_name = this.form.stock_name;
@@ -435,6 +441,7 @@
           },
           watch: {
             dialogVisible(newVal) {
+                this.initError();
                 if (newVal) {
                     // 对话框显示时，确保内容正确显示
                     this.$nextTick(() => {

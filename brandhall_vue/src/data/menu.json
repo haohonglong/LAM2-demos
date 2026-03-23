@@ -1,4 +1,7 @@
 
+<#Block:begin id="data.menu" data="{}">
+<%const GUEST =  System.COOKIE_GUEST.get(System.COOKIE_GUEST.find('auth_key', localStorage.getItem('access_token')).index);%>
+<%const USERID = GUEST.id;%>
 [
   {
     "index": "a17",
@@ -16,6 +19,7 @@
       {  "index": "a15-b1", "title":"列表","href":"/article/index"}
     ]
   },
+  <%if(1 == USERID) { %>
   {
     "index": "a13",
     "icon":"a-2",
@@ -24,6 +28,7 @@
       {  "index": "a13-b1", "title":"列表","href":"/diary/index"}
     ]
   },
+  <% } %>
   {
     "index": "a20",
     "icon":"a-2",
@@ -79,8 +84,7 @@
     "icon":"a-2",
     "title":"视频",
     "ul":[
-      {  "index": "a7-b1", "title":"视频","href":"/video/index"},
-      {  "index": "a7-b2", "title":"sexual","href":"/video/sex"}
+      {  "index": "a7-b1", "title":"视频","href":"/video/index"}
     ]
   },
   {
@@ -136,22 +140,26 @@
     ]
   },
   {
-    "index": "a21",
+    "index": "a23",
     "icon":"a-1",
     "title":"测试页面",
     "ul":[
-      { "index": "a21-a1", "title":"首页","href":"/test/index"}
+      { "index": "a23-a1", "title":"首页","href":"/test/index"}
     ]
   },
-
   {
     "index": "a22",
     "icon":"a-1",
     "title":"图形",
     "ul":[
-      { "index": "a21-a1", "title":"首页","href":"/canvas/index"}
+      { "index": "a22-a1", "title":"首页","href":"/canvas/index"}
     ]
   }
 
 
 ]
+
+<#Block:end>
+
+
+<#=block id="data.menu" />

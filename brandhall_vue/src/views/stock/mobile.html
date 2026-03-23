@@ -243,9 +243,7 @@
             :class="{'high-rating-card': stock.level >= 4, 'test-stock-card': stock.flag === 1}">
             <div class="stock-header">
                 <div class="stock-info">
-                    <div class="stock-id-btn" @click="searchStock(stock.stock_id)">
-                        ID: {{ stock.stock_id }}
-                    </div>
+                    <div class="stock-id-btn" @click="searchStock(stock.stock_id)">ID</div>
                     <div class="stock-code" @click="handleDialogShow(stock)">
                         {{ stock.stock_code }}
                         <el-tag v-if="stock.flag === 1" type="warning" size="mini" style="margin-left: 4px;">测试</el-tag>

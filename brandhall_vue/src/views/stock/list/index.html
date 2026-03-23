@@ -116,8 +116,8 @@
                     align="center"
                     width="90">
                     <template slot-scope="scope">
-                        <span style="color: red;" v-if="1 == scope.row.stock_type"><el-tag :type="'success'">买入</el-tag></span>
-                        <span style="color: green;" v-else-if="2 == scope.row.stock_type"><el-tag :type="'danger'">卖出</el-tag></span>
+                        <span style="color: red;" v-if="1 == scope.row.stock_type"><el-tag type="success">买入</el-tag></span>
+                        <span style="color: green;" v-else-if="2 == scope.row.stock_type"><el-tag type="danger">卖出</el-tag></span>
                         <span style="color:#909399" v-else>-</span>
                       </template>
                 </u-table-column>
@@ -255,14 +255,19 @@
                 </u-table-column>
                 <u-table-column label="成交价(手续费之前)" width="100">
                     <template slot-scope="scope">
-                      {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
+                        <el-tooltip class="item" effect="dark" :content="scope.row.stock_price + ' * ' + scope.row.stock_deal_total" placement="top-start">
+                            <span>{{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}</span>
+                        </el-tooltip>
                     </template>
                 </u-table-column>
                 <u-table-column label="实价" width="100">
                     <template slot-scope="scope">
                         <span v-if="scope.row.stock_deal_total > 0">
                             <span v-if="2 == scope.row.stock_type">
-                                {{ (scope.row.stock_price * scope.row.stock_deal_total - 5.73).toFixed(2) }}
+                                <el-tooltip class="item" effect="dark" :content="scope.row.stock_price + ' * ' + scope.row.stock_deal_total + ' - 5.73'" placement="top-start">
+                                    <span>{{ (scope.row.stock_price * scope.row.stock_deal_total - 5.73).toFixed(2) }}</span>
+                                </el-tooltip>
+                                
                             </span>
                             <span v-else>
                                 {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}

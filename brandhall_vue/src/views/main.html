@@ -135,7 +135,7 @@
 
 /* 确保菜单容器可以滚动 */
 .el-menu {
-    height: 100vh;
+    height: 90vh;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -207,7 +207,7 @@
 			<div id="header" class="clearfix clear">
 			  <el-row>
 				<el-col :span="23">
-				  <el-header><header-component :name="user.name" :age="user.age"></header-component></el-header>
+				  <el-header><header-component :amount="amount" :name="user.name" :age="user.age"></header-component></el-header>
 				</el-col>
 				<el-col :span="1">
 				  <el-tooltip content="点我显示侧边栏" placement="right">
@@ -254,6 +254,7 @@
 		'use strict';
 		
 		var System = this;
+		const Api = System.require("Api");
 
 		Vue.directive('loadmore', {
 			bind(el, binding) {
@@ -282,7 +283,8 @@
 					drawer: false,
 					title: "blog系统",
 					user: {#-user-#},
-					crumbData: []
+					crumbData: [],
+					amount: 0.00
 				};
 				},
 				components: {
@@ -299,10 +301,22 @@
 				},
 				created() {
 					this.setTitle(router.currentRoute.meta.title);
+					System.export('getAmount', this.getAmount);
+					this.getAmount();
 					
 					
 				},
 				methods: {
+					getAmount(){
+						Api.User.getWallet(res => {
+							if(res.status){
+								this.amount = res.amount;
+								
+
+							}
+						});
+						
+					},
 					handleClose() {
 						this.$refs.navDrawer.closeDrawer();
 					},

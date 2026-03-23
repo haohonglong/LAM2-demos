@@ -225,7 +225,12 @@
                     if (!value || parseInt(value) < 1) {
                         callback(new Error('股票数量不能少于1'));
                     } else {
-                        callback();
+                        if(this.form.stock_type === '1' && parseInt(value) < 100){
+                            callback(new Error('买入数量不能少于1手（100股/手）'));
+                        }else{
+                            callback();
+
+                        }
                     }
                 } else {
                     callback();
@@ -289,6 +294,7 @@
             }
           },
           created(){
+            this.getAmount = System.require("getAmount");
           },
           methods: {
             getOneOfStockDatek(){
@@ -435,6 +441,7 @@
                         });
                         this.ok();
                         this.$emit('get-list');
+                        this.getAmount();
                     } else {
                         this.$message.error((D && D.message) || '添加失败');
                         if (D && D.errors) {

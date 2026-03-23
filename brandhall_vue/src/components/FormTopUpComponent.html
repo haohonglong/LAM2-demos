@@ -1,0 +1,174 @@
+
+<#define __PACKAGE__="components" />
+<#define __ID__="__PACKAGE__.FormTopUpComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+
+<#Block:begin id="__ID__">
+<div>
+    <el-dialog
+    title="充值"
+    :visible.sync="dialogVisible"
+    :close-on-click-modal="true"
+    :lock-scroll="false"
+    top="2vh"
+    :fullscreen="true"
+    :modal="false"
+    class="mobile-stock-detail-dialog"
+    custom-class="mobile-detail-dialog">
+    
+    <div class="dialog-content">
+        <el-form :model="form" :rules="rules" ref="validateForm" class="mobile-detail-form">
+            
+            <!-- 基本信息区块 -->
+            <div class="form-section">
+                <el-row :gutter="10">
+                    <el-col :xs="24" :sm="12">
+                        <el-form-item label="金额：" prop="amount">
+                            <el-input 
+                                v-model="form.amount" 
+                                type="number"
+                                placeholder="0.00"
+                                size="medium">
+                                <template slot="append">元</template>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+                
+        </el-form>
+    </div>
+    
+    <div slot="footer" class="dialog-footer mobile-detail-footer">
+        <el-button @click="ok()" class="cancel-btn" size="medium">取消</el-button>
+        <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading" size="medium">提交</el-button>
+    </div>
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        const Api = System.require("Api");
+        
+
+        var FormComponent = {
+          name: "FormTopUpComponent",
+          props: {
+          },
+          components: {},
+          data() {
+            var checkThePrice = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入金额'));
+                }else if (0 >= parseFloat(value)) {
+                    let msg = "不能是负数";
+                    callback(new Error(msg));
+                }else if (parseFloat(value) > 1000000) {
+                    let msg = "充值最大限额壹佰万元";
+                    callback(new Error(msg));
+                }else {
+                    callback();
+                }
+            };
+            
+
+            
+            return {
+                'loading': false,
+                'form':{
+                    'amount': 0.00
+                },
+                'formError':{
+                    'amount': ""
+                },
+                rules: {
+                    amount: [
+                        { required: true, validator: checkThePrice, trigger: 'blur' }
+                    ]
+                },
+                dialogVisible: false
+            }
+          },
+          created(){
+             this.getAmount = System.require("getAmount");
+          },
+          methods: {
+            init() {
+                this.form = {
+                    'amount': 0.00
+                };
+                this.formError = {
+                    'amount': ""
+                };
+            },
+            initError(){},
+            ok() {
+                this.getAmount();
+                this.loading = false;
+                this.dialogVisible = false;
+                this.init();
+                this.initError();
+            },
+            submit() {
+                this.$refs.validateForm.validate((valid) => {
+                    if (!valid) {
+                        this.$message.error('请完善表单信息');
+                        return false;
+                    }else {
+                        this.add();
+                    }
+                });
+                this.initError();
+            },
+            add() {
+                const amount = this.form.amount;
+                
+
+
+                const data = {
+                    amount
+                };
+
+                this.loading = true;
+                
+                // 修复：使用正确的API调用方式
+                Api.User.topUp(data, (D) => {
+                    this.loading = false;
+                    
+                    if(D && D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message || '充值成功'
+                        });
+                        this.ok();
+                    } else {
+                        this.$message.error((D && D.message) || '充值失败');
+                        if (D && D.errors) {
+                            System.each(D.errors, (key,value) => {
+                                this.formError[key] = value;
+                            });
+                        }
+                    }
+                });
+            }
+          },
+          watch: {},
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>
+
+<style scoped>
+    
+</style>

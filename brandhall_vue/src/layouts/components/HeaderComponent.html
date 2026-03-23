@@ -1,5 +1,6 @@
 <#define __IMG__="{#LAM.IMAGE#}/imgs_LHH" />
 <#define __CLASSPATH__="{#LAM.classPath#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
 <#define __LAYOUTS__="{#LAM.LAYOUTS#}" />
 <#define __HOSTIP__="{#LAM.HOSTIP#}" />
 <#define @COMPONENTS="__LAYOUTS__/components" />
@@ -15,11 +16,14 @@
             <div class="p10">
                 <ul class="mb5">
                     <li><a href="index.html?r=site/logout">退出登录</a></li>
+                    <li><span @click="topUp">充值</span></li>
+                    <li><span @click="getLogs">日志</span></li>
                 </ul>
 
             </div>
         </div>
     </div>
+    
 
 <#Block:end>
 
@@ -37,24 +41,39 @@
                 <div slot="content"><#=block id="logoutBox" /></div>
                 <div class="p5 p-rel z1">
                     <span>{{ name }}</span>
+                    <span class="ml10">余额：{{ formatNumber(amount) }} ¥</span>
                 </div>
+                
             </el-tooltip>
             
         </div>
 
     </div>
+    <form-top-up-component ref="formTopUpComponent" />
+    <logs-component ref="logsComponent" />
 </div>
+
+
 <#Block:end>
 
 
 
+
+
+
+
+
+
 <#include file="~/NavMenuComponent.html" />
+<#include file="__COMPONENTS__/FormTopUpComponent.html" />
+<#include file="__COMPONENTS__/LogsComponent.html" />
 
 <script type="text/javascript">
     //header
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
+        const Api = System.require("Api");
 
         var tools=new System.Tools();
 
@@ -115,16 +134,57 @@
           props: {
             "name": String,
             "age": Number,
+            "amount": Number | String,
             "obj": Object
           },
           components: {
             NavMenuComponent: System.require("components.NavMenuComponent")
+            ,'form-top-up-component': System.require('components.FormTopUpComponent')
+            ,'logs-component': System.require('components.LogsComponent')
           },
           data: function () {
             return {
+                'loading': false,
+                'dialogVisible': true,
             }
           },
+          created(){
+          },
           methods: {
+            topUp(){
+                if(parseFloat(this.amount) > 1000000){
+                    this.$message.error(`用户${this.name}由于您的账户余额已超过壹佰万元，已超了最大限额，所以暂不能充值，但是，当余额小于壹佰万时，你仍可以充值`);
+                    return;
+
+                }
+                this.$refs.formTopUpComponent.init()
+                this.$refs.formTopUpComponent.dialogVisible = true
+
+            },
+            getLogs(){
+                this.$refs.logsComponent.init()
+                this.$refs.logsComponent.dialogVisible = true
+
+            },
+            formatNumber(num, decimals = 2) {
+                // 处理非数字
+                if (isNaN(num)) return '0';
+                
+                // 保留小数位
+                const fixedNum = Number(num).toFixed(decimals);
+                
+                // 分割整数和小数部分
+                const parts = fixedNum.toString().split('.');
+                const integerPart = parts[0];
+                const decimalPart = parts[1] || '';
+                
+                // 为整数部分添加千分位
+                const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                
+                // 组合结果
+                return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+            }
+            
           },
           template: `<#=block id="header" />`
         };

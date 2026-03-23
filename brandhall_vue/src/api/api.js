@@ -27,6 +27,13 @@ LAM.run([jQuery], function($){
 	}
 
 	const API = {
+		"Log":{
+			"index": SERVER+ "/Log/index"
+		},
+		"User":{
+			"topUp": SERVER+ "/User/topUp",
+			"getWallet": SERVER+ "/User/getWallet"
+		},
 		"StockDate":{
 			"getOne": SERVER+ "/StockDate/getOne",
 			"index": SERVER+ "/StockDate/index"
@@ -137,6 +144,31 @@ LAM.run([jQuery], function($){
 	
 
 	const Api = {
+		"Log": {
+			index(func){
+				request({
+					url: API.Log.index,
+					method: 'post',
+					params: {}
+				}, func);
+			}
+		},
+		"User": {
+			topUp({amount}, func){
+				request({
+					url: API.User.topUp,
+					method: 'post',
+					params: {amount}
+				}, func);
+			},
+			getWallet(func){
+				request({
+					url: API.User.getWallet,
+					method: 'post',
+					params: {}
+				}, func);
+			}
+		},
 		"StockDate": {
 			getOne({ 
 				stock_id
