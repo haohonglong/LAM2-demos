@@ -6,20 +6,16 @@ html,body{height: 100%;overflow: hidden;}
 .l-sectionLogin{margin-top: -100px;}
 .l-sectionLogin .login-head{
     width: 317px;
-    height: 114px; 
     background: url(../images/imgs_LHH/login_h1.png) no-repeat 0 0;
     background: none;
-    position: relative;
-    top: -43px;
-    left: 0;
-    font-size: 110px;
+    font-size: 90px;
     font-weight: bolder;
     color: #fff;
     font-family: 'Noto Sans SC', sans-serif;
 
 }
 
-.l-sectionWrap-A1{width: 100%;width: 480px\9; border-radius: 3px;border: 1px solid #e1e8ed;background: #fff;margin-top: -15px;}
+.l-sectionWrap-A1{width: 100%;width: 480px\9; border-radius: 3px;border: 1px solid #e1e8ed;background: #fff; position: relative; z-index: 100;}
 .l-sectionWrap-A1 .p25{padding: 15px;}
 .l-sectionWrap-A1 .pb0{padding-bottom: 0;}
 
