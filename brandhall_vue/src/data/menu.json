@@ -10,7 +10,12 @@
     "ul":[
        {  "index": "a20-b1", "title":"股票列表","href":"/stock/index"}
        ,{  "index": "a20-b2", "title":"股票模拟列表","href":"/stock/simulation/index"}
+<!--Del:begin-->
+
        ,{  "index": "a20-b3", "title":"手机模式","href":"/stock/simulation/mobile"}
+
+<!--Del:end-->
+
     ]
   }
   <%if(1 == USERID) { %>

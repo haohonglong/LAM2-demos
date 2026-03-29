@@ -61,7 +61,8 @@
                 'loading': false,
                 'form':{
                     'simulation_id': null,
-                    'cost': 0
+                    'cost': 0,
+                    'stock_prices_id': null
                 },
                 'formError':{
                     'cost': ""
@@ -86,22 +87,28 @@
                 
             },
             init() {
-                this.form.cost = "";
+                this.form.simulation_id = null;
+                this.form.cost = 0;
+                this.form.stock_prices_id = null;
                 
             },
-            setForm(simulation_id, cost) {
+            setForm(simulation_id, cost, stock_prices_id) {
+                this.init();
                 this.form.simulation_id = simulation_id;
                 this.form.cost = cost;
+                this.form.stock_prices_id = stock_prices_id;
             },
             submit() {
                 const simulation_id = this.form.simulation_id;
                 const cost = this.form.cost;
+                const stock_prices_id = this.form.stock_prices_id;
                 
 
                 this.loading = true;
                 Api.stockSimulation.setCost({
                     simulation_id,
-                    cost
+                    cost,
+                    stock_prices_id
                 }, D => {
                     if(D.status){
                         this.$message({
@@ -109,9 +116,8 @@
                             message: D.message
                         });
                         this.ok();
-                        // this.$emit('feach-by-stockid', stock_id);
                         this.$emit('get-list-stock');
-
+                        
                     }
                     this.loading = false;
 

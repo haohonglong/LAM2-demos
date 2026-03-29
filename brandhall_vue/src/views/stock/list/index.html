@@ -147,6 +147,9 @@
                     prop="cost"
                     label="成本价"
                     width="80">
+                    <template slot-scope="scope">
+                        <a href="javascript:void(0);" @click="setCost(scope.row)">{{ scope.row.cost }}</a>
+                    </template>
                 </u-table-column>
                 <u-table-column
                     fixed
@@ -350,6 +353,8 @@
   <iframe :src="'https://gushitong.baidu.com/stock/ab-'+stock_code" width="100%" height="100%" frameborder="0"></iframe>
 </el-drawer>
 
+<form-set-stock-cost-component @get-list-stock="getListOfStockDetail" ref="setStockCostComponent" />
+
 
 </div>
 
@@ -361,6 +366,7 @@
 <#include file="~/components/candlestickChartComponent.html" />
 <#include file="~/components/lineChartComponent.html" />
 <#include file="~/components/ContentComponent.html" />
+<#include file="~/components/FormSetStockCostComponent.html" />
 
 
 <script type="text/javascript">
@@ -406,6 +412,7 @@
                 ,'candlestick-chart-component': System.require('stock.components.candlestickChartComponent')
                 ,'line-chart-component': System.require('stock.components.lineChartComponent')
                 ,'content-component': System.require('stock.components.ContentComponent')
+                ,'form-set-stock-cost-component': System.require('stock.components.FormSetStockCostComponent')
             },
             beforeCreate() { },
             created() {
@@ -435,6 +442,10 @@
                 
             },
             'methods': {
+                setCost(stock){
+                    this.$refs.setStockCostComponent.setForm(stock.simulation_id, stock.cost, stock.stock_prices_id);
+                    this.$refs.setStockCostComponent.dialogVisible = true
+                },
                 isset(a){
                     return System.isset(a);
                 },

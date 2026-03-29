@@ -40,18 +40,28 @@ LAM.run([jQuery], function($){
 		},
 		"stockDetail":{
 			"index": SERVER+ "/stockDetail/index",
-			"delete": SERVER+ "/stockDetail/delete",
-			"add": SERVER+ "/stockDetail/add"
+			"delete": SERVER+ "/stockDetail/delete"
 		},
 		"stock":{
 			"index": SERVER+ "/stock/index",
 			"search": SERVER+ "/stock/search",
+			"exist": SERVER+ "/stock/exist",
 			"add": SERVER+ "/stock/add",
 			"edit": SERVER+ "/stock/edit",
 			"feach": SERVER+ "/stock/feach",
 			"getProgress": SERVER+ "/stock/getProgress",
-			"delete": SERVER+ "/stock/delete",
-			"setLevel": SERVER+ "/stock/setLevel"
+			"delete": SERVER+ "/stock/delete"
+		},
+		"stockSimulation":{
+			"index": SERVER+ "/simulation/index",
+			"search": SERVER+ "/simulation/search",
+			"add": SERVER+ "/simulation/add",
+			"edit": SERVER+ "/simulation/edit",
+			"delete": SERVER+ "/simulation/delete",
+			"setLevel": SERVER+ "/simulation/setLevel",
+			"trade": SERVER+ "/simulation/trade",
+			"setTax": SERVER+ "/simulation/setTax",
+			"setCost": SERVER+ "/simulation/setCost",
 		},
 		"article":{
 			"index": SERVER+ "/article/index",
@@ -205,14 +215,45 @@ LAM.run([jQuery], function($){
 					method: 'get',
 					params: { id }
 				}, func);
+			}
+			
+		},
+		"stockSimulation":{
+			add({ stock_id, case_name, simulation_remark }, func){
+				request({
+					url: API.stockSimulation.add,
+					method: 'post',
+					params: { stock_id, case_name, simulation_remark }
+				}, func);
 			},
-			add({ 
-				stock_id
+			edit({ simulation_id, case_name, simulation_remark }, func){
+				request({
+					url: API.stockSimulation.edit,
+					method: 'post',
+					params: { simulation_id, case_name, simulation_remark }
+				}, func);
+			},
+			setCost({ simulation_id, cost, stock_prices_id }, func){
+				request({
+					url: API.stockSimulation.setCost,
+					method: 'post',
+					params: { simulation_id, cost, stock_prices_id }
+				}, func);
+			},
+			setTax({ simulation_id, commission_rate, stamp_tax_rate, min_commission }, func){
+				request({
+					url: API.stockSimulation.setTax,
+					method: 'post',
+					params: { simulation_id, commission_rate, stamp_tax_rate, min_commission }
+				}, func);
+			},
+			trade({
+				simulation_id
+				,stock_id
 				,stock_price
-				,stock_type
-				,stock_deal_total
-				,created_at
-				,stock_detail_remark
+				,deal_type
+				,deal_total
+				,trade_remark
 				,open
 				,close
 				,lup
@@ -224,17 +265,18 @@ LAM.run([jQuery], function($){
 				,amplitude
 				,volume
 				,amount
+				,created_at
 			}, func){
 				request({
-					url: API.stockDetail.add,
+					url: API.stockSimulation.trade,
 					method: 'post',
 					params: { 
-						stock_id
+						simulation_id
+						,stock_id
 						,stock_price
-						,stock_type
-						,stock_deal_total
-						,created_at
-						,stock_detail_remark
+						,deal_type
+						,deal_total
+						,trade_remark
 						,open
 						,close
 						,lup
@@ -246,18 +288,26 @@ LAM.run([jQuery], function($){
 						,amplitude
 						,volume
 						,amount
+						,created_at
 					}
+				}, func);
+			},
+			index({}, func){
+				request({
+					url: API.stockSimulation.index,
+					method: 'post',
+					params: {}
+				}, func);
+			},
+			setLevel({stock_id, level}, func){
+				request({
+					url: API.stockSimulation.setLevel,
+					method: 'post',
+					params: { stock_id, level }
 				}, func);
 			}
 		},
 		"stock": {
-			setLevel({stock_id, level}, func){
-				request({
-					url: API.stock.setLevel,
-					method: 'get',
-					params: { stock_id, level }
-				}, func);
-			},
 			delete(stock_id, func){
 				request({
 					url: API.stock.delete,
@@ -282,18 +332,25 @@ LAM.run([jQuery], function($){
 			getProgress(progress_id){
 				return `${API.stock.getProgress}?progress_id=${progress_id}`;
 			},
-			add({ stock_id, stock_code, stock_name, stock_remark, flag, tax }, func){
+			add({ stock_code, stock_remark}, func){
 				request({
 					url: API.stock.add,
 					method: 'post',
-					params: { stock_id, stock_code, stock_name, stock_remark, flag, tax }
+					params: { stock_code, stock_remark}
 				}, func);
 			},
-			edit({ stock_id, stock_code, stock_name, stock_cost, stock_remark, tax }, func){
+			edit({ stock_id, stock_code, stock_remark }, func){
 				request({
 					url: API.stock.edit,
 					method: 'post',
-					params: { stock_id, stock_code, stock_name, stock_cost, stock_remark, tax }
+					params: { stock_id, stock_code, stock_remark }
+				}, func);
+			},
+			exist({ stock_code }, func){
+				request({
+					url: API.stock.exist,
+					method: 'post',
+					params: { stock_code }
 				}, func);
 			},
 			search({ key, value }, func){

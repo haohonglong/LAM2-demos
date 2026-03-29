@@ -76,13 +76,8 @@
                                       :label="item.stock_code + ' - ' + item.stock_name"
                                       :value="item.stock_id">
                                     </el-option>
-                                    <template slot="empty">
-                                        <div class="custom-empty">
-                                          <i class="el-icon-info"></i>
-                                          <el-button size="mini" round @click="formAddStockComponent">添加股票</el-button>
-                                        </div>
-                                      </template>
                                 </el-select>
+                                <el-button type="primary" size="mini" round @click="formAddStockComponent">添加股票</el-button>
                                 
                             </el-form-item>
                         </el-col>
