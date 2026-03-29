@@ -66,9 +66,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :xs="24" :sm="12">
-                        <el-form-item label="股票数量：" prop="stock_deal_total">
+                        <el-form-item label="股票数量：" prop="deal_total">
                             <el-input 
-                                v-model="form.stock_deal_total" 
+                                v-model="form.deal_total" 
                                 type="number"
                                 placeholder="0"
                                 size="medium">
@@ -240,8 +240,9 @@
             return {
                 'loading': false,
                 'form':{
-                    'stock_price': 0.00
-                    ,'stock_deal_total': 0
+                    'simulation_id': null
+                    ,'stock_price': 0.00
+                    ,'deal_total': 0
                     ,'stock_type': ""
                     ,'created_at': ""
                     ,'stock_detail_remark': ""
@@ -261,7 +262,7 @@
                 'formError':{
                     'stock_price': ""
                     ,'stock_type': ""
-                    ,'stock_deal_total': ""
+                    ,'deal_total': ""
                     ,'created_at': ""
 
                     ,'open': ""
@@ -286,7 +287,7 @@
                     created_at: [
                         { required: true, message: '请选择交易日期', trigger: 'change' }
                     ],
-                    stock_deal_total: [
+                    deal_total: [
                         { validator: checkDealTotal, trigger: 'blur' }
                     ]
                 },
@@ -364,7 +365,7 @@
             init() {
                 this.form.stock_price = 0.00;
                 this.form.stock_type = '';
-                this.form.stock_deal_total = 0;
+                this.form.deal_total = 0;
                 this.form.created_at = '';
                 this.form.stock_detail_remark = '';
                 
@@ -381,13 +382,18 @@
                 this.form.volume = 0;
                 this.form.amount = 0.00;
             },
+            setForm(row) {
+                this.form.simulation_id = row.simulation_id;
+                this.form.stock_price = row.stock_price;
+            },
             add() {
+                const simulation_id = this.form.simulation_id;
                 const stock_id = this.stock_id;
                 const stock_price = parseFloat(this.form.stock_price);
-                const stock_type = parseInt(this.form.stock_type);
-                const stock_deal_total = parseInt(this.form.stock_deal_total);
+                const deal_type = parseInt(this.form.stock_type);
+                const deal_total = parseInt(this.form.deal_total);
                 const created_at = this.form.created_at;
-                const stock_detail_remark = this.form.stock_detail_remark;
+                const trade_remark = this.form.stock_detail_remark;
 
                 const open = parseFloat(this.form.open) || 0.00;
                 const close = parseFloat(this.form.close) || 0.00;
@@ -402,36 +408,37 @@
                 const amount = parseFloat(this.form.amount) || 0.00;
                 
                 // 验证逻辑
-                if(stock_type > 0 && stock_deal_total < 1){
-                    this.formError["stock_deal_total"] = "除无操作外股票数量最少为1";
+                if(deal_type > 0 && deal_total < 1){
+                    this.formError["deal_total"] = "除无操作外股票数量最少为1";
                     this.$message.error("股票数量不能少于1");
                     return;
                 }
 
                 const data = { 
-                    stock_id,
-                    stock_price,
-                    stock_type,
-                    stock_deal_total,
-                    created_at,
-                    stock_detail_remark,
-                    open,
-                    close,
-                    lup,
-                    ldown,
-                    highest,
-                    lowest,
-                    average,
-                    change,
-                    amplitude,
-                    volume,
-                    amount
+                    simulation_id
+                    ,stock_id
+                    ,stock_price
+                    ,deal_type
+                    ,deal_total
+                    ,trade_remark
+                    ,open
+                    ,close
+                    ,lup
+                    ,ldown
+                    ,highest
+                    ,lowest
+                    ,average
+                    ,change
+                    ,amplitude
+                    ,volume
+                    ,amount
+                    ,created_at
                 };
 
                 this.loading = true;
                 
                 // 修复：使用正确的API调用方式
-                Api.stockDetail.add(data, (D) => {
+                Api.stockSimulation.trade(data, (D) => {
                     this.loading = false;
                     
                     if(D && D.status){

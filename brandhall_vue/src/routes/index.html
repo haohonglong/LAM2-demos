@@ -24,8 +24,10 @@
 <#include file="__VIEWS__/unit/index.html" />
 <#include file="__VIEWS__/pictures/index.html" />
 <#include file="__VIEWS__/stock/index.html" />
-<#include file="__VIEWS__/stock/mobile.html" />
+<#include file="__VIEWS__/stock/simulation/index.html" />
+<#include file="__VIEWS__/stock/simulation/mobile.html" />
 <#include file="__VIEWS__/stock/list/index.html" />
+<#include file="__VIEWS__/stock/index.html" />
 <! #include file="__VIEWS__/stock/date/index.html" --/>
 <#include file="__VIEWS__/hotel/index.html" />
 <#include file="__VIEWS__/stave/index.html" />
@@ -35,11 +37,11 @@ LAM.run(function(){
 		'use strict';
 		var System = this;
 
-		const INDEX = System.require('views.room.index');
+		const INDEX = System.require('views.stock.simulation.index');
 
 		const routes = [
-			{ path: '/', component: System.require('views.stock.mobile'), meta: {title: '__TITLE__股票列表手机模式'} }
-			,{ path: '/room/list', component: INDEX, meta: {title: '__TITLE__案例列表'} }
+			{ path: '/', component: INDEX, meta: {title: '__TITLE__股票模拟列表'} }
+			,{ path: '/room/list', component: System.require('views.room.index'), meta: {title: '__TITLE__案例列表'} }
 			,{ path: '/stave/index', component: System.require('views.stave.index'), meta: {title: '__TITLE__五线谱'} }
 			,{ path: '/hotel/index', component: System.require('views.hotel.index'), meta: {title: '__TITLE__酒店'} }
 			,{ path: '/video/index', component: System.require('views.video.index'), meta: {title: '__TITLE__视频'} }
@@ -61,7 +63,9 @@ LAM.run(function(){
 			,{ path: '/unit/index', component: System.require('views.unit.index'), meta: {title: '__TITLE__计量单位'} }
 			,{ path: '/pictures/index', component: System.require('views.pictures.index'), meta: {title: '__TITLE__图片'} }
 			,{ path: '/stock/index', component: System.require('views.stock.index'), meta: {title: '__TITLE__股票列表'} }
-			,{ path: '/stock/mobile', component: System.require('views.stock.mobile'), meta: {title: '__TITLE__股票列表手机模式'} }
+			,{ path: '/stock/simulation/index', component: System.require('views.stock.simulation.index'), meta: {title: '__TITLE__股票模拟列表'} }
+			,{ path: '/stock/simulation/mobile', component: System.require('views.stock.simulation.mobile'), meta: {title: '__TITLE__股票模拟列表手机模式'} }
+			// ,{ path: '/stock/index', component: System.require('views.stock.stocks.index'), meta: {title: '__TITLE__股票列表'} }
 			,{ path: '/stock/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.list.index'), meta: {title: '__TITLE__股票流水'} }
 			// ,{ path: '/stockDate/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.date.index') }
 			,{ path: '/tesks/index', component: System.require('views.tesks.index'), meta: {title: '__TITLE__任务'} }

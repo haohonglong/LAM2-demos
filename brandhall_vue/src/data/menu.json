@@ -4,6 +4,17 @@
 <%const USERID = GUEST.id;%>
 [
   {
+    "index": "a20",
+    "icon":"a-2",
+    "title":"股票",
+    "ul":[
+       {  "index": "a20-b1", "title":"股票列表","href":"/stock/index"}
+       ,{  "index": "a20-b2", "title":"股票模拟列表","href":"/stock/simulation/index"}
+       ,{  "index": "a20-b3", "title":"手机模式","href":"/stock/simulation/mobile"}
+    ]
+  }
+  <%if(1 == USERID) { %>
+  ,{
     "index": "a17",
     "icon":"a-2",
     "title":"任务",
@@ -19,23 +30,13 @@
       {  "index": "a15-b1", "title":"列表","href":"/article/index"}
     ]
   },
-  <%if(1 == USERID) { %>
+  
   {
     "index": "a13",
     "icon":"a-2",
     "title":"记事簿",
     "ul":[
       {  "index": "a13-b1", "title":"列表","href":"/diary/index"}
-    ]
-  },
-  <% } %>
-  {
-    "index": "a20",
-    "icon":"a-2",
-    "title":"股票",
-    "ul":[
-       {  "index": "a20-b1", "title":"股票列表","href":"/stock/index"}
-       ,{  "index": "a20-b2", "title":"手机","href":"/stock/mobile"}
     ]
   },
   {
@@ -155,6 +156,9 @@
       { "index": "a22-a1", "title":"首页","href":"/canvas/index"}
     ]
   }
+  <% } %>
+  
+  
 
 
 ]

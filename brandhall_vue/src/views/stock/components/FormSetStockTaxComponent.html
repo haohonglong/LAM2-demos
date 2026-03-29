@@ -1,0 +1,431 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.FormSetStockTaxComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+<#Block:begin id="__ID__">
+<div v-loading="loading">
+    <el-dialog 
+        :title="title"
+        :visible.sync="dialogVisible"
+        :close-on-click-modal="false"
+        :lock-scroll="false"
+        width="95%"
+        top="5vh"
+        class="mobile-form-dialog"
+        custom-class="mobile-dialog">
+        <div class="dialog-content">
+            <el-form :model="form" label-width="100px" class="mobile-form">
+                <div class="form-section">
+                    <div class="section-title">股票税费</div>
+                    <el-row :gutter="10">
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="过户费率:">
+                                <el-input v-model="form.commission_rate" size="medium" placeholder="请输入股票过户费率"></el-input>
+                            </el-form-item>
+                            <el-form-item label="印花税率:">
+                                <el-input v-model="form.stamp_tax_rate" size="medium" placeholder="请输入股票印花税率"></el-input>
+                            </el-form-item>
+                            <el-form-item label="最低佣金:">
+                                <el-input v-model="form.min_commission" size="medium" placeholder="请输入股票最低佣金"></el-input>
+                            </el-form-item>
+
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer mobile-footer">
+            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">修改</el-button>
+            <el-button @click="dialogVisible = false" class="cancel-btn">取消</el-button>
+        </div>
+    </el-dialog>
+
+    
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        const Api = System.require("Api");
+        var FormComponent = {
+          name: "FormSetStockTaxComponent",
+          props: {
+            'title': {
+                type: [String],
+                default: ""
+            }
+          },
+          components: { },
+          data() {
+            return {
+                'loading': false,
+                'form':{
+                    'simulation_id': null,
+                    'commission_rate': 0,
+                    'stamp_tax_rate': 0,
+                    'min_commission': 0
+                },
+                'formError':{
+                    'cost': ""
+                },
+                // 服务器返回的错误信息
+                'serverErrors': {
+                    'cost': ""
+                },
+                'dialogVisible': false
+            }
+          },
+          methods: {
+            empty(str){
+                return System.empty(str)
+
+            },
+            ok() {
+                this.loading = false;
+                this.dialogVisible = false;
+                this.init();
+                
+                
+            },
+            init() {
+                this.form.simulation_id = "";
+                this.form.commission_rate = "";
+                this.form.stamp_tax_rate = "";
+                this.form.min_commission = "";
+                
+            },
+            setForm(simulation_id, commission_rate, stamp_tax_rate, min_commission) {
+                this.form.simulation_id = simulation_id;
+                this.form.commission_rate = commission_rate;
+                this.form.stamp_tax_rate = stamp_tax_rate;
+                this.form.min_commission = min_commission;
+            },
+            submit() {
+                const simulation_id = this.form.simulation_id;
+                const commission_rate = this.form.commission_rate;
+                const stamp_tax_rate = this.form.stamp_tax_rate;
+                const min_commission = this.form.min_commission;
+                
+
+                this.loading = true;
+                Api.stockSimulation.setTax({
+                    simulation_id,
+                    commission_rate, 
+                    stamp_tax_rate, 
+                    min_commission
+                }, D => {
+                    if(D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message
+                        });
+                        this.ok();
+                        // this.$emit('feach-by-stockid', stock_id);
+                        this.$emit('get-list-stock');
+
+                    }
+                    this.loading = false;
+
+                });
+            }
+          },
+          watch: {
+            dialogVisible(newVal) {
+                
+                if (newVal) {
+                    // 对话框显示时，确保内容正确显示
+                    this.$nextTick(() => {
+                        // 处理移动端显示问题
+                    });
+                }
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>
+
+<style scoped>
+/* 移动端对话框样式 */
+.mobile-form-dialog {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+}
+
+.mobile-dialog {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dialog-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 5px;
+}
+
+/* 移动端表单样式 */
+.mobile-form {
+    padding: 0 8px;
+}
+
+.mobile-form >>> .el-form-item {
+    margin-bottom: 20px;
+}
+
+.mobile-form >>> .el-form-item__label {
+    font-size: 14px;
+    color: #606266;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.mobile-form >>> .el-input__inner,
+.mobile-form >>> .el-textarea__inner {
+    border-radius: 8px;
+    border: 1px solid #dcdfe6;
+    font-size: 16px; /* 防止iOS缩放 */
+}
+
+.mobile-form >>> .el-input__inner:focus,
+.mobile-form >>> .el-textarea__inner:focus {
+    border-color: #409EFF;
+    box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+}
+
+/* 表单分区样式 */
+.form-section {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 16px;
+    padding-left: 8px;
+    border-left: 4px solid #409EFF;
+}
+
+/* 只读文本样式 */
+.readonly-text {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #f5f7fa;
+    border-radius: 4px;
+    color: #909399;
+    font-size: 14px;
+    min-width: 100px;
+}
+
+/* 单选按钮组样式 */
+.flag-radio-group {
+    width: 100%;
+}
+
+.flag-radio {
+    margin-right: 20px;
+}
+
+.mobile-form >>> .el-radio__label {
+    font-size: 14px;
+}
+
+/* 底部按钮区域 */
+.mobile-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0 8px;
+    border-top: 1px solid #ebeef5;
+    background: #fff;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.mobile-footer .el-button {
+    flex: 1;
+    margin: 0 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    height: 44px;
+    border: none;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #409EFF, #66b1ff);
+    color: white;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #66b1ff, #409EFF);
+}
+
+.reset-btn {
+    background: #f5f7fa;
+    color: #606266;
+    border: 1px solid #dcdfe6 !important;
+}
+
+.cancel-btn {
+    background: #f5f7fa;
+    color: #606266;
+    border: 1px solid #dcdfe6 !important;
+}
+
+.reset-btn:hover,
+.cancel-btn:hover {
+    background: #e4e7ed;
+    color: #303133;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .mobile-form >>> .el-form-item__label {
+        padding-bottom: 6px;
+        line-height: 1.3;
+    }
+    
+    .mobile-form >>> .el-col-xs-24 {
+        margin-bottom: 8px;
+    }
+    
+    .mobile-form >>> .el-form-item {
+        margin-bottom: 16px;
+    }
+    
+    .form-section {
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+    
+    .section-title {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    
+    .mobile-footer {
+        padding: 12px 0 4px;
+    }
+    
+    .mobile-footer .el-button {
+        height: 42px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dialog-content {
+        max-height: 65vh;
+    }
+    
+    .mobile-form {
+        padding: 0 4px;
+    }
+    
+    .mobile-form >>> .el-form-item__label {
+        font-size: 13px;
+    }
+    
+    .mobile-form >>> .el-input__inner,
+    .mobile-form >>> .el-textarea__inner {
+        font-size: 15px;
+    }
+    
+    .section-title {
+        font-size: 14px;
+    }
+    
+    .mobile-footer .el-button {
+        height: 40px;
+        font-size: 14px;
+        margin: 0 3px;
+    }
+    
+    .readonly-text {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+}
+
+/* 防止iOS输入框缩放 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .mobile-form >>> .el-input__inner,
+    .mobile-form >>> .el-textarea__inner {
+        font-size: 16px;
+    }
+}
+
+/* 滚动条样式优化 */
+.dialog-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 错误状态样式 */
+.mobile-form >>> .el-form-item.is-error .el-input__inner,
+.mobile-form >>> .el-form-item.is-error .el-textarea__inner {
+    border-color: #f56c6c;
+    box-shadow: 0 0 0 2px rgba(245, 108, 108, 0.1);
+}
+
+.mobile-form >>> .el-form-item__error {
+    font-size: 12px;
+    padding-top: 4px;
+}
+
+/* 加载状态优化 */
+>>> .el-loading-mask {
+    border-radius: 12px;
+}
+
+>>> .el-loading-spinner .el-loading-text {
+    font-size: 14px;
+    color: #409EFF;
+}
+
+/* 输入框附加内容样式 */
+.mobile-form >>> .el-input-group__append {
+    background: #f5f7fa;
+    color: #909399;
+    border: none;
+    font-size: 14px;
+}
+
+/* 文本域样式优化 */
+.mobile-form >>> .el-textarea .el-input__count {
+    background: transparent;
+    font-size: 12px;
+    color: #909399;
+}
+</style>

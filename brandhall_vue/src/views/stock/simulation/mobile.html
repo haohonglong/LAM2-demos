@@ -1,4 +1,4 @@
-<#define __PACKAGE__="views.stock" />
+<#define __PACKAGE__="views.stock.simulation" />
 <#define __ID__="__PACKAGE__.mobile" />
 <#define _TITLE_="股票列表-mobile" />
 <#define __LAMPATH__="{#LAM.classPath#}" />
@@ -29,7 +29,7 @@
     <div class="app-header">
         <div class="app-title">
             <el-row style="display: inline-block;" v-if="stock_code != ''">
-                <span @click="searchStock(stock_code)">{{ stock_code }} {{ stock_name }}</span>
+                <span @click="searchStock(stock_code)">{{ stock_code }} {{ case_name }}</span>
                 <span style="cursor: pointer;color:#333;font-size: 14px;" @click="setIframSrc('https://stockpage.10jqka.com.cn/' + stock_code)">同花顺</span>
                 <span style="cursor: pointer;color:#333;font-size: 14px;" @click="setIframSrc('https://gushitong.baidu.com/stock/ab-' + stock_code)">百度股市通</span>
             </el-row>
@@ -41,14 +41,14 @@
             </el-row>
         </div>
         <div class="header-actions">
-            <el-button type="primary" size="small" @click="addStock">添加股票</el-button>
+            <el-button type="primary" size="small" @click="formAddstockSimulationComponent">添加</el-button>
             <el-button type="success" size="small" :loading="feachAllLoading" @click="feachAll">更新数据</el-button>
-            <el-button type="info" size="small" @click="showStatistics">统计</el-button>
+            <el-button type="info" size="small" @click="showStatistics = !showStatistics">统计</el-button>
         </div>
     </div>
 
     <!-- 统计信息卡片 -->
-    <div class="stats-cards" v-if="showStats">
+    <div class="stats-cards" v-if="showStatistics">
         <div class="stat-card">
             <div class="stat-value">{{ totalCount }}</div>
             <div class="stat-label">总股票数</div>
@@ -71,23 +71,13 @@
     <div class="search-box">
         <div class="search-input">
             <el-input
-                v-model="searchText"
+                v-model="search"
                 placeholder="搜索股票代码或名称"
                 prefix-icon="el-icon-search"
                 clearable
                 @clear="clearSearchText()">
             </el-input>
         </div>
-        <el-select v-model="selectedLine" placeholder="线路" size="small">
-            <el-option label="线路1" value="1"></el-option>
-            
-<!--Del:begin-->
-
-            <el-option label="线路2" value="2"></el-option>
-            <el-option label="线路3" value="3"></el-option>
-<!--Del:end-->
-
-        </el-select>
         <el-button type="primary" size="small" @click="toggleAutoUpdate">
             {{ autoUpdate ? '停止自动' : '自动更新' }}
         </el-button>
@@ -96,75 +86,22 @@
         <div class="interval-settings">
             <span class="interval-label">间隔时间：</span>
             <el-input 
-                v-model="intervalTime" 
+                v-model="feach_auto_times" 
                 size="small" 
                 class="interval-input"
                 placeholder="毫秒">
             </el-input>
             <el-select 
-                v-model="intervalUnit" 
+                v-model="the_time_of_the_delay" 
                 size="small" 
                 class="interval-select" 
-                placeholder="单位">
+                placeholder="单位"
+                @change="setTime(the_time_of_the_delay)">
                 <el-option label="1分钟" value="1"></el-option>
                 <el-option label="2分钟" value="2"></el-option>
                 <el-option label="3分钟" value="3"></el-option>
                 <el-option label="5分钟" value="5"></el-option>
             </el-select>
-        </div>
-    </div>
-
-    <!-- 筛选控制区域 -->
-    <div class="filter-controls">
-        <div class="filter-item">
-            <span class="filter-label">筛选：</span>
-            <el-select v-model="filterType" size="small" @change="applyFilters">
-                <el-option label="全部股票" value="all"></el-option>
-                <el-option label="仅涨停" value="limitUp"></el-option>
-                <el-option label="仅跌停" value="limitDown"></el-option>
-<!--Del:begin-->
-
-                <el-option label="高推荐(4星以上)" value="highRating"></el-option>
-
-<!--Del:end-->
-
-                <el-option label="测试股票" value="test"></el-option>
-            </el-select>
-        </div>
-        <div class="filter-item">
-            <el-checkbox v-model="showOnlyUpdatedToday" @change="applyFilters">仅今日更新</el-checkbox>
-        </div>
-    </div>
-
-    <!-- 排序控制区域 -->
-    <div class="sort-controls">
-        <div class="sort-item">
-            <span class="sort-label">排序方式：</span>
-            <el-select v-model="sortField" size="small" @change="sortStocks">
-                <el-option label="默认顺序" value="default"></el-option>
-                <el-option label="推荐等级" value="level"></el-option>
-                <el-option label="创建日期" value="created_at"></el-option>
-                <el-option label="更新日期" value="updated_at"></el-option>
-                <el-option label="当前价格" value="stock_price"></el-option>
-                <el-option label="涨跌幅" value="change_rate"></el-option>
-                <el-option label="持股数" value="stock_number"></el-option>
-            </el-select>
-        </div>
-        <div class="sort-item">
-            <span class="sort-label">排序方向：</span>
-            <el-radio-group v-model="sortOrder" size="small" @change="sortStocks">
-                <el-radio-button label="desc">降序</el-radio-button>
-                <el-radio-button label="asc">升序</el-radio-button>
-            </el-radio-group>
-        </div>
-        <div class="sort-item" v-if="sortField === 'level'">
-            <span class="sort-label">高亮显示：</span>
-            <el-switch
-                v-model="highlightHighRating"
-                active-text="高推荐"
-                inactive-text="全部"
-                @change="toggleHighlight">
-            </el-switch>
         </div>
     </div>
 
@@ -222,34 +159,35 @@
         <span style="margin-left: 8px;">加载中...</span>
     </div>
 
-    <div v-else-if="displayedStocks.length === 0" class="empty-container">
+    <div v-else-if="filteredTableData.length === 0" class="empty-container">
         <i class="el-icon-data-analysis empty-icon"></i>
         <div>暂无股票数据</div>
-        <el-button type="primary" size="small" @click="addStock" style="margin-top: 16px;">添加股票</el-button>
+        <el-button type="primary" size="small" @click="formAddstockSimulationComponent" style="margin-top: 16px;">添加</el-button>
     </div>
 
     <div v-else>
         <div class="stock-list-info">
-            显示 {{ displayedStocks.length }} / {{ tableData.length }} 只股票
-            <el-button v-if="displayedStocks.length < tableData.length" type="text" size="mini" @click="clearSearchText()">
+            显示 {{ filteredTableData.length }} / {{ tableData.length }} 只股票
+            <el-button v-if="filteredTableData.length < tableData.length" type="text" size="mini" @click="clearSearchText()">
                 显示全部
             </el-button>
         </div>
         
         <div 
             class="stock-card" 
-            v-for="stock in displayedStocks" 
-            :key="stock.stock_id"
-            :class="{'high-rating-card': stock.level >= 4, 'test-stock-card': stock.flag === 1}">
+            v-for="stock in filteredTableData" 
+            :key="stock.simulation_id"
+            :class="{'high-rating-card': stock.stars >= 4, 'test-stock-card': stock.flag === 1}">
             <div class="stock-header">
                 <div class="stock-info">
-                    <div class="stock-id-btn" @click="searchStock(stock.stock_id)">ID</div>
+                    <div class="stock-id-btn" @click="searchStock(stock.simulation_id)">
+                        ID: {{ stock.simulation_id }}
+                    </div>
                     <div class="stock-code" @click="handleDialogShow(stock)">
                         {{ stock.stock_code }}
-                        <el-tag v-if="stock.flag === 1" type="warning" size="mini" style="margin-left: 4px;">测试</el-tag>
                     </div>
                     <div class="stock-name">
-                        <a :href="'__URL__/stock/list/' + stock.stock_id + '/' + stock.stock_code + '/' + stock.stock_name" target="_blank">{{ stock.stock_name }}</a>
+                        <a :href="'__URL__/stock/list/' + stock.stock_id + '/' + stock.stock_code + '/' + stock.case_name" target="_blank">{{ stock.case_name }}</a>
                         <span style="cursor: pointer;" @click="showDateList(stock)">(每日)</span>
                     </div>
                 </div>
@@ -264,17 +202,25 @@
             <div class="stock-details">
                 <div class="detail-item">
                     <span class="detail-label">成交价</span>
-                    <span class="detail-value">{{ stock.bought }}</span>
+                    <span class="detail-value">{{ stock.deal }}</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">成本价</span>
                     <span class="detail-value">{{ stock.cost }}</span>
                 </div>
                 <div class="detail-item">
+                    <span class="detail-label">最低</span>
+                    <span class="detail-value">{{ stock.lowest }}</span>
+                </div>
+                <div class="detail-item">
                     <span class="detail-label">持股数</span>
                     <span class="detail-value">
-                        {{ stock.stock_number }}
+                        {{ stock.stock_remain }}
                     </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">换手率</span>
+                    <span class="detail-value">{{ stock.change }}%</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">税</span>
@@ -283,15 +229,15 @@
             </div>
 
             <!-- 盈亏信息 -->
-            <div class="profit-info" v-if="stock.bought > 1">
+            <div class="profit-info" v-if="stock.deal > 1">
                 <div class="profit-item">
                     <span class="profit-label">持仓市值</span>
-                    <span class="profit-value">{{ (stock.stock_price * stock.stock_number).toFixed(2) }}</span>
+                    <span class="profit-value">{{ (stock.stock_price * stock.stock_remain).toFixed(2) }}</span>
                 </div>
                 <div class="profit-item" v-if="isNotNull(stock.cost)">
                     <span class="profit-label">盈亏</span>
                     <span class="profit-value" :class="getProfitClass(stock)">
-                        {{ ((stock.stock_price - stock.cost) * stock.stock_number - stock.tax).toFixed(2) }}
+                        {{ ((stock.stock_price - stock.cost) * stock.stock_remain).toFixed(2) }}
                     </span>
                 </div>
                 <div class="profit-item" v-if="isNotNull(stock.cost)">
@@ -309,8 +255,8 @@
                     <span style="cursor: pointer; font-size: 12px; color: #909399;" @click="setLevel(stock.stock_id, 0)">重置</span>
                     <el-rate 
                         size="mini" 
-                        @change="setLevel(stock.stock_id, stock.level)" 
-                        v-model="stock.level"
+                        @change="setLevel(stock.stock_id, stock.stars)" 
+                        v-model="stock.stars"
                         :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
                     </el-rate>
                 </div>
@@ -328,7 +274,7 @@
                 </div>
             </div>
             <div class="date-info">
-                {{ stock.stock_remark }}
+                {{ stock.simulation_remark }}
             </div>
             
             <div class="stock-actions">
@@ -338,7 +284,7 @@
                     </el-button>
                 </el-tooltip>
                 <el-tooltip content="交易操作" placement="top">
-                    <el-button type="warning" size="mini" class="action-btn" @click="tradeStock(stock)">
+                    <el-button type="warning" size="mini" class="action-btn" @click="openAddTransactionDialog(stock)">
                         交易
                     </el-button>
                 </el-tooltip>
@@ -348,7 +294,7 @@
                     </el-button>
                 </el-tooltip>
                 <el-tooltip content="编辑股票信息" placement="top">
-                    <el-button type="warning" size="mini" class="action-btn" @click="formEditStockComponent(stock)">
+                    <el-button type="warning" size="mini" class="action-btn" @click="formEditstockSimulationComponent(stock)">
                         编辑
                     </el-button>
                 </el-tooltip>
@@ -362,11 +308,11 @@
         
         <!-- 加载更多 -->
 <!--Del:begin-->
-        <div class="load-more" v-if="!infiniteScrollDisabled && displayedStocks.length > 0">
+        <div class="load-more" v-if="!infiniteScrollDisabled && filteredTableData.length > 0">
             <el-button 
                 type="text" 
                 :loading="loading" 
-                @click="loadMore"
+                @click="load"
                 class="load-more-btn">
                 {{ loading ? '加载中...' : '加载更多' }}
             </el-button>
@@ -375,35 +321,10 @@
 <!--Del:end-->
 
     </div>
-    
-    <!-- 组件引用 -->
-    <form-stock-component title="添加" @get-list-stock="getTheListOfStock" @feach-by-stockid="feachByStockid" ref="stockComponent" />
-    <form-stock-component title="修改" :stock_id="stock_id" @get-list-stock="getTheListOfStock" ref="stockEditComponent" />
-    <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getTheListOfStock" ref="stockDetailComponent" />
-    <stock-date-list-component ref="stockDeteComponent" />
-
-    <!-- 右侧抽屉 -->
-    <el-drawer
-      title="股票详情"
-      :visible.sync="sidebarOfRight"
-      :with-header="true"
-      direction="rtl"
-      size="95%"
-      class="stock-drawer">
-      <div class="drawer-content">
-        <div class="drawer-header">
-          <div class="drawer-title">{{ stock_code }} {{ stock_name }}</div>
-          <el-button type="primary" size="small" @click="refreshIframe">刷新</el-button>
-        </div>
-        <div class="drawer-iframe-container">
-          <iframe :src="iframSrc" width="100%" height="100%" frameborder="0" class="drawer-iframe"></iframe>
-        </div>
-      </div>
-    </el-drawer>
 
     <!-- 底部操作栏（移动端） -->
     <div class="bottom-actions">
-        <div class="action-item" @click="addStock">
+        <div class="action-item" @click="formAddstockSimulationComponent">
             <div class="action-icon">
                 <i class="el-icon-plus"></i>
             </div>
@@ -415,7 +336,7 @@
             </div>
             <span>更新</span>
         </div>
-        <div class="action-item" @click="showStatistics">
+        <div class="action-item" @click="showStatistics = !showStatistics">
             <div class="action-icon">
                 <i class="el-icon-data-analysis"></i>
             </div>
@@ -428,11 +349,39 @@
             <span>{{ autoUpdate ? '停止' : '自动' }}</span>
         </div>
     </div>
+    
+
+    <!-- 右侧抽屉 -->
+    <el-drawer
+      title="股票详情"
+      :visible.sync="sidebarOfRight"
+      :with-header="true"
+      direction="rtl"
+      size="95%">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <div class="drawer-title">{{ stock_code }} {{ case_name }}</div>
+          <el-button type="primary" size="small" @click="refreshIframe">刷新</el-button>
+        </div>
+        <div class="drawer-iframe-container">
+          <iframe :src="iframSrc" width="100%" height="100%" frameborder="0" class="drawer-iframe"></iframe>
+        </div>
+      </div>
+    </el-drawer>
+
+
+
+    <!-- 组件引用 -->
+    <form-stock-simulation-component title="添加模拟股票" @get-list-stock="getTheListOfStock" ref="addStockSimulationComponent" />
+    <form-stock-simulation-component title="修改模拟股票" :simulation_id="simulation_id" @get-list-stock="getTheListOfStock" ref="editStockSimulationComponent" />
+    <form-add-stock-detail-component :stock_id="stock_id" :stock_name="case_name" @get-list="getTheListOfStock" ref="stockDetailComponent" />
+    <stock-date-list-component ref="stockDeteComponent" />
+    
 </div>
 
 <#Block:end>
 
-<#include file="~/components/FormStockComponent.html" />
+<#include file="~/components/FormStockSimulationComponent.html" />
 <#include file="~/components/FormAddStockDetailComponent.html" />
 <#include file="~/components/StockDateListComponent.html" />
 
@@ -441,7 +390,6 @@
     LAM.run([jQuery],function($) {
         'use strict';
         var System = this;
-        
 
         function getIframe(src){
             return `<iframe src="http://stockpage.10jqka.com.cn/${src}" width="100%" height="100%" frameborder="0"></iframe>`;
@@ -451,12 +399,11 @@
         var feach_auto_timer = 0;
 
         var ContentComponent = {
-            'name': "stockIndex",
+            'name': "stockSiulationMobile",
             data(){
                 return {
-                    'highlightHighRating': true,
-                    'sortField': 'default',
-                    'sortOrder': 'desc',
+                    'isMobile': window.innerWidth <= 768,
+                    'showStatistics': false,
                     'sidebarOfRight':false,
                     'lups':[],
                     'ldowns':[],
@@ -465,134 +412,45 @@
                     'dialogInfoVisible': false,
                     'loading': false,
                     'feachAllLoading': false,
-                    'selectedLine': '1',
-                    'searchText': '',
-                    'intervalUnit': '5',
-                    'intervalTime': 60000,
+                    'way': '1',
+                    'search': '',
+                    'the_time_of_the_delay': '5',
+                    'feach_auto_times': 60000,
                     'feach_auto': false,
+                    'feach_auto_text': '自动获取',
                     'autoUpdate': false,
                     'tableData': [],
                     'stockids': [],
                     'percentage': 0,
                     'stock_id': '',
+                    'simulation_id': '',
                     'stock_code': '',
-                    'stock_name':'',
+                    'case_name':'',
                     'size': 0,
                     'infiniteScrollDisabled': false,
-                    'showStats': false,
-                    'filterType': 'all',
-                    'showOnlyUpdatedToday': false,
                     'totalCount': 0
                 };
             },
             'components': {
-                'form-stock-component': System.require('stock.components.FormStockComponent')
+                'form-stock-simulation-component': System.require('stock.components.FormStockSimulationComponent')
                 ,'form-add-stock-detail-component': System.require('stock.components.FormAddStockDetailComponent')
                 ,'stock-date-list-component': System.require('stock.components.StockDateListComponent')
             },
             computed: {
-                filteredStocks() {
-                    if (!this.searchText) return this.tableData;
+                filteredTableData() {
+                    if (!this.search) return this.tableData;
                     
-                    const searchText = this.searchText.toLowerCase();
+                    const searchText = this.search.toLowerCase();
                     localStorage.setItem('searchText', searchText);
-
+                    
                     return this.tableData.filter(data => 
-                        data.stock_id.toLowerCase().includes(searchText) ||
+                        data.simulation_id.toLowerCase().includes(searchText) ||
                         data.stock_code.toLowerCase().includes(searchText) ||
-                        data.stock_name.toLowerCase().includes(searchText)
+                        data.case_name.toLowerCase().includes(searchText)
                     );
                 },
-                sortedStocks() {
-                    const stocks = [...this.filteredStocks];
-                    
-                    if (this.sortField === 'default') {
-                        return stocks.sort((a, b) => {
-                            const levelDiff = parseFloat(b.level) - parseFloat(a.level);
-                            if (levelDiff !== 0) return levelDiff;
-                            return new Date(b.created_at) - new Date(a.created_at);
-                        });
-                    }
-                    
-                    return stocks.sort((a, b) => {
-                        let aValue, bValue;
-                        
-                        switch (this.sortField) {
-                            case 'created_at':
-                            case 'updated_at':
-                                aValue = new Date(a[this.sortField]);
-                                bValue = new Date(b[this.sortField]);
-                                break;
-                            case 'stock_price':
-                            case 'level':
-                                // 确保level是数字类型
-                                aValue = parseInt(a[this.sortField]) || 0;
-                                bValue = parseInt(b[this.sortField]) || 0;
-                                break;
-                            case 'stock_number':
-                                aValue = parseFloat(a[this.sortField]) || 0;
-                                bValue = parseFloat(b[this.sortField]) || 0;
-                                break;
-                            case 'change_rate':
-                                aValue = this.getChangeRateValue(a);
-                                bValue = this.getChangeRateValue(b);
-                                break;
-                            default:
-                                return 0;
-                        }
-                        // 处理可能的空值
-                        aValue = aValue || 0;
-                        bValue = bValue || 0;
-                        
-                        if (this.sortOrder === 'asc') {
-                            return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-                        } else {
-                            return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-                        }
-                    });
-                },
-                displayedStocks() {
-                    let stocks = this.sortedStocks;
-                    
-                    // 应用筛选条件
-                    if (this.filterType !== 'all') {
-                        switch (this.filterType) {
-                            case 'limitUp':
-                                stocks = stocks.filter(stock => 
-                                    stock.stock_price === stock.lup && stock.stock_price === stock.highest
-                                );
-                                break;
-                            case 'limitDown':
-                                stocks = stocks.filter(stock => 
-                                    stock.stock_price === stock.ldown && stock.stock_price === stock.lowest
-                                );
-                                break;
-                            case 'highRating':
-                                stocks = stocks.filter(stock => stock.level >= 0);
-                                break;
-                            case 'test':
-                                stocks = stocks.filter(stock => stock.flag === 1);
-                                break;
-                        }
-                    }
-                    
-                    // 高亮显示高推荐股票
-                    if (this.highlightHighRating && this.sortField === 'level') {
-                        stocks = stocks.filter(stock => stock.level >= 0);
-                    }
-                    
-                    // 仅显示今日更新的股票
-                    if (this.showOnlyUpdatedToday) {
-                        const today = new Date().toISOString().split('T')[0];
-                        stocks = stocks.filter(stock => 
-                            stock.updated_at && stock.updated_at.includes(today)
-                        );
-                    }
-                    
-                    return stocks;
-                },
                 highRatingCount() {
-                    return this.tableData.filter(stock => stock.level >= 0).length;
+                    return this.tableData.filter(stock => stock.level >= 4).length;
                 }
             },
             beforeCreate() { },
@@ -605,32 +463,44 @@
                 ]);
                 this.setTime(5);
                 this.getTheListOfStock();
-
+                
+                // 监听窗口大小变化
+                window.addEventListener('resize', this.handleResize);
+            },
+            beforeDestroy() {
+                window.removeEventListener('resize', this.handleResize);
             },
             'methods': {
                 isNotNull(a){
                     return !System.isNull(a);
                 },
+                clearSearchText(){
+                    this.search = "";
+                    localStorage.removeItem('searchText');
+
+                },
                 getSearchText(){
                     const searchText = localStorage.getItem('searchText');
                     if(searchText){
-                        this.searchText = searchText;
+                        this.search = searchText;
 
                     }
                 },
-                clearSearchText(){
-                    this.searchText = "";
-                    localStorage.removeItem('searchText');
-
+                calculateCostPrice(stock) {
+                    if (!stock.deal || stock.deal <= 0) return 0;
+                    if (!stock.stock_remain || stock.stock_remain <= 0) return 0;
+                    
+                    // 成本价 = (买入价 × 股数 + 税费) / 股数
+                    const totalCost = (stock.deal * stock.stock_remain) + (stock.tax || 0);
+                    return (totalCost / stock.stock_remain).toFixed(3);
+                },
+                handleResize() {
+                    this.isMobile = window.innerWidth <= 768;
                 },
                 getChangeRate(stock) {
                     if (!stock.close || stock.close === 0) return '0.00%';
                     const change = ((stock.stock_price - stock.close) / stock.close * 100).toFixed(2);
                     return (change > 0 ? '+' : '') + change + '%';
-                },
-                getChangeRateValue(stock) {
-                    if (!stock.close || stock.close === 0) return 0;
-                    return ((stock.stock_price - stock.close) / stock.close * 100);
                 },
                 getChangeClass(stock) {
                     if (!stock.close) return 'change-normal';
@@ -651,31 +521,20 @@
                     if (stock.stock_price < stock.close) return 'price-down';
                     return 'price-normal';
                 },
-                toggleHighlight() {
-                    // 切换高亮显示时不需要额外操作，计算属性会自动更新
+                refreshIframe() {
+                    const iframe = document.querySelector('.drawer-iframe');
+                    if (iframe) {
+                        iframe.src = iframe.src;
+                    }
                 },
-                sortStocks() {
-                    console.log(`按${this.sortField} ${this.sortOrder === 'asc' ? '升序' : '降序'}排序`);
-                },
-                applyFilters() {
-                    // 筛选条件应用，计算属性会自动更新
-                },
-                resetFilters() {
-                    this.filterType = 'all';
-                    this.showOnlyUpdatedToday = false;
-                    this.highlightHighRating = true;
-                },
-                showStatistics() {
-                    this.showStats = !this.showStats;
-                },
-                searchStock(text){
-                    this.searchText = text;
+                searchStock(simulation_id){
+                    this.search = simulation_id;
                 },
                 showDateList(row){
                     const stock_id = row.stock_id;
                     const stock_code = row.stock_code;
-                    const stock_name = row.stock_name;
-                    this.$refs.stockDeteComponent.show(stock_id, stock_code, stock_name, ()=>{
+                    const case_name = row.case_name;
+                    this.$refs.stockDeteComponent.show(stock_id, stock_code, case_name, ()=>{
                         this.loading = false;
                     });
                 },
@@ -683,30 +542,24 @@
                     this.iframSrc = src;
                     this.sidebarOfRight = true;
                 },
-                refreshIframe() {
-                    const iframe = document.querySelector('.drawer-iframe');
-                    if (iframe) {
-                        iframe.src = iframe.src;
-                    }
-                },
                 handleDialogShow(row) {
                     this.setIframSrc('https://gushitong.baidu.com/stock/ab-' + row.stock_code)
                     this.stock_code = row.stock_code;
-                    this.stock_name = row.stock_name;
-                    this.searchStock(this.stock_code);
+                    this.case_name = row.case_name;
+                    this.search = this.stock_code;
                 },
                 setTime(n){
-                    this.intervalTime = n * 60000;
+                    this.feach_auto_times = n * 60000;
                 },
-                tradeStock(row){
+                openAddTransactionDialog(row){
                     this.stock_id = row.stock_id;
-                    this.stock_name = row.stock_name;
+                    this.case_name = row.case_name;
                     this.$refs.stockDetailComponent.form.stock_price = row.stock_price;
                     this.$refs.stockDetailComponent.dialogVisible = true
                 },
                 setLevel(stock_id, level){
-                    Api.stock.setLevel({stock_id, level}, D => {
-                        if(0 == D.status){
+                    Api.stockSimulation.setLevel({stock_id, level}, D => {
+                        if(D.status){
                             this.getTheListOfStock();
                             this.$notify({
                                 title: 'Success',
@@ -738,22 +591,31 @@
                     }
 
                 },
-                addStock(){
-                    this.$refs.stockComponent.init();
-                    this.$refs.stockComponent.dialogVisible = true
+                tableRowClassName({row, rowIndex}) {
+                    if(row.stock_price > 0 && 0 == row.flag){
+                        if (row.stock_price === row.lup && row.stock_price === row.highest) {
+                            return 'warning-row';
+                        } else if (row.stock_price === row.ldown && row.stock_price === row.lowest) {
+                            return 'dangerous-row';
+                        }
+                    }
+                    return '';
+                },
+                formAddstockSimulationComponent(){
+                    this.$refs.addStockSimulationComponent.init();
+                    this.$refs.addStockSimulationComponent.dialogVisible = true
                 },
                 copyStock(row){
-                    this.addStock();
-                    this.$refs.stockComponent.setForm('t_'+row.stock_id, row.stock_code, row.stock_name+'-测试', row.stock_name+'-测试');
+                    this.formAddstockSimulationComponent();
+                    this.$refs.addStockSimulationComponent.setForm(row.stock_id, row.case_name+'-测试', row.case_name+'-测试');
                 },
-                formEditStockComponent(row){
+                formEditstockSimulationComponent(row){
                     this.stock_id = row.stock_id
-                    this.$refs.stockEditComponent.form.stock_code = row.stock_code
-                    this.$refs.stockEditComponent.form.stock_name = row.stock_name
-                    this.$refs.stockEditComponent.form.stock_cost = row.cost
-                    this.$refs.stockEditComponent.form.tax = row.tax
-                    this.$refs.stockEditComponent.form.stock_remark = row.stock_remark
-                    this.$refs.stockEditComponent.dialogVisible = true
+                    this.simulation_id = row.simulation_id;
+                    this.$refs.editStockSimulationComponent.form.stock_code = row.stock_code
+                    this.$refs.editStockSimulationComponent.form.case_name = row.case_name
+                    this.$refs.editStockSimulationComponent.form.simulation_remark = row.simulation_remark
+                    this.$refs.editStockSimulationComponent.dialogVisible = true
                 },
                 getTheListOfStock(){
                     console.log('getTheListOfStock')
@@ -769,7 +631,7 @@
                         this.loading = true;
                         const size = ++this.size;
                         const rows = 0;
-                        Api.stock.index({size, rows}, D => {
+                        Api.stockSimulation.index({size, rows}, D => {
                             if(0 == D.status){
                                 this.tableData = this.tableData.merge(D.data);
                                 this.totalCount = this.tableData.length;
@@ -783,11 +645,8 @@
                         });
                     }
                 },
-                loadMore() {
-                    this.load();
-                },
                 feachByStockid(stock_id){
-                    const way = this.selectedLine;
+                    const way = this.way;
                     const data = {stock_id, way};
                     
                     Api.stock.feach(data, D => {
@@ -820,16 +679,21 @@
                         System.stop(feach_auto_timer);
                         this.feach_auto = false;
                         this.autoUpdate = false;
+                        this.feach_auto_text = "自动获取";
                     } else {
                         this.feach_auto = true;
                         this.autoUpdate = true;
+                        this.feach_auto_text = "停止";
                         System.listen((timer)=>{
                             feach_auto_timer = timer;
                             if(!this.feachAllLoading){
                                 this.feachAll();
                             }
-                        }, this.intervalTime);
+                        }, this.feach_auto_times);
                     }
+                },
+                autoFeachAll(){
+                    this.toggleAutoUpdate();
                 },
                 confirm(func){
                     this.$confirm('这将永久删除这支股票的所有数据, 是否继续?', '提示', {
@@ -870,7 +734,7 @@
                 feachAll(){
                     const progress_id = System.md5(System.hash());
                     let evtSource;
-                    const way = this.selectedLine;
+                    const way = this.way;
                     const stock_id = null;
                     const data = {stock_id, way, progress_id};
                     

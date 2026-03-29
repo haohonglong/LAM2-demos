@@ -111,13 +111,13 @@
                 </u-table-column>
                 <u-table-column
                     fixed
-                    prop="stock_type"
+                    prop="deal_type"
                     label="交易类型"
                     align="center"
                     width="90">
                     <template slot-scope="scope">
-                        <span style="color: red;" v-if="1 == scope.row.stock_type"><el-tag type="success">买入</el-tag></span>
-                        <span style="color: green;" v-else-if="2 == scope.row.stock_type"><el-tag type="danger">卖出</el-tag></span>
+                        <span style="color: red;" v-if="1 == scope.row.deal_type"><el-tag :type="'success'">买入</el-tag></span>
+                        <span style="color: green;" v-else-if="2 == scope.row.deal_type"><el-tag :type="'danger'">卖出</el-tag></span>
                         <span style="color:#909399" v-else>-</span>
                       </template>
                 </u-table-column>
@@ -156,13 +156,13 @@
                 </u-table-column>
                 <u-table-column
                     fixed
-                    prop="stock_number"
+                    prop="stock_remain"
                     label="持有股数量"
                     width="95">
                 </u-table-column>
                 <u-table-column
                     fixed
-                    prop="stock_deal_total"
+                    prop="deal_total"
                     label="成交量(股)"
                     width="90">
                 </u-table-column>
@@ -240,7 +240,7 @@
                     width="80">
                     <template slot-scope="scope">
                         <div v-if="isset(scope.row.cost)">
-                            {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_number).toFixed(2) }}
+                            {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_remain).toFixed(2) }}
                         </div>
                       </template>
                 </u-table-column>
@@ -255,22 +255,17 @@
                 </u-table-column>
                 <u-table-column label="成交价(手续费之前)" width="100">
                     <template slot-scope="scope">
-                        <el-tooltip class="item" effect="dark" :content="scope.row.stock_price + ' * ' + scope.row.stock_deal_total" placement="top-start">
-                            <span>{{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}</span>
-                        </el-tooltip>
+                      {{ (scope.row.stock_price * scope.row.deal_total).toFixed(2) }}
                     </template>
                 </u-table-column>
                 <u-table-column label="实价" width="100">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.stock_deal_total > 0">
-                            <span v-if="2 == scope.row.stock_type">
-                                <el-tooltip class="item" effect="dark" :content="scope.row.stock_price + ' * ' + scope.row.stock_deal_total + ' - 5.73'" placement="top-start">
-                                    <span>{{ (scope.row.stock_price * scope.row.stock_deal_total - 5.73).toFixed(2) }}</span>
-                                </el-tooltip>
-                                
+                        <span v-if="scope.row.deal_total > 0">
+                            <span v-if="2 == scope.row.deal_type">
+                                {{ (scope.row.stock_price * scope.row.deal_total - 5.73).toFixed(2) }}
                             </span>
                             <span v-else>
-                                {{ (scope.row.stock_price * scope.row.stock_deal_total).toFixed(2) }}
+                                {{ (scope.row.stock_price * scope.row.deal_total).toFixed(2) }}
                             </span>
                             
                         </span>
@@ -282,7 +277,7 @@
                     label="持有估值(手续费之前)"
                     width="100">
                     <template slot-scope="scope">
-                      <span>{{ (scope.row.stock_price * scope.row.stock_number).toFixed(2) }}</span>
+                      <span>{{ (scope.row.stock_price * scope.row.stock_remain).toFixed(2) }}</span>
                     </template>
                 </u-table-column>
                 <u-table-column 
@@ -454,7 +449,7 @@
                         return pattern.test(data.created_at);
 
 
-                    }).filter(data => !this.search ||  this.search == data.stock_type || ('3' == this.search &&  ('1' == data.stock_type || '2' == data.stock_type)));
+                    }).filter(data => !this.search ||  this.search == data.deal_type || ('3' == this.search &&  ('1' == data.deal_type || '2' == data.deal_type)));
                     return arr;
                 },
                 tableRowClassName(row) {
@@ -492,8 +487,8 @@
                     })
                 },
                 removeSelected(row){
-                    if(System.isset(row.stock_type)){
-                        if(0 == row.stock_type){
+                    if(System.isset(row.deal_type)){
+                        if(0 == row.deal_type){
                             this.del_ids.push(row.id);
                         }else {
                             this.$notify({

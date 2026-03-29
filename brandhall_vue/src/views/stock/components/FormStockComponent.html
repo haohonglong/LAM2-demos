@@ -9,7 +9,7 @@
 <#Block:begin id="__ID__">
 <div v-loading="loading">
     <el-dialog v-if="!empty(stock_id)"
-        :title="title + '股票'"
+        :title="title"
         :visible.sync="dialogVisible"
         :close-on-click-modal="false"
         :lock-scroll="false"
@@ -23,32 +23,9 @@
                     <div class="section-title">基本信息</div>
                     <el-row :gutter="10">
                         <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵ID：">
-                                <span class="readonly-text">{{ stock_id }}</span>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :xs="24" :sm="12">
                             <el-form-item label="证劵代码：" prop="stock_code" :error="serverErrors.stock_code">
-                                <el-input v-model="form.stock_code" size="medium" placeholder="请输入股票代码"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵名称：" prop="stock_name" :error="serverErrors.stock_name">
-                                <el-input v-model="form.stock_name" size="medium" placeholder="请输入股票名称"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :xs="12" :sm="8">
-                            <el-form-item label="成本价：">
-                                <el-input v-model="form.stock_cost" size="medium" type="number" placeholder="0.00">
-                                    <template slot="append">元</template>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :xs="12" :sm="8">
-                            <el-form-item label="税率：">
-                                <el-input v-model="form.tax" size="medium" type="number" placeholder="5.00">
-                                    <template slot="append">%</template>
-                                </el-input>
+                                <el-input v-model="form.stock_code" @input="existsStockCode" size="medium" placeholder="请输入股票代码"></el-input>
+                                <span class="ml10"> {{ form.stock_name }} </span> 
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -59,7 +36,7 @@
                     <el-form-item label="股票备注：" prop="stock_remark">
                         <el-input 
                             type="textarea" 
-                            v-model="form.stock_remark" 
+                            v-model="form.stock_remark"
                             :rows="3" 
                             maxlength="200"
                             show-word-limit
@@ -70,13 +47,13 @@
             </el-form>
         </div>
         <div slot="footer" class="dialog-footer mobile-footer">
-            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">提交</el-button>
+            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">修改</el-button>
             <el-button @click="dialogVisible = false" class="cancel-btn">取消</el-button>
         </div>
     </el-dialog>
 
     <el-dialog v-else
-        title="添加股票"
+        :title="title"
         :visible.sync="dialogVisible"
         :close-on-click-modal="false"
         :lock-scroll="false"
@@ -86,24 +63,6 @@
         custom-class="mobile-dialog">
         <div class="dialog-content">
             <el-form :model="form" :rules="rules" ref="validateForm" label-width="100px" class="mobile-form">
-<!--Del:begin-->
-
-                <div class="form-section">
-                    <div class="section-title">股票类型</div>
-                    <el-row>
-                        <el-col :span="24">
-                            <el-form-item label="股票类型：">
-                                <el-radio-group v-model="form.flag" class="flag-radio-group">
-                                    <el-radio :label="0" class="flag-radio">正式</el-radio>
-                                    <el-radio :label="1" class="flag-radio">测试</el-radio>
-                                </el-radio-group>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                </div>
-<!--Del:end-->
-
-
                 <div class="form-section">
                     <div class="section-title">基本信息</div>
                     <el-row :gutter="10">
@@ -112,31 +71,10 @@
                                 <el-input 
                                     v-model="form.stock_code" 
                                     size="medium" 
+                                    @change="existsStockCode"
                                     placeholder="如：000001"
                                     clearable>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :xs="24" :sm="12">
-                            <el-form-item label="证劵名称：" prop="stock_name" :error="serverErrors.stock_name">
-                                <el-input 
-                                    v-model="form.stock_name" 
-                                    size="medium" 
-                                    placeholder="如：平安银行"
-                                    clearable>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :xs="24" :sm="12">
-                            <el-form-item label="税率：">
-                                <el-input 
-                                    v-model="form.tax" 
-                                    size="medium" 
-                                    type="number" 
-                                    placeholder="5.00"
-                                    clearable>
-                                    <template slot="append">%</template>
-                                </el-input>
+                                </el-input> <span class="ml10"> {{ form.stock_name }} </span> 
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -158,7 +96,7 @@
             </el-form>
         </div>
         <div slot="footer" class="dialog-footer mobile-footer">
-            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">提交</el-button>
+            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">添加</el-button>
             <el-button @click="resetForm()" class="reset-btn">重置</el-button>
             <el-button @click="dialogVisible = false" class="cancel-btn">取消</el-button>
         </div>
@@ -191,30 +129,20 @@
                 'loading': false,
                 'form':{
                     'stock_code': "",
-                    'stock_cost': 0,
                     'stock_name': "",
-                    'stock_remark': "",
-                    "flag": 0,
-                    "tax": 5.00
+                    'stock_remark': ""
                 },
                 'formError':{
-                    'stock_id': "",
-                    'stock_code': "",
-                    'stock_name': ""
+                    'stock_code': ""
                 },
                 // 服务器返回的错误信息
                 'serverErrors': {
-                    'stock_code': "",
-                    'stock_name': ""
+                    'stock_code': ""
                 },
                 'rules': {
                     'stock_code': [
                         { required: true, message: '请输入证劵代码', trigger: 'blur' },
                         { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
-                    ],
-                    'stock_name': [
-                        { required: true, message: '请输入证劵名称', trigger: 'blur' },
-                        { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
                     ]
                 },
                 'dialogVisible': false
@@ -235,40 +163,39 @@
             // 清空所有错误信息
             clearAllErrors() {
                 this.serverErrors = {
-                    'stock_code': "",
-                    'stock_name': ""
+                    'stock_code': ""
                 };
             },
             // 设置字段错误
             setFieldError(field, errorMessage) {
-                    // 更新 serverErrors
-                    if (this.serverErrors.hasOwnProperty(field)) {
-                        this.serverErrors[field] = errorMessage;
+                // 更新 serverErrors
+                if (this.serverErrors.hasOwnProperty(field)) {
+                    this.serverErrors[field] = errorMessage;
+                    
+                    // 等待 DOM 更新后手动触发验证显示
+                    this.$nextTick(() => {
+                        // 方法1: 使用 validateField 触发验证
+                        this.$refs.validateForm.validateField(field, (errorMessage) => {
+                            // 验证回调
+                        });
                         
-                        // 等待 DOM 更新后手动触发验证显示
-                        this.$nextTick(() => {
-                            // 方法1: 使用 validateField 触发验证
-                            this.$refs.validateForm.validateField(field, (errorMessage) => {
-                                // 验证回调
-                            });
-                            
-                            // 方法2: 直接设置表单字段的验证状态（更可靠）
-                            const formItem = this.findFormItemByProp(field);
-                            if (formItem) {
-                                formItem.validateState = 'error';
-                                formItem.validateMessage = errorMessage;
-                                // 强制更新
-                                this.$forceUpdate();
-                            }
-                        });
-                    } else {
-                        // 如果不是已知字段，作为通用错误
-                        this.error_msg = errorMessage;
-                        this.$message({
-                            type: 'error',
-                            message: errorMessage
-                        });
-                    }
+                        // 方法2: 直接设置表单字段的验证状态（更可靠）
+                        const formItem = this.findFormItemByProp(field);
+                        if (formItem) {
+                            formItem.validateState = 'error';
+                            formItem.validateMessage = errorMessage;
+                            // 强制更新
+                            this.$forceUpdate();
+                        }
+                    });
+                } else {
+                    // 如果不是已知字段，作为通用错误
+                    this.error_msg = errorMessage;
+                    this.$message({
+                        type: 'error',
+                        message: errorMessage
+                    });
+                }
             },
             // 处理服务器返回的错误信息
             handleServerErrors(errorData) {
@@ -349,51 +276,35 @@
             },
             initError() {
                 this.formError.stock_code = "";
-                this.formError.stock_name = "";
                 this.clearAllErrors();
             },
             init() {
+                this.form.stock_name = "";
                 this.form.stock_code = '';
-                this.form.stock_name = '';
                 this.form.stock_remark = '';
-                this.form.stock_cost = 0;
-                this.form.flag = 0;
-                this.form.tax = 5.00;
                 this.initError();
             },
-            setForm(stock_id, stock_code, stock_name, stock_remark) {
+            setForm(stock_code, stock_remark) {
                 this.form.stock_code = stock_code;
-                this.form.stock_name = stock_name;
                 this.form.stock_remark = stock_remark;
-                this.form.flag = 1;
             },
             add() {
-                this.initError();
-                const stock_id = System.hash();
                 const stock_code = this.form.stock_code;
-                const stock_name = this.form.stock_name;
                 const stock_remark = this.form.stock_remark;
                 
-                const flag = this.form.flag;
-                const tax = this.form.tax;
 
-                const data = { 
-                    stock_id,
-                    stock_code,
-                    stock_name,
-                    stock_remark,
-                    flag,
-                    tax
-                };
                 this.loading = true;
-                Api.stock.add(data, D => {
+                Api.stock.add({
+                    stock_code,
+                    stock_remark
+                }, D => {
                     if(D.status){
                         this.$message({
                             type: 'success',
                             message: D.message
                         });
                         this.ok();
-                        this.$emit('feach-by-stockid', stock_id);
+                        // this.$emit('feach-by-stockid', stock_id);
                         this.$emit('get-list-stock');
 
                     }else{
@@ -404,21 +315,14 @@
                 });
             },
             edit() {
-                this.initError();
                 const stock_id = this.stock_id;
                 const stock_code = this.form.stock_code;
-                const stock_name = this.form.stock_name;
-                const stock_cost = this.form.stock_cost;
                 const stock_remark = this.form.stock_remark;
-                const tax = this.form.tax;
 
                 const data = { 
                     stock_id,
                     stock_code,
-                    stock_name,
-                    stock_cost,
-                    stock_remark,
-                    tax
+                    stock_remark
                 };
                 this.loading = true;
                 Api.stock.edit(data, D => {
@@ -433,6 +337,23 @@
                     }else{
                         this.loading = false;
                         
+                        this.handleServerErrors(D.errors);
+                    }
+
+                });
+            },
+            existsStockCode(){
+                
+                const stock_code = this.form.stock_code;
+                Api.stock.exist({
+                    stock_code
+                }, D => {
+                    if(D.stock_name){
+                        this.form.stock_name = D.stock_name;
+                    }else{
+                        this.form.stock_name = "";
+                    }
+                    if(!D.status){
                         this.handleServerErrors(D.errors);
                     }
 

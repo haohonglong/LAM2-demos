@@ -1,0 +1,706 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.FormStockSimulationComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__VIEWS__/stock/" />
+
+
+
+<#Block:begin id="__ID__">
+<div v-loading="loading">
+    <el-dialog v-if="!empty(simulation_id)"
+        :title="title"
+        :visible.sync="dialogVisible"
+        :close-on-click-modal="false"
+        :lock-scroll="false"
+        width="95%"
+        top="5vh"
+        class="mobile-form-dialog"
+        custom-class="mobile-dialog">
+        <div class="dialog-content">
+            <el-form :model="form" :rules="rules" ref="validateForm" label-width="100px" class="mobile-form">
+                <div class="form-section">
+                    <div class="section-title">基本信息</div>
+                    <el-row :gutter="10">
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="模拟名称：" prop="case_name" :error="serverErrors.case_name">
+                                <el-input v-model="form.case_name" size="medium" placeholder="请输入股票模拟名称"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title">备注信息</div>
+                    <el-form-item label="股票备注：" prop="simulation_remark">
+                        <el-input 
+                            type="textarea" 
+                            v-model="form.simulation_remark" 
+                            :rows="3" 
+                            maxlength="200"
+                            show-word-limit
+                            placeholder="请输入股票备注信息（可选）">
+                        </el-input>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer mobile-footer">
+            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">提交</el-button>
+            <el-button @click="dialogVisible = false" class="cancel-btn">取消</el-button>
+        </div>
+    </el-dialog>
+
+    <el-dialog v-else
+        :title="title"
+        :visible.sync="dialogVisible"
+        :close-on-click-modal="false"
+        :lock-scroll="false"
+        width="95%"
+        top="5vh"
+        class="mobile-form-dialog"
+        custom-class="mobile-dialog">
+        <div class="dialog-content">
+            <el-form :model="form" :rules="rules" ref="validateForm" label-width="100px" class="mobile-form">
+                <div class="form-section">
+                    <div class="section-title">基本信息</div>
+                    <el-row :gutter="10">
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="证劵代码：" prop="stock_id" :error="serverErrors.stock_id">
+                                <el-select v-model="form.stock_id" ref="select"
+                                @hook:mounted="cancelReadOnly"
+                                @visible-change="cancelReadOnly" filterable placeholder="请输入证劵代码">
+                                    <el-option
+                                      v-for="item in stocks"
+                                      :key="item.stock_id"
+                                      :label="item.stock_code + ' - ' + item.stock_name"
+                                      :value="item.stock_id">
+                                    </el-option>
+                                    <template slot="empty">
+                                        <div class="custom-empty">
+                                          <i class="el-icon-info"></i>
+                                          <el-button size="mini" round @click="formAddStockComponent">添加股票</el-button>
+                                        </div>
+                                      </template>
+                                </el-select>
+                                
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12">
+                            <el-form-item label="模拟名称：" prop="case_name" :error="serverErrors.case_name">
+                                <el-input 
+                                    v-model="form.case_name" 
+                                    size="medium" 
+                                    placeholder="请输入股票模拟名称"
+                                    clearable>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title">备注信息</div>
+                    <el-form-item label="股票备注：" prop="simulation_remark">
+                        <el-input 
+                            type="textarea" 
+                            v-model="form.simulation_remark" 
+                            :rows="3" 
+                            maxlength="200"
+                            show-word-limit
+                            placeholder="请输入股票备注信息（可选）">
+                        </el-input>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer mobile-footer">
+            <el-button type="primary" @click="submit()" class="submit-btn" :loading="loading">提交</el-button>
+            <el-button @click="resetForm()" class="reset-btn">重置</el-button>
+            <el-button @click="dialogVisible = false" class="cancel-btn">取消</el-button>
+        </div>
+    </el-dialog>
+    <form-stock-component @get-list-stock="getTheListOfStock" title="添加股票" ref="addStockComponent" />
+</div>
+
+
+<#Block:end>
+
+<#include file="~/components/FormStockComponent.html" />
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        const Api = System.require("Api");
+        var FormComponent = {
+          name: "FormStockSimulationComponent",
+          props: {
+            'title': {
+                type: [String],
+                default: ""
+            },
+            'simulation_id': {
+                type: [String],
+                default: ""
+            }
+          },
+          components: { 
+            'form-stock-component': System.require('stock.components.FormStockComponent')
+          },
+          data() {
+            return {
+                'loading': false,
+                'stocks' : [],
+                'form':{
+                    'stock_id': null,
+                    'case_name': "",
+                    'simulation_remark': ""
+                },
+                'formError':{
+                    'stock_id': "",
+                    'case_name': ""
+                },
+                // 服务器返回的错误信息
+                'serverErrors': {
+                    'case_name': ""
+                },
+                'rules': {
+                    'stock_id': [
+                        { required: true, message: '请输入证劵代码', trigger: 'blur' },
+                        { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+                    ],
+                    'case_name': [
+                        { required: true, message: '请输入模拟名称', trigger: 'blur' },
+                        { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+                    ]
+                },
+                'dialogVisible': false
+            }
+          },
+          computed: {
+            isMobile() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+            }
+          },
+          methods: {
+            // 取消只读属性的方法
+            cancelReadOnly(onOff) {
+            // onOff 为 true 表示下拉框打开，false 表示关闭。我们只在关闭时操作，避免冲突。
+                if (!onOff) {
+                    this.$nextTick(() => {
+                    const input = this.$refs.select.$el.querySelector('.el-input__inner');
+                    if (input) {
+                        input.removeAttribute('readonly');
+                    }
+                    });
+                }
+            },
+            formAddStockComponent(){
+                this.$refs.addStockComponent.dialogVisible = true
+            },
+            empty(str){
+                return System.empty(str)
+
+            },
+            ok() {
+                this.loading = false;
+                this.dialogVisible = false;
+                this.init();
+                this.initError();
+                
+            },
+            // 清空所有错误信息
+            clearAllErrors() {
+                this.serverErrors = {
+                    'case_name': ""
+                };
+            },
+            // 设置字段错误
+            setFieldError(field, errorMessage) {
+                // 更新 serverErrors
+                if (this.serverErrors.hasOwnProperty(field)) {
+                    this.serverErrors[field] = errorMessage;
+                    
+                    // 等待 DOM 更新后手动触发验证显示
+                    this.$nextTick(() => {
+                        // 方法1: 使用 validateField 触发验证
+                        this.$refs.validateForm.validateField(field, (errorMessage) => {
+                            // 验证回调
+                        });
+                        
+                        // 方法2: 直接设置表单字段的验证状态（更可靠）
+                        const formItem = this.findFormItemByProp(field);
+                        if (formItem) {
+                            formItem.validateState = 'error';
+                            formItem.validateMessage = errorMessage;
+                            // 强制更新
+                            this.$forceUpdate();
+                        }
+                    });
+                } else {
+                    // 如果不是已知字段，作为通用错误
+                    this.error_msg = errorMessage;
+                    this.$message({
+                        type: 'error',
+                        message: errorMessage
+                    });
+                }
+            },
+            // 处理服务器返回的错误信息
+            handleServerErrors(errorData) {
+                // 清空之前的错误
+                this.clearAllErrors();
+                
+                if (!errorData) return;
+                
+                console.log('服务器返回错误:', errorData);
+                
+                if (System.isString(errorData)) {
+                    // 如果是字符串，作为通用错误
+                    this.error_msg = errorData;
+                    this.$message({
+                        type: 'error',
+                        message: errorData
+                    });
+                } else if (System.isObject(errorData)) {
+                    let hasFieldError = false;
+                    
+                    // 处理字段错误
+                    System.each(errorData, (field, error) => {
+                        if (System.isArray(error) && error.length > 0) {
+                            // 取第一个错误信息
+                            const errorMsg = error[0];
+                            this.setFieldError(field, errorMsg);
+                            hasFieldError = true;
+                        } else if (System.isString(error)) {
+                            this.setFieldError(field, error);
+                            hasFieldError = true;
+                        }
+                    });
+                    
+                    // 如果没有字段错误但有通用错误，显示通用错误
+                    if (!hasFieldError && errorData.message) {
+                        this.error_msg = errorData.message;
+                        this.$message({
+                            type: 'error',
+                            message: errorData.message
+                        });
+                    }
+                }
+            },
+            // 根据 prop 查找表单字段
+            findFormItemByProp(prop) {
+                if (!this.$refs.validateForm || !this.$refs.validateForm.fields) {
+                    return null;
+                }
+                
+                return this.$refs.validateForm.fields.find(field => field.prop === prop);
+            },
+            submit() {
+                this.$refs.validateForm.validate((valid) => {
+                    if (!valid) {
+                        this.$message({
+                            type: 'error',
+                            message: '请完善表单信息'
+                        });
+                        return false;
+                    }else{
+                        if(System.empty(this.simulation_id)) {
+                            this.add();
+                        }else{
+                            this.edit();
+                        }
+                    }
+                });
+                this.initError();
+                
+            },
+            resetForm(){
+                this.$refs['validateForm'].resetFields();
+                this.init();
+                this.$message({
+                    type: 'success',
+                    message: '表单已重置'
+                });
+            },
+            initError() {
+                this.formError.case_name = "";
+                this.clearAllErrors();
+            },
+            getTheListOfStock(){
+                Api.stock.index({}, D => {
+                    if(0 == D.status){
+                        this.stocks = D.data;
+                    } else {
+                        this.$notify({
+                            title: 'Warning',
+                            message: '网络异常',
+                            type: 'warning'});
+                    }
+                    this.loading = false;
+                });
+
+            },
+            init() {
+                this.getTheListOfStock();
+                this.form.stock_id = '';
+                this.form.case_name = '';
+                this.form.simulation_remark = '';
+                this.initError();
+            },
+            setForm(stock_id, case_name, simulation_remark) {
+                this.form.stock_id = stock_id;
+                this.form.case_name = case_name;
+                this.form.simulation_remark = simulation_remark;
+            },
+            add() {
+                const stock_id = this.form.stock_id;
+                const case_name = this.form.case_name;
+                const simulation_remark = this.form.simulation_remark;
+                
+                const data = { 
+                    stock_id,
+                    case_name,
+                    simulation_remark
+                };
+                this.loading = true;
+                Api.stockSimulation.add(data, D => {
+                    if(D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message
+                        });
+                        this.ok();
+                        this.$emit('feach-by-stockid', stock_id);
+                        this.$emit('get-list-stock');
+
+                    }else{
+                        this.loading = false;
+                        this.handleServerErrors(D.errors);
+                    }
+
+                });
+            },
+            edit() {
+                const simulation_id = this.simulation_id;
+                const case_name = this.form.case_name;
+                const simulation_remark = this.form.simulation_remark;
+
+                const data = { 
+                    simulation_id,
+                    case_name,
+                    simulation_remark
+                };
+                this.loading = true;
+                Api.stockSimulation.edit(data, D => {
+                    if(D.status){
+                        this.$message({
+                            type: 'success',
+                            message: D.message
+                        });
+                        this.ok();
+                        this.$emit('get-list-stock');
+
+                    }else{
+                        this.loading = false;
+                        
+                        this.handleServerErrors(D.errors);
+                    }
+
+                });
+            }
+          },
+          watch: {
+            dialogVisible(newVal) {
+                this.initError();
+                if (newVal) {
+                    // 对话框显示时，确保内容正确显示
+                    this.$nextTick(() => {
+                        // 处理移动端显示问题
+                    });
+                }
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>
+
+<style scoped>
+/* 移动端对话框样式 */
+.mobile-form-dialog {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+}
+
+.mobile-dialog {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dialog-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 5px;
+}
+
+/* 移动端表单样式 */
+.mobile-form {
+    padding: 0 8px;
+}
+
+.mobile-form >>> .el-form-item {
+    margin-bottom: 20px;
+}
+
+.mobile-form >>> .el-form-item__label {
+    font-size: 14px;
+    color: #606266;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.mobile-form >>> .el-input__inner,
+.mobile-form >>> .el-textarea__inner {
+    border-radius: 8px;
+    border: 1px solid #dcdfe6;
+    font-size: 16px; /* 防止iOS缩放 */
+}
+
+.mobile-form >>> .el-input__inner:focus,
+.mobile-form >>> .el-textarea__inner:focus {
+    border-color: #409EFF;
+    box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+}
+
+/* 表单分区样式 */
+.form-section {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 16px;
+    padding-left: 8px;
+    border-left: 4px solid #409EFF;
+}
+
+/* 只读文本样式 */
+.readonly-text {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #f5f7fa;
+    border-radius: 4px;
+    color: #909399;
+    font-size: 14px;
+    min-width: 100px;
+}
+
+/* 单选按钮组样式 */
+.flag-radio-group {
+    width: 100%;
+}
+
+.flag-radio {
+    margin-right: 20px;
+}
+
+.mobile-form >>> .el-radio__label {
+    font-size: 14px;
+}
+
+/* 底部按钮区域 */
+.mobile-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0 8px;
+    border-top: 1px solid #ebeef5;
+    background: #fff;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.mobile-footer .el-button {
+    flex: 1;
+    margin: 0 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    height: 44px;
+    border: none;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #409EFF, #66b1ff);
+    color: white;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #66b1ff, #409EFF);
+}
+
+.reset-btn {
+    background: #f5f7fa;
+    color: #606266;
+    border: 1px solid #dcdfe6 !important;
+}
+
+.cancel-btn {
+    background: #f5f7fa;
+    color: #606266;
+    border: 1px solid #dcdfe6 !important;
+}
+
+.reset-btn:hover,
+.cancel-btn:hover {
+    background: #e4e7ed;
+    color: #303133;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .mobile-form >>> .el-form-item__label {
+        padding-bottom: 6px;
+        line-height: 1.3;
+    }
+    
+    .mobile-form >>> .el-col-xs-24 {
+        margin-bottom: 8px;
+    }
+    
+    .mobile-form >>> .el-form-item {
+        margin-bottom: 16px;
+    }
+    
+    .form-section {
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+    
+    .section-title {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    
+    .mobile-footer {
+        padding: 12px 0 4px;
+    }
+    
+    .mobile-footer .el-button {
+        height: 42px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dialog-content {
+        max-height: 65vh;
+    }
+    
+    .mobile-form {
+        padding: 0 4px;
+    }
+    
+    .mobile-form >>> .el-form-item__label {
+        font-size: 13px;
+    }
+    
+    .mobile-form >>> .el-input__inner,
+    .mobile-form >>> .el-textarea__inner {
+        font-size: 15px;
+    }
+    
+    .section-title {
+        font-size: 14px;
+    }
+    
+    .mobile-footer .el-button {
+        height: 40px;
+        font-size: 14px;
+        margin: 0 3px;
+    }
+    
+    .readonly-text {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+}
+
+/* 防止iOS输入框缩放 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .mobile-form >>> .el-input__inner,
+    .mobile-form >>> .el-textarea__inner {
+        font-size: 16px;
+    }
+}
+
+/* 滚动条样式优化 */
+.dialog-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 错误状态样式 */
+.mobile-form >>> .el-form-item.is-error .el-input__inner,
+.mobile-form >>> .el-form-item.is-error .el-textarea__inner {
+    border-color: #f56c6c;
+    box-shadow: 0 0 0 2px rgba(245, 108, 108, 0.1);
+}
+
+.mobile-form >>> .el-form-item__error {
+    font-size: 12px;
+    padding-top: 4px;
+}
+
+/* 加载状态优化 */
+>>> .el-loading-mask {
+    border-radius: 12px;
+}
+
+>>> .el-loading-spinner .el-loading-text {
+    font-size: 14px;
+    color: #409EFF;
+}
+
+/* 输入框附加内容样式 */
+.mobile-form >>> .el-input-group__append {
+    background: #f5f7fa;
+    color: #909399;
+    border: none;
+    font-size: 14px;
+}
+
+/* 文本域样式优化 */
+.mobile-form >>> .el-textarea .el-input__count {
+    background: transparent;
+    font-size: 12px;
+    color: #909399;
+}
+</style>

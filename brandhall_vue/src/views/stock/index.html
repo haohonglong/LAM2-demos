@@ -14,15 +14,10 @@
 <#define __URL__="{#LAM.URL#}" />
 <#define ~/="__VIEWS__/stock/" />
 
-
 <#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
 
-
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
-
-
-
 
 <#Block:begin id="__ID__">
 
@@ -106,12 +101,6 @@
                     :row-height="55"
                     border>
                     <el-table-column fixed type="index" width="50"></el-table-column>
-                    <el-table-column fixed prop="level" label="五星推荐" sortable width="145px">
-                        <template slot-scope="scope">
-                            <div style="cursor: pointer;margin-bottom: 10px;" @click="setLevel(scope.row.stock_id, 0)">NONE</div>
-                            <el-rate @change="setLevel(scope.row.stock_id, scope.row.level)" v-model="scope.row.level"></el-rate>
-                        </template>
-                    </el-table-column>
                     <el-table-column fixed sortable prop="created_at" label="创建日期" align="center" width="95px"></el-table-column>
                     <el-table-column fixed sortable prop="updated_at" label="最新日期" align="center" width="95px"></el-table-column>
                     <el-table-column fixed prop="stock_id" label="ID" width="80">
@@ -119,6 +108,7 @@
                             <span style="cursor: pointer;" @click="searchStock(scope.row.stock_id)">{{  scope.row.stock_id  }}</span>
                         </template>
                     </el-table-column>
+                    <el-table-column fixed prop="market" label="市场" align="center" width="95px"></el-table-column>
                     <el-table-column fixed prop="stock_code" label="证劵代码" width="80">
                         <template slot-scope="scope">
                             <div v-if="scope.row.stock_remark.trim().length > 0">
@@ -129,20 +119,12 @@
                             <span v-else style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column fixed sortable prop="flag" label="测试" align="center" width="50">
-                        <template slot-scope="scope">
-                            <span v-if="1 == scope.row.flag">是</span>
-                        </template>
-                    </el-table-column>
                     <el-table-column fixed prop="stock_name" label="证劵名称" width="150">
                         <template slot-scope="scope">
                             <a :href="'__URL__/stock/list/' + scope.row.stock_id + '/' + scope.row.stock_code + '/' + scope.row.stock_name" target="_blank">{{ scope.row.stock_name }}</a>
                             <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="bought" fixed label="成交价" sortable width="65"></el-table-column>
-                    <el-table-column prop="tax" label="税" width="65"></el-table-column>
-                    <el-table-column prop="cost" label="成本价" width="95"></el-table-column>
                     <el-table-column prop="stock_price" label="市值" sortable width="80">
                         <template slot-scope="scope">
                             <span v-if="scope.row.stock_price > scope.row.close" class="">{{ scope.row.stock_price }}</span>
@@ -150,7 +132,6 @@
                             <span v-else>{{ scope.row.stock_price }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="stock_number" label="持股数" sortable width="65"></el-table-column>
                     <el-table-column prop="open" label="开盘价" width="80">
                         <template slot-scope="scope">
                             <span v-if="scope.row.open > scope.row.close" class="warning">{{ scope.row.open }}</span>
@@ -158,25 +139,8 @@
                             <span v-else>{{ scope.row.open }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="持有估值(手续费之前)" width="180">
-                        <template slot-scope="scope">
-                          <span>{{ scope.row.stock_price }} * {{ scope.row.stock_number }} = {{ (scope.row.stock_price * scope.row.stock_number).toFixed(2) }}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="盈亏" width="180">
-                        <template slot-scope="scope" v-if="isNotNull(scope.row.cost)">
-                          <span v-if="scope.row.bought > 1">({{ scope.row.stock_price }} - {{ scope.row.cost }}) * {{ scope.row.stock_number }} = {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_number) .toFixed(2) }}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="盈亏率(%)" width="180">
-                        <template slot-scope="scope" v-if="isNotNull(scope.row.cost)">
-                          <span v-if="scope.row.bought > 1">(({{ scope.row.stock_price }} - {{ scope.row.cost }}) / {{ scope.row.cost }}) * 100 = {{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100) .toFixed(2) }}</span>
-                        </template>
-                    </el-table-column>
                     <el-table-column label="操作" width="370px">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="mini" @click="copyStock(scope.row)" class="!rounded-button flex items-center">copy</el-button>
-                            <el-button type="primary" size="mini" @click="openAddTransactionDialog(scope.row)" class="!rounded-button flex items-center">交易</el-button>
                             <el-button type="primary" @click="feachByStockid(scope.row.stock_id)" size="mini">feach</el-button>
                             <el-button type="primary" @click="formEditStockComponent(scope.row)" icon="el-icon-edit" circle size="mini"></el-button>
                             <el-button type="danger" icon="el-icon-delete" circle @click="remove(scope.row.stock_id)" size="mini"></el-button>
@@ -224,10 +188,6 @@
             <div class="stat-card">
                 <div class="stat-value">{{ ldowns.length }}</div>
                 <div class="stat-label">跌停</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">{{ highRatingCount }}</div>
-                <div class="stat-label">高推荐</div>
             </div>
         </div>
 
@@ -352,10 +312,6 @@
                         <div class="stock-id-btn" @click="searchStock(stock.stock_id)">
                             ID: {{ stock.stock_id }}
                         </div>
-                        <div class="stock-code" @click="handleDialogShow(stock)">
-                            {{ stock.stock_code }}
-                            <el-tag v-if="stock.flag === 1" type="warning" size="mini" style="margin-left: 4px;">测试</el-tag>
-                        </div>
                         <div class="stock-name">
                             <a :href="'__URL__/stock/list/' + stock.stock_id + '/' + stock.stock_code + '/' + stock.stock_name" target="_blank">{{ stock.stock_name }}</a>
                             <span v-if="0 == stock.flag" style="cursor: pointer;" @click="showDateList(stock)">(每日)</span>
@@ -371,66 +327,18 @@
                 
                 <div class="stock-details">
                     <div class="detail-item">
-                        <span class="detail-label">成交价</span>
-                        <span class="detail-value">{{ stock.bought }}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">成本价</span>
-                        <span class="detail-value">{{ stock.cost }}</span>
-                    </div>
-                    <div class="detail-item">
                         <span class="detail-label">最低</span>
                         <span class="detail-value">{{ stock.lowest }}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">持股数</span>
-                        <span class="detail-value">
-                            {{ stock.stock_number }}
-                        </span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">换手率</span>
                         <span class="detail-value">{{ stock.change }}%</span>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">税</span>
-                        <span class="detail-value">{{ stock.tax }}元</span>
-                    </div>
                 </div>
 
-                <!-- 盈亏信息 -->
-                <div class="profit-info" v-if="stock.bought > 1">
-                    <div class="profit-item">
-                        <span class="profit-label">持仓市值</span>
-                        <span class="profit-value">{{ (stock.stock_price * stock.stock_number).toFixed(2) }}</span>
-                    </div>
-                    <div class="profit-item" v-if="isNotNull(stock.cost)">
-                        <span class="profit-label">盈亏</span>
-                        <span class="profit-value" :class="getProfitClass(stock)">
-                            {{ ((stock.stock_price - stock.cost) * stock.stock_number).toFixed(2) }}
-                        </span>
-                    </div>
-                    <div class="profit-item" v-if="isNotNull(stock.cost)">
-                        <span class="profit-label">盈亏率</span>
-                        <span class="profit-value" :class="getProfitClass(stock)">
-                            {{ (((stock.stock_price - stock.cost) / stock.cost) * 100).toFixed(2) }}%
-                        </span>
-                    </div>
-                </div>
+                
 
-                <!-- 推荐等级 -->
-                <div class="rating-section">
-                    <div class="rating-label">推荐等级</div>
-                    <div class="rating-controls">
-                        <span style="cursor: pointer; font-size: 12px; color: #909399;" @click="setLevel(stock.stock_id, 0)">重置</span>
-                        <el-rate 
-                            size="mini" 
-                            @change="setLevel(stock.stock_id, stock.level)" 
-                            v-model="stock.level"
-                            :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
-                        </el-rate>
-                    </div>
-                </div>
+                
 
                 <!-- 日期信息 -->
                 <div class="date-info">
@@ -448,16 +356,6 @@
                 </div>
                 
                 <div class="stock-actions">
-                    <el-tooltip content="复制股票信息" placement="top">
-                        <el-button type="success" size="mini" class="action-btn" @click="copyStock(stock)">
-                            复制
-                        </el-button>
-                    </el-tooltip>
-                    <el-tooltip content="交易操作" placement="top">
-                        <el-button type="warning" size="mini" class="action-btn" @click="openAddTransactionDialog(stock)">
-                            交易
-                        </el-button>
-                    </el-tooltip>
                     <el-tooltip content="更新该股票数据" placement="top">
                         <el-button type="primary" size="mini" class="action-btn" @click="feachByStockid(stock.stock_id)">
                             更新
@@ -522,8 +420,8 @@
     </div>
 
     <!-- 共用组件 -->
-    <form-stock-component title="添加" @get-list-stock="getTheListOfStock" ref="stockComponent" />
-    <form-stock-component title="修改" :stock_id="stock_id" @get-list-stock="getTheListOfStock" ref="stockEditComponent" />
+    <form-stock-component title="添加股票" @get-list-stock="getTheListOfStock" ref="addStockComponent" />
+    <form-stock-component title="修改股票" :stock_id="stock_id" @get-list-stock="getTheListOfStock" ref="editstockComponent" />
     <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getTheListOfStock" ref="stockDetailComponent" />
     <stock-date-list-component ref="stockDeteComponent" />
 
@@ -613,9 +511,6 @@
                         data.stock_code.toLowerCase().includes(searchText) ||
                         data.stock_name.toLowerCase().includes(searchText)
                     );
-                },
-                highRatingCount() {
-                    return this.tableData.filter(stock => stock.level >= 4).length;
                 }
             },
             beforeCreate() { },
@@ -651,14 +546,6 @@
 
                     }
                 },
-                calculateCostPrice(stock) {
-                    if (!stock.bought || stock.bought <= 0) return 0;
-                    if (!stock.stock_number || stock.stock_number <= 0) return 0;
-                    
-                    // 成本价 = (买入价 × 股数 + 税费) / 股数
-                    const totalCost = (stock.bought * stock.stock_number) + (stock.tax || 0);
-                    return (totalCost / stock.stock_number).toFixed(3);
-                },
                 handleResize() {
                     this.isMobile = window.innerWidth <= 768;
                 },
@@ -673,13 +560,6 @@
                     if (change > 0) return 'change-up';
                     if (change < 0) return 'change-down';
                     return 'change-normal';
-                },
-                getProfitClass(stock) {
-                    if (!stock.cost || stock.cost === 0) return 'profit-normal';
-                    const profit = stock.stock_price - stock.cost;
-                    if (profit > 0) return 'profit-up';
-                    if (profit < 0) return 'profit-down';
-                    return 'profit-normal';
                 },
                 getPriceClass(stock) {
                     if (stock.stock_price > stock.close) return 'price-up';
@@ -716,29 +596,6 @@
                 setTime(n){
                     this.feach_auto_times = n * 60000;
                 },
-                openAddTransactionDialog(row){
-                    this.stock_id = row.stock_id;
-                    this.stock_name = row.stock_name;
-                    this.$refs.stockDetailComponent.form.stock_price = row.stock_price;
-                    this.$refs.stockDetailComponent.dialogVisible = true
-                },
-                setLevel(stock_id, level){
-                    Api.stock.setLevel({stock_id, level}, D => {
-                        if(0 == D.status){
-                            this.getTheListOfStock();
-                            this.$notify({
-                                title: 'Success',
-                                message: D.message,
-                                type: 'success'
-                            });
-                        } else {
-                            this.$notify({
-                                title: 'Warning',
-                                message: D.message,
-                                type: 'warning'});
-                        }
-                    });
-                },
                 /**
                  * 统计涨跌停数量
                 */
@@ -767,21 +624,17 @@
                     return '';
                 },
                 formAddStockComponent(){
-                    this.$refs.stockComponent.init();
-                    this.$refs.stockComponent.dialogVisible = true
-                },
-                copyStock(row){
-                    this.formAddStockComponent();
-                    this.$refs.stockComponent.setForm('t_'+row.stock_id, row.stock_code, row.stock_name+'-测试', row.stock_name+'-测试');
+                    this.$refs.addStockComponent.init();
+                    this.$refs.addStockComponent.dialogVisible = true
                 },
                 formEditStockComponent(row){
                     this.stock_id = row.stock_id
-                    this.$refs.stockEditComponent.form.stock_code = row.stock_code
-                    this.$refs.stockEditComponent.form.stock_name = row.stock_name
-                    this.$refs.stockEditComponent.form.stock_cost = row.cost
-                    this.$refs.stockEditComponent.form.tax = row.tax
-                    this.$refs.stockEditComponent.form.stock_remark = row.stock_remark
-                    this.$refs.stockEditComponent.dialogVisible = true
+                    this.$refs.editstockComponent.init();
+                    this.$refs.editstockComponent.form.stock_code = row.stock_code
+                    this.$refs.editstockComponent.form.stock_remark = row.stock_remark
+                    this.$refs.editstockComponent.dialogVisible = true
+                    this.$refs.editstockComponent.existsStockCode();
+
                 },
                 getTheListOfStock(){
                     console.log('getTheListOfStock')
