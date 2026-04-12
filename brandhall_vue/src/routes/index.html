@@ -25,7 +25,6 @@
 <#include file="__VIEWS__/pictures/index.html" />
 <#include file="__VIEWS__/stock/index.html" />
 <#include file="__VIEWS__/stock/simulation/index.html" />
-<#include file="__VIEWS__/stock/simulation/mobile.html" />
 <#include file="__VIEWS__/stock/list/index.html" />
 <#include file="__VIEWS__/stock/index.html" />
 <! #include file="__VIEWS__/stock/date/index.html" --/>
@@ -63,10 +62,8 @@ LAM.run(function(){
 			,{ path: '/unit/index', component: System.require('views.unit.index'), meta: {title: '__TITLE__计量单位'} }
 			,{ path: '/pictures/index', component: System.require('views.pictures.index'), meta: {title: '__TITLE__图片'} }
 			,{ path: '/stock/index', component: System.require('views.stock.index'), meta: {title: '__TITLE__股票列表'} }
-			,{ path: '/stock/simulation/index', component: System.require('views.stock.simulation.index'), meta: {title: '__TITLE__股票模拟列表'} }
-			,{ path: '/stock/simulation/mobile', component: System.require('views.stock.simulation.mobile'), meta: {title: '__TITLE__股票模拟列表手机模式'} }
-			// ,{ path: '/stock/index', component: System.require('views.stock.stocks.index'), meta: {title: '__TITLE__股票列表'} }
-			,{ path: '/stock/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.list.index'), meta: {title: '__TITLE__股票流水'} }
+			,{ path: '/stock/simulation/index', component: System.require('views.stock.simulation.index'), meta: {title: '__TITLE__我的股票模拟列表'} }
+			,{ path: '/stock/list/:simulation_id/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.list.index'), meta: {title: '__TITLE__股票流水'} }
 			// ,{ path: '/stockDate/list/:stock_id/:stock_code/:stock_name', name: 'stockList', component: System.require('views.stock.date.index') }
 			,{ path: '/tesks/index', component: System.require('views.tesks.index'), meta: {title: '__TITLE__任务'} }
 			,{ path: '/canvas/index', component: System.require('views.canvas.index'), meta: {title: '__TITLE__canvas'} }

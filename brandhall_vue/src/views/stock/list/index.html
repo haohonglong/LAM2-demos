@@ -22,65 +22,255 @@
 
 
 <#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
-<!--Del:begin-->
-<#extends title="_TITLE_" data="{'list':[
-{'name':'首页','href':'__HOME__','title':'首页'},
-{'name':'网页地址','href':'__INDEX__url/index','title':''},
-{'name':'_TITLE_'}
-]}" />
-<!--Del:end-->
+
 
 <#Block:begin id="__ID__">
 
-<div v-loading="loading">
+<div v-loading="loading" class="stock-list-page">
     <el-row>
         <el-col :span="24">
             <div class="mb10" style="font-size: 18px;">
-                <span>{{ stock_code }}  {{ stock_name }}</span>
+                <span class="stock-info">{{ stock_code }}  {{ stock_name }}</span>
                 
-                <span style="cursor: pointer;" @click="sidebarOfRight = true">百度股市通</span>
-<!--Del:begin-->
-
-                <el-badge style="margin-left: 10px;" :value="lups.length" class="item">
-                    <el-button size="small" @click="showContent('up', lups)">涨停</el-button>
-                </el-badge>
-                <el-badge style="margin-left: 20px;margin-right: 20px;" :value="ldowns.length" class="item" type="success">
-                    <el-button size="small" @click="showContent('down', ldowns)">跌停</el-button>
-                </el-badge>
-
-                
-<!--Del:end-->
-
-                <el-button size="small" @click="dialogUpAndDown = true">跌涨</el-button>
-                <el-button type="primary" @click="getListOfStockDetail">刷新</el-button></el-button>
-
-            </div>
-            <div class="mb10">
-                <el-button type="primary" @click="candlestick">K线图</el-button></el-button>
-                <el-button type="primary" @click="line">折线图</el-button></el-button>
-<!--Del:begin-->
-                <el-button type="primary" @click="timeSharing">分时图</el-button></el-button>
-<!--Del:end-->
+                <div class="toolbar-actions">
+                    <span class="mobile-only" style="cursor: pointer;" @click="sidebarOfRight = true">股市通</span>
+                    <span class="desktop-only" style="cursor: pointer;" @click="sidebarOfRight = true">百度股市通</span>
+                    <el-button size="small" @click="dialogUpAndDown = true">跌涨</el-button>
+                    <el-button type="primary" @click="getListOfStockDetail">刷新</el-button>
+                </div>
 
             </div>
         </el-col>
         
     </el-row>
     
-    <el-row>
-        <el-button type="primary" @click="removeSelected">删除选择的</el-button>
-        <el-button type="primary" @click="formAddStockDetailComponent">添加股票流水</el-button>
-                <el-input
-                    v-model="search"
-                    size="mini"
-                    placeholder="1:买,2:卖,3:买卖" />
+    <el-row class="action-row">
+        <div class="action-buttons-group">
+            <el-button type="primary" @click="removeSelected">删除选择</el-button>
+            <el-button type="primary" @click="formAddStockDetailComponent">添加流水</el-button>
+        </div>
+        
+        <div class="search-filters">
+            <el-input
+                v-model="search"
+                size="mini"
+                placeholder="1:买,2:卖,3:买卖"
+                class="search-input" />
     
-                <el-input
-                    v-model="searchDate"
-                    size="mini"
-                    placeholder="日期" />
+            <el-input
+                v-model="searchDate"
+                size="mini"
+                placeholder="日期"
+                class="search-input" />
+        </div>
+        <!-- 移动端表格 -->
+        <div class="mobile-stock-table" v-if="isMobile">
+            <!-- 表头 -->
+            <div class="mobile-table-header">
+                <div class="header-cell" @click="handleSort('deal_type')">
+                    类型
+                </div>
+                <div class="header-cell" @click="handleSort('created_at')">
+                    日期
+                </div>
+                <div class="header-cell" @click="handleSort('stock_price')">
+                    价格
+                </div>
+                <div class="header-cell" @click="handleSort('cost')">
+                    成本
+                </div>
+                <div class="header-cell">
+                    税
+                </div>
+                <div class="header-cell" @click="handleSort('stock_remain')">
+                    持有
+                </div>
+                <div class="header-cell" @click="handleSort('deal_total')">
+                    数量
+                </div>
+                <div class="header-cell" @click="handleSort('open')">
+                    今开
+                </div>
+                <div class="header-cell" @click="handleSort('close')">
+                    昨收
+                </div>
+                <div class="header-cell" @click="handleSort('highest')">
+                    最高
+                </div>
+                <div class="header-cell" @click="handleSort('lowest')">
+                    最低
+                </div>
+                <div class="header-cell" @click="handleSort('average')">
+                    均价
+                </div>
+                <div class="header-cell" @click="handleSort('lup')">
+                    涨停
+                </div>
+                <div class="header-cell" @click="handleSort('ldown')">
+                    跌停
+                </div>
+                <div class="header-cell" @click="handleSort('change')">
+                    换手率
+                </div>
+                <div class="header-cell" @click="handleSort('amplitude')">
+                    振幅率
+                </div>
+                <div class="header-cell" @click="handleSort('volume')">
+                    成交量
+                </div>
+                <div class="header-cell" @click="handleSort('amount')">
+                    成交额
+                </div>
+                <div class="header-cell">
+                    盈亏
+                </div>
+                <div class="header-cell">
+                    盈亏率
+                </div>
+                <div class="header-cell">
+                    成交价
+                </div>
+                <div class="header-cell">
+                    实价
+                </div>
+                <div class="header-cell">
+                    持有估值
+                </div>
+                <div class="header-cell">
+                    清仓
+                </div>
+            </div>
 
-        <el-col :span="24" class="plTableBox">
+            <!-- 表格内容 -->
+            <div class="mobile-table-body">
+                <div v-for="(item, index) in sortedTableData" :key="index"
+                     class="table-row"
+                     :class="getCardClass(item)">
+                    <!-- 交易类型 -->
+                    <div class="row-cell type-cell">
+                        <div class="cell-value" :style="{color: item.deal_type == 1 ? 'red' : 'green'}">
+                            {{ item.deal_type == 1 ? '买入' : (item.deal_type == 2 ? '卖出' : '-') }}
+                        </div>
+                    </div>
+                    <!-- 日期 -->
+                    <div class="row-cell date-cell">
+                        <div class="cell-value">{{ item.created_at.split(' ')[0] }}</div>
+                        <div class="cell-sub">{{ getWeekdayByDate(item.created_at) }}</div>
+                    </div>
+                    <!-- 价格 -->
+                    <div class="row-cell price-cell">
+                        <div class="cell-value" :style="{color: item.stock_price > item.close ? '#de524c' : (item.stock_price < item.close ? 'green' : '#909399')}">
+                            {{ item.stock_price }}
+                        </div>
+                    </div>
+                    <!-- 成本价 -->
+                    <div class="row-cell cost-cell">
+                        <div v-if="item.cost" class="cell-sub" style="cursor: pointer;" @click="setCost(item)">
+                            {{ item.cost }}
+                        </div>
+                        <div v-else class="cell-sub" style="cursor: pointer;" @click="setCost(item)">
+                            设置
+                        </div>
+                    </div>
+                    <!-- 税 -->
+                    <div class="row-cell tax-cell">
+                        <div class="cell-value">{{ item.total_tax || '-' }}</div>
+                    </div>
+                    <!-- 持有股数量 -->
+                    <div class="row-cell remain-cell">
+                        <div class="cell-value">{{ item.stock_remain }}</div>
+                    </div>
+                    <!-- 成交量 -->
+                    <div class="row-cell amount-cell">
+                        <div class="cell-value">{{ item.deal_total }}</div>
+                        <div class="cell-sub">{{ (item.stock_price * item.deal_total).toFixed(2) }}</div>
+                    </div>
+                    <!-- 今开 -->
+                    <div class="row-cell open-cell">
+                        <div class="cell-value" :style="{color: item.open > item.close ? '#de524c' : (item.open < item.close ? 'green' : '#909399')}">
+                            {{ item.open }}
+                        </div>
+                    </div>
+                    <!-- 昨收 -->
+                    <div class="row-cell close-cell">
+                        <div class="cell-value">{{ item.close }}</div>
+                    </div>
+                    <!-- 最高 -->
+                    <div class="row-cell highest-cell">
+                        <div class="cell-value">{{ item.highest }}</div>
+                    </div>
+                    <!-- 最低 -->
+                    <div class="row-cell lowest-cell">
+                        <div class="cell-value">{{ item.lowest }}</div>
+                    </div>
+                    <!-- 均价 -->
+                    <div class="row-cell average-cell">
+                        <div class="cell-value">{{ item.average }}</div>
+                    </div>
+                    <!-- 涨停 -->
+                    <div class="row-cell lup-cell">
+                        <div class="cell-value">{{ item.lup }}</div>
+                    </div>
+                    <!-- 跌停 -->
+                    <div class="row-cell ldown-cell">
+                        <div class="cell-value">{{ item.ldown }}</div>
+                    </div>
+                    <!-- 换手率 -->
+                    <div class="row-cell change-cell">
+                        <div class="cell-value">{{ item.change }}%</div>
+                    </div>
+                    <!-- 振幅率 -->
+                    <div class="row-cell amplitude-cell">
+                        <div class="cell-value">{{ item.amplitude }}%</div>
+                    </div>
+                    <!-- 成交量 -->
+                    <div class="row-cell volume-cell">
+                        <div class="cell-value">{{ item.volume }}</div>
+                    </div>
+                    <!-- 成交额 -->
+                    <div class="row-cell amount-sum-cell">
+                        <div class="cell-value">{{ item.amount }}</div>
+                    </div>
+                    <!-- 盈亏 -->
+                    <div class="row-cell profit-cell">
+                        <div class="cell-value">
+                            {{ isset(item.cost) ? ((item.stock_price - item.cost) * item.stock_remain).toFixed(2) : '-' }}
+                        </div>
+                    </div>
+                    <!-- 盈亏率 -->
+                    <div class="row-cell profit-rate-cell">
+                        <div class="cell-value">
+                            {{ isset(item.cost) ? (((item.stock_price - item.cost) / item.cost) * 100).toFixed(2) + '%' : '-' }}
+                        </div>
+                    </div>
+                    <!-- 成交价(手续费之前) -->
+                    <div class="row-cell deal-price-cell">
+                        <div class="cell-value">{{ (item.stock_price * item.deal_total).toFixed(2) }}</div>
+                    </div>
+                    <!-- 实价 -->
+                    <div class="row-cell actual-price-cell">
+                        <div class="cell-value">
+                            {{ item.deal_total > 0 ? (item.deal_type == 2 ? (item.stock_price * item.deal_total - 5.73).toFixed(2) : (item.stock_price * item.deal_total).toFixed(2)) : '0' }}
+                        </div>
+                    </div>
+                    <!-- 持有估值 -->
+                    <div class="row-cell valuation-cell">
+                        <div class="cell-value">{{ (item.stock_price * item.stock_remain).toFixed(2) }}</div>
+                    </div>
+                    <!-- 是否清仓 -->
+                    <div class="row-cell gone-cell">
+                        <div class="cell-value">{{ item.gone == 1 ? '是' : '-' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加载状态 -->
+            <div class="loading-more" v-if="loading">
+                <el-button :loading="true" type="text">加载中...</el-button>
+            </div>
+        </div>
+        <div v-else>
+            <el-col :span="24">
             <u-table
                 class="table"
                 :data="filter()"
@@ -101,6 +291,13 @@
                     <template slot-scope="scope">
                         <el-checkbox v-model="del_ids" :label="scope.row.id"></el-checkbox>
                     </template>
+                </u-table-column>
+                <u-table-column
+                    fixed
+                    sortable
+                    prop="trade_id"
+                    label="trade_id"
+                    width="100%">
                 </u-table-column>
                 <u-table-column
                     fixed
@@ -153,7 +350,7 @@
                 </u-table-column>
                 <u-table-column
                     fixed
-                    prop="tax"
+                    prop="total_tax"
                     label="税"
                     width="80">
                 </u-table-column>
@@ -300,7 +497,8 @@
                 
 
             </u-table>
-        </el-col>
+            </el-col>
+        </div>
     </el-row>
 
     <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getListOfStockDetail" ref="stockDetailComponent" />
@@ -309,14 +507,7 @@
     <line-chart-component :data="tableData" :title="stock_id+'-'+stock_name" ref="lineChartComponent" />
     <content-component :data="contents" :title="title" ref="contentComponent" />
 
-<!--Del:begin-->
-    <el-dialog  width="50%" custom-class="" :title="stock_code +' : '+ stock_name" :visible.sync="dialogTimeSharingVisible">
-        <div style="height:400px;">
-            <iframe :src="'//stockpage.10jqka.com.cn/HQ_v4.html#hs_'+ stock_code" width="100%" height="100%"  frameborder="0"></iframe>
-        </div>
-    </el-dialog>
 
-<!--Del:end-->
 
 <el-dialog  width="100%" custom-class="" :close-on-click-modal="true" title="跌涨" :visible.sync="dialogUpAndDown">
     <div>
@@ -400,11 +591,46 @@
                     'lups_str':[],
                     'ldowns':[],
                     'ldowns_str':[],
-                    'size': 0
+                    'size': 0,
+                    'isMobile': false,
+                    'sortField': '',
+                    'sortOrder': 'asc'
 
                     
 
                 };
+            },
+            computed: {
+                sortedTableData() {
+                    if (!this.tableData || this.tableData.length === 0) {
+                        return [];
+                    }
+
+                    if (!this.sortField) {
+                        return this.tableData;
+                    }
+
+                    const sorted = [...this.tableData].sort((a, b) => {
+                        let aVal = a[this.sortField];
+                        let bVal = b[this.sortField];
+
+                        if (this.sortField === 'created_at') {
+                            aVal = new Date(aVal).getTime();
+                            bVal = new Date(bVal).getTime();
+                        } else {
+                            aVal = parseFloat(aVal) || 0;
+                            bVal = parseFloat(bVal) || 0;
+                        }
+
+                        if (this.sortOrder === 'asc') {
+                            return aVal > bVal ? 1 : -1;
+                        } else {
+                            return aVal < bVal ? 1 : -1;
+                        }
+                    });
+
+                    return sorted;
+                }
             },
             'components': {
                 'form-add-stock-detail-component': System.require('stock.components.FormAddStockDetailComponent')
@@ -417,6 +643,7 @@
             beforeCreate() { },
             created() {
                 this.stock_id = this.$route.params.stock_id;
+                this.simulation_id = this.$route.params.simulation_id;
                 this.stock_code = this.$route.params.stock_code;
                 this.stock_name = this.$route.params.stock_name;
                 const stock_id = this.stock_id;
@@ -439,9 +666,68 @@
 
                 this.getListOfStockDetail();
                 
+                // 初始化isMobile状态
+                try {
+                    this.isMobile = window.innerWidth <= 768;
+                } catch (error) {
+                    console.error('Error initializing isMobile:', error);
+                    this.isMobile = false;
+                }
+                
+                // 添加窗口大小变化监听
+                try {
+                    window.addEventListener('resize', this.handleResize);
+                } catch (error) {
+                    console.error('Error adding resize listener:', error);
+                }
                 
             },
+            beforeDestroy() {
+                // 移除窗口大小变化监听
+                window.removeEventListener('resize', this.handleResize);
+            },
             'methods': {
+                // 移动端相关方法
+                handleSort(field) {
+                    if (this.sortField === field) {
+                        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        this.sortField = field;
+                        this.sortOrder = 'asc';
+                    }
+                },
+                
+                // 处理窗口大小变化
+                handleResize() {
+                    try {
+                        this.isMobile = window.innerWidth <= 768;
+                    } catch (error) {
+                        console.error('Error in handleResize:', error);
+                    }
+                },
+                
+                // 移动端卡片样式
+                getCardClass(item) {
+                    if(item.stock_price > 0){
+                        if (item.stock_price == item.lup && item.stock_price == item.highest) {
+                            return 'warning-row';
+                        } else if (item.stock_price == item.ldown && item.stock_price == item.lowest) {
+                            return 'dangerous-row';
+                        }
+                    }
+                    return '';
+                },
+                
+                getWeekdayByDate(dateString) {
+                    try {
+                        const date = new Date(dateString);
+                        const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+                        return weekdays[date.getDay()];
+                    } catch (error) {
+                        return '';
+                    }
+                },
+                
                 setCost(stock){
                     this.$refs.setStockCostComponent.setForm(stock.simulation_id, stock.cost, stock.stock_prices_id);
                     this.$refs.setStockCostComponent.dialogVisible = true
@@ -576,8 +862,9 @@
                     const size = ++this.size;
                     const rows = 0;
                     const stock_id = this.stock_id;
+                    const simulation_id = this.simulation_id;
 
-                    Api.stockDetail.index({stock_id, size, rows}, D => {
+                    Api.stockDetail.index({simulation_id, stock_id, size, rows}, D => {
                         if(0 == D.status){
                             this.tableData = this.tableData.merge(D.data);
                             this.tableData.forEach(item => {
@@ -598,7 +885,255 @@
 </script>
 
 <style type="text/css">
+/* 股票列表页面响应式样式 */
 
+/* 移动端表格样式 - 只在移动端显示 */
+.mobile-stock-table {
+    display: none;
+    margin-top: 20px;
+    border: 1px solid #ebeef5;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.mobile-table-header {
+    display: flex;
+    background: #f5f7fa;
+    border-bottom: 1px solid #ebeef5;
+    font-weight: bold;
+    color: #606266;
+}
+
+.header-cell {
+    flex: 1;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-right: 1px solid #ebeef5;
+    transition: background-color 0.3s;
+}
+
+.header-cell:last-child {
+    border-right: none;
+}
+
+.header-cell:hover {
+    background: #e4e7ed;
+}
+
+.mobile-table-body {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.table-row {
+    display: flex;
+    border-bottom: 1px solid #ebeef5;
+    transition: background-color 0.3s;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+.table-row:hover {
+    background: #f5f7fa;
+}
+
+.row-cell {
+    flex: 1;
+    padding: 12px 8px;
+    text-align: center;
+    border-right: 1px solid #ebeef5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.row-cell:last-child {
+    border-right: none;
+}
+
+.cell-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: #303133;
+    margin-bottom: 2px;
+}
+
+.cell-sub {
+    font-size: 11px;
+    color: #909399;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.cell-sub:hover {
+    color: #409eff;
+}
+
+/* 特定列样式 */
+.type-cell {
+    min-width: 40px;
+}
+
+.date-cell {
+    min-width: 60px;
+}
+
+.price-cell {
+    min-width: 50px;
+}
+
+.cost-cell {
+    min-width: 50px;
+}
+
+.tax-cell {
+    min-width: 40px;
+}
+
+.remain-cell {
+    min-width: 50px;
+}
+
+.amount-cell {
+    min-width: 60px;
+}
+
+.open-cell {
+    min-width: 50px;
+}
+
+.close-cell {
+    min-width: 50px;
+}
+
+.highest-cell {
+    min-width: 50px;
+}
+
+.lowest-cell {
+    min-width: 50px;
+}
+
+.average-cell {
+    min-width: 50px;
+}
+
+.lup-cell {
+    min-width: 50px;
+}
+
+.ldown-cell {
+    min-width: 50px;
+}
+
+.change-cell {
+    min-width: 60px;
+}
+
+.amplitude-cell {
+    min-width: 60px;
+}
+
+.volume-cell {
+    min-width: 60px;
+}
+
+.amount-sum-cell {
+    min-width: 60px;
+}
+
+.profit-cell {
+    min-width: 60px;
+}
+
+.profit-rate-cell {
+    min-width: 60px;
+}
+
+.deal-price-cell {
+    min-width: 70px;
+}
+
+.actual-price-cell {
+    min-width: 70px;
+}
+
+.valuation-cell {
+    min-width: 70px;
+}
+
+.gone-cell {
+    min-width: 40px;
+}
+
+/* 价格颜色类 */
+.positive {
+    color: #de524c !important;
+}
+
+.negative {
+    color: green !important;
+}
+
+/* 特殊行样式 */
+.warning-row {
+    background-color: #fdf6ec !important;
+}
+
+.dangerous-row {
+    background-color: #fef0f0 !important;
+}
+
+.loading-more {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #ebeef5;
+    background: #f5f7fa;
+}
+
+/* 手机端响应式样式 (≤768px) */
+@media screen and (max-width: 768px) {
+    /* 移动端表格在手机端显示 */
+    .mobile-stock-table {
+        display: block;
+    }
+}
+
+
+
+
+
+/* 手机端小屏幕适配 (≤480px) */
+@media screen and (max-width: 480px) {
+    .mobile-table-header .header-cell {
+        padding: 8px 4px;
+        font-size: 11px;
+    }
+
+    .row-cell {
+        padding: 8px 4px;
+    }
+
+    .cell-value {
+        font-size: 12px;
+    }
+
+    .cell-sub {
+        font-size: 10px;
+    }
+}
 </style>
 
 

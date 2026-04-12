@@ -24,7 +24,9 @@
                     <el-row :gutter="10">
                         <el-col :xs="24" :sm="12">
                             <el-form-item label="证劵代码：" prop="stock_code" :error="serverErrors.stock_code">
-                                <el-input v-model="form.stock_code" @input="existsStockCode" size="medium" placeholder="请输入股票代码"></el-input>
+                                <el-input v-model="form.stock_code" size="medium" placeholder="请输入股票代码">
+                                    <el-button slot="append" @click="existsStockCode" :loading="testingCode" icon="el-icon-search"></el-button>
+                                </el-input>
                                 <span class="ml10"> {{ form.stock_name }} </span> 
                             </el-form-item>
                         </el-col>
@@ -71,10 +73,12 @@
                                 <el-input 
                                     v-model="form.stock_code" 
                                     size="medium" 
-                                    @change="existsStockCode"
                                     placeholder="如：000001"
                                     clearable>
-                                </el-input> <span class="ml10"> {{ form.stock_name }} </span> 
+                                    <el-button slot="append" @click="existsStockCode" :loading="testingCode" icon="el-icon-search"></el-button>
+                                </el-input> 
+                                <span class="ml10"> {{ form.stock_name }} </span> 
+                                
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -145,7 +149,8 @@
                         { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
                     ]
                 },
-                'dialogVisible': false
+                'dialogVisible': false,
+                'testingCode': false
             }
           },
           methods: {
@@ -343,20 +348,54 @@
                 });
             },
             existsStockCode(){
+                if (!this.form.stock_code) {
+                    this.$message({
+                        message: '请输入股票代码',
+                        type: 'warning'
+                    });
+                    return;
+                }
                 
+                this.testingCode = true;
                 const stock_code = this.form.stock_code;
+                
                 Api.stock.exist({
                     stock_code
                 }, D => {
-                    if(D.stock_name){
-                        this.form.stock_name = D.stock_name;
-                    }else{
-                        this.form.stock_name = "";
+                    this.testingCode = false;
+                    
+                    if (D.status) {
+                        if(D.stock_name){
+                            this.form.stock_name = D.stock_name;
+                            this.$message({
+                                message: `股票代码 ${stock_code} 存在，名称为：${D.stock_name}`,
+                                type: 'success',
+                                duration: 3000
+                            });
+                        } else {
+                            this.form.stock_name = "";
+                            this.$message({
+                                message: `股票代码 ${stock_code} 存在，但未获取到名称`,
+                                type: 'info'
+                            });
+                        }
+                    } else {
+                        this.form.stock_name = D.stock_name || "";
+                        if (D.errors) {
+                            this.handleServerErrors(D.errors);
+                        } else {
+                            this.$message({
+                                message: D.message || `股票代码 ${stock_code} 不存在`,
+                                type: 'error'
+                            });
+                        }
                     }
-                    if(!D.status){
-                        this.handleServerErrors(D.errors);
-                    }
-
+                }, () => {
+                    this.testingCode = false;
+                    this.$message({
+                        message: '网络请求失败，请检查网络连接',
+                        type: 'error'
+                    });
                 });
             }
           },

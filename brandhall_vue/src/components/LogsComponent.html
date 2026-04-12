@@ -1,0 +1,81 @@
+
+<#define __PACKAGE__="components" />
+<#define __ID__="__PACKAGE__.LogsComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define ~/="__COMPONENTS__/components/" />
+
+
+
+<#Block:begin id="__ID__">
+<div v-loading="loading">
+    <el-dialog
+    title="日志列表"
+    :visible.sync="dialogVisible"
+    :close-on-click-modal="true"
+    :lock-scroll="true"
+    top="2vh"
+    :fullscreen="true"
+    :modal="false"
+    class="mobile-stock-detail-dialog"
+    custom-class="mobile-detail-dialog">
+    <div class="dialog-content">
+        <el-table height="500" :border="true" :data="tableData">
+            <el-table-column property="cause" label="原因"></el-table-column>
+            <el-table-column property="content" label="内容"></el-table-column>
+            <el-table-column property="created_at" label="日期"></el-table-column>
+        </el-table>
+
+    </div>
+        
+    </el-dialog>
+</div>
+
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        const Api = System.require("Api");
+        
+
+        var FormComponent = {
+          name: "LogsComponent",
+          props: {
+          },
+          components: {},
+          data() {
+            return {
+                'loading': false
+                ,'dialogVisible': false
+                ,'tableData': []
+            }
+          },
+          created(){
+          },
+          methods: {
+            init() {
+                this.loading = true;
+                Api.Log.index((res)=>{
+                    this.loading = false;
+                    if(res.status){
+                        this.tableData = res.data;
+                    }
+                });
+            }
+          },
+          watch: {},
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', FormComponent);
+    });
+</script>
+
+<style scoped>
+    .dialog-content {
+        max-height: 70vh;
+    }
+</style>

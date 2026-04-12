@@ -53,7 +53,19 @@
                 
                 <el-row :gutter="10">
                     <el-col :xs="24" :sm="12">
-                        <el-form-item label="交易日期：" prop="created_at">
+                        <el-form-item label="交易模式：" prop="test_mode">
+                            <el-select
+                                v-model="form.test_mode"
+                                placeholder="选择交易模式"
+                                size="medium"
+                                class="full-width-select">
+                                <el-option label="委托交易" :value="0"></el-option>
+                                <el-option label="立即交易" :value="1"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12">
+                        <el-form-item label="交易日期：" prop="created_at" v-if="form.test_mode === 1">
                             <el-date-picker
                                 v-model="form.created_at"
                                 format="yyyy-MM-dd HH:mm:ss"
@@ -65,10 +77,13 @@
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
+                </el-row>
+                
+                <el-row :gutter="10">
                     <el-col :xs="24" :sm="12">
                         <el-form-item label="股票数量：" prop="deal_total">
-                            <el-input 
-                                v-model="form.deal_total" 
+                            <el-input
+                                v-model="form.deal_total"
                                 type="number"
                                 placeholder="0"
                                 size="medium">
@@ -78,8 +93,8 @@
                     </el-col>
                 </el-row>
                 
-                <!-- 获取信息按钮 -->
-                <el-row>
+                <!-- 获取信息按钮 - 仅在立即交易模式下显示 -->
+                <el-row v-if="form.test_mode === 1">
                     <el-col :span="24">
                         <div class="action-button-group">
                             <el-button 
@@ -96,8 +111,8 @@
                 </el-row>
             </div>
 
-            <!-- 股票数据区块 -->
-            <div class="form-section" v-if="form.open > 0">
+            <!-- 股票数据区块 - 仅在立即交易模式下显示 -->
+            <div class="form-section" v-if="form.open > 0 && form.test_mode === 1">
                 <div class="section-title">股票数据</div>
                 
                 <div class="stock-data-grid">
@@ -246,6 +261,7 @@
                     ,'stock_type': ""
                     ,'created_at': ""
                     ,'stock_detail_remark': ""
+                    ,'test_mode': 0
 
                     ,'open': 0.00
                     ,'close': 0.00
@@ -368,7 +384,8 @@
                 this.form.deal_total = 0;
                 this.form.created_at = '';
                 this.form.stock_detail_remark = '';
-                
+                this.form.test_mode = 0;
+
                 // 重置股票数据
                 this.form.open = 0.00;
                 this.form.close = 0.00;
@@ -394,6 +411,7 @@
                 const deal_total = parseInt(this.form.deal_total);
                 const created_at = this.form.created_at;
                 const trade_remark = this.form.stock_detail_remark;
+                const test_mode = this.form.test_mode;
 
                 const open = parseFloat(this.form.open) || 0.00;
                 const close = parseFloat(this.form.close) || 0.00;
@@ -406,7 +424,7 @@
                 const amplitude = parseFloat(this.form.amplitude) || 0.00;
                 const volume = parseInt(this.form.volume) || 0;
                 const amount = parseFloat(this.form.amount) || 0.00;
-                
+
                 // 验证逻辑
                 if(deal_type > 0 && deal_total < 1){
                     this.formError["deal_total"] = "除无操作外股票数量最少为1";
@@ -414,13 +432,14 @@
                     return;
                 }
 
-                const data = { 
+                const data = {
                     simulation_id
                     ,stock_id
                     ,stock_price
                     ,deal_type
                     ,deal_total
                     ,trade_remark
+                    ,test_mode
                     ,open
                     ,close
                     ,lup
@@ -436,11 +455,11 @@
                 };
 
                 this.loading = true;
-                
+
                 // 修复：使用正确的API调用方式
                 Api.stockSimulation.trade(data, (D) => {
                     this.loading = false;
-                    
+
                     if(D && D.status){
                         this.$message({
                             type: 'success',

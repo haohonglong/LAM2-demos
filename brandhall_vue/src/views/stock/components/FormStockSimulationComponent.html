@@ -68,6 +68,7 @@
                         <el-col :xs="24" :sm="12">
                             <el-form-item label="证劵代码：" prop="stock_id" :error="serverErrors.stock_id">
                                 <el-select v-model="form.stock_id" ref="select"
+                                @change="handleChange"
                                 @hook:mounted="cancelReadOnly"
                                 @visible-change="cancelReadOnly" filterable placeholder="请输入证劵代码">
                                     <el-option
@@ -178,6 +179,10 @@
             }
           },
           methods: {
+            handleChange(value) {
+                const selected = this.stocks.find(item => item.stock_id === value);
+                this.form.case_name = selected ? selected.stock_name : '';
+            },
             // 取消只读属性的方法
             cancelReadOnly(onOff) {
             // onOff 为 true 表示下拉框打开，false 表示关闭。我们只在关闭时操作，避免冲突。

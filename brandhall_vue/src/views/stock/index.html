@@ -39,11 +39,7 @@
             </el-col>
             <el-col :span="19">
                 <el-button type="primary" :loading="feachAllLoading" @click="feachAll">抓取所有数据</el-button>
-                <el-select style="width:100px;" v-model="way" placeholder="please select a way to aroute">
-                    <el-option label="线路1" value="1"></el-option>
-                    <el-option label="线路2" value="2"></el-option>
-                    <el-option label="线路3" value="3"></el-option>
-                </el-select>
+                
                 <el-button type="primary" @click="autoFeachAll">{{ feach_auto_text }}</el-button>
                 间隔时间(ms)：
                 <el-input style="width:120px;" v-model="feach_auto_times"></el-input>
@@ -113,15 +109,15 @@
                         <template slot-scope="scope">
                             <div v-if="scope.row.stock_remark.trim().length > 0">
                                 <el-tooltip class="item" effect="light" :content="scope.row.stock_remark" placement="bottom">
-                                    <span style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
+                                    <span style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{ scope.row.exchange }}-{{  scope.row.stock_code  }}</span>
                                 </el-tooltip>
                             </div>
-                            <span v-else style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
+                            <span v-else style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{ scope.row.exchange }}-{{  scope.row.stock_code  }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column fixed prop="stock_name" label="证劵名称" width="150">
                         <template slot-scope="scope">
-                            <a :href="'__URL__/stock/list/' + scope.row.stock_id + '/' + scope.row.stock_code + '/' + scope.row.stock_name" target="_blank">{{ scope.row.stock_name }}</a>
+                            {{ scope.row.stock_name }}
                             <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
                         </template>
                     </el-table-column>
@@ -202,11 +198,6 @@
                     @clear="clearSearchText()">
                 </el-input>
             </div>
-            <el-select v-model="way" placeholder="线路" size="small">
-                <el-option label="线路1" value="1"></el-option>
-                <el-option label="线路2" value="2"></el-option>
-                <el-option label="线路3" value="3"></el-option>
-            </el-select>
             <el-button type="primary" size="small" @click="toggleAutoUpdate">
                 {{ autoUpdate ? '停止自动' : '自动更新' }}
             </el-button>
@@ -312,9 +303,12 @@
                         <div class="stock-id-btn" @click="searchStock(stock.stock_id)">
                             ID: {{ stock.stock_id }}
                         </div>
+                        <div class="stock-code" @click="handleDialogShow(stock)">
+                            {{ stock.exchange }}-{{ stock.stock_code }}
+                        </div>
                         <div class="stock-name">
-                            <a :href="'__URL__/stock/list/' + stock.stock_id + '/' + stock.stock_code + '/' + stock.stock_name" target="_blank">{{ stock.stock_name }}</a>
-                            <span v-if="0 == stock.flag" style="cursor: pointer;" @click="showDateList(stock)">(每日)</span>
+                            {{ stock.stock_name }}
+                            <span style="cursor: pointer;" @click="showDateList(stock)">(每日)</span>
                         </div>
                     </div>
                     <div class="stock-price" :class="getPriceClass(stock)">
@@ -335,10 +329,6 @@
                         <span class="detail-value">{{ stock.change }}%</span>
                     </div>
                 </div>
-
-                
-
-                
 
                 <!-- 日期信息 -->
                 <div class="date-info">
@@ -363,7 +353,7 @@
                     </el-tooltip>
                     <el-tooltip content="编辑股票信息" placement="top">
                         <el-button type="warning" size="mini" class="action-btn" @click="formEditStockComponent(stock)">
-                            编辑
+                            修改
                         </el-button>
                     </el-tooltip>
                     <el-tooltip content="删除该股票" placement="top">
@@ -633,7 +623,6 @@
                     this.$refs.editstockComponent.form.stock_code = row.stock_code
                     this.$refs.editstockComponent.form.stock_remark = row.stock_remark
                     this.$refs.editstockComponent.dialogVisible = true
-                    this.$refs.editstockComponent.existsStockCode();
 
                 },
                 getTheListOfStock(){
@@ -690,6 +679,15 @@
                                 message: '网络异常',
                                 type: 'warning'});
                         }
+                        this.loading = false;
+                    }, (e)=>{
+                        console.log(e);
+
+                        this.$notify({
+                            title: 'Error',
+                            message: e.responseJSON.datas[0].message || 'Ajax-网络异常',
+                            type: 'error'});
+
                         this.loading = false;
                     });
                 },
@@ -797,14 +795,15 @@
                                 message: '网络异常',
                                 type: 'warning'});
                         }
-                    }, ()=>{
+                    }, (e)=>{
+                        console.log(e);
                         if (evtSource) evtSource.close();
                         this.feachAllLoading = false;
                         this.percentage = 0;
 
                         this.$notify({
                             title: 'Error',
-                            message: 'Ajax-网络异常',
+                            message: (e.responseJSON && e.responseJSON.datas && e.responseJSON.datas[0].message) || 'Ajax-网络异常',
                             type: 'error'});
 
                         this.loading = false;

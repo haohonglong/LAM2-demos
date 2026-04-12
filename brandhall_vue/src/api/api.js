@@ -62,6 +62,8 @@ LAM.run([jQuery], function($){
 			"trade": SERVER+ "/simulation/trade",
 			"setTax": SERVER+ "/simulation/setTax",
 			"setCost": SERVER+ "/simulation/setCost",
+			"getOrders": SERVER+ "/simulation/getOrders",
+			"cancelOrder": SERVER+ "/simulation/cancelOrder",
 		},
 		"article":{
 			"index": SERVER+ "/article/index",
@@ -202,11 +204,11 @@ LAM.run([jQuery], function($){
 			}
 		},
 		"stockDetail": {
-			index({stock_id, size, rows}, func){
+			index({simulation_id, stock_id, size, rows}, func){
 				request({
 					url: API.stockDetail.index,
-					method: 'get',
-					params: {stock_id, size, rows}
+					method: 'post',
+					params: {simulation_id, stock_id, size, rows}
 				}, func);
 			},
 			delete(id, func){
@@ -219,6 +221,13 @@ LAM.run([jQuery], function($){
 			
 		},
 		"stockSimulation":{
+			delete(simulation_id, func){
+				request({
+					url: API.stockSimulation.delete,
+					method: 'post',
+					params: { simulation_id }
+				}, func);
+			},
 			add({ stock_id, case_name, simulation_remark }, func){
 				request({
 					url: API.stockSimulation.add,
@@ -240,11 +249,11 @@ LAM.run([jQuery], function($){
 					params: { simulation_id, cost, stock_prices_id }
 				}, func);
 			},
-			setTax({ simulation_id, commission_rate, stamp_tax_rate, min_commission }, func){
+			setTax({ simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission }, func){
 				request({
 					url: API.stockSimulation.setTax,
 					method: 'post',
-					params: { simulation_id, commission_rate, stamp_tax_rate, min_commission }
+					params: { simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission }
 				}, func);
 			},
 			trade({
@@ -254,6 +263,7 @@ LAM.run([jQuery], function($){
 				,deal_type
 				,deal_total
 				,trade_remark
+				,test_mode
 				,open
 				,close
 				,lup
@@ -277,6 +287,7 @@ LAM.run([jQuery], function($){
 						,deal_type
 						,deal_total
 						,trade_remark
+						,test_mode
 						,open
 						,close
 						,lup
@@ -305,13 +316,27 @@ LAM.run([jQuery], function($){
 					method: 'post',
 					params: { stock_id, level }
 				}, func);
+			},
+			getOrders({}, func){
+				request({
+					url: API.stockSimulation.getOrders,
+					method: 'post',
+					params: {}
+				}, func);
+			},
+			cancelOrder({order_id, stock_id}, func){
+				request({
+					url: API.stockSimulation.cancelOrder,
+					method: 'post',
+					params: { order_id, stock_id }
+				}, func);
 			}
 		},
 		"stock": {
 			delete(stock_id, func){
 				request({
 					url: API.stock.delete,
-					method: 'get',
+					method: 'post',
 					params: { stock_id }
 				}, func);
 			},

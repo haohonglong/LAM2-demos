@@ -21,8 +21,11 @@
                     <div class="section-title">股票税费</div>
                     <el-row :gutter="10">
                         <el-col :xs="24" :sm="12">
+                            <el-form-item label="佣金费率:">
+                                <el-input v-model="form.commission_rate" size="medium" placeholder="请输入股票佣金费率"></el-input>
+                            </el-form-item>
                             <el-form-item label="过户费率:">
-                                <el-input v-model="form.commission_rate" size="medium" placeholder="请输入股票过户费率"></el-input>
+                                <el-input v-model="form.transfer_fee_rate" size="medium" placeholder="请输入股票过户费率"></el-input>
                             </el-form-item>
                             <el-form-item label="印花税率:">
                                 <el-input v-model="form.stamp_tax_rate" size="medium" placeholder="请输入股票印花税率"></el-input>
@@ -68,6 +71,7 @@
                 'form':{
                     'simulation_id': null,
                     'commission_rate': 0,
+                    'transfer_fee_rate': 0,
                     'stamp_tax_rate': 0,
                     'min_commission': 0
                 },
@@ -96,28 +100,32 @@
             init() {
                 this.form.simulation_id = "";
                 this.form.commission_rate = "";
+                this.form.transfer_fee_rate = "";
                 this.form.stamp_tax_rate = "";
                 this.form.min_commission = "";
-                
+
             },
-            setForm(simulation_id, commission_rate, stamp_tax_rate, min_commission) {
+            setForm(simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission) {
                 this.form.simulation_id = simulation_id;
                 this.form.commission_rate = commission_rate;
+                this.form.transfer_fee_rate = transfer_fee_rate;
                 this.form.stamp_tax_rate = stamp_tax_rate;
                 this.form.min_commission = min_commission;
             },
             submit() {
                 const simulation_id = this.form.simulation_id;
                 const commission_rate = this.form.commission_rate;
+                const transfer_fee_rate = this.form.transfer_fee_rate;
                 const stamp_tax_rate = this.form.stamp_tax_rate;
                 const min_commission = this.form.min_commission;
-                
+
 
                 this.loading = true;
                 Api.stockSimulation.setTax({
                     simulation_id,
-                    commission_rate, 
-                    stamp_tax_rate, 
+                    commission_rate,
+                    transfer_fee_rate,
+                    stamp_tax_rate,
                     min_commission
                 }, D => {
                     if(D.status){

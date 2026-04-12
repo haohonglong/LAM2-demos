@@ -1,6 +1,6 @@
 <#define __PACKAGE__="views.stock.simulation" />
 <#define __ID__="__PACKAGE__.index" />
-<#define _TITLE_="股票模拟列表" />
+<#define _TITLE_="我的股票模拟列表" />
 <#define __LAMPATH__="{#LAM.classPath#}" />
 <#define __SERVER__="{#LAM.SERVER#}" />
 <#define __DATAPATH__="{#LAM.DATA#}" />
@@ -49,6 +49,8 @@
                     <el-option label="3分钟" value="3"></el-option>
                     <el-option label="5分钟" value="5"></el-option>
                 </el-select>
+                <el-button type="primary" @click="showOrdersDialog()">当日委托</el-button>
+
             </el-col>
         </el-row>
         
@@ -113,25 +115,20 @@
                         <template slot-scope="scope">
                             <div v-if="scope.row.simulation_remark.trim().length > 0">
                                 <el-tooltip class="item" effect="light" :content="scope.row.simulation_remark" placement="bottom">
-                                    <span style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
+                                    <span style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{ scope.row.exchange }}-{{  scope.row.stock_code  }}</span>
                                 </el-tooltip>
                             </div>
-                            <span v-else style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{  scope.row.stock_code  }}</span>
+                            <span v-else style="cursor: pointer;" @click="handleDialogShow(scope.row)">{{ scope.row.exchange }}-{{  scope.row.stock_code  }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column fixed prop="case_name" label="证劵名称" width="150">
                         <template slot-scope="scope">
-                            <a :href="'__URL__/stock/list/' + scope.row.stock_id + '/' + scope.row.stock_code + '/' + scope.row.case_name" target="_blank">{{ scope.row.case_name }}</a>
+                            <a :href="'__URL__/stock/list/' + scope.row.simulation_id + '/' + scope.row.stock_id + '/' + scope.row.stock_code + '/' + scope.row.case_name" target="_blank">{{ scope.row.case_name }}</a>
                             <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="deal" fixed label="成交价" sortable width="65"></el-table-column>
-                    <el-table-column prop="cost" label="成本价" width="95">
-                        <template slot-scope="scope">
-                            <a href="javascript:void(0);" @click="setCost(scope.row)">{{ scope.row.cost }}</a>
-                            <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="cost" label="成本价" width="95"></el-table-column>
                     <el-table-column label="税费" width="95">
                         <template slot-scope="scope">
                             <a href="javascript:void(0);" @click="setTax(scope.row)">{{ getTax(scope.row) }}</a>
@@ -173,7 +170,7 @@
                             <el-button type="primary" size="mini" @click="openAddTransactionDialog(scope.row)" class="!rounded-button flex items-center">交易</el-button>
                             <el-button type="primary" @click="feachByStockid(scope.row.stock_id)" size="mini">feach</el-button>
                             <el-button type="primary" @click="formEditstockSimulationComponent(scope.row)" icon="el-icon-edit" circle size="mini"></el-button>
-                            <el-button type="danger" icon="el-icon-delete" circle @click="remove(scope.row.stock_id)" size="mini"></el-button>
+                            <el-button type="danger" icon="el-icon-delete" circle @click="remove(scope.row.simulation_id)" size="mini"></el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -201,6 +198,7 @@
             <div class="header-actions">
                 <el-button type="primary" size="small" @click="formAddstockSimulationComponent">添加</el-button>
                 <el-button type="success" size="small" :loading="feachAllLoading" @click="feachAll">更新数据</el-button>
+                <el-button type="primary" @click="showOrdersDialog()">当日委托</el-button>
                 <el-button type="info" size="small" @click="showStatistics = !showStatistics">统计</el-button>
             </div>
         </div>
@@ -342,10 +340,10 @@
                             ID: 
                         </div>
                         <div class="stock-code" @click="handleDialogShow(stock)">
-                            {{ stock.stock_code }}
+                            {{ stock.exchange }}-{{ stock.stock_code }}
                         </div>
                         <div class="stock-name">
-                            <a :href="'__URL__/stock/list/' + stock.stock_id + '/' + stock.stock_code + '/' + stock.case_name" target="_blank">{{ stock.case_name }}</a>
+                            <a :href="'__URL__/stock/list/' + stock.simulation_id + '/' + stock.stock_id + '/' + stock.stock_code + '/' + stock.case_name" target="_blank">{{ stock.case_name }}</a>
                             <span style="cursor: pointer;" @click="showDateList(stock)">(每日)</span>
                         </div>
                     </div>
@@ -453,11 +451,11 @@
                     </el-tooltip>
                     <el-tooltip content="编辑股票信息" placement="top">
                         <el-button type="info" size="mini" class="action-btn edit" @click="formEditstockSimulationComponent(stock)">
-                            编辑
+                            修改
                         </el-button>
                     </el-tooltip>
                     <el-tooltip content="删除该股票" placement="top">
-                        <el-button type="danger" size="mini" class="action-btn" @click="remove(stock.stock_id)">
+                        <el-button type="danger" size="mini" class="action-btn" @click="remove(stock.simulation_id)">
                             删除
                         </el-button>
                     </el-tooltip>
@@ -465,7 +463,9 @@
             </div>
             
             <!-- 加载更多 -->
+             
 <!--Del:begin-->
+
             <div class="load-more" v-if="!infiniteScrollDisabled && filteredTableData.length > 0">
                 <el-button 
                     type="text" 
@@ -536,6 +536,9 @@
     <form-set-stock-cost-component @get-list-stock="getTheListOfStock" ref="setStockCostComponent" />
     <form-set-stock-tax-component @get-list-stock="getTheListOfStock" ref="setStockTaxComponent" />
     <stock-date-list-component ref="stockDeteComponent" />
+    <stock-orders-component ref="ordersComponent" />
+    
+
 </div>
 
 <#Block:end>
@@ -545,6 +548,7 @@
 <#include file="~/components/StockDateListComponent.html" />
 <#include file="~/components/FormSetStockCostComponent.html" />
 <#include file="~/components/FormSetStockTaxComponent.html" />
+<#include file="~/components/StockOrdersComponent.html" />
 
 <script type="text/javascript">
 
@@ -598,6 +602,7 @@
                 ,'stock-date-list-component': System.require('stock.components.StockDateListComponent')
                 ,'form-set-stock-cost-component': System.require('stock.components.FormSetStockCostComponent')
                 ,'form-set-stock-tax-component': System.require('stock.components.FormSetStockTaxComponent')
+                ,'stock-orders-component': System.require('stock.components.StockOrdersComponent')
             },
             computed: {
                 filteredTableData() {
@@ -635,10 +640,10 @@
             },
             'methods': {
                 getTax(stock){
-                    return stock.commission_rate + stock.stamp_tax_rate + stock.min_commission;
+                    return stock.total_tax;
                 },
                 setTax(stock){
-                    this.$refs.setStockTaxComponent.setForm(stock.simulation_id, stock.commission_rate, stock.stamp_tax_rate, stock.min_commission);
+                    this.$refs.setStockTaxComponent.setForm(stock.simulation_id, stock.commission_rate, stock.transfer_fee_rate, stock.stamp_tax_rate, stock.min_commission);
                     this.$refs.setStockTaxComponent.dialogVisible = true
                 },
                 setCost(stock){
@@ -726,7 +731,6 @@
                     this.feach_auto_times = n * 60000;
                 },
                 openAddTransactionDialog(row){
-                    this.setTax(row);
                     this.stock_id = row.stock_id;
                     this.case_name = row.case_name;
                     this.$refs.stockDetailComponent.setForm(row);
@@ -848,7 +852,7 @@
                         }
                         this.loading = false;
                     }, (e)=>{
-                        console.log(e.responseJSON);
+                        console.log(e);
 
                         this.$notify({
                             title: 'Error',
@@ -892,10 +896,10 @@
                         this.del_ids = [];
                     })
                 },
-                remove(stock_id){
+                remove(simulation_id){
                     this.confirm(()=> {
                         this.loading = true;
-                        Api.stock.delete(stock_id, D => {
+                        Api.stockSimulation.delete(simulation_id, D => {
                             this.loading = false;
                             if(0 == D.status){
                                 this.getTheListOfStock();
@@ -963,14 +967,15 @@
                                 type: 'warning'});
                         }
                     }, (e)=>{
-                        console.log(e.responseJSON);
+                        console.log(e);
                         if (evtSource) evtSource.close();
                         this.feachAllLoading = false;
                         this.percentage = 0;
+                        
 
                         this.$notify({
                             title: 'Error',
-                            message: e.responseJSON.datas[0].message || 'Ajax-网络异常',
+                            message: (e.responseJSON && e.responseJSON.datas && e.responseJSON.datas[0].message) || 'Ajax-网络异常',
                             type: 'error'});
 
                         this.loading = false;
@@ -991,6 +996,10 @@
                             type: 'error',
                             duration: 0});
                     }
+                },
+                showOrdersDialog() {
+                    this.$refs.ordersComponent.dialogVisible = true
+                    
                 }
             },
             template: `<#=block id="__ID__" />`
