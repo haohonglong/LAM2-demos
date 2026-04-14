@@ -91,7 +91,7 @@
                     , 'BASE64ENCODE': true
                     , 'token': ""
                     , 'LAMPATH': System.LAMPATH
-                    , 'TITLE': ""
+                    , 'TITLE': "v2-"
                     , 'HOSTIP': "192.168.3.10:9527"
                     , 'URL': "http://192.168.3.10:9527/brandhall_vue/index.html?r=site/index#"
                 };
