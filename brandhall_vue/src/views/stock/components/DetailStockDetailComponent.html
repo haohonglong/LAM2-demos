@@ -13,32 +13,31 @@
     :visible.sync="dialogVisible"
     :close-on-click-modal="true"
     width="100%">
-    <el-descriptions :title="stock_price">
-      <template slot="title">
-        <span v-if="1 == deal_type"><el-tag type="danger">买入</el-tag></span>
-        <span v-else-if="2 == deal_type"><el-tag type="success">卖出</el-tag></span>
-        <span v-if="stock_price > close" style="color: #de524c;">{{ stock_price }}</span>
-        <span v-else-if="stock_price < close" style="color: green;">{{ stock_price }}</span>
-        <span v-else>{{ stock_price }}</span>
-        
-    </template>
-      <el-descriptions-item label="DATE">{{ created_at }}</el-descriptions-item>
-      <el-descriptions-item label="今开">
-        <span v-if="open > close" style="color: #de524c;">{{ open }}</span>
-        <span v-else-if="open < close" style="color: green;">{{ open }}</span>
-        <span v-else>{{ open }}</span>
-      </el-descriptions-item>
-      <el-descriptions-item label="涨停">{{ lup }}</el-descriptions-item>
-      <el-descriptions-item label="最高">{{ highest }}</el-descriptions-item>
-      <el-descriptions-item label="昨收">{{ close }}</el-descriptions-item>
-      <el-descriptions-item label="跌停">{{ ldown }}</el-descriptions-item>
-      <el-descriptions-item label="最低">{{ lowest }}</el-descriptions-item>
-      <el-descriptions-item label="均价">{{ average }}</el-descriptions-item>
-      <el-descriptions-item label="换手率">{{ change }}%</el-descriptions-item>
-      <el-descriptions-item label="振幅">{{ amplitude }}%</el-descriptions-item>
-      <el-descriptions-item label="成交量">{{ volume }}</el-descriptions-item>
-      <el-descriptions-item label="成交额">{{ amount }}</el-descriptions-item>
-  </el-descriptions>
+      <el-descriptions :title="stock_price">
+        <template slot="title">
+          <span v-if="1 == deal_type" style="color: #de524c;">+({{ stock_price }} * {{ stock_remain }})</span>
+          <span v-else-if="2 == deal_type" style="color: green;">-({{ stock_price }} * {{ stock_remain }})</span>
+          <span v-else>{{ stock_price }}</span>
+          <span v-if="cost"> | cost: {{ cost }}</span>
+          <span> | {{ created_at }}</span>
+        </template>
+
+        <el-descriptions-item label="今开">
+          <span v-if="open > close" style="color: #de524c;">{{ open }}</span>
+          <span v-else-if="open < close" style="color: green;">{{ open }}</span>
+          <span v-else>{{ open }}</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="涨停">{{ lup }}</el-descriptions-item>
+        <el-descriptions-item label="最高">{{ highest }}</el-descriptions-item>
+        <el-descriptions-item label="昨收">{{ close }}</el-descriptions-item>
+        <el-descriptions-item label="跌停">{{ ldown }}</el-descriptions-item>
+        <el-descriptions-item label="最低">{{ lowest }}</el-descriptions-item>
+        <el-descriptions-item label="均价">{{ average }}</el-descriptions-item>
+        <el-descriptions-item label="换手率">{{ change }}%</el-descriptions-item>
+        <el-descriptions-item label="振幅">{{ amplitude }}%</el-descriptions-item>
+        <el-descriptions-item label="成交量">{{ volume }}</el-descriptions-item>
+        <el-descriptions-item label="成交额">{{ amount }}</el-descriptions-item>
+      </el-descriptions>
     
     </el-dialog>
 </div>
@@ -58,7 +57,6 @@
           data() {
             return {
                 'dialogVisible': false
-                ,'deal_type': 0
                 ,'stock_price': 0.00
                 ,'open': 0.00
                 ,'close': 0.00
@@ -71,16 +69,21 @@
                 ,'amplitude': 0.00
                 ,'volume': 0.00
                 ,'amount': 0.00
-                ,'created_at': ""
+                ,'cost': 0.00
+                ,'stock_remain': 0
+                ,'created_at': 0
+                ,'deal_type': 0
             }
           },
           created(){
           },
           methods: {
             show(data){
-              this.created_at = data.created_at;
-              this.deal_type = data.deal_type || 0;
               this.stock_price = data.stock_price;
+              this.deal_type = data.deal_type;
+              this.created_at = data.created_at;
+              this.stock_remain = data.stock_remain;
+              this.cost = data.cost;
               this.open = data.open;
               this.close = data.close;
               this.lup = data.lup;
