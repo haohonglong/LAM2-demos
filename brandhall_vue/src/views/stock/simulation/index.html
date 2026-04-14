@@ -127,7 +127,14 @@
                             <span style="cursor: pointer;" @click="showDateList(scope.row)">(每日)</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="deal" fixed label="成交价" sortable width="65"></el-table-column>
+                    <el-table-column prop="deal" fixed label="成交价" sortable width="65">
+                        <template slot-scope="scope">
+                            <span style="color: red;" v-if="1 == scope.row.deal_type">+</span>
+                            <span style="color: green;" v-else-if="2 == scope.row.deal_type">-</span>
+                            {{  scope.row.deal }}
+                            
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="cost" label="成本价" width="95"></el-table-column>
                     <el-table-column label="税费" width="95">
                         <template slot-scope="scope">
@@ -358,7 +365,11 @@
                 <div class="stock-details">
                     <div class="detail-item">
                         <span class="detail-label">成交价</span>
-                        <span class="detail-value">{{ stock.deal }}</span>
+                        <span class="detail-value">
+                            <span style="color: red;" v-if="1 == stock.deal_type">+</span>
+                            <span style="color: green;" v-else-if="2 == stock.deal_type">-</span>
+                            {{ stock.deal }}
+                        </span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-value">成本价</span>

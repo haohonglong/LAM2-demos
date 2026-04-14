@@ -15,11 +15,14 @@
     width="100%">
     <el-descriptions :title="stock_price">
       <template slot="title">
+        <span v-if="1 == deal_type"><el-tag type="danger">买入</el-tag></span>
+        <span v-else-if="2 == deal_type"><el-tag type="success">卖出</el-tag></span>
         <span v-if="stock_price > close" style="color: #de524c;">{{ stock_price }}</span>
         <span v-else-if="stock_price < close" style="color: green;">{{ stock_price }}</span>
         <span v-else>{{ stock_price }}</span>
         
     </template>
+      <el-descriptions-item label="DATE">{{ created_at }}</el-descriptions-item>
       <el-descriptions-item label="今开">
         <span v-if="open > close" style="color: #de524c;">{{ open }}</span>
         <span v-else-if="open < close" style="color: green;">{{ open }}</span>
@@ -55,6 +58,7 @@
           data() {
             return {
                 'dialogVisible': false
+                ,'deal_type': 0
                 ,'stock_price': 0.00
                 ,'open': 0.00
                 ,'close': 0.00
@@ -67,12 +71,15 @@
                 ,'amplitude': 0.00
                 ,'volume': 0.00
                 ,'amount': 0.00
+                ,'created_at': ""
             }
           },
           created(){
           },
           methods: {
             show(data){
+              this.created_at = data.created_at;
+              this.deal_type = data.deal_type || 0;
               this.stock_price = data.stock_price;
               this.open = data.open;
               this.close = data.close;

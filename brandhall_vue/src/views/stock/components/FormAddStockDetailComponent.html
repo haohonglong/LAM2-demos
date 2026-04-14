@@ -10,7 +10,7 @@
 <#Block:begin id="__ID__">
 <div v-loading="loading">
     <el-dialog
-    :title="'添加 ' + stock_id +' '+ stock_name+' 股票流水'"
+    :title="'交易股票-' + stock_name + '(' + form.stock_code + ')'"
     :visible.sync="dialogVisible"
     :close-on-click-modal="false"
     :lock-scroll="false"
@@ -112,7 +112,7 @@
             </div>
 
             <!-- 股票数据区块 - 仅在立即交易模式下显示 -->
-            <div class="form-section" v-if="form.open > 0 && form.test_mode === 1">
+            <div class="form-section" v-if="form.test_mode === 1">
                 <div class="section-title">股票数据</div>
                 
                 <div class="stock-data-grid">
@@ -257,6 +257,7 @@
                 'form':{
                     'simulation_id': null
                     ,'stock_price': 0.00
+                    ,'stock_code': ""
                     ,'deal_total': 0
                     ,'stock_type': ""
                     ,'created_at': ""
@@ -321,7 +322,7 @@
                 }
                 
                 const stock_id = this.stock_id;
-                const stock_date_at = this.form.created_at.split(" ")[0];
+                const stock_date_at = this.form.created_at;
                 const data = {
                     stock_id,
                     stock_date_at
@@ -381,6 +382,7 @@
             init() {
                 this.form.stock_price = 0.00;
                 this.form.stock_type = '';
+                this.form.stock_code = '';
                 this.form.deal_total = 0;
                 this.form.created_at = '';
                 this.form.stock_detail_remark = '';
@@ -402,6 +404,7 @@
             setForm(row) {
                 this.form.simulation_id = row.simulation_id;
                 this.form.stock_price = row.stock_price;
+                this.form.stock_code = row.stock_code;
             },
             add() {
                 const simulation_id = this.form.simulation_id;
