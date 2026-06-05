@@ -1,0 +1,222 @@
+<#define __PACKAGE__="views.userrole" />
+<#define __ID__="__PACKAGE__.index" />
+<#define _TITLE_="用户权限管理" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define ~/="__VIEWS__/userrole/" />
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+
+
+<#Block:begin id="__ID__">
+<div>
+    <div v-loading.fullscreen.lock="loading">
+        <el-row :gutter="10">
+            <el-col :span="18">
+                <el-button v-on:click="action(1)" size="small">分配角色</el-button>
+            </el-col>
+        </el-row>
+        <el-table :data="tableData" style="width: 100%">
+            <el-table-column prop="id" label="ID" width="80"></el-table-column>
+            <el-table-column prop="user_id" label="用户ID" width="100"></el-table-column>
+            <el-table-column prop="username" label="用户名" width="150"></el-table-column>
+            <el-table-column prop="role_id" label="角色ID" width="100"></el-table-column>
+            <el-table-column prop="role_name" label="角色名" width="150"></el-table-column>
+            <el-table-column fixed="right" label="操作" width="150">
+                <template slot-scope="scope">
+                    <el-button type="primary" icon="el-icon-edit" circle size="small" @click="action(2, scope.row)"></el-button>
+                    <el-button type="danger" icon="el-icon-delete" circle size="small" @click="action(3, scope.row)"></el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    
+        <dialog-form
+            ref="dialogForm"
+            :title="dialogTitle"
+            :form="form"
+            :rules="rules"
+            @confirm="submit">
+            <el-form-item label="用户" prop="user_id" v-if="form.active === 1">
+                <el-select v-model="form.user_id" placeholder="请选择用户" filterable>
+                    <el-option v-for="u in userList" :key="u.id" :label="u.username" :value="u.id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="角色" prop="role_id">
+                <el-select v-model="form.role_id" placeholder="请选择角色">
+                    <el-option v-for="r in roleList" :key="r.role_id" :label="r.role_name" :value="r.role_id"></el-option>
+                </el-select>
+            </el-form-item>
+        </dialog-form>
+
+    </div>
+
+</div>
+<#Block:end>
+
+<#include file="~/components/DialogFormComponent.html" />
+
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+        const DialogForm = System.require("views.userrole.components.DialogFormComponent");
+
+        var ContentComponent = {
+          name: "UserRoleIndex",
+          props: {},
+          components: { DialogForm },
+          data: function () {
+            return {
+                loading: false,
+                tableData: [],
+                roleList: [],
+                userList: [],
+                dialogTitle: "提示",
+                form: {
+                    active: "",
+                    id: "",
+                    user_id: "",
+                    role_id: ""
+                },
+                rules: {
+                    user_id: [{ required: true, message: '请选择用户', trigger: 'change' }],
+                    role_id: [{ required: true, message: '请选择角色', trigger: 'change' }]
+                }
+            }
+          },
+          created(){
+            this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
+                this.getData();
+          },
+          methods: {
+            getData() {
+                this.loading = true;
+                this.tableData = [];
+                Api.userRole.index(res => {
+                    this.loading = false;
+                    if(0 === res.status) {
+                        this.roleList = res.data.roleList || [];
+
+                        // 获取用户列表
+                        Api.User.index(userRes => {
+                            if(userRes.status || 0 === userRes.status) {
+                                this.userList = userRes.data || [];
+                            }
+                        });
+
+                        // 组装表格数据
+                        let userRoleList = res.data.userRoleList || [];
+                        userRoleList.forEach(ur => {
+                            let roleName = '';
+                            this.roleList.forEach(r => {
+                                if(r.role_id == ur.role_id) {
+                                    roleName = r.role_name;
+                                }
+                            });
+                            this.tableData.push({
+                                id: ur.id,
+                                user_id: ur.user_id,
+                                role_id: ur.role_id,
+                                username: ur.username,
+                                role_name: roleName
+                            });
+                        });
+                    }
+                });
+            },
+            initForm() {
+                this.form.id = '';
+                this.form.user_id = '';
+                this.form.role_id = '';
+            },
+            action(active, item) {
+                this.initForm();
+                this.form.active = active;
+
+                switch(active) {
+                    case 1:
+                        this.dialogTitle = "分配角色";
+                        break;
+                    case 2:
+                        this.dialogTitle = "修改角色";
+                        this.form.id = item.id;
+                        this.form.user_id = item.user_id;
+                        this.form.role_id = item.role_id;
+                        break;
+                    case 3:
+                        this.remove(item.id);
+                        return;
+                }
+                
+                this.$refs.dialogForm.open();
+            },
+            submit() {
+                this.$refs.dialogForm.submitLoading = true;
+                switch(this.form.active) {
+                    case 1:
+                        this.add();
+                        break;
+                    case 2:
+                        this.update();
+                        break;
+                }
+            },
+            add() {
+                Api.userRole.add({ user_id: this.form.user_id, role_id: this.form.role_id }, D => {
+                    this.$refs.dialogForm.submitLoading = false;
+                    if(1 === D.status) {
+                        this.$notify({ title: 'Success', message: D.message, type: 'success' });
+                        this.$refs.dialogForm.close();
+                        this.getData();
+                    } else {
+                        this.$notify.error({ title: 'Error', message: D.message });
+                    }
+                });
+            },
+            update() {
+                Api.userRole.update({ id: this.form.id, role_id: this.form.role_id }, D => {
+                    this.$refs.dialogForm.submitLoading = false;
+                    if(1 === D.status) {
+                        this.$notify({ title: 'Success', message: D.message, type: 'success' });
+                        this.$refs.dialogForm.close();
+                        this.getData();
+                    } else {
+                        this.$notify.error({ title: 'Error', message: D.message });
+                    }
+                });
+            },
+            remove(id) {
+                this.$confirm('确定要删除该用户的角色吗？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    Api.userRole.delete(id, D => {
+                        if(1 === D.status) {
+                            this.$notify({ title: 'Success', message: D.message, type: 'success' });
+                            this.getData();
+                        } else {
+                            this.$notify.error({ title: 'Error', message: D.message });
+                        }
+                    });
+                }).catch(() => {});
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', ContentComponent);
+    });
+</script>

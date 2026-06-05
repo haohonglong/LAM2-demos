@@ -1,4 +1,3 @@
-
 <#define __PACKAGE__="stock.components" />
 <#define __ID__="__PACKAGE__.FormAddStockDetailComponent" />
 <#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
@@ -89,6 +88,9 @@
                                 size="medium">
                                 <template slot="append">股</template>
                             </el-input>
+                            <div v-if="requiredAmount > 0" class="required-amount-tip">
+                                需要{{ form.stock_type === '2' ? '获得' : '花费' }}金额：<span class="amount-value">{{ requiredAmount.toFixed(2) }}</span> 元
+                            </div>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -239,6 +241,9 @@
                 if (this.form.stock_type === '1' || this.form.stock_type === '2') {
                     if (!value || parseInt(value) < 1) {
                         callback(new Error('股票数量不能少于1'));
+                    } else if(parseInt(value) % 100 != 0){
+                        let msg = "股票价格必须是100的整数倍";
+                        callback(new Error(msg));
                     } else {
                         if(this.form.stock_type === '1' && parseInt(value) < 100){
                             callback(new Error('买入数量不能少于1手（100股/手）'));
@@ -480,6 +485,18 @@
                         }
                     }
                 });
+            }
+          },
+          computed: {
+            requiredAmount() {
+                if(parseInt(this.form.deal_total) % 100 != 0){
+                    return -1;
+                }else{
+                    var price = parseFloat(this.form.stock_price) || 0;
+                    var total = parseInt(this.form.deal_total) || 0;
+                    return price * total;
+
+                }
             }
           },
           watch: {
@@ -838,5 +855,18 @@
 /* 选择器优化 */
 .mobile-detail-form >>> .el-select {
     width: 100%;
+}
+
+.required-amount-tip {
+    font-size: 13px;
+    color: #909399;
+    margin-top: 4px;
+    line-height: 1.5;
+}
+
+.required-amount-tip .amount-value {
+    color: #E6A23C;
+    font-weight: 600;
+    font-size: 14px;
 }
 </style>

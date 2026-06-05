@@ -89,7 +89,7 @@
                             </span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="stock_name" label="股票名称" width="150" sortable></el-table-column>
+                    <el-table-column prop="case_name" label="股票名称" width="150" sortable></el-table-column>
                     <el-table-column prop="order_type" label="类型" width="80">
                         <template slot-scope="scope">
                             <el-tag :type="scope.row.order_type == '1' ? 'success' : 'danger'" size="small">
@@ -140,7 +140,7 @@
                         <div class="mobile-order-header">
                             <div class="mobile-order-stock">
                                 <span class="mobile-stock-code">{{ order.exchange }}-{{ order.stock_code }}</span>
-                                <span class="mobile-stock-name">{{ order.stock_name }}</span>
+                                <span class="mobile-stock-name">{{ order.case_name }}</span>
                             </div>
                             <div class="mobile-order-type">
                                 <el-tag :type="order.order_type == '1' ? 'success' : 'danger'" size="mini">
@@ -323,7 +323,7 @@
                         const searchText = this.search.toLowerCase();
                         filtered = filtered.filter(order => 
                             (order.stock_code && order.stock_code.toLowerCase().includes(searchText)) ||
-                            (order.stock_name && order.stock_name.toLowerCase().includes(searchText)) ||
+                            (order.case_name && order.case_name.toLowerCase().includes(searchText)) ||
                             (order.case_name && order.case_name.toLowerCase().includes(searchText))
                         );
                     }
@@ -390,7 +390,7 @@
                         this.loading = false;
                         if(D.status){
                             this.orders = D.data || [];
-                            this.total = D.data.total || 0;
+                            this.total = D.total || 0;
                             this.calculateStatistics();
                         } else {
                             this.$notify({

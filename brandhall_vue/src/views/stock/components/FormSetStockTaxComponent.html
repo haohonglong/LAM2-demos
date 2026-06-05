@@ -33,6 +33,9 @@
                             <el-form-item label="最低佣金:">
                                 <el-input v-model="form.min_commission" size="medium" placeholder="请输入股票最低佣金"></el-input>
                             </el-form-item>
+                            <el-form-item label="税费总额:">
+                                <el-input v-model="form.total_tax" size="medium" placeholder="请输入股票税费总额"></el-input>
+                            </el-form-item>
 
                         </el-col>
                     </el-row>
@@ -73,14 +76,15 @@
                     'commission_rate': 0,
                     'transfer_fee_rate': 0,
                     'stamp_tax_rate': 0,
-                    'min_commission': 0
+                    'min_commission': 0,
+                    'total_tax': 0
                 },
                 'formError':{
-                    'cost': ""
+                    'total_tax': ""
                 },
                 // 服务器返回的错误信息
                 'serverErrors': {
-                    'cost': ""
+                    'total_tax': ""
                 },
                 'dialogVisible': false
             }
@@ -103,14 +107,16 @@
                 this.form.transfer_fee_rate = "";
                 this.form.stamp_tax_rate = "";
                 this.form.min_commission = "";
+                this.form.total_tax = "";
 
             },
-            setForm(simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission) {
+            setForm(simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission, total_tax) {
                 this.form.simulation_id = simulation_id;
                 this.form.commission_rate = commission_rate;
                 this.form.transfer_fee_rate = transfer_fee_rate;
                 this.form.stamp_tax_rate = stamp_tax_rate;
                 this.form.min_commission = min_commission;
+                this.form.total_tax = total_tax;
             },
             submit() {
                 const simulation_id = this.form.simulation_id;
@@ -118,6 +124,7 @@
                 const transfer_fee_rate = this.form.transfer_fee_rate;
                 const stamp_tax_rate = this.form.stamp_tax_rate;
                 const min_commission = this.form.min_commission;
+                const total_tax = this.form.total_tax;
 
 
                 this.loading = true;
@@ -126,7 +133,8 @@
                     commission_rate,
                     transfer_fee_rate,
                     stamp_tax_rate,
-                    min_commission
+                    min_commission,
+                    total_tax
                 }, D => {
                     if(D.status){
                         this.$message({

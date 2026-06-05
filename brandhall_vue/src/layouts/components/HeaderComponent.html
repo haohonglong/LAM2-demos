@@ -18,6 +18,7 @@
                     <li><a href="index.html?r=site/logout">退出登录</a></li>
                     <li><span @click="topUp">充值</span></li>
                     <li><span @click="getLogs">日志</span></li>
+                    <li><span @click="resetPass">修改密码</span></li>
                 </ul>
 
             </div>
@@ -37,7 +38,7 @@
     <div class="R">
         <div class="L">
             
-            <el-tooltip placement="bottom-start" effect="light" :visible-arrow="false">
+            <el-tooltip placement="bottom-start" style="position: relative; top: -6px;" effect="light" :visible-arrow="false">
                 <div slot="content"><#=block id="logoutBox" /></div>
                 <div class="p5 p-rel z1">
                     <span>{{ name }}</span>
@@ -51,6 +52,7 @@
     </div>
     <form-top-up-component ref="formTopUpComponent" />
     <logs-component ref="logsComponent" />
+    <reset-pass-component ref="resetPassComponent" />
 </div>
 
 
@@ -67,6 +69,7 @@
 <#include file="~/NavMenuComponent.html" />
 <#include file="__COMPONENTS__/FormTopUpComponent.html" />
 <#include file="__COMPONENTS__/LogsComponent.html" />
+<#include file="__COMPONENTS__/ResetPassComponent.html" />
 
 <script type="text/javascript">
     //header
@@ -141,6 +144,7 @@
             NavMenuComponent: System.require("components.NavMenuComponent")
             ,'form-top-up-component': System.require('components.FormTopUpComponent')
             ,'logs-component': System.require('components.LogsComponent')
+            ,'reset-pass-component': System.require('components.ResetPassComponent')
           },
           data: function () {
             return {
@@ -165,6 +169,10 @@
                 this.$refs.logsComponent.init()
                 this.$refs.logsComponent.dialogVisible = true
 
+            },
+            resetPass(){
+                this.$refs.resetPassComponent.init()
+                this.$refs.resetPassComponent.dialogVisible = true
             },
             formatNumber(num, decimals = 2) {
                 // 处理非数字

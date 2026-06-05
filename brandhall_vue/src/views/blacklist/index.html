@@ -1,0 +1,207 @@
+<#define __PACKAGE__="views.blacklist" />
+<#define __ID__="__PACKAGE__.index" />
+<#define _TITLE_="黑名单列表" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define ~/="__VIEWS__/blacklist/" />
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+
+
+<#Block:begin id="__ID__">
+<div>
+    <div v-loading.fullscreen.lock="loading">
+        <el-row :gutter="10">
+            <el-col :span="6">
+                <el-input v-model="search" placeholder="搜索IP地址" clearable prefix-icon="el-icon-search" size="small"></el-input>
+            </el-col>
+            <el-col :span="18">
+                <el-button v-on:click="action(1)" size="small">添加黑名单</el-button>
+            </el-col>
+        </el-row>
+        <el-table :data="filteredTableData" style="width: 100%">
+            <el-table-column prop="id" label="ID" width="80"></el-table-column>
+            <el-table-column prop="ip" label="IP地址"></el-table-column>
+            <el-table-column prop="created_at" label="创建时间" width="180"></el-table-column>
+            <el-table-column fixed="right" label="操作" width="100">
+                <template slot-scope="scope">
+                    <el-button type="danger" icon="el-icon-delete" circle @click="action(3, scope.row)"></el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    
+        <el-dialog
+            :title="dialogTitle"
+            :visible.sync="dialogVisible"
+            width="">
+            <form-component :data="form" :error="formError"></form-component>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="submit()">提 交</el-button>
+            </span>
+        </el-dialog>
+
+    </div>
+
+</div>
+<#Block:end>
+
+
+
+<#include file="~/components/FormComponent.html" />
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          props: {},
+          components: {
+            'form-component': System.require('blacklist.components.FormComponent')
+          },
+          computed: {
+            filteredTableData() {
+                if (!this.search) return this.tableData;
+                const searchText = this.search.toLowerCase();
+                return this.tableData.filter(item =>
+                    item.ip.toLowerCase().includes(searchText)
+                );
+            }
+          },
+          data: function () {
+            return {
+                loading: false,
+                tableData: [],
+                search: '',
+                'dialogTitle': "提示",
+                'dialogVisible': false,
+                'form':{
+                    'active':"",
+                    'ip': ""
+                },
+                'formError':{
+                    'ip': ""
+                }
+            }
+          },
+          created(){
+            this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
+                this.getData();
+          },
+          methods: {
+            getData() {
+                this.loading = true;
+                this.tableData = [];
+                Api.blacklist.index(res  => {
+                    this.loading = false;
+                    if(0 === res.status) {
+                        let data = res.data;
+                        data.forEach(ele => {
+                            this.tableData.push({
+                                id: ele.id,
+                                ip: ele.ip,
+                                created_at: ele.created_at
+                            });
+                        });
+
+                    }
+                });
+            },
+            ok() {
+                this.dialogVisible = false
+            },
+            submit() {
+                this.initError();
+                this.add();
+            },
+            initError() {
+                this.formError.ip = "";
+            },
+            init() {
+                this.form.ip = '';
+            },
+            action(active, item) {
+                this.init();
+                this.initError();
+                this.form.active = active;
+
+                switch(active) {
+                    case 1:
+                        this.dialogTitle = "添加黑名单";
+                        break;
+                    case 3:
+                        this.remove(item.id);
+                        return;
+                }
+                
+                this.dialogVisible = true
+            },
+            add() {
+                if(!this.form.ip) {
+                    this.formError.ip = 'IP不能为空';
+                    return;
+                }
+                this.loading = true;
+                const ip = this.form.ip;
+
+                Api.blacklist.add({ip}, D => {
+                    this.loading = false;
+                    if(0 === D.status){
+                        this.getData();
+                        this.ok();
+                        this.$notify({
+                                title: 'Success',
+                                message: '添加成功',
+                                type: 'success'
+                            });
+
+                    }else{
+                        this.$notify.error({
+                                title: 'Error',
+                                message: D.message,
+                            });
+                    }
+
+                });
+            },
+            remove(id){
+                layer.confirm('确定要解除该IP的黑名单吗？', {icon: 3, title:'提示'}, index => {
+                    Api.blacklist.remove({id}, data => {
+                        if(0 === data.status){
+                            this.$notify({
+                                title: 'Success',
+                                message: '解除成功',
+                                type: 'success'
+                            });
+                            this.getData();
+                        } else {
+                            this.$notify.error({
+                                title: 'Error',
+                                message: data.message,
+                            });
+                        }
+                        layer.close(index);
+                    });
+                    
+                });
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', ContentComponent);
+    });
+</script>

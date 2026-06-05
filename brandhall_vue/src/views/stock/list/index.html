@@ -31,11 +31,17 @@
         <el-col :span="24">
             <div class="mb10" style="font-size: 18px;">
                 <span class="stock-info">{{ stock_code }}  {{ stock_name }}</span>
+                <span v-if="totalNetProfit !== null" class="total-net-profit">
+                    <span class="profit-item">收<b>{{ fmtMoney(totalSellIncome) }}</b></span>
+                    <span class="profit-sep">-</span>
+                    <span class="profit-item">投 <b>{{ fmtMoney(totalInvestment) }}</b></span>
+                    <span class="profit-sep">=</span>
+                    <span class="profit-result" :class="totalNetProfit >= 0 ? 'profit-up' : 'profit-down'">{{ fmtMoney(totalNetProfit) }}</span>
+                </span>
                 
                 <div class="toolbar-actions">
                     <span class="mobile-only" style="cursor: pointer;" @click="sidebarOfRight = true">股市通</span>
                     <span class="desktop-only" style="cursor: pointer;" @click="sidebarOfRight = true">百度股市通</span>
-                    <el-button size="small" @click="dialogUpAndDown = true">跌涨</el-button>
                     <el-button type="primary" @click="getListOfStockDetail">刷新</el-button>
                 </div>
 
@@ -47,7 +53,6 @@
     <el-row class="action-row">
         <div class="action-buttons-group">
             <el-button type="primary" @click="removeSelected">删除选择</el-button>
-            <el-button type="primary" @click="formAddStockDetailComponent">添加流水</el-button>
         </div>
         
         <div class="search-filters">
@@ -63,446 +68,339 @@
                 placeholder="日期"
                 class="search-input" />
         </div>
-        <!-- 移动端表格 -->
-        <div class="mobile-stock-table" v-if="isMobile">
-            <!-- 表头 -->
-            <div class="mobile-table-header">
-                <div class="header-cell" @click="handleSort('deal_type')">
-                    类型
-                </div>
-                <div class="header-cell" @click="handleSort('created_at')">
-                    日期
-                </div>
-                <div class="header-cell" @click="handleSort('stock_price')">
-                    价格
-                </div>
-                <div class="header-cell" @click="handleSort('cost')">
-                    成本
-                </div>
-                <div class="header-cell">
-                    税
-                </div>
-                <div class="header-cell" @click="handleSort('stock_remain')">
-                    持有
-                </div>
-                <div class="header-cell" @click="handleSort('deal_total')">
-                    数量
-                </div>
-                <div class="header-cell" @click="handleSort('open')">
-                    今开
-                </div>
-                <div class="header-cell" @click="handleSort('close')">
-                    昨收
-                </div>
-                <div class="header-cell" @click="handleSort('highest')">
-                    最高
-                </div>
-                <div class="header-cell" @click="handleSort('lowest')">
-                    最低
-                </div>
-                <div class="header-cell" @click="handleSort('average')">
-                    均价
-                </div>
-                <div class="header-cell" @click="handleSort('lup')">
-                    涨停
-                </div>
-                <div class="header-cell" @click="handleSort('ldown')">
-                    跌停
-                </div>
-                <div class="header-cell" @click="handleSort('change')">
-                    换手率
-                </div>
-                <div class="header-cell" @click="handleSort('amplitude')">
-                    振幅率
-                </div>
-                <div class="header-cell" @click="handleSort('volume')">
-                    成交量
-                </div>
-                <div class="header-cell" @click="handleSort('amount')">
-                    成交额
-                </div>
-                <div class="header-cell">
-                    盈亏
-                </div>
-                <div class="header-cell">
-                    盈亏率
-                </div>
-                <div class="header-cell">
-                    成交价
-                </div>
-                <div class="header-cell">
-                    实价
-                </div>
-                <div class="header-cell">
-                    持有估值
-                </div>
-                <div class="header-cell">
-                    清仓
-                </div>
-            </div>
+        <div>
+            <!-- 移动端表格 -->
+            <div class="mobile-stock-table" v-if="isMobile">
+                <div class="mobile-table-scroll" ref="mobileScrollContainer">
+                        <table class="mobile-table">
+                            <!-- 表头 -->
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col sticky-col-select"><el-checkbox v-model="selectAll" @change="toggleSelectAll"></el-checkbox></th>
+                                    <th @click="handleSort('deal_type')">类型 <i :class="sortField === 'deal_type' ? (sortOrder === 'asc' ? 'el-icon-caret-top' : 'el-icon-caret-bottom') : 'el-icon-sort'"></i></th>
+                                    <th @click="handleSort('created_at')">日期 <i :class="sortField === 'created_at' ? (sortOrder === 'asc' ? 'el-icon-caret-top' : 'el-icon-caret-bottom') : 'el-icon-sort'"></i></th>
+                                    <th @click="handleSort('stock_price')">价格 <i :class="sortField === 'stock_price' ? (sortOrder === 'asc' ? 'el-icon-caret-top' : 'el-icon-caret-bottom') : 'el-icon-sort'"></i></th>
+                                    <th @click="handleSort('cost')">成本 <i :class="sortField === 'cost' ? (sortOrder === 'asc' ? 'el-icon-caret-top' : 'el-icon-caret-bottom') : 'el-icon-sort'"></i></th>
+                                    <th>税</th>
+                                    <th @click="handleSort('stock_remain')">持有 <i :class="sortField === 'stock_remain' ? (sortOrder === 'asc' ? 'el-icon-caret-top' : 'el-icon-caret-bottom') : 'el-icon-sort'"></i></th>
+                                    <th @click="handleSort('deal_total')">数量 <i :class="sortField === 'deal_total' ? (sortOrder === 'asc' ? 'el-icon-caret-top' : 'el-icon-caret-bottom') : 'el-icon-sort'"></i></th>
+                                    <th>盈亏</th>
+                                    <th>盈亏率</th>
+                                    <th>成交价</th>
+                                    <th>实价</th>
+                                    <th>持有估值</th>
+                                    <th>清仓</th>
+                                    <th class="sticky-col-right">操作</th>
+                                </tr>
+                            </thead>
+                            <!-- 表体 -->
+                            <tbody>
+                                <tr v-for="(item, index) in filter()" :key="index" :class="getCardClass(item)">
+                                    <td class="sticky-col sticky-col-select"><el-checkbox v-model="del_ids" :label="item.id"></el-checkbox></td>
+                                    <td class="sticky-col">
+                                        <span v-if="1 == item.deal_type"><el-tag type="danger" size="mini">买入</el-tag></span>
+                                        <span v-else-if="2 == item.deal_type"><el-tag type="success" size="mini">卖出</el-tag></span>
+                                    </td>
+                                    <td>
+                                        <div>{{ item.created_at }}</div>
+                                        <div class="cell-sub">{{ getWeekdayByDate(item.created_at) }}</div>
+                                    </td>
+                                    <td>
+                                        <span :style="{color: item.stock_price > item.close ? '#de524c' : (item.stock_price < item.close ? 'green' : '#909399')}">{{ item.stock_price }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" @click="setCost(item)" class="cost-link">{{ item.cost }}</a>
+                                    </td>
+                                    <td><a href="javascript:void(0);" @click="setTax(item)" class="cost-link">{{ item.total_tax }}</a></td>
+                                    <td>{{ item.stock_remain }}</td>
+                                    <td>
+                                        <div>{{ item.deal_total }}</div>
+                                        <div class="cell-sub">{{ (item.stock_price * item.deal_total).toFixed(2) }}</div>
+                                    </td>
+                                    <td>{{ isset(item.cost) ? ((item.stock_price - item.cost) * item.stock_remain).toFixed(2) : '-' }}</td>
+                                    <td>
+                                        <span v-if="0 == item.cost">0%</span>
+                                        <span v-else>{{ isset(item.cost) ? (((item.stock_price - item.cost) / item.cost) * 100).toFixed(2) + '%' : '-' }}</span>
+                                    </td>
+                                    <td>
+                                        <el-tooltip v-if="item.deal_total > 0" class="item" effect="dark" :content="item.stock_price + ' * ' + item.deal_total" placement="top-start">
+                                            <span>{{ (item.stock_price * item.deal_total).toFixed(2) }}</span>
+                                        </el-tooltip>
+                                    </td>
+                                    <td>
+                                        <span v-if="item.deal_type > 0">
+                                            <span v-if="1 == item.deal_type">
+                                                <el-tooltip class="item" effect="dark" :content="item.stock_price + ' * ' + item.deal_total + ' + ' + item.total_tax" placement="top-start">
+                                                    <span>{{ (item.stock_price * item.deal_total + parseFloat(item.total_tax)).toFixed(2) }}</span>
+                                                </el-tooltip>
+                                            </span>
+                                            <span v-else-if="2 == item.deal_type">
+                                                <el-tooltip class="item" effect="dark" :content="item.stock_price + ' * ' + item.deal_total + ' - ' + item.total_tax" placement="top-start">
+                                                    <span>{{ (item.stock_price * item.deal_total - parseFloat(item.total_tax)).toFixed(2) }}</span>
+                                                </el-tooltip>
+                                            </span>
+                                        </span>
+                                    </td>
+                                    <td>{{ (item.stock_price * item.stock_remain).toFixed(2) }}</td>
+                                    <td><i v-if="item.gone == 1" class="el-icon-check" style="color: #67c23a; font-size: 16px;"></i></td>
+                                    <td class="sticky-col-right">
+                                        <el-button type="primary" @click="viewStockDetail(item)" size="mini">查看</el-button>
+                                        <el-button type="danger" icon="el-icon-delete" circle @click="removeSelected(item)" size="mini"></el-button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-            <!-- 表格内容 -->
-            <div class="mobile-table-body">
-                <div v-for="(item, index) in filter()" :key="index"
-                     class="table-row"
-                     :class="getCardClass(item)">
-                    <!-- 交易类型 -->
-                    <div class="row-cell type-cell">
-                        <div class="cell-value">
-                            <span v-if="1 == item.deal_type"><el-tag type="danger">买入</el-tag></span>
-                            <span v-else-if="2 == item.deal_type"><el-tag type="success">卖出</el-tag></span>
-                        </div>
-                    </div>
-                    <!-- 日期 -->
-                    <div class="row-cell date-cell">
-                        <div class="cell-value">{{ item.created_at.split(' ')[0] }}</div>
-                        <div class="cell-sub">{{ getWeekdayByDate(item.created_at) }}</div>
-                    </div>
-                    <!-- 价格 -->
-                    <div class="row-cell price-cell">
-                        <div class="cell-value" :style="{color: item.stock_price > item.close ? '#de524c' : (item.stock_price < item.close ? 'green' : '#909399')}">
-                            {{ item.stock_price }}
-                        </div>
-                    </div>
-                    <!-- 成本价 -->
-                    <div class="row-cell cost-cell">
-                        <div v-if="item.cost" class="cell-sub" style="cursor: pointer;" @click="setCost(item)">
-                            {{ item.cost }}
-                        </div>
-                        <div v-else class="cell-sub" style="cursor: pointer;" @click="setCost(item)">
-                            设置
-                        </div>
-                    </div>
-                    <!-- 税 -->
-                    <div class="row-cell tax-cell">
-                        <div class="cell-value">{{ item.total_tax || '-' }}</div>
-                    </div>
-                    <!-- 持有股数量 -->
-                    <div class="row-cell remain-cell">
-                        <div class="cell-value">{{ item.stock_remain }}</div>
-                    </div>
-                    <!-- 成交量 -->
-                    <div class="row-cell amount-cell">
-                        <div class="cell-value">{{ item.deal_total }}</div>
-                        <div class="cell-sub">{{ (item.stock_price * item.deal_total).toFixed(2) }}</div>
-                    </div>
-                    <!-- 今开 -->
-                    <div class="row-cell open-cell">
-                        <div class="cell-value" :style="{color: item.open > item.close ? '#de524c' : (item.open < item.close ? 'green' : '#909399')}">
-                            {{ item.open }}
-                        </div>
-                    </div>
-                    <!-- 昨收 -->
-                    <div class="row-cell close-cell">
-                        <div class="cell-value">{{ item.close }}</div>
-                    </div>
-                    <!-- 最高 -->
-                    <div class="row-cell highest-cell">
-                        <div class="cell-value">{{ item.highest }}</div>
-                    </div>
-                    <!-- 最低 -->
-                    <div class="row-cell lowest-cell">
-                        <div class="cell-value">{{ item.lowest }}</div>
-                    </div>
-                    <!-- 均价 -->
-                    <div class="row-cell average-cell">
-                        <div class="cell-value">{{ item.average }}</div>
-                    </div>
-                    <!-- 涨停 -->
-                    <div class="row-cell lup-cell">
-                        <div class="cell-value">{{ item.lup }}</div>
-                    </div>
-                    <!-- 跌停 -->
-                    <div class="row-cell ldown-cell">
-                        <div class="cell-value">{{ item.ldown }}</div>
-                    </div>
-                    <!-- 换手率 -->
-                    <div class="row-cell change-cell">
-                        <div class="cell-value">{{ item.change }}%</div>
-                    </div>
-                    <!-- 振幅率 -->
-                    <div class="row-cell amplitude-cell">
-                        <div class="cell-value">{{ item.amplitude }}%</div>
-                    </div>
-                    <!-- 成交量 -->
-                    <div class="row-cell volume-cell">
-                        <div class="cell-value">{{ item.volume }}</div>
-                    </div>
-                    <!-- 成交额 -->
-                    <div class="row-cell amount-sum-cell">
-                        <div class="cell-value">{{ item.amount }}</div>
-                    </div>
-                    <!-- 盈亏 -->
-                    <div class="row-cell profit-cell">
-                        <div class="cell-value">
-                            {{ isset(item.cost) ? ((item.stock_price - item.cost) * item.stock_remain).toFixed(2) : '-' }}
-                        </div>
-                    </div>
-                    <!-- 盈亏率 -->
-                    <div class="row-cell profit-rate-cell">
-                        <div class="cell-value">
-                            {{ isset(item.cost) ? (((item.stock_price - item.cost) / item.cost) * 100).toFixed(2) + '%' : '-' }}
-                        </div>
-                    </div>
-                    <!-- 成交价(手续费之前) -->
-                    <div class="row-cell deal-price-cell">
-                        <div class="cell-value">{{ (item.stock_price * item.deal_total).toFixed(2) }}</div>
-                    </div>
-                    <!-- 实价 -->
-                    <div class="row-cell actual-price-cell">
-                        <div class="cell-value">
-                            {{ item.deal_total > 0 ? (item.deal_type == 2 ? (item.stock_price * item.deal_total - 5.73).toFixed(2) : (item.stock_price * item.deal_total).toFixed(2)) : '0' }}
-                        </div>
-                    </div>
-                    <!-- 持有估值 -->
-                    <div class="row-cell valuation-cell">
-                        <div class="cell-value">{{ (item.stock_price * item.stock_remain).toFixed(2) }}</div>
-                    </div>
-                    <!-- 是否清仓 -->
-                    <div class="row-cell gone-cell">
-                        <div class="cell-value">{{ item.gone == 1 ? '是' : '-' }}</div>
+                    <!-- 加载状态 -->
+                    <div class="loading-more" v-if="loading">
+                        <el-button :loading="true" type="text">加载中...</el-button>
                     </div>
                 </div>
             </div>
-
-            <!-- 加载状态 -->
-            <div class="loading-more" v-if="loading">
-                <el-button :loading="true" type="text">加载中...</el-button>
-            </div>
-        </div>
-        <div v-else>
-            <el-col :span="24">
-            <u-table
-                class="table"
-                :data="filter()"
-                style="width: 100%"
-                :height="500"
-                use-virtual
-                :row-height="55"
-                border
-                stripe>
-                <u-table-column
-                    fixed          
-                    type="index"
-                    width="50">
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    width="30">
-                    <template slot-scope="scope">
-                        <el-checkbox v-model="del_ids" :label="scope.row.id"></el-checkbox>
-                    </template>
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    sortable
-                    prop="trade_id"
-                    label="trade_id"
-                    width="100%">
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    sortable
-                    prop="id"
-                    label="ID"
-                    width="100%">
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    prop="deal_type"
-                    label="交易类型"
-                    align="center"
-                    width="90">
-                    <template slot-scope="scope">
-                        <span v-if="1 == scope.row.deal_type"><el-tag type="danger">买入</el-tag></span>
-                        <span v-else-if="2 == scope.row.deal_type"><el-tag type="success">卖出</el-tag></span>
-                        <span style="color:#909399" v-else>-</span>
-                      </template>
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    prop="created_at"
-                    label="日期"
-                    align="center"
-                    width="155px"
-                    sortable>
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    prop="stock_price"
-                    label="价格"
-                    sortable
-                    width="80">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.stock_price > scope.row.close" style="color: #de524c;">{{ scope.row.stock_price }}</span>
-                        <span v-else-if="scope.row.stock_price < scope.row.close" style="color: green;">{{ scope.row.stock_price }}</span>
-                        <span v-else>{{ scope.row.stock_price }}</span>
-                        
-                    </template>
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    prop="cost"
-                    label="成本价"
-                    width="80">
-                    <template slot-scope="scope">
-                        <a href="javascript:void(0);" @click="setCost(scope.row)">{{ scope.row.cost }}</a>
-                    </template>
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    prop="total_tax"
-                    label="税"
-                    width="80">
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    prop="stock_remain"
-                    label="持有股数量"
-                    width="95">
-                </u-table-column>
-                <u-table-column
-                    fixed
-                    prop="deal_total"
-                    label="成交量(股)"
-                    width="90">
-                </u-table-column>
-                <u-table-column
-                    prop="open"
-                    label="今开"
-                    sortable
-                    width="80">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.open > scope.row.close" style="color: #de524c;">{{ scope.row.open }}</span>
-                        <span v-else-if="scope.row.open < scope.row.close" style="color: green;">{{ scope.row.open }}</span>
-                        <span v-else>{{ scope.row.open }}</span>
-                        
-                    </template>
-                </u-table-column>
-                <u-table-column
-                    prop="close"
-                    label="昨收"
-                    sortable
-                    width="80">
-                </u-table-column>
-                <u-table-column
-                    prop="highest"
-                    label="最高"
-                    width="80">
-                </u-table-column>
-                <u-table-column
-                    prop="lowest"
-                    label="最低"
-                    width="80">
-                </u-table-column>
-                <u-table-column
-                    prop="average"
-                    label="均价"
-                    width="80">
-                </u-table-column>
-                <u-table-column
-                    prop="lup"
-                    label="涨停"
-                    width="80">
-                </u-table-column>
-                <u-table-column
-                    prop="ldown"
-                    label="跌停"
-                    width="80">
-                </u-table-column>
-                <u-table-column
-                    prop="change"
-                    label="换手率(%)"
-                    width="80">
-                    <template slot-scope="scope">
-                        {{ scope.row.change }}
-                    </template>
-                </u-table-column>
-                <u-table-column
-                    prop="amplitude"
-                    label="振幅率(%)"
-                    width="80">
-                    <template slot-scope="scope">
-                        {{ scope.row.amplitude }}
-                    </template>
-                </u-table-column>
-                <u-table-column
-                    prop="volume"
-                    label="成交量"
-                    width="120">
-                </u-table-column>
-                <u-table-column
-                    prop="amount"
-                    label="成交额"
-                    width="120">
-                </u-table-column>
-                <u-table-column
-                    label="盈亏"
-                    width="80">
-                    <template slot-scope="scope">
-                        <div v-if="isset(scope.row.cost)">
-                            {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_remain).toFixed(2) }}
-                        </div>
-                      </template>
-                </u-table-column>
-                <u-table-column
-                    label="盈亏率"
-                    width="80">
-                    <template slot-scope="scope">
-                        <div v-if="isset(scope.row.cost)">
-                            {{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100).toFixed(2) }}%
-                        </div>
-                      </template>
-                </u-table-column>
-                <u-table-column label="成交价(手续费之前)" width="100">
-                    <template slot-scope="scope">
-                      {{ (scope.row.stock_price * scope.row.deal_total).toFixed(2) }}
-                    </template>
-                </u-table-column>
-                <u-table-column label="实价" width="100">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.deal_total > 0">
-                            <span v-if="2 == scope.row.deal_type">
-                                {{ (scope.row.stock_price * scope.row.deal_total - 5.73).toFixed(2) }}
-                            </span>
-                            <span v-else>
-                                {{ (scope.row.stock_price * scope.row.deal_total).toFixed(2) }}
+            <div v-else ref="scrollContainer">
+                <el-col :span="24" class="infinite-list">
+                <u-table
+                    ref="desktopTable"
+                    class="table"
+                    :data="filter()"
+                    style="width: 100%;"
+                    :row-height="55"
+                    :height="500"
+                    border
+                    stripe
+                    @table-body-scroll="handleScroll">
+                    <u-table-column
+                        fixed          
+                        type="index"
+                        width="50">
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        width="30">
+                        <template slot-scope="scope">
+                            <el-checkbox v-model="del_ids" :label="scope.row.id"></el-checkbox>
+                        </template>
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        sortable
+                        prop="trade_id"
+                        label="trade_id"
+                        width="100%">
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        sortable
+                        prop="id"
+                        label="ID"
+                        width="100%">
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        prop="deal_type"
+                        label="交易类型"
+                        align="center"
+                        width="90">
+                        <template slot-scope="scope">
+                            <span v-if="1 == scope.row.deal_type"><el-tag type="danger">买入</el-tag></span>
+                            <span v-else-if="2 == scope.row.deal_type"><el-tag type="success">卖出</el-tag></span>
+                            <span style="color:#909399" v-else>-</span>
+                          </template>
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        prop="created_at"
+                        label="日期"
+                        align="center"
+                        width="155px"
+                        sortable>
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        prop="stock_price"
+                        label="价格"
+                        sortable
+                        width="80">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.stock_price > scope.row.close" style="color: #de524c;">{{ scope.row.stock_price }}</span>
+                            <span v-else-if="scope.row.stock_price < scope.row.close" style="color: green;">{{ scope.row.stock_price }}</span>
+                            <span v-else>{{ scope.row.stock_price }}</span>
+                            
+                        </template>
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        prop="cost"
+                        label="成本价"
+                        width="80">
+                        <template slot-scope="scope">
+                            <a href="javascript:void(0);" @click="setCost(scope.row)">{{ scope.row.cost }}</a>
+                        </template>
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        prop="total_tax"
+                        label="税"
+                        width="80">
+                        <template slot-scope="scope">
+                            <a href="javascript:void(0);" @click="setTax(scope.row)">{{ scope.row.total_tax }}</a>
+                        </template>
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        prop="stock_remain"
+                        label="持有股数量"
+                        width="95">
+                    </u-table-column>
+                    <u-table-column
+                        fixed
+                        prop="deal_total"
+                        label="成交量(股)"
+                        width="90">
+                    </u-table-column>
+                    <u-table-column
+                        prop="open"
+                        label="今开"
+                        sortable
+                        width="80">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.open > scope.row.close" style="color: #de524c;">{{ scope.row.open }}</span>
+                            <span v-else-if="scope.row.open < scope.row.close" style="color: green;">{{ scope.row.open }}</span>
+                            <span v-else>{{ scope.row.open }}</span>
+                            
+                        </template>
+                    </u-table-column>
+                    <u-table-column
+                        prop="close"
+                        label="昨收"
+                        sortable
+                        width="80">
+                    </u-table-column>
+                    <u-table-column
+                        prop="highest"
+                        label="最高"
+                        width="80">
+                    </u-table-column>
+                    <u-table-column
+                        prop="lowest"
+                        label="最低"
+                        width="80">
+                    </u-table-column>
+                    <u-table-column
+                        prop="average"
+                        label="均价"
+                        width="80">
+                    </u-table-column>
+                    <u-table-column
+                        prop="lup"
+                        label="涨停"
+                        width="80">
+                    </u-table-column>
+                    <u-table-column
+                        prop="ldown"
+                        label="跌停"
+                        width="80">
+                    </u-table-column>
+                    <u-table-column
+                        prop="change"
+                        label="换手率(%)"
+                        width="80">
+                        <template slot-scope="scope">
+                            {{ scope.row.change }}
+                        </template>
+                    </u-table-column>
+                    <u-table-column
+                        prop="amplitude"
+                        label="振幅率(%)"
+                        width="80">
+                        <template slot-scope="scope">
+                            {{ scope.row.amplitude }}
+                        </template>
+                    </u-table-column>
+                    <u-table-column
+                        prop="volume"
+                        label="大盘成交量"
+                        width="120">
+                    </u-table-column>
+                    <u-table-column
+                        prop="amount"
+                        label="大盘成交额"
+                        width="120">
+                    </u-table-column>
+                    <u-table-column
+                        label="盈亏"
+                        width="80">
+                        <template slot-scope="scope">
+                            <div v-if="isset(scope.row.cost)">
+                                {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_remain).toFixed(2) }}
+                            </div>
+                          </template>
+                    </u-table-column>
+                    <u-table-column
+                        label="盈亏率"
+                        width="80">
+                        <template slot-scope="scope">
+                            <div v-if="isset(scope.row.cost)">
+                                <span v-if="0 == scope.row.cost">0%</span>
+                                <span v-else>{{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100).toFixed(2) }}%</span>
+                                
+                            </div>
+                          </template>
+                    </u-table-column>
+                    <u-table-column label="成交价(手续费之前)" width="100">
+                        <template slot-scope="scope">
+                            <el-tooltip v-if="scope.row.deal_total > 0" class="item" effect="dark" :content="scope.row.stock_price + ' * ' + scope.row.deal_total" placement="top-start">
+                                <span>{{ (scope.row.stock_price * scope.row.deal_total).toFixed(2) }}</span>
+                            </el-tooltip>
+                        </template>
+                    </u-table-column>
+                    <u-table-column label="实价" width="100">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.deal_type > 0">
+                                <span v-if="1 == scope.row.deal_type">
+                                    <el-tooltip class="item" effect="dark" :content="scope.row.stock_price + ' * ' + scope.row.deal_total + ' + ' + scope.row.total_tax" placement="top-start">
+                                        <span>{{ (scope.row.stock_price * scope.row.deal_total + parseFloat(scope.row.total_tax)).toFixed(2) }}</span>
+                                    </el-tooltip>
+                                </span>
+                                <span v-else-if="2 == scope.row.deal_type">
+                                    <el-tooltip class="item" effect="dark" :content="scope.row.stock_price + ' * ' + scope.row.deal_total + ' - ' + scope.row.total_tax" placement="top-start">
+                                        <span>{{ (scope.row.stock_price * scope.row.deal_total - parseFloat(scope.row.total_tax)).toFixed(2) }}</span>
+                                    </el-tooltip>
+                                </span>
                             </span>
                             
-                        </span>
-                        <span v-else>0</span>
-                        
-                    </template>
-                </u-table-column>
-                <u-table-column 
-                    label="持有估值(手续费之前)"
-                    width="100">
-                    <template slot-scope="scope">
-                      <span>{{ (scope.row.stock_price * scope.row.stock_remain).toFixed(2) }}</span>
-                    </template>
-                </u-table-column>
-                <u-table-column 
-                    label="是否清仓"
-                    align="center"
-                    width="50">
-                    <template slot-scope="scope">
-                      <span v-if="1 == scope.row.gone">是</span>
-                    </template>
-                </u-table-column>
-                <u-table-column fixed="right" label="操作" width="135">
-                    <template slot-scope="scope">
-                        <el-button type="primary" @click="viewStockDetail(scope.row)" size="mini">查看</el-button>
-                        <el-button type="danger" icon="el-icon-delete" circle @click="removeSelected(scope.row)" size="mini"></el-button></el-button>
-                    </template>
-                </u-table-column>
-                
-
-            </u-table>
-            </el-col>
+                        </template>
+                    </u-table-column>
+                    <u-table-column 
+                        label="持有估值(手续费之前)"
+                        width="100">
+                        <template slot-scope="scope">
+                          <span v-if="scope.row.stock_remain">{{ (scope.row.stock_price * scope.row.stock_remain).toFixed(2) }}</span>
+                        </template>
+                    </u-table-column>
+                    <u-table-column 
+                        label="是否清仓"
+                        align="center"
+                        width="50">
+                        <template slot-scope="scope">
+                            <i v-if="1 == scope.row.gone" class="el-icon-check" style="color: #67c23a; font-size: 16px;"></i>
+                        </template>
+                    </u-table-column>
+                    <u-table-column fixed="right" label="操作" width="135">
+                        <template slot-scope="scope">
+                            <el-button type="primary" @click="viewStockDetail(scope.row)" size="mini">查看</el-button>
+                            <el-button type="danger" icon="el-icon-delete" circle @click="removeSelected(scope.row)" size="mini"></el-button></el-button>
+                        </template>
+                    </u-table-column>
+                    
+    
+                </u-table>
+                </el-col>
+            </div>
         </div>
+
     </el-row>
 
-    <form-add-stock-detail-component :stock_id="stock_id" :stock_name="stock_name" @get-list="getListOfStockDetail" ref="stockDetailComponent" />
     <detail-stock-detail-component ref="viewStockDetailComponent" />
     <candlestick-chart-component :data="stockDate" :title="stock_id+'-'+stock_name" ref="candlestickChartComponent" />
     <line-chart-component :data="tableData" :title="stock_id+'-'+stock_name" ref="lineChartComponent" />
@@ -510,31 +408,7 @@
 
 
 
-<el-dialog  width="100%" custom-class="" :close-on-click-modal="true" title="跌涨" :visible.sync="dialogUpAndDown">
-    <div>
-        <el-row>
-            <el-col :span="12">
-                <span style="color: red;font-size: 16px;">涨</span>：{{ lups.length }}次
-            </el-col>
-            <el-col :span="12">
-                <span style="color: green;font-size: 16px;">跌</span>：{{ ldowns.length }}次
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12" style="height:400px;overflow: auto;">
-                <div v-for="up in lups">
-                    {{ up.created_at.split(" ")[0] }} | <span>{{ up.lup }}</span>
-                </div>
-            </el-col>
-            <el-col :span="12" style="height:400px;overflow: auto;">
-                <div v-for="down in ldowns">
-                    {{ down.created_at.split(" ")[0] }} | <span>{{ down.ldown }}</span>
-                </div>
-            </el-col>
-        </el-row>
-        
-    </div>
-</el-dialog>
+
 
 <el-drawer
   title="I am the title"
@@ -545,7 +419,8 @@
   <iframe :src="'https://gushitong.baidu.com/stock/ab-'+stock_code" width="100%" height="100%" frameborder="0"></iframe>
 </el-drawer>
 
-<form-set-stock-cost-component @get-list-stock="getListOfStockDetail" ref="setStockCostComponent" />
+<form-set-stock-cost-component title="修改股票成本" @get-list-stock="getListOfStockDetail" ref="setStockCostComponent" />
+<form-set-stock-tax-component title="修改股票税" @get-list-stock="getListOfStockDetail" ref="setStockTaxComponent" />
 
 
 </div>
@@ -553,12 +428,12 @@
 
 <#Block:end>
 
-<#include file="~/components/FormAddStockDetailComponent.html" />
 <#include file="~/components/DetailStockDetailComponent.html" />
 <#include file="~/components/candlestickChartComponent.html" />
 <#include file="~/components/lineChartComponent.html" />
 <#include file="~/components/ContentComponent.html" />
 <#include file="~/components/FormSetStockCostComponent.html" />
+<#include file="~/list/components/FormSetStockTaxComponent.html" />
 
 
 <script type="text/javascript">
@@ -586,6 +461,7 @@
                     'search': '',
                     'searchDate': '',
                     'del_ids': [],
+                    'selectAll': false,
                     'tableData': [],
                     'stockDate': [],
                     'lups':[],
@@ -595,7 +471,8 @@
                     'size': 0,
                     'isMobile': false,
                     'sortField': '',
-                    'sortOrder': 'asc'
+                    'sortOrder': 'asc',
+                    'hasMore': true
 
                     
 
@@ -631,15 +508,55 @@
                     });
 
                     return sorted;
+                },
+                infiniteScrollDisabled() {
+                    return this.loading || !this.hasMore;
+                },
+                totalInvestment() {
+                    if (!this.tableData || this.tableData.length === 0) return null;
+                    var total = 0;
+                    var hasValid = false;
+                    for (var i = 0; i < this.tableData.length; i++) {
+                        var row = this.tableData[i];
+                        if (1 == row.deal_type && row.deal_total > 0) {
+                            var price = parseFloat(row.stock_price) || 0;
+                            var dealTotal = parseInt(row.deal_total) || 0;
+                            var totalTax = parseFloat(row.total_tax) || 0;
+                            total += price * dealTotal + totalTax; // 买入实价(含税)
+                            hasValid = true;
+                        }
+                    }
+                    return hasValid ? total : 0;
+                },
+                totalSellIncome() {
+                    if (!this.tableData || this.tableData.length === 0) return null;
+                    var total = 0;
+                    var hasValid = false;
+                    for (var i = 0; i < this.tableData.length; i++) {
+                        var row = this.tableData[i];
+                        if (2 == row.deal_type && row.deal_total > 0) {
+                            var price = parseFloat(row.stock_price) || 0;
+                            var dealTotal = parseInt(row.deal_total) || 0;
+                            var totalTax = parseFloat(row.total_tax) || 0;
+                            total += price * dealTotal - totalTax; // 卖出实价(扣税)
+                            hasValid = true;
+                        }
+                    }
+                    return hasValid ? total : 0;
+                },
+                totalNetProfit() {
+                    if (this.totalInvestment === null || this.totalSellIncome === null) return null;
+                    return this.totalSellIncome - this.totalInvestment;
                 }
             },
             'components': {
-                'form-add-stock-detail-component': System.require('stock.components.FormAddStockDetailComponent')
-                ,'detail-stock-detail-component': System.require('stock.components.DetailStockDetailComponent')
+                'detail-stock-detail-component': System.require('stock.components.DetailStockDetailComponent')
                 ,'candlestick-chart-component': System.require('stock.components.candlestickChartComponent')
                 ,'line-chart-component': System.require('stock.components.lineChartComponent')
                 ,'content-component': System.require('stock.components.ContentComponent')
                 ,'form-set-stock-cost-component': System.require('stock.components.FormSetStockCostComponent')
+                ,'form-set-stock-tax-component': System.require('stock.list.components.FormSetStockTaxComponent')
+
             },
             beforeCreate() { },
             created() {
@@ -682,12 +599,64 @@
                     console.error('Error adding resize listener:', error);
                 }
                 
+                // 添加滚动监听（用于桌面端无限加载）
+                this.$nextTick(() => {
+                    // 添加移动端滚动监听
+                    if (this.$refs.mobileScrollContainer) {
+                        this.$refs.mobileScrollContainer.addEventListener('scroll', this.handleMobileScroll);
+                    }
+                });
+                
             },
             beforeDestroy() {
                 // 移除窗口大小变化监听
                 window.removeEventListener('resize', this.handleResize);
+                // 移除移动端滚动监听
+                if (this.$refs.mobileScrollContainer) {
+                    this.$refs.mobileScrollContainer.removeEventListener('scroll', this.handleMobileScroll);
+                }
             },
             'methods': {
+                fmtMoney(val) {
+                    if (val === null || val === undefined) return '-';
+                    return parseFloat(val).toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                },
+                // 滚动处理（桌面端无限加载）
+                handleScroll(table, event) {
+                    // 如果正在加载或没有更多数据，不处理
+                    if (this.loading || !this.hasMore) {
+                        return;
+                    }
+                    
+                    const container = event.target;
+                    const scrollTop = container.scrollTop;
+                    const scrollHeight = container.scrollHeight;
+                    const clientHeight = container.clientHeight;
+                    
+                    // 距离底部 100px 时触发加载
+                    if (scrollTop + clientHeight >= scrollHeight - 100) {
+                        this.load();
+                    }
+                },
+                
+                // 滚动处理（移动端无限加载）
+                handleMobileScroll(e) {
+                    // 如果正在加载或没有更多数据，不处理
+                    if (this.loading || !this.hasMore) {
+                        return;
+                    }
+                    
+                    const container = e.target;
+                    const scrollTop = container.scrollTop;
+                    const scrollHeight = container.scrollHeight;
+                    const clientHeight = container.clientHeight;
+                    
+                    // 距离底部 100px 时触发加载
+                    if (scrollTop + clientHeight >= scrollHeight - 100) {
+                        this.load();
+                    }
+                },
+                
                 // 移动端相关方法
                 handleSort(field) {
                     if (this.sortField === field) {
@@ -733,6 +702,10 @@
                     this.$refs.setStockCostComponent.setForm(stock.simulation_id, stock.cost, stock.stock_prices_id);
                     this.$refs.setStockCostComponent.dialogVisible = true
                 },
+                setTax(stock){
+                    this.$refs.setStockTaxComponent.setForm(stock.simulation_id, stock.stock_prices_id, stock.total_tax);
+                    this.$refs.setStockTaxComponent.dialogVisible = true
+                },
                 isset(a){
                     return System.isset(a);
                 },
@@ -748,6 +721,28 @@
 
 
                     }).filter(data => !this.search ||  this.search == data.deal_type || ('3' == this.search &&  ('1' == data.deal_type || '2' == data.deal_type)));
+
+                    if (this.sortField) {
+                        arr.sort((a, b) => {
+                            let aVal = a[this.sortField];
+                            let bVal = b[this.sortField];
+
+                            if (this.sortField === 'created_at') {
+                                aVal = new Date(aVal).getTime();
+                                bVal = new Date(bVal).getTime();
+                            } else {
+                                aVal = parseFloat(aVal) || 0;
+                                bVal = parseFloat(bVal) || 0;
+                            }
+
+                            if (this.sortOrder === 'asc') {
+                                return aVal > bVal ? 1 : -1;
+                            } else {
+                                return aVal < bVal ? 1 : -1;
+                            }
+                        });
+                    }
+
                     return arr;
                 },
                 tableRowClassName(row) {
@@ -783,6 +778,13 @@
                         // this.$message('已取消删除')  
                         this.del_ids = [];
                     })
+                },
+                toggleSelectAll(val){
+                    if(val){
+                        this.del_ids = this.filter().map(item => item.id);
+                    }else{
+                        this.del_ids = [];
+                    }
                 },
                 removeSelected(row){
                     if(System.isset(row.deal_type)){
@@ -844,9 +846,6 @@
                     this.contents = contents
                     this.$refs.contentComponent.dialogVisible = true
                 },
-                formAddStockDetailComponent(){
-                    this.$refs.stockDetailComponent.dialogVisible = true
-                },
                 candlestick(){
                     this.$refs.candlestickChartComponent.dialogVisible = true
                 },
@@ -854,26 +853,73 @@
                     this.$refs.lineChartComponent.dialogVisible = true
                 },
                 getListOfStockDetail(){
+                    this.hasMore = true;
                     this.tableData = [];
                     this.size = 0;
                     this.load();
                 },
                 load(){
+                    // 严格检查：如果正在加载或没有更多数据，直接返回
+                    if(this.loading || !this.hasMore){
+                        console.log('Skip load: loading=', this.loading, 'hasMore=', this.hasMore);
+                        return;
+                    }
+                    
+                    console.log('Loading page:', this.size + 1);
+                    
+                    // 保存当前滚动位置（桌面端和移动端）
+                    const desktopContainer = this.$refs.scrollContainer;
+                    const mobileContainer = this.$refs.mobileScrollContainer;
+                    const desktopScrollTop = desktopContainer ? desktopContainer.scrollTop : 0;
+                    const mobileScrollTop = mobileContainer ? mobileContainer.scrollTop : 0;
+                    
+                    // 设置加载状态
                     this.loading = true;
-                    const size = ++this.size;
-                    const rows = 0;
+                    
+                    let size = ++this.size;
+                    let rows = 20;
                     const stock_id = this.stock_id;
                     const simulation_id = this.simulation_id;
+                    let type = '0';
+                    
+                    if('1' == this.search || '2' == this.search || '3' == this.search){
+                        rows = 0;
+                        type = this.search;
+                        this.hasMore = false;
+                    }
+                    
+                    const create_at = this.searchDate;
 
-                    Api.stockDetail.index({simulation_id, stock_id, size, rows}, D => {
+                    Api.stockDetail.index({simulation_id, stock_id, size, rows, type, create_at}, D => {
                         if(0 == D.status){
-                            this.tableData = this.tableData.merge(D.data);
+                            const newData = D.data || [];
+                            console.log('Loaded', newData.length, 'items');
+                            
+                            // 如果返回数据为空或不足请求数量，说明没有更多数据了
+                            if(newData.length === 0 || newData.length < rows){
+                                this.hasMore = false;
+                                console.log('No more data');
+                            }
+                            this.tableData = this.tableData.merge(newData);
                             this.tableData.forEach(item => {
                                 this.tableRowClassName(item);
                             });
+                        }else{
+                            this.hasMore = false;
+                            console.log('API error, no more data');
                         }
+                        
                         this.loading = false;
-
+                        
+                        // 恢复滚动位置，防止继续触发加载
+                        this.$nextTick(() => {
+                            if (desktopContainer) {
+                                desktopContainer.scrollTop = desktopScrollTop;
+                            }
+                            if (mobileContainer) {
+                                mobileContainer.scrollTop = mobileScrollTop;
+                            }
+                        });
                     });
                 }
                 
@@ -923,6 +969,37 @@
     
     .stock-info {
         flex: 1;
+    }
+    
+    .total-net-profit {
+        font-size: 13px;
+        color: #606266;
+        margin-left: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .total-net-profit .profit-item b {
+        font-weight: 600;
+    }
+    
+    .total-net-profit .profit-sep {
+        color: #c0c4cc;
+        font-weight: 300;
+    }
+    
+    .total-net-profit .profit-result {
+        font-weight: 700;
+        font-size: 15px;
+    }
+    
+    .total-net-profit .profit-up {
+        color: #de524c;
+    }
+    
+    .total-net-profit .profit-down {
+        color: #67c23a;
     }
     
     .stock-code {
@@ -1116,136 +1193,151 @@
         }
     }
     
-    /* 移动端表格样式 */
-    .mobile-date-table {
-        padding: 15px;
-        max-height: calc(100vh - 120px);
-        overflow-y: auto;
+    /* 移动端表格样式 - 使用真实 table，表头表体同步横向滚动 */
+    .mobile-stock-table {
+        padding: 0;
+    }
+
+    .mobile-table-scroll {
+        max-height: 500px;
+        overflow: auto;
         -webkit-overflow-scrolling: touch;
     }
-    
-    .mobile-table-header {
-        display: flex;
-        background: #f5f7fa;
-        border-bottom: 1px solid #ebeef5;
-        font-weight: bold;
-        color: #606266;
+
+    /* 滚动提示阴影 */
+    .mobile-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: max-content;
+        min-width: 100%;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .mobile-table thead {
         position: sticky;
         top: 0;
         z-index: 10;
     }
-    
-    .header-cell {
-        flex: 1;
-        padding: 12px 8px;
+
+    .mobile-table th {
+        background: #f5f7fa;
+        color: #606266;
+        font-weight: bold;
+        padding: 10px 12px;
         text-align: center;
-        font-size: 12px;
+        border-bottom: 2px solid #dcdfe6;
+        border-right: 1px solid #ebeef5;
         cursor: pointer;
         user-select: none;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        border-right: 1px solid #ebeef5;
-        transition: background-color 0.3s;
     }
-    
-    .header-cell:last-child {
+
+    .mobile-table th i.el-icon-sort {
+        color: #c0c4cc;
+        font-size: 12px;
+        margin-left: 2px;
+    }
+
+    .mobile-table th i.el-icon-caret-top,
+    .mobile-table th i.el-icon-caret-bottom {
+        color: #409eff;
+        font-size: 14px;
+        margin-left: 2px;
+    }
+
+    .mobile-table th:last-child {
         border-right: none;
     }
-    
-    .header-cell:hover {
-        background: #e4e7ed;
-    }
-    
-    .sort-icon {
-        margin-left: 4px;
-        font-size: 10px;
-        color: #409eff;
-    }
-    
-    .mobile-table-body {
-        max-height: calc(100vh - 180px);
-        overflow-y: auto;
-    }
-    
-    .table-row {
-        display: flex;
+
+    .mobile-table td {
+        padding: 10px 12px;
+        text-align: center;
         border-bottom: 1px solid #ebeef5;
-        transition: background-color 0.3s;
+        border-right: 1px solid #ebeef5;
+        color: #303133;
+        vertical-align: middle;
     }
-    
-    .table-row:last-child {
+
+    .mobile-table td:last-child {
+        border-right: none;
+    }
+
+    .mobile-table tbody tr:last-child td {
         border-bottom: none;
     }
-    
-    .table-row:hover {
+
+    .mobile-table tbody tr:hover {
         background: #f5f7fa;
     }
-    
-    .row-cell {
-        flex: 1;
-        padding: 12px 8px;
-        text-align: center;
-        border-right: 1px solid #ebeef5;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .row-cell:last-child {
-        border-right: none;
-    }
-    
-    .cell-value {
-        font-size: 13px;
-        font-weight: 500;
-        color: #303133;
-        margin-bottom: 2px;
-    }
-    
-    .cell-sub {
-        font-size: 11px;
+
+    .mobile-table .cell-sub {
+        font-size: 10px;
         color: #909399;
         margin-top: 2px;
     }
-    
-    /* 价格颜色 */
-    .price-up {
-        color: #de524c !important;
+
+    .mobile-table .cost-link {
+        color: #409eff;
+        text-decoration: none;
     }
-    
-    .price-down {
-        color: green !important;
+
+    /* 第一列固定 */
+    .mobile-table .sticky-col {
+        position: sticky;
+        left: 0;
+        z-index: 6;
+        background: inherit;
     }
-    
-    /* 特定列样式 */
-    .date-cell {
-        min-width: 70px;
+
+    .mobile-table thead .sticky-col {
+        z-index: 11;
+        background: #f5f7fa;
     }
-    
-    .price-cell {
-        min-width: 50px;
+
+    .mobile-table tbody .sticky-col {
+        background: #fff;
     }
-    
-    .open-cell {
-        min-width: 50px;
+
+    .mobile-table tbody tr:hover .sticky-col {
+        background: #f5f7fa;
     }
-    
-    .close-cell {
-        min-width: 50px;
+
+    /* 操作列 - 右侧固定 */
+    .mobile-table .sticky-col-right {
+        position: sticky;
+        right: 0;
+        z-index: 6;
+        background: inherit;
     }
-    
-    .highest-cell {
-        min-width: 50px;
+    .mobile-table thead .sticky-col-right {
+        z-index: 11;
+        background: #f5f7fa;
     }
-    
-    .lowest-cell {
-        min-width: 50px;
+    .mobile-table tbody .sticky-col-right {
+        background: #fff;
     }
-    
-    .volume-cell {
-        min-width: 60px;
+    .mobile-table tbody tr:hover .sticky-col-right {
+        background: #f5f7fa;
+    }
+    .mobile-table .sticky-col-right::before {
+        display: none;
+    }
+
+    /* 选择框列 */
+    .mobile-table .sticky-col-select {
+        width: 40px;
+        min-width: 40px;
+        max-width: 40px;
+        text-align: center;
+        padding: 4px !important;
+    }
+    .mobile-table .sticky-col-select .el-checkbox__label {
+        display: none;
+    }
+
+    /* 选择框列右侧细微分隔线 */
+    .mobile-table .sticky-col-select::after {
+        display: none;
     }
     
     /* 特殊行样式 */
@@ -1261,25 +1353,10 @@
     
     /* 响应式适配 */
     @media (max-width: 480px) {
-        .mobile-date-table {
-            padding: 10px;
-        }
-        
-        .mobile-table-header .header-cell {
-            padding: 8px 4px;
+        .mobile-table th,
+        .mobile-table td {
+            padding: 8px 8px;
             font-size: 11px;
-        }
-        
-        .row-cell {
-            padding: 8px 4px;
-        }
-        
-        .cell-value {
-            font-size: 12px;
-        }
-        
-        .cell-sub {
-            font-size: 10px;
         }
     }
 </style>

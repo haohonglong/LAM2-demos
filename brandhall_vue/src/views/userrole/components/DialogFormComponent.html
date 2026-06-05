@@ -1,0 +1,107 @@
+<#define __PACKAGE__="views.userrole.components" />
+<#define __ID__="__PACKAGE__.DialogFormComponent" />
+
+
+<#Block:begin id="__ID__">
+<el-dialog
+    :title="title"
+    :visible.sync="dialogVisible"
+    :width="width"
+    :close-on-click-modal="closeOnClickModal"
+    :append-to-body="appendToBody"
+    @close="onClose">
+    <el-form :model="form" :rules="rules" ref="dialogFormRef" :label-width="labelWidth">
+        <slot></slot>
+    </el-form>
+    <div slot="footer" v-if="showFooter">
+        <el-button @click="handleCancel">{{ cancelText }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="handleSubmit">{{ confirmText }}</el-button>
+    </div>
+</el-dialog>
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+
+        var Component = {
+          name: "DialogFormComponent",
+          props: {
+            title: {
+                type: String,
+                default: '提示'
+            },
+            width: {
+                type: String,
+                default: '400px'
+            },
+            labelWidth: {
+                type: String,
+                default: '80px'
+            },
+            closeOnClickModal: {
+                type: Boolean,
+                default: false
+            },
+            appendToBody: {
+                type: Boolean,
+                default: true
+            },
+            showFooter: {
+                type: Boolean,
+                default: true
+            },
+            cancelText: {
+                type: String,
+                default: '取 消'
+            },
+            confirmText: {
+                type: String,
+                default: '提 交'
+            },
+            form: {
+                type: Object,
+                required: true
+            },
+            rules: {
+                type: Object,
+                default: function() { return {}; }
+            }
+          },
+          data() {
+            return {
+                dialogVisible: false,
+                submitLoading: false
+            }
+          },
+          methods: {
+            open() {
+                this.dialogVisible = true;
+                this.$nextTick(() => {
+                    this.$refs.dialogFormRef && this.$refs.dialogFormRef.clearValidate();
+                });
+            },
+            close() {
+                this.dialogVisible = false;
+            },
+            handleCancel() {
+                this.$emit('cancel');
+                this.close();
+            },
+            handleSubmit() {
+                this.$refs.dialogFormRef.validate(valid => {
+                    if (!valid) return;
+                    this.$emit('confirm');
+                });
+            },
+            onClose() {
+                this.$emit('close');
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', Component);
+    });
+</script>

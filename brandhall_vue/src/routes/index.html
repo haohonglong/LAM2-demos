@@ -22,6 +22,9 @@
 <#include file="__VIEWS__/goods/chart/index.html" />
 <#include file="__VIEWS__/goodsname/index.html" />
 <#include file="__VIEWS__/unit/index.html" />
+<#include file="__VIEWS__/blacklist/index.html" />
+<#include file="__VIEWS__/user/index.html" />
+<#include file="__VIEWS__/userrole/index.html" />
 <#include file="__VIEWS__/pictures/index.html" />
 <#include file="__VIEWS__/stock/index.html" />
 <#include file="__VIEWS__/stock/simulation/index.html" />
@@ -60,6 +63,9 @@ LAM.run(function(){
 			,{ path: '/blindBox/index', component: System.require('views.blindBox.index'), meta: {title: '__TITLE__盲盒'} }
 			,{ path: '/goGame/index', component: System.require('views.goGame.index'), meta: {title: '__TITLE__围棋'} }
 			,{ path: '/unit/index', component: System.require('views.unit.index'), meta: {title: '__TITLE__计量单位'} }
+			,{ path: '/blacklist/index', component: System.require('views.blacklist.index'), meta: {title: '__TITLE__黑名单'} }
+			,{ path: '/user/index', component: System.require('views.user.index'), meta: {title: '__TITLE__用户列表'} }
+			,{ path: '/userrole/index', component: System.require('views.userrole.index'), meta: {title: '__TITLE__用户权限管理'} }
 			,{ path: '/pictures/index', component: System.require('views.pictures.index'), meta: {title: '__TITLE__图片'} }
 			,{ path: '/stock/index', component: System.require('views.stock.index'), meta: {title: '__TITLE__股票列表'} }
 			,{ path: '/stock/simulation/index', component: System.require('views.stock.simulation.index'), meta: {title: '__TITLE__我的股票模拟列表'} }

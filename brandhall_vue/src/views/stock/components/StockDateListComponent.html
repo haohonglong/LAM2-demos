@@ -35,6 +35,7 @@
         <!-- 移动端头部 -->
         <template slot="title" v-if="!isMobile">
             <a style="font-size: 16px;font-weight: bold;" :href="'__URL__/stock/list/' + stock_id + '/' + stock_code + '/' + stock_name" target="_blank">{{stock_code}} : {{stock_name}}</a>
+            <el-button size="small" @click="dialogUpAndDown = true">跌涨</el-button>
         </template>
 
         <!-- 移动端简化头部 -->
@@ -44,7 +45,8 @@
                     <el-button icon="el-icon-close" circle size="mini" @click="dialogTableVisible = false" class="close-btn"></el-button>
                     <div class="stock-info">
                         <div class="stock-code">{{stock_code}}</div>
-                        <div class="stock-name">{{stock_name}}</div>
+                        <div class="stock-name">{{stock_name}}<el-button size="small" @click="dialogUpAndDown = true">跌涨</el-button></div>
+                        
                     </div>
                 </div>
             </div>
@@ -240,6 +242,32 @@
             </el-col>
         </el-row>
     </el-dialog>
+
+    <el-dialog  width="100%" custom-class="" :close-on-click-modal="true" title="跌涨" :visible.sync="dialogUpAndDown">
+        <div>
+            <el-row>
+                <el-col :span="12">
+                    <span style="color: red;font-size: 16px;">涨</span>：{{ lups.length }}次
+                </el-col>
+                <el-col :span="12">
+                    <span style="color: green;font-size: 16px;">跌</span>：{{ ldowns.length }}次
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12" style="height:400px;overflow: auto;">
+                    <div v-for="up in lups">
+                        {{ up.created_at.split(" ")[0] }} | <span>{{ up.lup }}</span>
+                    </div>
+                </el-col>
+                <el-col :span="12" style="height:400px;overflow: auto;">
+                    <div v-for="down in ldowns">
+                        {{ down.created_at.split(" ")[0] }} | <span>{{ down.ldown }}</span>
+                    </div>
+                </el-col>
+            </el-row>
+            
+        </div>
+    </el-dialog>
 </div>
 
 <#Block:end>
@@ -257,6 +285,7 @@
             data(){
                 return {
                     'dialogTableVisible': false,
+                    'dialogUpAndDown': false,
                     'title':'',
                     'contents': [],
                     'stock_id': "",
@@ -340,21 +369,29 @@
                         this.dialogTableVisible = true;
                         if(0 == D.status){
                             this.tableData = D.data;
+
+                            this.tableData.forEach(row => {
+                                if (row.highest == row.lup) {
+                                    if(!this.lups_str.in_array(row.stock_date_at)){
+                                        this.lups_str.push(row.stock_date_at);
+                                        this.lups.push(row);
+                                    }
+                                } else if (row.lowest == row.ldown) {
+                                    if(!this.ldowns_str.in_array(row.stock_date_at)){
+                                        this.ldowns_str.push(row.stock_date_at);
+                                        this.ldowns.push(row);
+                                    }
+                                }
+                                
+                            });
                         }
                     });
                 },
                 tableRowClassName({row, rowIndex}) {
                     if (row.highest == row.lup) {
-                        if(!this.lups_str.in_array(row.stock_date_at)){
-                            this.lups_str.push(row.stock_date_at);
-                            this.lups.push(row);
-                        }
+                        
                         return 'warning-row';
                     } else if (row.lowest == row.ldown) {
-                        if(!this.ldowns_str.in_array(row.stock_date_at)){
-                            this.ldowns_str.push(row.stock_date_at);
-                            this.ldowns.push(row);
-                        }
                         return 'dangerous-row';
                     }
                     return '';

@@ -15,8 +15,8 @@
     width="100%">
       <el-descriptions :title="stock_price">
         <template slot="title">
-          <span v-if="1 == deal_type" style="color: #de524c;">+({{ stock_price }} * {{ stock_remain }})</span>
-          <span v-else-if="2 == deal_type" style="color: green;">-({{ stock_price }} * {{ stock_remain }})</span>
+          <span v-if="1 == deal_type" style="color: #de524c;">+({{ stock_price }} * {{ deal_total }})</span>
+          <span v-else-if="2 == deal_type" style="color: green;">-({{ stock_price }} * {{ deal_total }})</span>
           <span v-else>{{ stock_price }}</span>
           <span v-if="cost"> | cost: {{ cost }}</span>
           <span> | {{ created_at }}</span>
@@ -70,7 +70,7 @@
                 ,'volume': 0.00
                 ,'amount': 0.00
                 ,'cost': 0.00
-                ,'stock_remain': 0
+                ,'deal_total': 0
                 ,'created_at': 0
                 ,'deal_type': 0
             }
@@ -82,7 +82,7 @@
               this.stock_price = data.stock_price;
               this.deal_type = data.deal_type;
               this.created_at = data.created_at;
-              this.stock_remain = data.stock_remain;
+              this.deal_total = data.deal_total;
               this.cost = data.cost;
               this.open = data.open;
               this.close = data.close;

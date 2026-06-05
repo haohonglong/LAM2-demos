@@ -1,7 +1,7 @@
 
 <#Block:begin id="data.menu" data="{}">
 <%const GUEST =  System.COOKIE_GUEST.get(System.COOKIE_GUEST.find('auth_key', localStorage.getItem('access_token')).index);%>
-<%const USERID = GUEST.id;%>
+<%const ROLEID = GUEST.role_id;%>
 [
   {
     "index": "a20",
@@ -10,15 +10,30 @@
     "ul":[
        {  "index": "a20-b1", "title":"股票列表","href":"/stock/index"}
        ,{  "index": "a20-b2", "title":"我的股票模拟列表","href":"/stock/simulation/index"}
-<!--Del:begin-->
-
-       ,{  "index": "a20-b3", "title":"手机模式","href":"/stock/simulation/mobile"}
-
-<!--Del:end-->
 
     ]
   }
-  <%if(1 == USERID) { %>
+  <%if(1 == ROLEID) { %>
+  ,{
+    "index": "a24",
+    "icon":"a-5",
+    "title":"黑名单",
+    "ul":[
+      { "index": "a24-b1", "title":"黑名单列表","href":"/blacklist/index"}
+    ]
+  },
+  {
+    "index": "a25",
+    "icon":"a-5",
+    "title":"用户管理",
+    "ul":[
+      { "index": "a25-b1", "title":"用户列表","href":"/user/index"}
+      ,{ "index": "a25-b2", "title":"用户权限","href":"/userrole/index"}
+    ]
+  }
+  <% } %>
+  
+  <%if(ROLEID > 0) { %>
   ,{
     "index": "a17",
     "icon":"a-2",
@@ -162,6 +177,7 @@
     ]
   }
   <% } %>
+  
   
   
 

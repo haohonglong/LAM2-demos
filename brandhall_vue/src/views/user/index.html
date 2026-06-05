@@ -1,0 +1,263 @@
+<#define __PACKAGE__="views.user" />
+<#define __ID__="__PACKAGE__.index" />
+<#define _TITLE_="用户列表" />
+<#define __INDEX__="{#LAM.INDEX#}" />
+<#define __HOME__="__INDEX__{#LAM.routeRules.index#}" />
+<#define __SERVER__="{#LAM.SERVER#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define ~/="__VIEWS__/user/" />
+
+<#Block:begin id="title" data="{'title':'_TITLE_'}"><#Block:end>
+
+
+
+
+<#Block:begin id="__ID__">
+<div>
+    <div v-loading.fullscreen.lock="loading">
+        <el-row :gutter="10">
+            <el-col :span="6">
+                <el-input v-model="search" placeholder="搜索用户名/邮箱/手机号" clearable prefix-icon="el-icon-search" size="small"></el-input>
+            </el-col>
+        </el-row>
+        <el-table :data="filteredTableData" style="width: 100%">
+            <el-table-column prop="id" label="ID" width="80" />
+            <el-table-column prop="username" label="用户名" width="150" />
+            <el-table-column prop="email" label="邮箱" width="200" />
+            <el-table-column prop="phone" label="手机号" width="150" />
+            <el-table-column prop="wallet" label="钱包余额" width="120" />
+            <el-table-column prop="role_name" label="角色" width="120" />
+            <el-table-column prop="ip" label="IP" width="150" />
+            <el-table-column prop="created_at" label="创建时间" width="180" />
+            <el-table-column prop="updated_at" label="更新时间" width="180" />
+            <el-table-column fixed="right" label="操作" width="200">
+                <template slot-scope="scope">
+                    <el-button type="primary" size="mini" @click="setRole(scope.row)">{{ scope.row.role_id ? '修改角色' : '分配角色' }}</el-button>
+                    <span v-if="scope.row.id === currentUserId" style="color:#909399;font-size:12px;margin-left:5px;">当前用户</span>
+                    <span v-else-if="scope.row.ip === currentUserIp" style="color:#E6A23C;font-size:12px;margin-left:5px;">同IP</span>
+                    <el-button v-else-if="isBlacklisted(scope.row.ip)" type="info" size="mini" icon="el-icon-check" disabled>已拉黑</el-button>
+                    <el-button v-else type="danger" size="mini" @click="addToBlacklist(scope.row)" :disabled="!scope.row.ip">拉黑IP</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    
+        <dialog-form
+            ref="roleDialog"
+            :title="roleDialogTitle"
+            :form="roleForm"
+            :rules="roleRules"
+            confirm-text="确 定"
+            @confirm="submitRole">
+            <el-form-item label="用户">
+                <el-input :value="roleForm.username" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="角色" prop="role_id">
+                <el-select v-model="roleForm.role_id" placeholder="请选择角色">
+                    <el-option v-for="r in roleList" :key="r.role_id" :label="r.role_name" :value="r.role_id"></el-option>
+                </el-select>
+            </el-form-item>
+        </dialog-form>
+    </div>
+
+</div>
+<#Block:end>
+
+
+<#include file="__VIEWS__/userrole/components/DialogFormComponent.html" />
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        const Api = System.require("Api");
+        const DialogForm = System.require("views.userrole.components.DialogFormComponent");
+        const GUEST = System.COOKIE_GUEST.find('auth_key', localStorage.getItem('access_token'));
+        const OBJ = System.COOKIE_GUEST.get(GUEST.index);
+        const currentUserId = OBJ ? OBJ.id : null;
+        const currentUserIp = OBJ ? OBJ.ip : null;
+
+        var ContentComponent = {
+          name: "ContentComponent",
+          props: {},
+          components: { DialogForm },
+          computed: {
+            filteredTableData() {
+                if (!this.search) return this.tableData;
+                const searchText = this.search.toLowerCase();
+                return this.tableData.filter(item =>
+                    (item.username && item.username.toLowerCase().includes(searchText)) ||
+                    (item.email && item.email.toLowerCase().includes(searchText)) ||
+                    (item.phone && item.phone.toLowerCase().includes(searchText)) ||
+                    (item.ip && item.ip.toLowerCase().includes(searchText))
+                );
+            }
+          },
+          data() {
+            return {
+                loading: false,
+                tableData: [],
+                blacklistedIps: [],
+                search: '',
+                currentUserId,
+                currentUserIp,
+                roleList: [],
+                roleDialogTitle: '分配角色',
+                roleForm: {
+                    user_id: '',
+                    username: '',
+                    role_id: '',
+                    ur_id: ''
+                },
+                roleRules: {
+                    role_id: [{ required: true, message: '请选择角色', trigger: 'change' }]
+                }
+            }
+          },
+          created(){
+            this.$emit('change_crumb_data', [
+                    { 'name': '首页' },
+                    { 'name': '_TITLE_' }
+                ]);
+                this.getData();
+                this.getBlacklist();
+                this.getRoleData();
+          },
+          methods: {
+            getData() {
+                this.loading = true;
+                this.tableData = [];
+                Api.User.index(res  => {
+                    this.loading = false;
+                    if(0 === res.status) {
+                        let users = res.data || [];
+                        // 获取用户角色关联数据
+                        Api.userRole.index(roleRes => {
+                            if(0 === roleRes.status) {
+                                let userRoleList = roleRes.data.userRoleList || [];
+                                let roleMap = {};
+                                userRoleList.forEach(ur => {
+                                    roleMap[ur.user_id] = ur;
+                                });
+                                users.forEach(u => {
+                                    let ur = roleMap[u.id];
+                                    if(ur) {
+                                        u.role_id = ur.role_id;
+                                        u.ur_id = ur.id;
+                                    }
+                                });
+                                // 匹配角色名
+                                this.roleList.forEach(r => {
+                                    users.forEach(u => {
+                                        if(u.role_id && u.role_id == r.role_id) {
+                                            u.role_name = r.role_name;
+                                        }
+                                    });
+                                });
+                            }
+                            this.tableData = users;
+                        });
+                    }
+                });
+            },
+            getRoleData() {
+                Api.userRole.index(res => {
+                    if(0 === res.status) {
+                        this.roleList = res.data.roleList || [];
+                        // 重新匹配角色名
+                        if(this.tableData.length) {
+                            this.roleList.forEach(r => {
+                                this.tableData.forEach(u => {
+                                    if(u.role_id && u.role_id == r.role_id) {
+                                        this.$set(u, 'role_name', r.role_name);
+                                    }
+                                });
+                            });
+                        }
+                    }
+                });
+            },
+            getBlacklist() {
+                Api.blacklist.index(res => {
+                    if(0 === res.status) {
+                        this.blacklistedIps = (res.data || []).map(item => item.ip);
+                    }
+                });
+            },
+            isBlacklisted(ip) {
+                return ip && this.blacklistedIps.includes(ip);
+            },
+            addToBlacklist(row) {
+                if (row.id === this.currentUserId) {
+                    this.$message.warning('不能拉黑自己');
+                    return;
+                }
+                if (row.ip === this.currentUserIp) {
+                    this.$message.warning('不能拉黑同IP用户');
+                    return;
+                }
+                if (!row.ip) {
+                    this.$message.warning('该用户没有IP记录');
+                    return;
+                }
+                this.$confirm('确认将 ' + row.ip + ' 加入黑名单？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    const ip = row.ip;
+                    Api.blacklist.add({ ip }, res => {
+                        if (0 === res.status) {
+                            this.$message.success(res.message || '添加成功');
+                            this.getBlacklist();
+                        } else {
+                            this.$message.error(res.message || '添加失败');
+                        }
+                    });
+                }).catch(() => {});
+            },
+            setRole(row) {
+                this.roleForm.user_id = row.id;
+                this.roleForm.username = row.username;
+                this.roleForm.role_id = row.role_id || '';
+                this.roleForm.ur_id = row.ur_id || '';
+                this.roleDialogTitle = row.role_id ? '修改角色' : '分配角色';
+                this.$refs.roleDialog.open();
+            },
+            submitRole() {
+                this.$refs.roleDialog.submitLoading = true;
+                if(this.roleForm.ur_id) {
+                    // 已有角色，修改
+                    Api.userRole.update({ id: this.roleForm.ur_id, role_id: this.roleForm.role_id }, D => {
+                        this.$refs.roleDialog.submitLoading = false;
+                        if(1 === D.status) {
+                            this.$notify({ title: 'Success', message: D.message, type: 'success' });
+                            this.$refs.roleDialog.close();
+                            this.getData();
+                        } else {
+                            this.$notify.error({ title: 'Error', message: D.message });
+                        }
+                    });
+                } else {
+                    // 无角色，添加
+                    Api.userRole.add({ user_id: this.roleForm.user_id, role_id: this.roleForm.role_id }, D => {
+                        this.$refs.roleDialog.submitLoading = false;
+                        if(1 === D.status) {
+                            this.$notify({ title: 'Success', message: D.message, type: 'success' });
+                            this.$refs.roleDialog.close();
+                            this.getData();
+                        } else {
+                            this.$notify.error({ title: 'Error', message: D.message });
+                        }
+                    });
+                }
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', ContentComponent);
+    });
+</script>

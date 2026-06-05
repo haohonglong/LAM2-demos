@@ -14,6 +14,9 @@
 <#define __URL__="{#LAM.URL#}" />
 <#define ~/="__VIEWS__/stock/" />
 
+#define# </* <!--Del:begin--> #end#
+#define# */> <!--Del:end--> #end#
+
 <#import path="/base/Cache.class,/base/Storage.class" root="__LAMPATH__" write="1" befor="1" />
 <#import type="css" path="/tree" root="__CSS__" befor="1" />
 
@@ -79,7 +82,7 @@
         
         <el-row style="height: 25px;margin-top: 10px;font-size: 18px;" v-if="stock_code != ''">
             <span style="color: #6d1667;font-size: 24px;" @click="searchStock(stock_code)">{{ stock_code }} {{ case_name }}</span>
-            <span style="cursor: pointer;" @click="setIframSrc('https://stockpage.10jqka.com.cn/' + stock_code)">同花顺</span>
+            <span style="cursor: pointer;" @click="setIframSrc('https://stockpage.10jqka.com.cn/' + stock_code+'/')">同花顺</span>
             <span style="cursor: pointer;" @click="setIframSrc('https://gushitong.baidu.com/stock/ab-' + stock_code)">百度股市通</span>
         </el-row>
         
@@ -135,10 +138,14 @@
                             
                         </template>
                     </el-table-column>
-                    <el-table-column prop="cost" label="成本价" width="95"></el-table-column>
+                    <el-table-column prop="cost" label="成本价" width="95">
+                        <template slot-scope="scope">
+                            <a href="javascript:void(0);" @click="setCost(scope.row)">{{ scope.row.cost }}</a>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="税费" width="95">
                         <template slot-scope="scope">
-                            <a href="javascript:void(0);" @click="setTax(scope.row)">{{ getTax(scope.row) }}</a>
+                            <a href="javascript:void(0);" @click="setTax(scope.row)">{{ scope.row.total_tax }}</a>
                         </template>
                     </el-table-column>
                     <el-table-column prop="stock_price" label="市值" sortable width="80">
@@ -158,17 +165,25 @@
                     </el-table-column>
                     <el-table-column label="持有估值(手续费之前)" width="180">
                         <template slot-scope="scope">
-                          <span>{{ scope.row.stock_price }} * {{ scope.row.stock_remain }} = {{ (scope.row.stock_price * scope.row.stock_remain).toFixed(2) }}</span>
+                            <el-tooltip class="item" effect="dark" :content="scope.row.stock_price + '*' + scope.row.stock_remain" placement="top-start">
+                                <span>{{ (scope.row.stock_price * scope.row.stock_remain).toFixed(2) }}</span>
+                            </el-tooltip>
                         </template>
                     </el-table-column>
                     <el-table-column label="盈亏" width="180">
                         <template slot-scope="scope" v-if="isNotNull(scope.row.cost)">
-                          <span v-if="scope.row.deal > 1">({{ scope.row.stock_price }} - {{ scope.row.cost }}) * {{ scope.row.stock_remain }} = {{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_remain) .toFixed(2) }}</span>
+                            <el-tooltip v-if="scope.row.deal > 1" class="item" effect="dark" :content="scope.row.stock_price + '-' + scope.row.cost + '*' + scope.row.stock_remain" placement="top-start">
+                                <span>{{ ((scope.row.stock_price - scope.row.cost) * scope.row.stock_remain) .toFixed(2) }}</span>
+                            </el-tooltip>
                         </template>
                     </el-table-column>
                     <el-table-column label="盈亏率(%)" width="180">
                         <template slot-scope="scope" v-if="isNotNull(scope.row.cost)">
-                          <span v-if="scope.row.deal > 1">(({{ scope.row.stock_price }} - {{ scope.row.cost }}) / {{ scope.row.cost }}) * 100 = {{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100) .toFixed(2) }}</span>
+                            <el-tooltip v-if="scope.row.deal > 1" class="item" effect="dark" :content="'(('+scope.row.stock_price + '-' + scope.row.cost + ') /' + scope.row.cost + ') * 100'" placement="top-start">
+                                <span v-if="0 == scope.row.cost">0</span>
+                                <span v-else>{{ (((scope.row.stock_price - scope.row.cost) / scope.row.cost) * 100) .toFixed(2) }}</span>
+                            </el-tooltip>
+                         </span>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" width="370px">
@@ -192,7 +207,7 @@
             <div class="app-title">
                 <el-row style="display: inline-block;" v-if="stock_code != ''">
                     <span @click="searchStock(stock_code)">{{ stock_code }} {{ case_name }}</span>
-                    <span style="cursor: pointer;color:#333;font-size: 14px;" @click="setIframSrc('https://stockpage.10jqka.com.cn/' + stock_code)">同花顺</span>
+                    <span style="cursor: pointer;color:#333;font-size: 14px;" @click="setIframSrc('https://stockpage.10jqka.com.cn/' + stock_code+'/')">同花顺</span>
                     <span style="cursor: pointer;color:#333;font-size: 14px;" @click="setIframSrc('https://gushitong.baidu.com/stock/ab-' + stock_code)">百度股市通</span>
                 </el-row>
                 <el-row v-else>
@@ -361,7 +376,37 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="stock-details pb10" style="border-bottom: 1px solid #ebeef5;">
+                    <div class="detail-item">
+                        <span class="detail-label">涨停</span>
+                        <span class="detail-value">{{ stock.lup }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">跌停</span>
+                        <span class="detail-value">{{ stock.ldown }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">最高</span>
+                        <span class="detail-value">{{ stock.highest }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">最低</span>
+                        <span class="detail-value">{{ stock.lowest }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">换手率</span>
+                        <span class="detail-value">{{ stock.change }}%</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">今开</span>
+                        <span class="detail-value">{{ stock.open }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">昨收</span>
+                        <span class="detail-value">{{ stock.close }}</span>
+                    </div>
+
+                </div>
                 <div class="stock-details">
                     <div class="detail-item">
                         <span class="detail-label">成交价</span>
@@ -376,22 +421,14 @@
                         <a href="javascript:void(0);" class="detail-label" @click="setCost(stock)">{{ stock.cost }}</a>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">最低</span>
-                        <span class="detail-value">{{ stock.lowest }}</span>
-                    </div>
-                    <div class="detail-item">
                         <span class="detail-label">持股数</span>
                         <span class="detail-value">
                             {{ stock.stock_remain }}
                         </span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">换手率</span>
-                        <span class="detail-value">{{ stock.change }}%</span>
-                    </div>
-                    <div class="detail-item">
                         <span class="detail-value">税费</span>
-                        <a href="javascript:void(0);" class="detail-label" @click="setTax(stock)">{{ getTax(stock) }}元</a>
+                        <a href="javascript:void(0);" class="detail-label" @click="setTax(stock)">{{ stock.total_tax }}</a>
                     </div>
                 </div>
 
@@ -410,7 +447,8 @@
                     <div class="profit-item" v-if="isNotNull(stock.cost)">
                         <span class="profit-label">盈亏率</span>
                         <span class="profit-value" :class="getProfitClass(stock)">
-                            {{ (((stock.stock_price - stock.cost) / stock.cost) * 100).toFixed(2) }}%
+                            <span v-if="0 == stock.cost">0%</span>
+                            <span v-else>{{ (((stock.stock_price - stock.cost) / stock.cost) * 100).toFixed(2) }}%</span>
                         </span>
                     </div>
                 </div>
@@ -475,7 +513,7 @@
             
             <!-- 加载更多 -->
              
-<!--Del:begin-->
+</*
 
             <div class="load-more" v-if="!infiniteScrollDisabled && filteredTableData.length > 0">
                 <el-button 
@@ -487,7 +525,7 @@
                 </el-button>
             </div>
             
-<!--Del:end-->
+*/>
 
         </div>
 
@@ -544,10 +582,16 @@
     <form-stock-simulation-component title="添加模拟股票" @get-list-stock="getTheListOfStock" ref="addStockSimulationComponent" />
     <form-stock-simulation-component title="修改模拟股票" :simulation_id="simulation_id" @get-list-stock="getTheListOfStock" ref="editStockSimulationComponent" />
     <form-add-stock-detail-component :stock_id="stock_id" :stock_name="case_name" @get-list="getTheListOfStock" ref="stockDetailComponent" />
-    <form-set-stock-cost-component @get-list-stock="getTheListOfStock" ref="setStockCostComponent" />
-    <form-set-stock-tax-component @get-list-stock="getTheListOfStock" ref="setStockTaxComponent" />
+    <form-set-stock-cost-component title="修改股票成本" @get-list-stock="getTheListOfStock" ref="setStockCostComponent" />
+    <form-set-stock-tax-component title="修改股票税" @get-list-stock="getTheListOfStock" ref="setStockTaxComponent" />
     <stock-date-list-component ref="stockDeteComponent" />
     <stock-orders-component ref="ordersComponent" />
+    
+</*
+
+    <stock-ws-log-component @get-list="getTheListOfStock"></stock-ws-log-component>
+
+*/>
     
 
 </div>
@@ -560,6 +604,7 @@
 <#include file="~/components/FormSetStockCostComponent.html" />
 <#include file="~/components/FormSetStockTaxComponent.html" />
 <#include file="~/components/StockOrdersComponent.html" />
+<!#include file="~/components/StockWsLogComponent.html" />
 
 <script type="text/javascript">
 
@@ -614,6 +659,7 @@
                 ,'form-set-stock-cost-component': System.require('stock.components.FormSetStockCostComponent')
                 ,'form-set-stock-tax-component': System.require('stock.components.FormSetStockTaxComponent')
                 ,'stock-orders-component': System.require('stock.components.StockOrdersComponent')
+                ,'stock-ws-log-component': System.require('stock.components.StockWsLogComponent')
             },
             computed: {
                 filteredTableData() {
@@ -768,7 +814,7 @@
                  * 统计涨跌停数量
                 */
                 countLimitUpDownNums(row){
-                    if(row.stock_price > 0 && 0 == row.flag){
+                    if(row.stock_price > 0){
                         if (row.stock_price === row.lup && row.stock_price === row.highest) {
                             if(!this.lups.in_array(row.stock_code)){
                                 this.lups.push(row.stock_code);
@@ -782,7 +828,7 @@
 
                 },
                 tableRowClassName({row, rowIndex}) {
-                    if(row.stock_price > 0 && 0 == row.flag){
+                    if(row.stock_price > 0){
                         if (row.stock_price === row.lup && row.stock_price === row.highest) {
                             return 'warning-row';
                         } else if (row.stock_price === row.ldown && row.stock_price === row.lowest) {
@@ -944,6 +990,7 @@
                     Api.stock.feach(data, D => {
                         if (evtSource) evtSource.close();
                         this.feachAllLoading = false;
+                        this.percentage = 0;
 
                         if(0 == D.status){
                             D.datas.forEach((element, i) => {
@@ -999,6 +1046,10 @@
                         //监听事件
                         evtSource.addEventListener('message', function (event) {
                             this_.percentage = parseInt(event.data);
+                            if(parseInt(event.data) >= 100){
+                                evtSource.close();
+                                evtSource = null;
+                            }
                         });
                     } else {
                         this.$notify({

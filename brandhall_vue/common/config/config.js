@@ -86,6 +86,7 @@
                     , 'INDEX': 'index.html?r='
                     , 'SERVER': 'http://yaf.local/'
                     , 'SERVER2': 'http://192.168.3.10:8090'
+                    , 'GO_SERVER': 'http://192.168.3.10:8080'
                     , 'CONFIGURATIONJS': CONF + '/config.js'
                     , 'SYSTEMJS': System.LAMPATH + '/base/System.js'
                     , 'BASE64ENCODE': true

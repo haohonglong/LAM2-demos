@@ -1,0 +1,103 @@
+
+<#define __PACKAGE__="components" />
+<#define __ID__="__PACKAGE__.ResetPassComponent" />
+
+
+<#Block:begin id="__ID__">
+<div>
+    <el-dialog title="修改密码" :visible.sync="dialogVisible" width="400px" :close-on-click-modal="false" append-to-body>
+        <el-form :model="form" :rules="rules" ref="validateForm" label-width="100px">
+            <el-form-item label="旧密码" prop="old_password">
+                <el-input type="password" v-model="form.old_password" placeholder="请输入旧密码" show-password></el-input>
+            </el-form-item>
+            <el-form-item label="新密码" prop="new_password">
+                <el-input type="password" v-model="form.new_password" placeholder="请输入新密码（至少6位）" show-password></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="confirm_password">
+                <el-input type="password" v-model="form.confirm_password" placeholder="请再次输入新密码" show-password></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer">
+            <el-button @click="dialogVisible = false">取消</el-button>
+            <el-button type="primary" :loading="loading" @click="submit">确定</el-button>
+        </div>
+    </el-dialog>
+</div>
+
+<#Block:end>
+
+<script type="text/javascript">
+    LAM.run(function(){
+        'use strict';
+        var System = this;
+        const Api = System.require("Api");
+
+        var ResetPassComponent = {
+          name: "ResetPassComponent",
+          props: {},
+          components: {},
+          data() {
+            return {
+                loading: false,
+                dialogVisible: false,
+                form: {
+                    old_password: '',
+                    new_password: '',
+                    confirm_password: ''
+                },
+                rules: {
+                    old_password: [{ required: true, message: '请输入旧密码', trigger: 'blur' }],
+                    new_password: [
+                        { required: true, message: '请输入新密码', trigger: 'blur' },
+                        { min: 6, message: '密码长度不能少于6位', trigger: 'blur' }
+                    ],
+                    confirm_password: [
+                        { required: true, message: '请再次输入新密码', trigger: 'blur' },
+                        { validator: (rule, value, callback) => {
+                            if (value !== this.form.new_password) {
+                                callback(new Error('两次输入密码不一致'));
+                            } else {
+                                callback();
+                            }
+                        }, trigger: 'blur' }
+                    ]
+                }
+            }
+          },
+          methods: {
+            init() {
+                this.form = { old_password: '', new_password: '', confirm_password: '' };
+                this.$nextTick(() => { this.$refs.validateForm && this.$refs.validateForm.clearValidate(); });
+            },
+            submit() {
+                this.$refs.validateForm.validate(valid => {
+                    if (!valid) return;
+                    this.loading = true;
+                    Api.User.resetpass(this.form, res => {
+                        this.loading = false;
+                        if (res.status === 0) {
+                            this.$message.success('密码修改成功，请重新登录');
+                            this.dialogVisible = false;
+                            Api.site.logout({}, () => {
+                                const ACCESS_TOKEN = localStorage.getItem('access_token');
+                                System.COOKIE_GUEST.find('auth_key', ACCESS_TOKEN, function(index) {
+                                    if (index > -1) {
+                                        this.remove(index);
+                                    }
+                                    localStorage.removeItem('access_token');
+                                    System.redirect(System.INDEX + "site/login");
+                                });
+                            });
+                        } else {
+                            this.$message.error(res.error || '密码修改失败');
+                        }
+                    });
+                });
+            }
+          },
+          template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', ResetPassComponent);
+    });
+</script>

@@ -3,6 +3,7 @@ LAM.run([jQuery], function($){
 	const System = this;
 
 	const SERVER = System.SERVER;
+	const GO_SERVER = System.GO_SERVER;
 	const GUEST = System.COOKIE_GUEST.find('auth_key', localStorage.getItem('access_token'));
 	const OBJ =  System.COOKIE_GUEST.get(GUEST.index);
 	
@@ -31,6 +32,8 @@ LAM.run([jQuery], function($){
 			"index": SERVER+ "/Log/index"
 		},
 		"User":{
+			"resetpass": SERVER+ "/user/resetpass",
+			"index": SERVER+ "/user/index",
 			"topUp": SERVER+ "/User/topUp",
 			"getWallet": SERVER+ "/User/getWallet"
 		},
@@ -51,6 +54,9 @@ LAM.run([jQuery], function($){
 			"feach": SERVER+ "/stock/feach",
 			"getProgress": SERVER+ "/stock/getProgress",
 			"delete": SERVER+ "/stock/delete"
+		},
+		"StockTrade":{
+			"setTax": SERVER+ "/StockTrade/setTax"
 		},
 		"stockSimulation":{
 			"index": SERVER+ "/simulation/index",
@@ -150,7 +156,19 @@ LAM.run([jQuery], function($){
 		},
 		"bill": {
 			"getOne": SERVER+ "/bill/getOne"
+		},
+		"blacklist":{
+			"index": SERVER+ "/blacklist/index",
+			"add": SERVER+ "/blacklist/add",
+			"remove": SERVER+ "/blacklist/remove"
+		},
+		"userRole":{
+			"index": SERVER+ "/userrole/index",
+			"add": SERVER+ "/userrole/add",
+			"update": SERVER+ "/userrole/update",
+			"delete": SERVER+ "/userrole/delete"
 		}
+
 	};
 
 	
@@ -166,6 +184,19 @@ LAM.run([jQuery], function($){
 			}
 		},
 		"User": {
+			index(func) {
+				request({
+					url: API.User.index,
+					method: 'get'
+				}, func);
+			},
+			resetpass({ old_password, new_password, confirm_password }, func){
+				request({
+					url: API.User.resetpass,
+					method: 'post',
+					params: { old_password, new_password, confirm_password }
+				}, func);
+			},
 			topUp({amount}, func){
 				request({
 					url: API.User.topUp,
@@ -204,11 +235,11 @@ LAM.run([jQuery], function($){
 			}
 		},
 		"stockDetail": {
-			index({simulation_id, stock_id, size, rows}, func){
+			index({simulation_id, stock_id, size, rows, type, create_at}, func){
 				request({
 					url: API.stockDetail.index,
 					method: 'post',
-					params: {simulation_id, stock_id, size, rows}
+					params: {simulation_id, stock_id, size, rows, type, create_at}
 				}, func);
 			},
 			delete(id, func){
@@ -219,6 +250,15 @@ LAM.run([jQuery], function($){
 				}, func);
 			}
 			
+		},
+		"StockTrade":{
+			setTax({ simulation_id, stock_prices_id, total_tax }, func){
+				request({
+					url: API.StockTrade.setTax,
+					method: 'post',
+					params: { simulation_id, stock_prices_id, total_tax }
+				}, func);
+			}
 		},
 		"stockSimulation":{
 			delete(simulation_id, func){
@@ -249,11 +289,11 @@ LAM.run([jQuery], function($){
 					params: { simulation_id, cost, stock_prices_id }
 				}, func);
 			},
-			setTax({ simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission }, func){
+			setTax({ simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission, total_tax }, func){
 				request({
 					url: API.stockSimulation.setTax,
 					method: 'post',
-					params: { simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission }
+					params: { simulation_id, commission_rate, transfer_fee_rate, stamp_tax_rate, min_commission, total_tax }
 				}, func);
 			},
 			trade({
@@ -303,11 +343,11 @@ LAM.run([jQuery], function($){
 					}
 				}, func);
 			},
-			index({}, func){
+			index({size, rows}, func){
 				request({
 					url: API.stockSimulation.index,
 					method: 'post',
-					params: {}
+					params: {size, rows}
 				}, func);
 			},
 			setLevel({stock_id, level}, func){
@@ -820,9 +860,58 @@ LAM.run([jQuery], function($){
 					params: bill_id 
 				}, func);
 			}
-		}
-
-
+		},
+		"blacklist": {
+			index(func) {
+				request({
+					url: API.blacklist.index,
+					method: 'get'
+				}, func);
+			},
+			add({ ip }, func) {
+				request({
+					url: API.blacklist.add,
+					method: 'post',
+					params: { ip }
+				}, func);
+			},
+			remove({ id }, func) {
+				request({
+					url: API.blacklist.remove,
+					method: 'post',
+					params: { id }
+				}, func);
+			}
+		},
+		"userRole": {
+			index(func) {
+				request({
+					url: API.userRole.index,
+					method: 'get'
+				}, func);
+			},
+			add({ user_id, role_id }, func) {
+				request({
+					url: API.userRole.add,
+					method: 'post',
+					params: { user_id, role_id }
+				}, func);
+			},
+			update({ id, role_id }, func) {
+				request({
+					url: API.userRole.update,
+					method: 'post',
+					params: { id, role_id }
+				}, func);
+			},
+			delete(id, func) {
+				request({
+					url: API.userRole.delete,
+					method: 'post',
+					params: { id }
+				}, func);
+			}
+		},
 	};
 
 	System.export("Api", Api);

@@ -1,0 +1,371 @@
+<#define __PACKAGE__="stock.components" />
+<#define __ID__="__PACKAGE__.StockWsLogComponent" />
+<#define __COMPONENTS__="{#LAM.COMPONENTS#}" />
+<#define __VIEWS__="{#LAM.VIEWS#}" />
+
+<#Block:begin id="__ID__">
+
+<div class="stock-ws-log-panel">
+    <div class="log-header" @click="togglePanel">
+        <span class="log-title">
+            <i :class="isCollapsed ? 'el-icon-arrow-right' : 'el-icon-arrow-down'"></i>
+            实时日志
+            <el-badge :value="logCount" :max="999" type="info" v-if="logCount > 0" class="log-badge"></el-badge>
+        </span>
+        <span class="log-status" :class="wsConnected ? 'connected' : 'disconnected'">
+            <i :class="wsConnected ? 'el-icon-success' : 'el-icon-warning'"></i>
+            {{ wsConnected ? '已连接' : '未连接' }}
+        </span>
+    </div>
+    <div class="log-body" v-show="!isCollapsed" ref="logBody">
+        <div v-for="(log, index) in logs" :key="index" class="log-item" :class="'log-type-' + log.type">
+            <span class="log-time">{{ log.timestamp ? log.timestamp.split(' ')[1] : '' }}</span>
+            <span class="log-tag" :class="'tag-' + log.type">{{ getTypeLabel(log.type) }}</span>
+            <span class="log-stock" v-if="log.stock_name">{{ log.stock_name }}({{ log.stock_code }})</span>
+            <span class="log-price" v-if="log.price">¥{{ log.price }}</span>
+            <span class="log-msg">{{ log.message }}</span>
+        </div>
+        <div v-if="logs.length === 0" class="log-empty">等待日志...</div>
+    </div>
+</div>
+
+<#Block:end>
+
+<script type="text/javascript">
+
+    LAM.run([jQuery],function($) {
+        'use strict';
+        var System = this;
+
+        var StockWsLogComponent = {
+            'name': "StockWsLogComponent",
+            data() {
+                return {
+                    'ws': null,
+                    'wsConnected': false,
+                    'logs': [],
+                    'logCount': 0,
+                    'isCollapsed': true,
+                    'maxLogs': 50,
+                    'reconnectTimer': null,
+                    'wsUrl': ''
+                };
+            },
+            mounted() {
+                // 使用GO_SERVER配置构建WebSocket URL：https → wss, http → ws
+                this.wsUrl = System.GO_SERVER.replace(/^http/, 'ws') + '/ws/logs';
+                this.connect();
+            },
+            beforeDestroy() {
+                this.disconnect();
+            },
+            'methods': {
+                connect() {
+                    if (this.ws) {
+                        this.ws.close();
+                    }
+
+                    try {
+                        this.ws = new WebSocket(this.wsUrl);
+
+                        this.ws.onopen = () => {
+                            this.wsConnected = true;
+                        };
+
+                        this.ws.onmessage = (event) => {
+                            try {
+                                const data = JSON.parse(event.data);
+                                this.addLog(data);
+                            } catch (e) {
+                                this.addLog({ type: 'info', message: event.data, timestamp: new Date().toLocaleString() });
+                            }
+                        };
+
+                        this.ws.onclose = () => {
+                            this.wsConnected = false;
+                            this.scheduleReconnect();
+                        };
+
+                        this.ws.onerror = () => {
+                            this.wsConnected = false;
+                        };
+                    } catch (e) {
+                        this.wsConnected = false;
+                        this.scheduleReconnect();
+                    }
+                },
+
+                disconnect() {
+                    if (this.reconnectTimer) {
+                        clearTimeout(this.reconnectTimer);
+                        this.reconnectTimer = null;
+                    }
+                    if (this.ws) {
+                        this.ws.close();
+                        this.ws = null;
+                    }
+                },
+
+                scheduleReconnect() {
+                    if (this.reconnectTimer) return;
+                    this.reconnectTimer = setTimeout(() => {
+                        this.reconnectTimer = null;
+                        this.connect();
+                    }, 5000);
+                },
+
+                addLog(data) {
+                    // 委托失败通知：仅显示当前用户的
+                    if (data.type === 'order_failed' && data.user_id) {
+                        const GUEST = System.COOKIE_GUEST.find('auth_key', localStorage.getItem('access_token'));
+                        const OBJ = GUEST ? System.COOKIE_GUEST.get(GUEST.index) : null;
+                        const currentUserId = OBJ ? String(OBJ.id) : null;
+                        if (!currentUserId || String(data.user_id) !== currentUserId) {
+                            return; // 不是当前用户的通知，忽略
+                        }
+                    }
+
+                    // 面板日志数量限制，超出则移除最早的
+                    if (this.logs.length >= this.maxLogs) {
+                        this.logs.shift();
+                    }
+                    this.logs.push(data);
+                    this.logCount++;
+
+                    // 一批价格全部更新完成后，通知父组件刷新列表（而非每条都触发）
+                    if (data.type === 'batch_complete') {
+                        this.$emit('get-list');
+                    }
+
+                    // 委托失败时也刷新列表（委托状态可能变化）
+                    if (data.type === 'order_failed') {
+                        this.$emit('get-list');
+                    }
+
+                    // 委托自动成交时，刷新用户钱包余额
+                    if (data.type === 'info' && data.message && data.message.indexOf('委托自动成交') !== -1) {
+                        var getAmount = System.require('getAmount');
+                        if (typeof getAmount === 'function') {
+                            getAmount();
+                        }
+                    }
+
+                    // 自动滚动到底部
+                    this.$nextTick(() => {
+                        if (this.$refs.logBody) {
+                            this.$refs.logBody.scrollTop = this.$refs.logBody.scrollHeight;
+                        }
+                    });
+                },
+
+                togglePanel() {
+                    this.isCollapsed = !this.isCollapsed;
+                    if (!this.isCollapsed) {
+                        this.$nextTick(() => {
+                            if (this.$refs.logBody) {
+                                this.$refs.logBody.scrollTop = this.$refs.logBody.scrollHeight;
+                            }
+                        });
+                    }
+                },
+
+                getTypeLabel(type) {
+                    var labels = {
+                        'price_changed': '变化',
+                        'price_unchanged': '无变化',
+                        'batch_complete': '完成',
+                        'info': '信息',
+                        'error': '错误',
+                        'connected': '连接',
+                        'order_failed': '委托失败'
+                    };
+                    return labels[type] || type;
+                }
+            },
+            template: `<#=block id="__ID__" />`
+        };
+
+        System.export('__ID__', StockWsLogComponent);
+    });
+</script>
+
+<style>
+.stock-ws-log-panel {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 420px;
+    background: #1e1e1e;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.3);
+    z-index: 2000;
+    font-size: 12px;
+}
+
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #2d2d2d;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    color: #ccc;
+    user-select: none;
+}
+
+.log-header:hover {
+    background: #363636;
+}
+
+.log-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: bold;
+}
+
+.log-badge {
+    margin-left: 4px;
+}
+
+.log-status {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.log-status.connected {
+    color: #67c23a;
+}
+
+.log-status.disconnected {
+    color: #f56c6c;
+}
+
+.log-body {
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 6px 0;
+}
+
+.log-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.log-body::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 3px;
+}
+
+.log-empty {
+    color: #666;
+    text-align: center;
+    padding: 20px;
+}
+
+.log-item {
+    padding: 3px 12px;
+    color: #ccc;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.log-item:hover {
+    background: #2a2a2a;
+}
+
+.log-time {
+    color: #888;
+    font-family: monospace;
+    flex-shrink: 0;
+}
+
+.log-tag {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+.tag-price_changed {
+    background: #e6a23c;
+    color: #fff;
+}
+
+.tag-price_unchanged {
+    background: #909399;
+    color: #fff;
+}
+
+.tag-batch_complete {
+    background: #67c23a;
+    color: #fff;
+}
+
+.tag-info {
+    background: #409eff;
+    color: #fff;
+}
+
+.tag-error {
+    background: #f56c6c;
+    color: #fff;
+}
+
+.tag-connected {
+    background: #67c23a;
+    color: #fff;
+}
+
+.tag-order_failed {
+    background: #f56c6c;
+    color: #fff;
+}
+
+.log-stock {
+    color: #e6a23c;
+    flex-shrink: 0;
+}
+
+.log-price {
+    color: #67c23a;
+    font-family: monospace;
+    flex-shrink: 0;
+}
+
+.log-msg {
+    color: #aaa;
+}
+
+.log-type-price_changed .log-msg {
+    color: #e6a23c;
+}
+
+.log-type-error .log-msg {
+    color: #f56c6c;
+}
+
+.log-type-order_failed .log-msg {
+    color: #f56c6c;
+    font-weight: bold;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .stock-ws-log-panel {
+        width: 100%;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+    }
+    
+    .log-header {
+        border-radius: 0;
+    }
+}
+</style>
